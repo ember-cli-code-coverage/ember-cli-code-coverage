@@ -1,0 +1,20 @@
+<script>
+  function sendCoverage() {
+    var coverageData = window.__coverage__; //TODO: configure this to something specific?
+    var data = JSON.stringify(coverageData || {});
+
+    $.ajax({
+      type: 'POST',
+      async: false,
+      url: '/write-coverage',  //Make sure to note in docs - include that mirage wants it above the namespace and to look at the pretender version
+      datatype: 'json',
+      contentType:'application/json; charset=utf-8',
+      data: data,
+      error: function(jqXHR, textStatus, errorThrown ) {
+        throw errorThrown;
+      }
+    });
+  }
+
+  QUnit.done(sendCoverage);    //TODO: work for mocha?
+</script>
