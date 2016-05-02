@@ -25,12 +25,11 @@ matrix:
     env: NPM_SCRIPT=lint
 
 before_install:
-  - npm config set spin false
-  - npm install -g bower
-  - npm install phantomjs-prebuilt
+  - "npm config set spin false"
+  - "npm install -g npm@^2"
 
 install:
-  - node --version
+  - npm install -g bower
   - npm install
   - bower install
 
