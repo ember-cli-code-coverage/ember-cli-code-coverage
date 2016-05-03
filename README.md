@@ -30,7 +30,7 @@ Configuration is optional. It should be put in a file at `config/coverage-config
 
 ## Using when intercepting all ajax requests in tests
 
-Aka when using ember-cli-mirage or Pretender. 
+Aka when using ember-cli-mirage or Pretender. You may require a version of Pretender that includes [this fix](https://github.com/pretenderjs/pretender/pull/130). 
 
 To work, this addon has to post coverage results back to a middleware at `/write-coverage`.
 
@@ -41,6 +41,9 @@ To work, this addon has to post coverage results back to a middleware at `/write
   this.namespace = 'api';  // It's important that the passthrough for coverage is before the namespace, otherwise it will be prefixed. 
 ```
 
+## Gotchas
+
+Currently only works with QUnit. PRs wanted to work with Mocha.
 
 ## Inspiration
 
