@@ -1,26 +1,48 @@
-# Ember-cli-code-coverage
+# ember-cli-code-coverage
 
-This README outlines the details of collaborating on this Ember addon.
+Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember apps.
 
 ## Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+* `ember install ember-cli-code-coverage`
 
-## Running
+## Usage
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+Coverage will only be generated when an environment variable is true (by default `COVERAGE`) and running your test command like normal.
 
-## Running Tests
+For example: 
 
-* `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+`COVERAGE=true ember test`
 
-## Building
+## Configuration
 
-* `ember build`
+Configuration is optional. It should be put in a file at `config/coverage-config.js`.
 
-For more information on using ember-cli, visit [http://ember-cli.com/](http://ember-cli.com/).
+#### Options
+
+- `coverageEnvVar`: Defaults to 'COVERAGE'. This is the environment variable that when set will cause coverage metrics to be generated. 
+
+- `reporters`: Defaults to ['lcov', 'html']. The `json-summary` reporter will be added to anything set here, it is required. This can be any [reporters supported by Istanbul](https://github.com/gotwarlost/istanbul/tree/master/lib/report)s.
+
+- `excludes`: Defaults to ['*/mirage/**/*']. An array of globs to exclude from instrumentation. Useful to exclude files from coverage statistics.
+
+- `coverageFolder`: Defaults to 'coverage'. A folder relative to the root of your project to store coverage results.
+
+## Using when intercepting all ajax requests in tests
+
+Aka when using ember-cli-mirage or Pretender. 
+
+To work, this addon has to post coverage results back to a middleware at `/write-coverage`.
+
+```
+// in mirage/config.js
+
+  this.passthrough('/write-coverage');
+  this.namespace = 'api';  // It's important that the passthrough for coverage is before the namespace, otherwise it will be prefixed. 
+```
+
+
+## Inspiration
+
+This addon was inspired by [`ember-cli-blanket`](https://github.com/sglanzer/ember-cli-blanket). 
+The primary differences are that this addon uses Istanbul rather than Blanket for coverage and it instruments your application code as part of the build, when enabled. 
