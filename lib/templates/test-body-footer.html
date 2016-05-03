@@ -1,5 +1,5 @@
 <script>
-  function sendCoverage() {
+  function sendCoverage(callback) {
     var coverageData = window.__coverage__;
     var data = JSON.stringify(coverageData || {});
 
@@ -22,10 +22,14 @@
           if (data.total.statements) { results.push('Statements ' + data.total.statements.pct + '%'); }
           $('body').append('<div style="position:absolute; left: 15px; bottom: 15px">' + results.join(' | ') + '</div>');
         }
-
+      },
+      complete: function() {
+        callback();
       }
     });
   }
 
-  QUnit.done(sendCoverage);    //TODO: work for mocha?
+  Testem.afterTests(function(config, data, callback) {
+    sendCoverage(callback);
+  });
 </script>

@@ -41,10 +41,6 @@ To work, this addon has to post coverage results back to a middleware at `/write
   this.namespace = 'api';  // It's important that the passthrough for coverage is before the namespace, otherwise it will be prefixed. 
 ```
 
-## Gotchas
-
-Currently only works with QUnit. PRs wanted to work with Mocha.
-
 ## Inspiration
 
 This addon was inspired by [`ember-cli-blanket`](https://github.com/sglanzer/ember-cli-blanket). 
