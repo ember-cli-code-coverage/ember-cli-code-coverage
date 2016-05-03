@@ -40,7 +40,8 @@
     "jscs": "^2.11.0",
     "loader.js": "^4.0.1",
     "mocha": "^2.4.5",
-    "mocha-eslint": "^2.0.2"
+    "mocha-eslint": "^2.0.2",
+    "rsvp": "^3.2.1"
   },
   "keywords": [
     "ember-addon"
