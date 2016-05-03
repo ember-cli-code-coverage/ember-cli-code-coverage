@@ -1,17 +1,28 @@
 <script>
   function sendCoverage() {
-    var coverageData = window.__coverage__; //TODO: configure this to something specific?
+    var coverageData = window.__coverage__;
     var data = JSON.stringify(coverageData || {});
 
     $.ajax({
       type: 'POST',
       async: false,
-      url: '/write-coverage',  //Make sure to note in docs - include that mirage wants it above the namespace and to look at the pretender version
+      url: '/write-coverage',
       datatype: 'json',
       contentType:'application/json; charset=utf-8',
       data: data,
       error: function(jqXHR, textStatus, errorThrown ) {
         throw errorThrown;
+      },
+      success: function(data) {
+        if (data && data.total) {
+          var results = [];
+          if (data.total.lines) { results.push('Lines ' + data.total.lines.pct + '%'); }
+          if (data.total.branches) { results.push('Branches ' + data.total.branches.pct + '%'); }
+          if (data.total.functions) { results.push('Functions ' + data.total.functions.pct + '%'); }
+          if (data.total.statements) { results.push('Statements ' + data.total.statements.pct + '%'); }
+          $('body').append('<div style="position:absolute; left: 15px; bottom: 15px">' + results.join(' | ') + '</div>');
+        }
+
       }
     });
   }
