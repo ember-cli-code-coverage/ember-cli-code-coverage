@@ -2,6 +2,10 @@
 
 Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember apps.
 
+## Requirements
+* Testem `>= 1.6.0` for which you need ember-cli `> 2.4.3` 
+* If using Mirage or Pretender, you need Pretender `>= 0.11.0`
+
 ## Installation
 
 * `ember install ember-cli-code-coverage`
