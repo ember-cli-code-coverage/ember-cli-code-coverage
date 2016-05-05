@@ -20,16 +20,25 @@
           if (data.total.branches) { results.push('Branches ' + data.total.branches.pct + '%'); }
           if (data.total.functions) { results.push('Functions ' + data.total.functions.pct + '%'); }
           if (data.total.statements) { results.push('Statements ' + data.total.statements.pct + '%'); }
-          $('body').append('<div style="position:absolute; left: 15px; bottom: 15px">' + results.join(' | ') + '</div>');
+          $('body').append('<div style="background-color: white; color: black; border: 2px solid black; padding: 1em;position: fixed; left: 15px; bottom: 15px">' + results.join(' | ') + '</div>');
         }
       },
       complete: function() {
-        callback();
+        if (callback) {
+          callback();
+        }
       }
     });
   }
 
-  Testem.afterTests(function(config, data, callback) {
-    sendCoverage(callback);
-  });
+  if (typeof Testem !== "undefined" && Testem.afterTests) {
+    Testem.afterTests(function(config, data, callback) {
+      sendCoverage(callback);
+    });
+  } else if (typeof QUnit !== "undefined") {
+    QUnit.done(function() {
+      sendCoverage();
+    });
+  }
 </script>
+
