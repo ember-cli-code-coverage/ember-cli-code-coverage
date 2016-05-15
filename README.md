@@ -4,7 +4,9 @@ Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember
 
 ## Requirements
 * If using Mocha, Testem `>= 1.6.0` for which you need ember-cli `> 2.4.3` 
-* If using Mirage or Pretender, you need Pretender `>= 0.11.0`
+* If using Mirage you need `ember-cli-mirage >= 0.1.13`
+* If using Pretender you need `pretender >= 0.11.0`
+
 
 ## Installation
 
