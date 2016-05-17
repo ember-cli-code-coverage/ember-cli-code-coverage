@@ -8,6 +8,7 @@ var BroccoliMergeTrees = require('broccoli-merge-trees');
 var CoverageInstrumenter = require('./lib/coverage-instrumenter');
 var attachMiddleware = require('./lib/attach-middleware');
 var config = require('./lib/config');
+var pathFixer = require('./lib/path-fixer');
 
 module.exports = {
   name: 'ember-cli-code-coverage',
@@ -22,9 +23,12 @@ module.exports = {
   postprocessTree: function(type, tree) {
     if (this._coverageIsEnabled() && type === 'js') {
       var appFiles = new Funnel(tree, {
-        exclude: this._config().excludes
+        exclude: this._getExcludes()
       });
-      var instrumentedNode = new CoverageInstrumenter(appFiles, {annotation: 'Instrumenting for code coverage'});
+      var instrumentedNode = new CoverageInstrumenter(appFiles, {
+        annotation: 'Instrumenting for code coverage',
+        app: this.app
+      });
       return new BroccoliMergeTrees([tree, instrumentedNode], { overwrite: true });
     }
     return tree;
@@ -42,6 +46,24 @@ module.exports = {
   },
   _config: function() {
     return config(this.project.root);
+  },
+  _getExcludes: function() {
+    var excludes = this._config().excludes;
+
+    var _this = this;
+    excludes.push(function(relativePath) {
+      relativePath = pathFixer.fixPath(relativePath, _this.app);
+
+      // filters out files that don't exist on disk (come from an addon)
+      try {
+        fs.statSync(relativePath);
+      } catch (err) {
+        return true;
+      }
+
+      return false;
+    });
+
+    return excludes;
   }
 };
-
