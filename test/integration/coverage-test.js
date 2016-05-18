@@ -24,7 +24,7 @@ describe('`ember test`', function() {
       expect(file('coverage/lcov-report/index.html')).to.not.be.empty;
       expect(file('coverage/index.html')).to.not.be.empty;
       var summary = fs.readJSONSync('coverage/coverage-summary.json');
-      expect(summary.total.lines.pct).to.equal(93.1);
+      expect(summary.total.lines.pct).to.equal(100);
     });
   });
 

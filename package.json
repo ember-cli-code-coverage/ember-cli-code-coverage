@@ -8,7 +8,7 @@
   },
   "scripts": {
     "node-test": "mocha test/**/*-test.js",
-    "lint": "mocha lint-test",
+    "lint": "eslint config lib test tests *.js",
     "jscs": "jscs lib test",
     "test": "npm run-script jscs && npm run-script lint && npm run-script node-test"
   },
@@ -17,6 +17,9 @@
     "node": ">= 0.10.0"
   },
   "author": "Katie Gengler",
+  "contributors": [
+    "Matthew Dahl (https://github.com/sandersky)"
+  ],
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
@@ -37,25 +40,30 @@
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
     "ember-try": "^0.2.2",
+    "eslint": "^2.10.2",
     "glob": "^7.0.3",
     "jscs": "^2.11.0",
     "loader.js": "^4.0.1",
     "mocha": "^2.4.5",
-    "mocha-eslint": "^2.0.2",
-    "rsvp": "^3.2.1"
+    "rsvp": "^3.2.1",
+    "sinon": "^1.17.4"
   },
   "keywords": [
     "ember-addon"
   ],
   "dependencies": {
+    "babel-core": "^5.8.38",
     "body-parser": "^1.15.0",
     "broccoli-filter": "^1.2.3",
     "broccoli-funnel": "^1.0.1",
     "broccoli-merge-trees": "^1.1.1",
     "ember-cli-babel": "^5.1.6",
+    "escodegen": "^1.8.0",
+    "esprima": "^2.7.2",
     "extend": "^3.0.0",
     "fs-extra": "^0.26.7",
-    "istanbul": "^0.4.3"
+    "istanbul": "^0.4.3",
+    "source-map": "0.5.6"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
