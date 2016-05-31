@@ -14,14 +14,19 @@
         throw errorThrown;
       },
       success: function(data) {
-        if (data && data.total) {
-          var results = [];
-          if (data.total.lines) { results.push('Lines ' + data.total.lines.pct + '%'); }
-          if (data.total.branches) { results.push('Branches ' + data.total.branches.pct + '%'); }
-          if (data.total.functions) { results.push('Functions ' + data.total.functions.pct + '%'); }
-          if (data.total.statements) { results.push('Statements ' + data.total.statements.pct + '%'); }
-          $('body').append('<div style="background-color: white; color: black; border: 2px solid black; padding: 1em;position: fixed; left: 15px; bottom: 15px">' + results.join(' | ') + '</div>');
+        if (!data || !data.total) {
+          return;
         }
+
+        var results = ['Lines', 'Branches', 'Functions', 'Statements']
+          .filter(function (name) {
+            return data.total[name.toLowerCase()]
+          })
+          .map(function (name) {
+            return name + ' ' + data.total[name.toLowerCase()].pct + '%'
+          })
+
+        $('body').append('<div style="background-color: white; color: black; border: 2px solid black; padding: 1em;position: fixed; left: 15px; bottom: 15px">' + results.join(' | ') + '</div>');
       },
       complete: function() {
         if (callback) {
@@ -41,4 +46,3 @@
     });
   }
 </script>
-
