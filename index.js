@@ -2,6 +2,7 @@
 'use strict';
 
 var path = require('path');
+var existsSync = require('exists-sync');
 var fs = require('fs-extra');
 var Funnel = require('broccoli-funnel');
 var BroccoliMergeTrees = require('broccoli-merge-trees');
@@ -40,7 +41,7 @@ module.exports = {
       return tree;
     }
 
-    // Make sure we exlcude files defined in the configuration as well as files from addons
+    // Make sure we exclude files defined in the configuration as well as files from addons
     var appFiles = new Funnel(tree, {
       exclude: this._getExcludes()
     });
@@ -49,7 +50,8 @@ module.exports = {
     var instrumentedNode = new CoverageInstrumenter(appFiles, {
       annotation: 'Instrumenting for code coverage',
       appName: this.parent.pkg.name,
-      appRoot: this.parent.root
+      appRoot: this.parent.root,
+      templateExtensions: this.registry.extensionsForType('template')
     });
 
     // Return JavaScript tree with instrumented source
@@ -83,12 +85,11 @@ module.exports = {
   _doesFileExistInCurrentProject: function(relativePath) {
     relativePath = path.join('app', relativePath);
 
-    try {
-      fs.statSync(relativePath);
+    if (this._existsSync(relativePath)) {
       return true;
-    } catch (err) {
-      return this._doesTemplateFileExist(relativePath);
     }
+
+    return this._doesTemplateFileExist(relativePath);
   },
 
   /**
@@ -99,12 +100,11 @@ module.exports = {
   _doesFileExistInDummyApp: function(relativePath) {
     relativePath = path.join('tests', 'dummy', 'app', relativePath);
 
-    try {
-      fs.statSync(relativePath);
+    if (this._existsSync(relativePath)) {
       return true;
-    } catch (err) {
-      return this._doesTemplateFileExist(relativePath);
     }
+
+    return this._doesTemplateFileExist(relativePath);
   },
 
   /**
@@ -115,14 +115,27 @@ module.exports = {
    * @returns {Boolean} whether or not the file exists within the current app/addon
    */
   _doesTemplateFileExist: function(relativePath) {
-    relativePath = relativePath.replace('.js', '.hbs');
+    var templateExtensions = this.registry.extensionsForType('template');
 
-    try {
-      fs.statSync(relativePath);
-      return true;
-    } catch (err) {
-      return false;
+    for (var i = 0, len = templateExtensions.length; i < len; i++) {
+      var extension = templateExtensions[i];
+      var extensionPath = relativePath.replace('.js', '.' + extension);
+
+      if (this._existsSync(extensionPath)) {
+        return true;
+      }
     }
+
+    return false;
+  },
+
+  /**
+   * Thin wrapper around exists-sync that allows easy stubbing in tests
+   * @param {String} path - path to check existence of
+   * @returns {Boolean} whether or not path exists
+   */
+  _existsSync: function (path) {
+    return existsSync(path);
   },
 
   /**
@@ -172,11 +185,7 @@ module.exports = {
    * @returns {Boolean} whether or not coverage is enabled
    */
   _isCoverageEnabled: function() {
-    var value = process.env[this._getConfig().coverageEnvVar];
-
-    if (value === undefined) {
-      return false;
-    }
+    var value = process.env[this._getConfig().coverageEnvVar] || false;
 
     if (value.toLowerCase) {
       value = value.toLowerCase();

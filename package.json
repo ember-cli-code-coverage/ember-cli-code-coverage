@@ -60,6 +60,7 @@
     "ember-cli-babel": "^5.1.6",
     "escodegen": "^1.8.0",
     "esprima": "^2.7.2",
+    "exists-sync": "0.0.3",
     "extend": "^3.0.0",
     "fs-extra": "^0.26.7",
     "istanbul": "^0.4.3",

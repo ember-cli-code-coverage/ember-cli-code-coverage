@@ -1,7 +1,6 @@
 'use strict';
 
 var expect = require('chai').expect;
-var fs = require('fs-extra');
 var sinon = require('sinon');
 var Index = require('../../index.js');
 
@@ -10,6 +9,12 @@ describe('index.js', function() {
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
+
+    Index.registry = {
+      extensionsForType: function() {
+        return ['hbs'];
+      }
+    };
   })
 
   afterEach(function() {
@@ -96,12 +101,12 @@ describe('index.js', function() {
       var result;
 
       beforeEach(function() {
-        sandbox.stub(fs, 'statSync');
+        sandbox.stub(Index, '_existsSync').returns(true);
         result = Index._doesFileExistInCurrentProject('adapters/application.js');
       });
 
       it('uses path to file in app', function() {
-        expect(fs.statSync.lastCall.args).to.eql(['app/adapters/application.js']);
+        expect(Index._existsSync.lastCall.args).to.eql(['app/adapters/application.js']);
       });
 
       it('returns true', function() {
@@ -111,7 +116,7 @@ describe('index.js', function() {
 
     describe('when file does not exist', function() {
       beforeEach(function() {
-        sandbox.stub(fs, 'statSync').throws();
+        sandbox.stub(Index, '_existsSync').returns(false);
       });
 
       describe('when template file exists', function() {
@@ -123,7 +128,7 @@ describe('index.js', function() {
         });
 
         it('uses path to file in app', function() {
-          expect(fs.statSync.lastCall.args).to.eql(['app/templates/application.js']);
+          expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.js']);
         });
 
         it('returns true', function() {
@@ -140,7 +145,7 @@ describe('index.js', function() {
         });
 
         it('uses path to file in app', function() {
-          expect(fs.statSync.lastCall.args).to.eql(['app/templates/application.js']);
+          expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.js']);
         });
 
         it('returns false', function() {
@@ -155,12 +160,12 @@ describe('index.js', function() {
       var result;
 
       beforeEach(function() {
-        sandbox.stub(fs, 'statSync');
+        sandbox.stub(Index, '_existsSync').returns(true);
         result = Index._doesFileExistInDummyApp('adapters/application.js');
       });
 
       it('uses path to file in dummy app', function() {
-        expect(fs.statSync.lastCall.args).to.eql(['tests/dummy/app/adapters/application.js']);
+        expect(Index._existsSync.lastCall.args).to.eql(['tests/dummy/app/adapters/application.js']);
       });
 
       it('returns true', function() {
@@ -170,7 +175,7 @@ describe('index.js', function() {
 
     describe('when file does not exist', function() {
       beforeEach(function() {
-        sandbox.stub(fs, 'statSync').throws();
+        sandbox.stub(Index, '_existsSync').returns(false);
       });
 
       describe('when template file exists', function() {
@@ -182,7 +187,7 @@ describe('index.js', function() {
         });
 
         it('uses path to file in dummy app', function() {
-          expect(fs.statSync.lastCall.args).to.eql(['tests/dummy/app/templates/application.js']);
+          expect(Index._existsSync.lastCall.args).to.eql(['tests/dummy/app/templates/application.js']);
         });
 
         it('returns true', function() {
@@ -199,7 +204,7 @@ describe('index.js', function() {
         });
 
         it('uses path to file in dummy app', function() {
-          expect(fs.statSync.lastCall.args).to.eql(['tests/dummy/app/templates/application.js']);
+          expect(Index._existsSync.lastCall.args).to.eql(['tests/dummy/app/templates/application.js']);
         });
 
         it('returns false', function() {
@@ -214,12 +219,12 @@ describe('index.js', function() {
       var result;
 
       beforeEach(function() {
-        sandbox.stub(fs, 'statSync');
+        sandbox.stub(Index, '_existsSync').returns(true);
         result = Index._doesTemplateFileExist('app/templates/application.js');
       });
 
       it('uses path to hbs file', function() {
-        expect(fs.statSync.lastCall.args).to.eql(['app/templates/application.hbs']);
+        expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.hbs']);
       });
 
       it('returns true', function() {
@@ -231,12 +236,12 @@ describe('index.js', function() {
       var result;
 
       beforeEach(function() {
-        sandbox.stub(fs, 'statSync').throws();
+        sandbox.stub(Index, '_existsSync').returns(false);
         result = Index._doesTemplateFileExist('app/templates/application.js');
       });
 
       it('uses path to hbs file', function() {
-        expect(fs.statSync.lastCall.args).to.eql(['app/templates/application.hbs']);
+        expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.hbs']);
       });
 
       it('returns false', function() {
