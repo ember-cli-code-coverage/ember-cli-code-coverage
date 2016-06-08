@@ -51,6 +51,7 @@ module.exports = {
       annotation: 'Instrumenting for code coverage',
       appName: this.parent.pkg.name,
       appRoot: this.parent.root,
+      babelOptions: this.app.options.babel,
       templateExtensions: this.registry.extensionsForType('template')
     });
 
