@@ -36,6 +36,8 @@ module.exports = {
    * @returns {[type]} processed tree
    */
   preprocessTree: function(type, tree) {
+    var useBabelInstrumenter = this._getConfig().useBabelInstrumenter === true;
+
     // If coverage isn't enabled or tree is not JavaScript tree then we don't need to alter the tree
     if (!this._isCoverageEnabled() || type !== 'js') {
       return tree;
@@ -52,6 +54,7 @@ module.exports = {
       appName: this.parent.pkg.name,
       appRoot: this.parent.root,
       babelOptions: this.app.options.babel,
+      useBabelInstrumenter: useBabelInstrumenter,
       templateExtensions: this.registry.extensionsForType('template')
     });
 
