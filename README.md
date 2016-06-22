@@ -34,7 +34,7 @@ Configuration is optional. It should be put in a file at `config/coverage.js`.
 
 - `coverageFolder`: Defaults to `coverage`. A folder relative to the root of your project to store coverage results.
 
-- `useBabelInstrumenter`: Defaults to `false`. Whether or not to use Babel instrumenter instead of default instrumenter. The Babel instrumenter is usefull when you are using features of ESNext as it uses your Babel configuration defined in `ember-cli-build.js`.
+- `useBabelInstrumenter`: Defaults to `false`. Whether or not to use Babel instrumenter instead of default instrumenter. The Babel instrumenter is useful when you are using features of ESNext as it uses your Babel configuration defined in `ember-cli-build.js`.
 
 ## Using when intercepting all ajax requests in tests
 
