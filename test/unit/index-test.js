@@ -3,7 +3,6 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
 var Index = require('../../index.js');
-console.log(Index)
 describe('index.js', function() {
   var sandbox
 
