@@ -42,7 +42,16 @@
         async: false
     }).responseJSON // TODO: async after POC
   }
-
+  function shouldExclude(moduleName){
+    return jQuery.ajax({
+      type: 'POST',      
+      url: '/should-exclude',
+      async: false,
+      data: {
+       moduleName: moduleName 
+      }
+    }).responseJSON
+  }
   if (typeof Testem !== "undefined" && Testem.afterTests) {
     Testem.afterTests(function(config, data, callback) {
       var seen = {}
@@ -52,9 +61,11 @@
           var parts = moduleName.split('/')
             try {
               if (parts.length >= 1 && parts[0] === appName || parts.length >= 2 && parts[0] === 'dummy' && parts[1] === appName){
-                  console.warn('requiring unseen module: ' + moduleName)
-                  require(moduleName);
-                  seen[moduleName] = true;
+                  if (!shouldExclude(moduleName).result){
+                    console.warn('requiring unseen module: ' + moduleName)
+                    require(moduleName);
+                  }
+                  seen[moduleName] = true;                  
               }   
             } catch (err) {
               console.log(err);
