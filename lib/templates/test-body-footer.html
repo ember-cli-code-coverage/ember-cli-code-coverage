@@ -36,8 +36,31 @@
     });
   }
 
+  function getModuleName (){
+    return jQuery.ajax({
+        url: '/get-module-name',
+        async: false
+    }).responseJSON // TODO: async after POC
+  }
+
   if (typeof Testem !== "undefined" && Testem.afterTests) {
     Testem.afterTests(function(config, data, callback) {
+      var seen = {}
+      var appName = getModuleName().appName
+      for (var moduleName in requirejs.entries) {
+        if (typeof(seen[moduleName]) === 'undefined') {
+          if (moduleName.indexOf(appName) > -1){
+            try {
+              console.warn('requiring unseen module: ' + moduleName)
+              require(moduleName);
+              seen[moduleName] = true;
+
+            } catch (err) {
+              console.log(err);
+            }
+          }
+        }
+      }
       sendCoverage(callback);
     });
   } else if (typeof QUnit !== "undefined") {

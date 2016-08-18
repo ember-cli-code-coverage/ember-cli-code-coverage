@@ -90,7 +90,7 @@ module.exports = {
    */
   testemMiddleware: function(app) {
     if (!this._isCoverageEnabled()) { return; }
-    attachMiddleware(app, { root: this.project.root, ui: this.ui });
+    attachMiddleware(app, { root: this.project.root, ui: this.ui, appName: this.parent.pkg.name });
   },
 
   // Custom Methods
