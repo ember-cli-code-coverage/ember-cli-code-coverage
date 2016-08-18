@@ -2,15 +2,14 @@
   function sendCoverage(callback) {
     var coverageData = window.__coverage__;
     var data = JSON.stringify(coverageData || {});
-
     $.ajax({
       type: 'POST',
       async: false,
       url: '/write-coverage',
       datatype: 'json',
-      contentType:'application/json; charset=utf-8',
+      contentType: 'application/json; charset=utf-8',
       data: data,
-      error: function(jqXHR, textStatus, errorThrown ) {
+      error: function(jqXHR, textStatus, errorThrown) {
         throw errorThrown;
       },
       success: function(data) {
@@ -38,6 +37,21 @@
 
   if (typeof Testem !== "undefined" && Testem.afterTests) {
     Testem.afterTests(function(config, data, callback) {
+      var seen = {}
+      for (var moduleName in requirejs.entries) {
+        if (typeof(seen[moduleName]) === 'undefined') {
+          if (!shouldExclude(moduleName)) {
+            try {
+              console.warn('requiring unseen module: ' + moduleName);
+              require(moduleName);
+              seen[moduleName] = true;
+
+            } catch (err) {
+              console.log(err);
+            }
+          }
+        }
+      }
       sendCoverage(callback);
     });
   } else if (typeof QUnit !== "undefined") {
