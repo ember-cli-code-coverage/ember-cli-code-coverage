@@ -49,16 +49,16 @@
       var appName = getModuleName().appName
       for (var moduleName in requirejs.entries) {
         if (typeof(seen[moduleName]) === 'undefined') {
-          if (moduleName.indexOf(appName) > -1){
+          var parts = moduleName.split('/')
             try {
-              console.warn('requiring unseen module: ' + moduleName)
-              require(moduleName);
-              seen[moduleName] = true;
-
+              if (parts.length >= 1 && parts[0] === appName || parts.length >= 2 && parts[0] === 'dummy' && parts[1] === appName){
+                  console.warn('requiring unseen module: ' + moduleName)
+                  require(moduleName);
+                  seen[moduleName] = true;
+              }   
             } catch (err) {
               console.log(err);
             }
-          }
         }
       }
       sendCoverage(callback);
