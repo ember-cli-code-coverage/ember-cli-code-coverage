@@ -64,12 +64,18 @@ describe('index.js', function() {
 
     beforeEach(function() {
       app = {
-        post: sinon.spy()
+        post: sinon.spy(),
+        get: sinon.spy()
       };
 
       Index.project = {
         root: '/path/to/foo-bar'
       };
+      Index.parent = {
+        pkg: {
+          name: 'foo-bar'
+        }
+      }
     });
 
     describe('when coverage is enabled', function() {
@@ -78,8 +84,12 @@ describe('index.js', function() {
         Index.testemMiddleware(app);
       });
 
-      it('adds POST endpoint to app', function() {
-        expect(app.post.callCount).to.equal(1);
+      it('adds POST endpoints to app', function() {
+        expect(app.post.callCount).to.equal(2);
+      });
+
+      it('adds GET endpoint to app', function() {
+        expect(app.get.callCount).to.equal(1);
       });
     });
 
@@ -91,6 +101,9 @@ describe('index.js', function() {
 
       it('does not add POST endpoint to app', function() {
         expect(app.post.callCount).to.equal(0);
+      });
+      it('does not GET endpoint to app', function() {
+        expect(app.get.callCount).to.equal(0);
       });
     });
   });
