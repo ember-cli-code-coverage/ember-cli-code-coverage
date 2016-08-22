@@ -87,10 +87,6 @@ describe('index.js', function() {
       it('adds POST endpoints to app', function() {
         expect(app.post.callCount).to.equal(2);
       });
-
-      it('adds GET endpoint to app', function() {
-        expect(app.get.callCount).to.equal(1);
-      });
     });
 
     describe('when coverage is not enabled', function() {
