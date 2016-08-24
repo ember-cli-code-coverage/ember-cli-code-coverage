@@ -19,13 +19,13 @@ module.exports = {
     if (this._isCoverageEnabled() && this.parent.isEmberCLIAddon()) {
       var coveredAddon = this.project.findAddonByName(this.project.pkg.name);
       var coverageAddonContext = this;
-      var original = coveredAddon.addonJsFiles;
 
-      coveredAddon.addonJsFiles = function(tree) {
-        tree = coverageAddonContext.preprocessTree('addon-js', tree);
-
-        return original.call(this, tree);
-      };
+      coveredAddon.processedAddonJsFiles = function (tree){
+        var instrumentedTree = coverageAddonContext.instrumentJs(this.addonJsFiles(tree))
+        return this.preprocessJs(instrumentedTree, '/', this.name, {
+          registry: this.registry
+        })
+      }
     }
   },
 
@@ -49,13 +49,12 @@ module.exports = {
    * @param {Tree} tree - tree to process
    * @returns {[type]} processed tree
    */
-  preprocessTree: function(type, tree) {
+  instrumentJs: function(tree) {
     // If coverage isn't enabled or tree is not JavaScript tree then we don't need to alter the tree
-    if (!this._isCoverageEnabled() || (type !== 'js' && type !== 'addon-js')) {
+    if (!this._isCoverageEnabled()) {
       return tree;
     }
-
-    // Make sure we exclude files defined in the configuration as well as files from addons
+    // // Make sure we exclude files defined in the configuration as well as files from addons
     var appFiles = new Funnel(tree, {
       exclude: this._getExcludes()
     });
@@ -124,7 +123,20 @@ module.exports = {
 
     return this._doesTemplateFileExist(relativePath);
   },
+    /**
+   * Check if a file exists within the current addon directory. Removing `module/<app-name>` from the path.
+   * @param {String} relativePath - path to file within current app
+   * @returns {Boolean} whether or not the file exists within the current app
+   */
+  _doesFileExistIsCurrentProjectAddonModule: function(relativePath) {
+    relativePath = path.join('addon', relativePath.replace(path.join('modules', this.project.pkg.name),''));
 
+    if (this._existsSync(relativePath)) {
+      return true;
+    }
+
+    return this._doesTemplateFileExist(relativePath);
+  },
   /**
    * Check if a file exists within the dummy app
    * @param {String} relativePath - path to file within dummy app
@@ -189,7 +201,8 @@ module.exports = {
     var fileExists = (
       this._doesFileExistInDummyApp(relativePath) ||
       this._doesFileExistInCurrentProjectApp(relativePath) ||
-      this._doesFileExistInCurrentProjectAddon(relativePath)
+      this._doesFileExistInCurrentProjectAddon(relativePath) ||
+       this._doesFileExistIsCurrentProjectAddonModule(relativePath)
     );
 
     console.log(!fileExists, name, relativePath);
