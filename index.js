@@ -21,10 +21,10 @@ module.exports = {
       var coverageAddonContext = this;
 
       coveredAddon.processedAddonJsFiles = function (tree){
-        var instrumentedTree = coverageAddonContext.instrumentJs(this.addonJsFiles(tree))
+        var instrumentedTree = coverageAddonContext.preprocessTree('addon-js', this.addonJsFiles(tree));
         return this.preprocessJs(instrumentedTree, '/', this.name, {
           registry: this.registry
-        })
+        });
       }
     }
   },
@@ -49,17 +49,18 @@ module.exports = {
    * @param {Tree} tree - tree to process
    * @returns {[type]} processed tree
    */
-  instrumentJs: function(tree) {
+  preprocessTree: function(type, tree) {
+    var useBabelInstrumenter = this._getConfig().useBabelInstrumenter === true;
+
     // If coverage isn't enabled or tree is not JavaScript tree then we don't need to alter the tree
-    if (!this._isCoverageEnabled()) {
+    if (!this._isCoverageEnabled() || (type !== 'js' && type !=='addon-js')) {
       return tree;
     }
-    // // Make sure we exclude files defined in the configuration as well as files from addons
+
+    // Make sure we exclude files defined in the configuration as well as files from addons
     var appFiles = new Funnel(tree, {
       exclude: this._getExcludes()
     });
-
-    var useBabelInstrumenter = this._getConfig().useBabelInstrumenter === true;
 
     // Instrument JavaScript for code coverage
     var instrumentedNode = new CoverageInstrumenter(appFiles, {
