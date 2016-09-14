@@ -3,7 +3,6 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
 var Index = require('../../index.js');
-
 describe('index.js', function() {
   var sandbox
 
@@ -96,13 +95,13 @@ describe('index.js', function() {
     });
   });
 
-  describe('_doesFileExistInCurrentProject', function() {
+  describe('_doesFileExistInCurrentProjectApp', function() {
     describe('when file exists', function() {
       var result;
 
       beforeEach(function() {
         sandbox.stub(Index, '_existsSync').returns(true);
-        result = Index._doesFileExistInCurrentProject('adapters/application.js');
+        result = Index._doesFileExistInCurrentProjectApp('adapters/application.js');
       });
 
       it('uses path to file in app', function() {
@@ -124,7 +123,7 @@ describe('index.js', function() {
 
         beforeEach(function() {
           sandbox.stub(Index, '_doesTemplateFileExist').returns(true);
-          result = Index._doesFileExistInCurrentProject('templates/application.js');
+          result = Index._doesFileExistInCurrentProjectApp('templates/application.js');
         });
 
         it('uses path to file in app', function() {
@@ -141,7 +140,7 @@ describe('index.js', function() {
 
         beforeEach(function() {
           sandbox.stub(Index, '_doesTemplateFileExist').returns(false);
-          result = Index._doesFileExistInCurrentProject('templates/application.js');
+          result = Index._doesFileExistInCurrentProjectApp('templates/application.js');
         });
 
         it('uses path to file in app', function() {

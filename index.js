@@ -15,6 +15,20 @@ module.exports = {
 
   // Ember Methods
 
+  included: function() {
+    if (this._isCoverageEnabled() && this.parent.isEmberCLIAddon()) {
+      var coveredAddon = this.project.findAddonByName(this.project.pkg.name);
+      var coverageAddonContext = this;
+
+      coveredAddon.processedAddonJsFiles = function (tree){
+        var instrumentedTree = coverageAddonContext.preprocessTree('addon-js', this.addonJsFiles(tree));
+        return this.preprocessJs(instrumentedTree, '/', this.name, {
+          registry: this.registry
+        });
+      }
+    }
+  },
+
   /**
    * Get content for type
    * @param {String} type - type to get content for
@@ -39,7 +53,7 @@ module.exports = {
     var useBabelInstrumenter = this._getConfig().useBabelInstrumenter === true;
 
     // If coverage isn't enabled or tree is not JavaScript tree then we don't need to alter the tree
-    if (!this._isCoverageEnabled() || type !== 'js') {
+    if (!this._isCoverageEnabled() || (type !== 'js' && type !=='addon-js')) {
       return tree;
     }
 
@@ -82,11 +96,11 @@ module.exports = {
   // Custom Methods
 
   /**
-   * Check if a file exists within the current app/addon
-   * @param {String} relativePath - path to file within current app/addon
-   * @returns {Boolean} whether or not the file exists within the current app/addon
+   * Check if a file exists within the current app directory
+   * @param {String} relativePath - path to file within current app
+   * @returns {Boolean} whether or not the file exists within the current app
    */
-  _doesFileExistInCurrentProject: function(relativePath) {
+  _doesFileExistInCurrentProjectApp: function(relativePath) {
     relativePath = path.join('app', relativePath);
 
     if (this._existsSync(relativePath)) {
@@ -96,6 +110,34 @@ module.exports = {
     return this._doesTemplateFileExist(relativePath);
   },
 
+  /**
+   * Check if a file exists within the current addon directory
+   * @param {String} relativePath - path to file within current app
+   * @returns {Boolean} whether or not the file exists within the current app
+   */
+  _doesFileExistInCurrentProjectAddon: function(relativePath) {
+    relativePath = path.join('addon', relativePath);
+
+    if (this._existsSync(relativePath)) {
+      return true;
+    }
+
+    return this._doesTemplateFileExist(relativePath);
+  },
+    /**
+   * Check if a file exists within the current addon directory. Removing `module/<app-name>` from the path.
+   * @param {String} relativePath - path to file within current app
+   * @returns {Boolean} whether or not the file exists within the current app
+   */
+  _doesFileExistIsCurrentProjectAddonModule: function(relativePath) {
+    relativePath = path.join('addon', relativePath.replace(path.join('modules', this.project.pkg.name),''));
+
+    if (this._existsSync(relativePath)) {
+      return true;
+    }
+
+    return this._doesTemplateFileExist(relativePath);
+  },
   /**
    * Check if a file exists within the dummy app
    * @param {String} relativePath - path to file within dummy app
@@ -138,7 +180,7 @@ module.exports = {
    * @param {String} path - path to check existence of
    * @returns {Boolean} whether or not path exists
    */
-  _existsSync: function (path) {
+  _existsSync: function(path) {
     return existsSync(path);
   },
 
@@ -149,8 +191,8 @@ module.exports = {
    * @returns {Boolean} whether or not to filter out file
    */
   _filterOutAddonFiles: function(name, relativePath) {
-    if(relativePath.indexOf(name + '/') === 0) {
-      relativePath = relativePath.replace(name + '/', '')
+    if (relativePath.indexOf(name + '/') === 0) {
+      relativePath = relativePath.replace(name + '/', '');
     }
 
     if (relativePath.indexOf('dummy/') === 0) {
@@ -159,8 +201,12 @@ module.exports = {
 
     var fileExists = (
       this._doesFileExistInDummyApp(relativePath) ||
-      this._doesFileExistInCurrentProject(relativePath)
+      this._doesFileExistInCurrentProjectApp(relativePath) ||
+      this._doesFileExistInCurrentProjectAddon(relativePath) ||
+       this._doesFileExistIsCurrentProjectAddonModule(relativePath)
     );
+
+    console.log(!fileExists, name, relativePath);
 
     return !fileExists;
   },
@@ -181,6 +227,7 @@ module.exports = {
     var excludes = this._getConfig().excludes || [];
     var name = this.parent.pkg.name;
     excludes.push(this._filterOutAddonFiles.bind(this, name));
+
     return excludes;
   },
 
