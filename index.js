@@ -206,8 +206,6 @@ module.exports = {
        this._doesFileExistIsCurrentProjectAddonModule(relativePath)
     );
 
-    console.log(!fileExists, name, relativePath);
-
     return !fileExists;
   },
 
