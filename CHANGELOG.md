@@ -1,5 +1,16 @@
 # Change Log
 
+## [v0.3.1](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.1) (2016-09-15)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.0...v0.3.1)
+
+**Closed issues:**
+
+- Add code coverage [\#34](https://github.com/kategengler/ember-cli-code-coverage/issues/34)
+
+**Merged pull requests:**
+
+- Remove stray console.log [\#35](https://github.com/kategengler/ember-cli-code-coverage/pull/35) ([arjansingh](https://github.com/arjansingh))
+
 ## [v0.3.0](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.0) (2016-09-14)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.2.2...v0.3.0)
 
