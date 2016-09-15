@@ -6,7 +6,7 @@ Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember
 * If using Mocha, Testem `>= 1.6.0` for which you need ember-cli `> 2.4.3`
 * If using Mirage you need `ember-cli-mirage >= 0.1.13`
 * If using Pretender (even as a dependency of Mirage) you need `pretender >= 0.11.0`
-* If using Mirage or Pretender, you need to [set up a passthrough for coverage to be written](#passthrough). 
+* If using Mirage or Pretender, you need to [set up a passthrough for coverage to be written](#create-a-passthrough-when-intercepting-all-ajax-requests-in-tests). 
 
 
 ## Installation
@@ -44,9 +44,7 @@ Configuration is optional. It should be put in a file at `config/coverage.js`.
   }
 ```
 
-## When intercepting all ajax requests in tests 
-
-### passthrough
+## Create a passthrough when intercepting all ajax requests in tests 
 
 (When using ember-cli-mirage or Pretender.)
 
