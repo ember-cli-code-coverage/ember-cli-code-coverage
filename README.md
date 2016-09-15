@@ -44,7 +44,9 @@ Configuration is optional. It should be put in a file at `config/coverage.js`.
   }
 ```
 
-## [Create as passthrough when intercepting all ajax requests in tests](#create-a-passthrough)
+## Create as passthrough when intercepting all ajax requests in tests 
+
+[passthrough-info](#create-a-passthrough)
 
 (When using ember-cli-mirage or Pretender.)
 
