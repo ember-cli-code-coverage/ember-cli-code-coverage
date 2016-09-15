@@ -21,6 +21,14 @@ For example:
 
 `COVERAGE=true ember test`
 
+If you want your coverage to work on both Unix and Windows, you can do this:
+
+`npm install cross-env --save-dev`
+
+and then:
+
+`cross-env COVERAGE=true ember test`
+
 ## Configuration
 
 Configuration is optional. It should be put in a file at `config/coverage.js`. 
