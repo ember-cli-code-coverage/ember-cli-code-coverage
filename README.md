@@ -6,6 +6,7 @@ Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember
 * If using Mocha, Testem `>= 1.6.0` for which you need ember-cli `> 2.4.3`
 * If using Mirage you need `ember-cli-mirage >= 0.1.13`
 * If using Pretender (even as a dependency of Mirage) you need `pretender >= 0.11.0`
+* If using Mirage or Pretender, you need to [set up a passthrough for coverage to be written](#create-a-passthrough). 
 
 
 ## Installation
@@ -14,7 +15,7 @@ Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember
 
 ## Usage
 
-Coverage will only be generated when an environment variable is true (by default `COVERAGE`) and running your test command like normal.
+Coverage will only be generated when an [environment variable](https://en.wikipedia.org/wiki/Environment_variable) is true (by default `COVERAGE`) and running your test command like normal.
 
 For example:
 
@@ -43,9 +44,9 @@ Configuration is optional. It should be put in a file at `config/coverage.js`.
   }
 ```
 
-## Using when intercepting all ajax requests in tests
+## [Create as passthrough when intercepting all ajax requests in tests](#create-a-passthrough)
 
-Aka when using ember-cli-mirage or Pretender. You may require a version of Pretender that includes [this fix](https://github.com/pretenderjs/pretender/pull/130).
+(When using ember-cli-mirage or Pretender.)
 
 To work, this addon has to post coverage results back to a middleware at `/write-coverage`.
 
