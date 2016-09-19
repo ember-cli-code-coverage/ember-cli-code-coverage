@@ -1,5 +1,18 @@
 # Change Log
 
+## [v0.3.2](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.2) (2016-09-19)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.1...v0.3.2)
+
+**Closed issues:**
+
+- Integration components support [\#40](https://github.com/kategengler/ember-cli-code-coverage/issues/40)
+- Addon tests never exit [\#37](https://github.com/kategengler/ember-cli-code-coverage/issues/37)
+
+**Merged pull requests:**
+
+- Fix hang when running in PhantomJS. [\#43](https://github.com/kategengler/ember-cli-code-coverage/pull/43) ([dfreeman](https://github.com/dfreeman))
+- add Windows notes [\#38](https://github.com/kategengler/ember-cli-code-coverage/pull/38) ([kellyselden](https://github.com/kellyselden))
+
 ## [v0.3.1](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.1) (2016-09-15)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.0...v0.3.1)
 
