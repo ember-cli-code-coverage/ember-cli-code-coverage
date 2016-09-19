@@ -12,6 +12,11 @@
     request.onload = function() {
       var data = this.response;
 
+      // PhantomJS doesn't honor `responseType = 'json'`
+      if (typeof data === 'string') {
+        data = JSON.parse(data);
+      }
+
       if (!data || !data.total) {
         return;
       }
