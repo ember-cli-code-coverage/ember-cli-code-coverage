@@ -1,5 +1,19 @@
 # Change Log
 
+## [v0.3.3](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.3) (2016-10-07)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.2...v0.3.3)
+
+**Closed issues:**
+
+- Addon support: no coverage for addon files on Windows [\#48](https://github.com/kategengler/ember-cli-code-coverage/issues/48)
+- No coverage when addon and package name don't match [\#45](https://github.com/kategengler/ember-cli-code-coverage/issues/45)
+- Mocha phantom addon coverage issue in master causing a global error. [\#32](https://github.com/kategengler/ember-cli-code-coverage/issues/32)
+
+**Merged pull requests:**
+
+- Use posix paths for dealing with modules. [\#50](https://github.com/kategengler/ember-cli-code-coverage/pull/50) ([rwjblue](https://github.com/rwjblue))
+- Handle addons with different package names [\#46](https://github.com/kategengler/ember-cli-code-coverage/pull/46) ([dfreeman](https://github.com/dfreeman))
+
 ## [v0.3.2](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.2) (2016-09-19)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.1...v0.3.2)
 
