@@ -129,8 +129,9 @@ module.exports = {
    * @param {String} relativePath - path to file within current app
    * @returns {Boolean} whether or not the file exists within the current app
    */
-  _doesFileExistIsCurrentProjectAddonModule: function(relativePath) {
-    relativePath = path.join('addon', relativePath.replace(path.join('modules', this.project.pkg.name),''));
+  _doesFileExistIsCurrentProjectAddonModule: function(_relativePath) {
+    var relativePathWithoutProjectNamePrefix = _relativePath.replace('modules' + '/' +  this.project.pkg.name, '');
+    var relativePath = 'addon/' + relativePathWithoutProjectNamePrefix;
 
     if (this._existsSync(relativePath)) {
       return true;
