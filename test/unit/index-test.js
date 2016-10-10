@@ -256,6 +256,9 @@ describe('index.js', function() {
       Index.parent = {
         isEmberCLIAddon: function() {
           return false;
+        },
+        name: function() {
+          return 'test';
         }
       };
     });
@@ -403,7 +406,9 @@ describe('index.js', function() {
 
     beforeEach(function() {
       Index.parent = {
-        name: 'parent-app',
+        name: function() {
+          return 'parent-app';
+        },
         isEmberCLIAddon: function() {
           return isAddon;
         }
