@@ -124,7 +124,7 @@ module.exports = {
 
     return this._doesTemplateFileExist(relativePath);
   },
-  
+
   /**
    * Check if a file exists within the current addon directory. Removing `module/<app-name>` from the path.
    * @param {String} relativePath - path to file within current app
@@ -140,7 +140,7 @@ module.exports = {
 
     return this._doesTemplateFileExist(_relativePath);
   },
-  
+
   /**
    * Check if a file exists within the dummy app
    * @param {String} relativePath - path to file within dummy app
