@@ -252,7 +252,7 @@ module.exports = {
     if (this.parent.isEmberCLIAddon()) {
       return this._findCoveredAddon().name;
     } else {
-      return this.parent.name;
+      return this.parent.name();
     }
   },
 
