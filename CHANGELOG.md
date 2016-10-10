@@ -1,5 +1,16 @@
 # Change Log
 
+## [v0.3.4](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.4) (2016-10-10)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.3...v0.3.4)
+
+**Closed issues:**
+
+- Missing coverage information in top-level addons in 0.3.3. [\#53](https://github.com/kategengler/ember-cli-code-coverage/issues/53)
+
+**Merged pull requests:**
+
+- return actual name not function from \_parentName [\#52](https://github.com/kategengler/ember-cli-code-coverage/pull/52) ([nfc036](https://github.com/nfc036))
+
 ## [v0.3.3](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.3) (2016-10-07)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.2...v0.3.3)
 
