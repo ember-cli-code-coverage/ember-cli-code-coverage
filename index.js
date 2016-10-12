@@ -17,15 +17,15 @@ module.exports = {
 
   included: function() {
     if (this._isCoverageEnabled() && this.parent.isEmberCLIAddon()) {
-      var coveredAddon = this.project.findAddonByName(this.project.pkg.name);
+      var coveredAddon = this._findCoveredAddon();
       var coverageAddonContext = this;
-      var original = coveredAddon.addonJsFiles;
 
-      coveredAddon.addonJsFiles = function(tree) {
-        tree = coverageAddonContext.preprocessTree('addon-js', tree);
-
-        return original.call(this, tree);
-      };
+      coveredAddon.processedAddonJsFiles = function (tree){
+        var instrumentedTree = coverageAddonContext.preprocessTree('addon-js', this.addonJsFiles(tree));
+        return this.preprocessJs(instrumentedTree, '/', this.name, {
+          registry: this.registry
+        });
+      }
     }
   },
 
@@ -50,8 +50,10 @@ module.exports = {
    * @returns {[type]} processed tree
    */
   preprocessTree: function(type, tree) {
+    var useBabelInstrumenter = this._getConfig().useBabelInstrumenter === true;
+
     // If coverage isn't enabled or tree is not JavaScript tree then we don't need to alter the tree
-    if (!this._isCoverageEnabled() || (type !== 'js' && type !== 'addon-js')) {
+    if (!this._isCoverageEnabled() || (type !== 'js' && type !=='addon-js')) {
       return tree;
     }
 
@@ -60,12 +62,10 @@ module.exports = {
       exclude: this._getExcludes()
     });
 
-    var useBabelInstrumenter = this._getConfig().useBabelInstrumenter === true;
-
     // Instrument JavaScript for code coverage
     var instrumentedNode = new CoverageInstrumenter(appFiles, {
       annotation: 'Instrumenting for code coverage',
-      appName: this.parent.pkg.name,
+      appName: this._parentName(),
       appRoot: this.parent.root,
       babelOptions: this.app.options.babel,
       useBabelInstrumenter: useBabelInstrumenter,
@@ -123,6 +123,22 @@ module.exports = {
     }
 
     return this._doesTemplateFileExist(relativePath);
+  },
+
+  /**
+   * Check if a file exists within the current addon directory. Removing `module/<app-name>` from the path.
+   * @param {String} relativePath - path to file within current app
+   * @returns {Boolean} whether or not the file exists within the current app
+   */
+  _doesFileExistInCurrentProjectAddonModule: function(relativePath) {
+    var relativePathWithoutProjectNamePrefix = relativePath.replace('modules' + '/' +  this._parentName(), '');
+    var _relativePath = 'addon/' + relativePathWithoutProjectNamePrefix;
+
+    if (this._existsSync(_relativePath)) {
+      return true;
+    }
+
+    return this._doesTemplateFileExist(_relativePath);
   },
 
   /**
@@ -189,10 +205,9 @@ module.exports = {
     var fileExists = (
       this._doesFileExistInDummyApp(relativePath) ||
       this._doesFileExistInCurrentProjectApp(relativePath) ||
-      this._doesFileExistInCurrentProjectAddon(relativePath)
+      this._doesFileExistInCurrentProjectAddon(relativePath) ||
+      this._doesFileExistInCurrentProjectAddonModule(relativePath)
     );
-
-    console.log(!fileExists, name, relativePath);
 
     return !fileExists;
   },
@@ -211,7 +226,7 @@ module.exports = {
    */
   _getExcludes: function() {
     var excludes = this._getConfig().excludes || [];
-    var name = this.parent.pkg.name;
+    var name = this._parentName();
     excludes.push(this._filterOutAddonFiles.bind(this, name));
 
     return excludes;
@@ -229,5 +244,29 @@ module.exports = {
     }
 
     return ['true', true].indexOf(value) !== -1;
+  },
+
+  /**
+   * Determine the name of the parent app or addon.
+   * @returns {String} the name of the parent
+   */
+  _parentName: function() {
+    if (this.parent.isEmberCLIAddon()) {
+      return this._findCoveredAddon().name;
+    } else {
+      return this.parent.name();
+    }
+  },
+
+  /**
+   * Find the addon (if any) that's being covered.
+   * @returns {Addon} the addon under test
+   */
+  _findCoveredAddon: function() {
+    if (!this._coveredAddon) {
+      this._coveredAddon = this.project.findAddonByName(this.project.pkg.name);
+    }
+
+    return this._coveredAddon;
   }
 };

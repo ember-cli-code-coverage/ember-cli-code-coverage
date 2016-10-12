@@ -3,37 +3,42 @@
     var coverageData = window.__coverage__;
     var data = JSON.stringify(coverageData || {});
 
-    $.ajax({
-      type: 'POST',
-      async: false,
-      url: '/write-coverage',
-      datatype: 'json',
-      contentType:'application/json; charset=utf-8',
-      data: data,
-      error: function(jqXHR, textStatus, errorThrown ) {
-        throw errorThrown;
-      },
-      success: function(data) {
-        if (!data || !data.total) {
-          return;
-        }
+    var request = new XMLHttpRequest();
+    request.open('POST', '/write-coverage', true);
+    request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    request.send(data);
+    request.responseType = 'json';
 
-        var results = ['Lines', 'Branches', 'Functions', 'Statements']
-          .filter(function (name) {
-            return data.total[name.toLowerCase()]
-          })
-          .map(function (name) {
-            return name + ' ' + data.total[name.toLowerCase()].pct + '%'
-          })
+    request.onload = function() {
+      var data = this.response;
 
-        $('body').append('<div style="background-color: white; color: black; border: 2px solid black; padding: 1em;position: fixed; left: 15px; bottom: 15px">' + results.join(' | ') + '</div>');
-      },
-      complete: function() {
-        if (callback) {
-          callback();
-        }
+      // PhantomJS doesn't honor `responseType = 'json'`
+      if (typeof data === 'string') {
+        data = JSON.parse(data);
       }
-    });
+
+      if (!data || !data.total) {
+        return;
+      }
+
+      var results = ['Lines', 'Branches', 'Functions', 'Statements']
+        .filter(function (name) {
+          return data.total[name.toLowerCase()]
+        })
+        .map(function (name) {
+          return name + ' ' + data.total[name.toLowerCase()].pct + '%'
+        });
+
+      var resultsText = document.createTextNode(results.join(' | '));
+      var element = document.createElement('div');
+      element.style = 'background-color: white; color: black; border: 2px solid black; padding: 1em;position: fixed; left: 15px; bottom: 15px';
+      element.appendChild(resultsText);
+      document.body.appendChild(element);
+
+      if (callback) {
+        callback();
+      }
+    };
   }
 
   function getModuleName (){
