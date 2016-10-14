@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-code-coverage",
-  "version": "0.2.1",
+  "version": "0.3.4",
   "description": "Code coverage for ember projects using Istanbul",
   "directories": {
     "doc": "doc",
@@ -64,6 +64,7 @@
     "extend": "^3.0.0",
     "fs-extra": "^0.26.7",
     "istanbul": "^0.4.3",
+    "minimatch": "^3.0.3",
     "source-map": "0.5.6"
   },
   "ember-addon": {

@@ -64,12 +64,18 @@ describe('index.js', function() {
 
     beforeEach(function() {
       app = {
-        post: sinon.spy()
+        post: sinon.spy(),
+        get: sinon.spy()
       };
 
       Index.project = {
         root: '/path/to/foo-bar'
       };
+      Index.parent = {
+        pkg: {
+          name: 'foo-bar'
+        }
+      }
     });
 
     describe('when coverage is enabled', function() {
@@ -78,8 +84,8 @@ describe('index.js', function() {
         Index.testemMiddleware(app);
       });
 
-      it('adds POST endpoint to app', function() {
-        expect(app.post.callCount).to.equal(1);
+      it('adds POST endpoints to app', function() {
+        expect(app.post.callCount).to.equal(2);
       });
     });
 
@@ -91,6 +97,9 @@ describe('index.js', function() {
 
       it('does not add POST endpoint to app', function() {
         expect(app.post.callCount).to.equal(0);
+      });
+      it('does not GET endpoint to app', function() {
+        expect(app.get.callCount).to.equal(0);
       });
     });
   });
@@ -249,13 +258,16 @@ describe('index.js', function() {
     });
   });
 
-  describe('_getEcludes', function() {
+  describe('_getExcludes', function() {
     beforeEach(function() {
       sandbox.stub(Index, '_filterOutAddonFiles').returns('test');
 
       Index.parent = {
-        pkg: {
-          name: 'foo-bar'
+        isEmberCLIAddon: function() {
+          return false;
+        },
+        name: function() {
+          return 'test';
         }
       };
     });
@@ -395,6 +407,65 @@ describe('index.js', function() {
       it('returns false', function() {
         expect(Index._isCoverageEnabled()).to.be.false;
       });
+    });
+  });
+
+  describe('_parentName', function() {
+    var isAddon;
+
+    beforeEach(function() {
+      Index.parent = {
+        name: function() {
+          return 'parent-app';
+        },
+        isEmberCLIAddon: function() {
+          return isAddon;
+        }
+      };
+    });
+
+    describe('when parent is an app', function() {
+      beforeEach(function() {
+        isAddon = false;
+      });
+
+      it('returns the app name', function() {
+        expect(Index._parentName()).to.equal('parent-app');
+      });
+    });
+
+    describe('when parent is an addon', function() {
+      beforeEach(function() {
+        isAddon = true;
+        sandbox.stub(Index, '_findCoveredAddon').returns({ name: 'some-addon' });
+      });
+
+      it('returns the addon name', function() {
+        expect(Index._parentName()).to.equal('some-addon');
+      });
+    });
+  });
+
+  describe('_findCoveredAddon', function() {
+    var result;
+
+    beforeEach(function() {
+      Index.project = {
+        findAddonByName: sinon.stub().returns({ name: 'my-addon' }),
+        pkg: {
+          name: '@scope/ember-cli-my-addon'
+        }
+      };
+
+      result = Index._findCoveredAddon();
+    });
+
+    it('looks up the addon by the package name', function() {
+      expect(Index.project.findAddonByName.calledWith('@scope/ember-cli-my-addon')).to.be.true;
+    });
+
+    it('returns the located addon', function() {
+      expect(result.name).to.equal('my-addon');
     });
   });
 });

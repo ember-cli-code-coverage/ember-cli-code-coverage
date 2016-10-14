@@ -5,7 +5,8 @@ Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember
 ## Requirements
 * If using Mocha, Testem `>= 1.6.0` for which you need ember-cli `> 2.4.3`
 * If using Mirage you need `ember-cli-mirage >= 0.1.13`
-* If using Pretender you need `pretender >= 0.11.0`
+* If using Pretender (even as a dependency of Mirage) you need `pretender >= 0.11.0`
+* If using Mirage or Pretender, you need to [set up a passthrough for coverage to be written](#create-a-passthrough-when-intercepting-all-ajax-requests-in-tests). 
 
 
 ## Installation
@@ -14,15 +15,23 @@ Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember
 
 ## Usage
 
-Coverage will only be generated when an environment variable is true (by default `COVERAGE`) and running your test command like normal.
+Coverage will only be generated when an [environment variable](https://en.wikipedia.org/wiki/Environment_variable) is true (by default `COVERAGE`) and running your test command like normal.
 
 For example:
 
 `COVERAGE=true ember test`
 
+If you want your coverage to work on both Unix and Windows, you can do this:
+
+`npm install cross-env --save-dev`
+
+and then:
+
+`cross-env COVERAGE=true ember test`
+
 ## Configuration
 
-Configuration is optional. It should be put in a file at `config/coverage.js`.
+Configuration is optional. It should be put in a file at `config/coverage.js`. 
 
 #### Options
 
@@ -36,9 +45,16 @@ Configuration is optional. It should be put in a file at `config/coverage.js`.
 
 - `useBabelInstrumenter`: Defaults to `false`. Whether or not to use Babel instrumenter instead of default instrumenter. The Babel instrumenter is useful when you are using features of ESNext as it uses your Babel configuration defined in `ember-cli-build.js`.
 
-## Using when intercepting all ajax requests in tests
+#### Example
+```js
+  module.exports = {
+    coverageEnvVar: 'COV'
+  }
+```
 
-Aka when using ember-cli-mirage or Pretender. You may require a version of Pretender that includes [this fix](https://github.com/pretenderjs/pretender/pull/130).
+## Create a passthrough when intercepting all ajax requests in tests 
+
+(When using ember-cli-mirage or Pretender.)
 
 To work, this addon has to post coverage results back to a middleware at `/write-coverage`.
 

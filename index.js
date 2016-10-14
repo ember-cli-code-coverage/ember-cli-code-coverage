@@ -17,7 +17,7 @@ module.exports = {
 
   included: function() {
     if (this._isCoverageEnabled() && this.parent.isEmberCLIAddon()) {
-      var coveredAddon = this.project.findAddonByName(this.project.pkg.name);
+      var coveredAddon = this._findCoveredAddon();
       var coverageAddonContext = this;
 
       coveredAddon.processedAddonJsFiles = function (tree){
@@ -65,7 +65,7 @@ module.exports = {
     // Instrument JavaScript for code coverage
     var instrumentedNode = new CoverageInstrumenter(appFiles, {
       annotation: 'Instrumenting for code coverage',
-      appName: this.parent.pkg.name,
+      appName: this._parentName(),
       appRoot: this.parent.root,
       babelOptions: this.app.options.babel,
       useBabelInstrumenter: useBabelInstrumenter,
@@ -90,7 +90,12 @@ module.exports = {
    */
   testemMiddleware: function(app) {
     if (!this._isCoverageEnabled()) { return; }
-    attachMiddleware(app, { root: this.project.root, ui: this.ui });
+    attachMiddleware(app,
+      {
+        root: this.project.root,
+        ui: this.ui,
+        appName: this.parent.pkg.name,
+        excludes: this._getConfig().excludes || [] });
   },
 
   // Custom Methods
@@ -124,20 +129,23 @@ module.exports = {
 
     return this._doesTemplateFileExist(relativePath);
   },
-    /**
+
+  /**
    * Check if a file exists within the current addon directory. Removing `module/<app-name>` from the path.
    * @param {String} relativePath - path to file within current app
    * @returns {Boolean} whether or not the file exists within the current app
    */
-  _doesFileExistIsCurrentProjectAddonModule: function(relativePath) {
-    relativePath = path.join('addon', relativePath.replace(path.join('modules', this.project.pkg.name),''));
+  _doesFileExistInCurrentProjectAddonModule: function(relativePath) {
+    var relativePathWithoutProjectNamePrefix = relativePath.replace('modules' + '/' +  this._parentName(), '');
+    var _relativePath = 'addon/' + relativePathWithoutProjectNamePrefix;
 
-    if (this._existsSync(relativePath)) {
+    if (this._existsSync(_relativePath)) {
       return true;
     }
 
-    return this._doesTemplateFileExist(relativePath);
+    return this._doesTemplateFileExist(_relativePath);
   },
+
   /**
    * Check if a file exists within the dummy app
    * @param {String} relativePath - path to file within dummy app
@@ -203,10 +211,8 @@ module.exports = {
       this._doesFileExistInDummyApp(relativePath) ||
       this._doesFileExistInCurrentProjectApp(relativePath) ||
       this._doesFileExistInCurrentProjectAddon(relativePath) ||
-       this._doesFileExistIsCurrentProjectAddonModule(relativePath)
+      this._doesFileExistInCurrentProjectAddonModule(relativePath)
     );
-
-    console.log(!fileExists, name, relativePath);
 
     return !fileExists;
   },
@@ -225,7 +231,7 @@ module.exports = {
    */
   _getExcludes: function() {
     var excludes = this._getConfig().excludes || [];
-    var name = this.parent.pkg.name;
+    var name = this._parentName();
     excludes.push(this._filterOutAddonFiles.bind(this, name));
 
     return excludes;
@@ -243,5 +249,29 @@ module.exports = {
     }
 
     return ['true', true].indexOf(value) !== -1;
+  },
+
+  /**
+   * Determine the name of the parent app or addon.
+   * @returns {String} the name of the parent
+   */
+  _parentName: function() {
+    if (this.parent.isEmberCLIAddon()) {
+      return this._findCoveredAddon().name;
+    } else {
+      return this.parent.name();
+    }
+  },
+
+  /**
+   * Find the addon (if any) that's being covered.
+   * @returns {Addon} the addon under test
+   */
+  _findCoveredAddon: function() {
+    if (!this._coveredAddon) {
+      this._coveredAddon = this.project.findAddonByName(this.project.pkg.name);
+    }
+
+    return this._coveredAddon;
   }
 };

@@ -6,7 +6,7 @@ var spawn = require('child_process').spawn;
 module.exports = function runCommand(command, args, opts) {
   opts = opts || {};
 
-  opts.stdio = opts.stdio || 'ignore';
+  opts.stdio = opts.stdio || 'inherit';
 
   var newENV = {};
   var item, envOption;
@@ -24,7 +24,7 @@ module.exports = function runCommand(command, args, opts) {
     var p = spawn(command, args, opts);
     p.on('close', function(code) {
       if (code !== 0) {
-        reject(code);
+        reject(new Error('Command ' + command + ' ' + args.join(' ') + ' exited ' + code));
       } else {
         resolve();
       }
