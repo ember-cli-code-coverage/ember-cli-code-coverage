@@ -59,9 +59,7 @@
   }
   if (typeof Testem !== "undefined" && Testem.afterTests) {
     Testem.afterTests(function(config, data, callback) {
-      console.log('filtering entries')
       var entries = filterEntries(Object.keys(requirejs.entries)).entries
-      console.log(entries)
       for (var entry in entries){
         console.warn('requiring unseen module: ' + entries[entry])
         try {
