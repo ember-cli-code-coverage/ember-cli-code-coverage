@@ -54,15 +54,25 @@ Configuration is optional. It should be put in a file at `config/coverage.js`.
 
 ## Create a passthrough when intercepting all ajax requests in tests 
 
-(When using ember-cli-mirage or Pretender.)
-
 To work, this addon has to post coverage results back to a middleware at `/write-coverage`.
+
+If you are using [`ember-cli-mirage`](http://www.ember-cli-mirage.com) you should add the following:
 
 ```
 // in mirage/config.js
 
   this.passthrough('/write-coverage');
   this.namespace = 'api';  // It's important that the passthrough for coverage is before the namespace, otherwise it will be prefixed.
+```
+
+If you are using [`ember-cli-pretender`](https://github.com/rwjblue/ember-cli-pretender) you should add the following:
+
+```
+// where ever you set up the Pretender Server
+
+  var server = new Pretender(function () {
+    this.post('/write-coverage', this.passthrough);
+  });
 ```
 
 ## Inspiration
