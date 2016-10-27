@@ -1,3 +1,4 @@
+/* jshint ignore:start */
 module.exports = {
   root: true,
   extends: 'eslint:recommended',
@@ -95,3 +96,4 @@ module.exports = {
     'comma-dangle': 0,
   },
 };
+/* jshint ignore:end */
