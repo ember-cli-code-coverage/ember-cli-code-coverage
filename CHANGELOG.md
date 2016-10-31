@@ -1,5 +1,18 @@
 # Change Log
 
+## [v0.3.5](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.5) (2016-10-31)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.4...v0.3.5)
+
+**Closed issues:**
+
+- Addon Support: Properly name files in `lcov.info` [\#36](https://github.com/kategengler/ember-cli-code-coverage/issues/36)
+
+**Merged pull requests:**
+
+- Update README.md with Pretender example. [\#60](https://github.com/kategengler/ember-cli-code-coverage/pull/60) ([HallDJack](https://github.com/HallDJack))
+- Add ability to pass addonName and fix paths [\#58](https://github.com/kategengler/ember-cli-code-coverage/pull/58) ([rwwagner90](https://github.com/rwwagner90))
+- Cosmetics for docs, renamed function name and parameter name [\#54](https://github.com/kategengler/ember-cli-code-coverage/pull/54) ([nfc036](https://github.com/nfc036))
+
 ## [v0.3.4](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.4) (2016-10-10)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.3...v0.3.4)
 
