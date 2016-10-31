@@ -1,9 +1,13 @@
 /* jshint ignore:start */
 module.exports = {
   root: true,
+  parserOptions: {
+    ecmaVersion: 6,
+    sourceType: 'module'
+  },
   extends: 'eslint:recommended',
   env: {
-    browser: false,
+    browser: true,
     node: true,
   },
   globals: {
