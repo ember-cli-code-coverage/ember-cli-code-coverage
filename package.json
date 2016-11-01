@@ -19,7 +19,8 @@
   },
   "author": "Katie Gengler",
   "contributors": [
-    "Matthew Dahl (https://github.com/sandersky)"
+    "Matthew Dahl (https://github.com/sandersky)",
+    "Robert Wagner (https://github.com/rwwagner90)"
   ],
   "license": "MIT",
   "devDependencies": {
@@ -29,7 +30,7 @@
     "ember-cli": "2.5.0",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-dependency-checker": "^1.2.0",
-    "ember-cli-eslint": "3.0.0",
+    "ember-cli-eslint": "2.0.0",
     "ember-cli-htmlbars": "^1.0.3",
     "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-cli-inject-live-reload": "^1.4.0",
