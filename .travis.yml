@@ -1,10 +1,9 @@
 ---
 language: node_js
 node_js:
-  - "0.10"
   - "0.12"
   - "4.2"
-  - "5"
+  - "6"
 
 dist: trusty
 sudo: required
@@ -26,9 +25,9 @@ env:
 matrix:
   fast_finish: true
   include:
-  - node_js: "5"
+  - node_js: "6"
     env: NPM_SCRIPT=jscs
-  - node_js: "5"
+  - node_js: "6"
     env: NPM_SCRIPT=lint
 
 before_install:

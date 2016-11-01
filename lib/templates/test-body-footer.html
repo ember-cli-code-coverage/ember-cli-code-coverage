@@ -1,5 +1,17 @@
 <script>
   function sendCoverage(callback) {
+   Object.keys(require.entries).forEach(function(file) {
+      // Only load non-test files from the project
+      var parts = file.split('/');
+      if (parts[0] === '{%PROJECT_NAME%}' && parts[1] !== 'tests') {
+        try {
+          require(file);
+        } catch(e) {
+          throw 'error requiring file for coverage: '+file;
+        }
+      }
+    });
+
     var coverageData = window.__coverage__;
     var data = JSON.stringify(coverageData || {});
 

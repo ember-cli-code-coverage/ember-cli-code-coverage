@@ -4,7 +4,7 @@ var expect = require('chai').expect;
 var sinon = require('sinon');
 var Index = require('../../index.js');
 describe('index.js', function() {
-  var sandbox
+  var sandbox;
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
@@ -14,7 +14,7 @@ describe('index.js', function() {
         return ['hbs'];
       }
     };
-  })
+  });
 
   afterEach(function() {
     sandbox.restore();
@@ -34,6 +34,14 @@ describe('index.js', function() {
     describe('with coverage enabled', function() {
       beforeEach(function() {
         sandbox.stub(Index, '_isCoverageEnabled').returns(true);
+        Index.parent = {
+          isEmberCLIAddon: function() {
+            return false;
+          },
+          name: function() {
+            return 'fake-app';
+          }
+        };
       });
 
       it('does nothing if type is not test-body-footer', function() {
@@ -42,6 +50,10 @@ describe('index.js', function() {
 
       it('returns template for test-body-footer', function() {
         expect(Index.contentFor('test-body-footer')).to.match(/sendCoverage/);
+      });
+
+      it('includes the project name in the template for test-body-footer', function() {
+        expect(Index.contentFor('test-body-footer')).to.match(/fake-app/);
       });
     });
   });

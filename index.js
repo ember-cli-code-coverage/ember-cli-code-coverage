@@ -25,44 +25,30 @@ module.exports = {
         return this.preprocessJs(instrumentedTree, '/', this.name, {
           registry: this.registry
         });
-      }
+      };
     }
   },
 
-  /**
-   * Get content for type
-   * @param {String} type - type to get content for
-   * @returns {String} content for type
-   */
   contentFor: function(type) {
-    // If coverage is enabled add content to test-body-footer to show percentages
     if (type === 'test-body-footer' && this._isCoverageEnabled()) {
-      return fs.readFileSync(path.join(__dirname, 'lib', 'templates', 'test-body-footer.html'));
+      var template = fs.readFileSync(path.join(__dirname, 'lib', 'templates', 'test-body-footer.html')).toString();
+      return template.replace('{%PROJECT_NAME%}', this._parentName());
     }
 
     return undefined;
   },
 
-  /**
-   * Add instrumentation to JavaScript tree if coverage is enabled
-   * @param {String} type - what kind of tree
-   * @param {Tree} tree - tree to process
-   * @returns {[type]} processed tree
-   */
   preprocessTree: function(type, tree) {
     var useBabelInstrumenter = this._getConfig().useBabelInstrumenter === true;
 
-    // If coverage isn't enabled or tree is not JavaScript tree then we don't need to alter the tree
     if (!this._isCoverageEnabled() || (type !== 'js' && type !=='addon-js')) {
       return tree;
     }
 
-    // Make sure we exclude files defined in the configuration as well as files from addons
     var appFiles = new Funnel(tree, {
       exclude: this._getExcludes()
     });
 
-    // Instrument JavaScript for code coverage
     var instrumentedNode = new CoverageInstrumenter(appFiles, {
       annotation: 'Instrumenting for code coverage',
       appName: this._parentName(),
@@ -72,22 +58,13 @@ module.exports = {
       templateExtensions: this.registry.extensionsForType('template')
     });
 
-    // Return JavaScript tree with instrumented source
     return new BroccoliMergeTrees([tree, instrumentedNode], { overwrite: true });
   },
 
-  /**
-   * If coverage is enabled attach coverage middleware to the express server run by ember-cli
-   * @param {Object} startOptions - Express server start options
-   */
   serverMiddleware: function(startOptions) {
     this.testemMiddleware(startOptions.app);
   },
 
-  /**
-   * If coverage is enabled attach coverage middleware to the express server run by testem
-   * @param {Object} app - the Express app instance
-   */
   testemMiddleware: function(app) {
     if (!this._isCoverageEnabled()) { return; }
     attachMiddleware(app, { root: this.project.root, ui: this.ui });
