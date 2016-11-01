@@ -1,5 +1,16 @@
 # Change Log
 
+## [v0.3.6](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.6) (2016-10-31)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.5...v0.3.6)
+
+**Closed issues:**
+
+- Does not include untested files [\#20](https://github.com/kategengler/ember-cli-code-coverage/issues/20)
+
+**Merged pull requests:**
+
+- Factor in unused/unrequired files in to coverage % [\#62](https://github.com/kategengler/ember-cli-code-coverage/pull/62) ([kategengler](https://github.com/kategengler))
+
 ## [v0.3.5](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.5) (2016-10-31)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.4...v0.3.5)
 
