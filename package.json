@@ -8,6 +8,7 @@
   },
   "scripts": {
     "node-test": "mocha test/**/*-test.js",
+    "browser-test": "COVERAGE=true ember test",
     "lint": "eslint config lib test tests *.js",
     "jscs": "jscs lib test",
     "test": "npm run-script jscs && npm run-script lint && npm run-script node-test"
