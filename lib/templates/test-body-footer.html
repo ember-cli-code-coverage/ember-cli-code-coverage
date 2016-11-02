@@ -6,8 +6,8 @@
       if (parts[0] === '{%PROJECT_NAME%}' && parts[1] !== 'tests') {
         try {
           require(file);
-        } catch(e) {
-          throw 'error requiring file for coverage: '+file;
+        } catch(error) {
+          console.warn('Error occurred while evaluating `' + file + '`: ' + error.message + '\n' + error.stack);
         }
       }
     });
