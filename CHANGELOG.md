@@ -1,6 +1,17 @@
 # Change Log
 
-## [v0.3.6](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.6) (2016-10-31)
+## [v0.3.7](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.7) (2016-11-02)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.6...v0.3.7)
+
+**Closed issues:**
+
+- Issue with ember-page-object  [\#63](https://github.com/kategengler/ember-cli-code-coverage/issues/63)
+
+**Merged pull requests:**
+
+- Avoid throwing errors while requiring files for coverage. [\#64](https://github.com/kategengler/ember-cli-code-coverage/pull/64) ([rwjblue](https://github.com/rwjblue))
+
+## [v0.3.6](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.6) (2016-11-01)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.5...v0.3.6)
 
 **Closed issues:**
