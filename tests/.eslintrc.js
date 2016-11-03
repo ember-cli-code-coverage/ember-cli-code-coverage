@@ -1,11 +1,9 @@
 module.exports = {
-  globals: {
-    andThen: false,
-    currentURL: false,
-    visit: false
+  env: {
+    'embertest': true
   },
   parserOptions: {
     ecmaVersion: 6,
     sourceType: 'module'
   }
-}
+};

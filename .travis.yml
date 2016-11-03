@@ -28,8 +28,6 @@ matrix:
   - node_js: "6"
     env: NPM_SCRIPT=browser-test
   - node_js: "6"
-    env: NPM_SCRIPT=jscs
-  - node_js: "6"
     env: NPM_SCRIPT=lint
 
 before_install:
