@@ -2,15 +2,12 @@
 module.exports = {
   root: true,
   parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module'
+    ecmaVersion: 6
   },
   extends: 'eslint:recommended',
   env: {
     browser: true,
-    node: true,
-  },
-  globals: {
+    node: true
   },
   rules: {
     // JSHint "expr"

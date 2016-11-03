@@ -10,8 +10,7 @@
     "node-test": "mocha test/**/*-test.js",
     "browser-test": "COVERAGE=true ember test",
     "lint": "eslint config lib test tests *.js",
-    "jscs": "eslint lib test",
-    "test": "npm run-script jscs && npm run-script lint && npm run-script node-test"
+    "test": "npm run-script lint && npm run-script node-test"
   },
   "repository": "kategengler/ember-cli-code-coverage",
   "engines": {
@@ -20,6 +19,7 @@
   "author": "Katie Gengler",
   "contributors": [
     "Matthew Dahl (https://github.com/sandersky)",
+    "Robert Jackson (https://github.com/rwjblue)",
     "Robert Wagner (https://github.com/rwwagner90)"
   ],
   "license": "MIT",
@@ -30,7 +30,7 @@
     "ember-cli": "2.5.0",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-dependency-checker": "^1.2.0",
-    "ember-cli-eslint": "2.0.0",
+    "ember-cli-eslint": "^2.0.0",
     "ember-cli-htmlbars": "^1.0.3",
     "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-cli-inject-live-reload": "^1.4.0",

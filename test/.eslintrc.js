@@ -1,6 +1,8 @@
 module.exports = {
   env: {
-    mocha: true
+    browser: false,
+    mocha: true,
+    node: true
   },
   rules: {
     'no-unused-expressions': 0

@@ -1,4 +1,4 @@
-/* jshint node: true */
+'use strict';
 
 var path = require('path');
 var existsSync = require('exists-sync');
