@@ -1,5 +1,21 @@
 # Change Log
 
+## [v0.3.8](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.8) (2016-11-07)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.7...v0.3.8)
+
+**Closed issues:**
+
+- Handle app in addon case [\#70](https://github.com/kategengler/ember-cli-code-coverage/issues/70)
+- Unify code to correct file names in coverage output [\#67](https://github.com/kategengler/ember-cli-code-coverage/issues/67)
+- ESLint? [\#59](https://github.com/kategengler/ember-cli-code-coverage/issues/59)
+
+**Merged pull requests:**
+
+- Restrict branches for builds, use preinstalled Chrome [\#74](https://github.com/kategengler/ember-cli-code-coverage/pull/74) ([rwwagner90](https://github.com/rwwagner90))
+- Set sync to true, to make nested files work [\#72](https://github.com/kategengler/ember-cli-code-coverage/pull/72) ([rwwagner90](https://github.com/rwwagner90))
+- Refactor add-on renaming [\#68](https://github.com/kategengler/ember-cli-code-coverage/pull/68) ([rwwagner90](https://github.com/rwwagner90))
+- ESLint [\#61](https://github.com/kategengler/ember-cli-code-coverage/pull/61) ([rwwagner90](https://github.com/rwwagner90))
+
 ## [v0.3.7](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.7) (2016-11-02)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.6...v0.3.7)
 
