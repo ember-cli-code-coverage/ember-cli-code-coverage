@@ -67,7 +67,7 @@
     "fs-extra": "^0.26.7",
     "istanbul": "^0.4.3",
     "source-map": "0.5.6",
-    "string.prototype.includes": "^1.0.0"
+    "string.prototype.startswith": "^0.2.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",

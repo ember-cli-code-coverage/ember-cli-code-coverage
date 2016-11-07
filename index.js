@@ -53,6 +53,7 @@ module.exports = {
       appName: this._parentName(),
       appRoot: this.parent.root,
       babelOptions: this.app.options.babel,
+      isAddon: this.project.isEmberCLIAddon(),
       useBabelInstrumenter: useBabelInstrumenter,
       templateExtensions: this.registry.extensionsForType('template')
     });
