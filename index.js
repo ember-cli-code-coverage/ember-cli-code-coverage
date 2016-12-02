@@ -61,6 +61,16 @@ module.exports = {
     return new BroccoliMergeTrees([tree, instrumentedNode], { overwrite: true });
   },
 
+  includedCommands: function () {
+    return {
+      'coverage-merge': require('./lib/coverage-merge')
+    };
+  },
+
+  /**
+   * If coverage is enabled attach coverage middleware to the express server run by ember-cli
+   * @param {Object} startOptions - Express server start options
+   */
   serverMiddleware: function(startOptions) {
     this.testemMiddleware(startOptions.app);
   },
