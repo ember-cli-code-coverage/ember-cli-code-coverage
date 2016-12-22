@@ -1,5 +1,19 @@
 # Change Log
 
+## [0.3.9](https://github.com/kategengler/ember-cli-code-coverage/tree/0.3.9) (2016-12-22)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.8...0.3.9)
+
+**Closed issues:**
+
+- ember-test never terminates with COVERAGE=true [\#81](https://github.com/kategengler/ember-cli-code-coverage/issues/81)
+- Excludes options for config/converage.js doesn't seem to work [\#78](https://github.com/kategengler/ember-cli-code-coverage/issues/78)
+- conflict with yadda require\(\) [\#66](https://github.com/kategengler/ember-cli-code-coverage/issues/66)
+- The coverage summary json is missing a '}' in the end [\#47](https://github.com/kategengler/ember-cli-code-coverage/issues/47)
+
+**Merged pull requests:**
+
+- Fix phantomjs `request aborted` edge case [\#82](https://github.com/kategengler/ember-cli-code-coverage/pull/82) ([jesseditson](https://github.com/jesseditson))
+
 ## [v0.3.8](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.8) (2016-11-07)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.7...v0.3.8)
 
