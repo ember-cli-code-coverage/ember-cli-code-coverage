@@ -1,6 +1,7 @@
 <script>
   // Make synchronous requests in phantom to avoid killing the runner before the coverage completes.
   var REQUEST_ASYNC = !/PhantomJS/.test(window.navigator.userAgent);
+
   function sendCoverage(callback) {
    Object.keys(require.entries).forEach(function(file) {
       // Only load non-test files from the project
@@ -21,38 +22,18 @@
     request.open('POST', '/write-coverage', REQUEST_ASYNC);
     request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
     request.send(data);
-    request.responseType = 'json';
 
-    request.onload = function() {
-      var data = this.response;
-
-      // PhantomJS doesn't honor `responseType = 'json'`
-      if (typeof data === 'string') {
-        data = JSON.parse(data);
+    if (REQUEST_ASYNC) {
+      request.responseType = 'json';
+      request.onload = function() {
+        handleCoverageResponse(this, callback);
       }
-
-      if (!data || !data.total) {
-        return;
+    } else {
+      // The request is already done at this point, since it is synchronous
+      if (request.status === 200) {
+        handleCoverageResponse(request, callback);
       }
-
-      var results = ['Lines', 'Branches', 'Functions', 'Statements']
-        .filter(function (name) {
-          return data.total[name.toLowerCase()]
-        })
-        .map(function (name) {
-          return name + ' ' + data.total[name.toLowerCase()].pct + '%'
-        });
-
-      var resultsText = document.createTextNode(results.join(' | '));
-      var element = document.createElement('div');
-      element.style = 'background-color: white; color: black; border: 2px solid black; padding: 1em;position: fixed; left: 15px; bottom: 15px';
-      element.appendChild(resultsText);
-      document.body.appendChild(element);
-
-      if (callback) {
-        callback();
-      }
-    };
+    }
   }
 
   if (typeof Testem !== "undefined" && Testem.afterTests) {
@@ -63,5 +44,36 @@
     QUnit.done(function() {
       sendCoverage();
     });
+  }
+
+  function handleCoverageResponse(xhr, callback) {
+    var data = xhr.response;
+
+    // PhantomJS doesn't honor `responseType = 'json'`
+    if (typeof data === 'string') {
+      data = JSON.parse(data);
+    }
+
+    if (!data || !data.total) {
+      return;
+    }
+
+    var results = ['Lines', 'Branches', 'Functions', 'Statements']
+      .filter(function (name) {
+        return data.total[name.toLowerCase()]
+      })
+      .map(function (name) {
+        return name + ' ' + data.total[name.toLowerCase()].pct + '%'
+      });
+
+    var resultsText = document.createTextNode(results.join(' | '));
+    var element = document.createElement('div');
+    element.style = 'background-color: white; color: black; border: 2px solid black; padding: 1em;position: fixed; left: 15px; bottom: 15px';
+    element.appendChild(resultsText);
+    document.body.appendChild(element);
+
+    if (callback) {
+      callback();
+    }
   }
 </script>
