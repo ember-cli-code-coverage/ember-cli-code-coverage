@@ -1,11 +1,23 @@
 # Change Log
 
-## [0.3.9](https://github.com/kategengler/ember-cli-code-coverage/tree/0.3.9) (2016-12-22)
-[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.8...0.3.9)
+## [0.3.10](https://github.com/kategengler/ember-cli-code-coverage/tree/0.3.10) (2017-01-05)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.9...0.3.10)
 
 **Closed issues:**
 
-- ember-test never terminates with COVERAGE=true [\#81](https://github.com/kategengler/ember-cli-code-coverage/issues/81)
+- \[Q\]: What is the best way to integrate ember-cli-code-coverage with ember-exam [\#80](https://github.com/kategengler/ember-cli-code-coverage/issues/80)
+- "Error: request aborted" on \>= v0.3.0 [\#39](https://github.com/kategengler/ember-cli-code-coverage/issues/39)
+
+**Merged pull requests:**
+
+- Use synchronous control flow when making synchronous requests [\#87](https://github.com/kategengler/ember-cli-code-coverage/pull/87) ([DingoEatingFuzz](https://github.com/DingoEatingFuzz))
+- Add coverage-merge command and parallel configuration [\#83](https://github.com/kategengler/ember-cli-code-coverage/pull/83) ([jdenly](https://github.com/jdenly))
+
+## [v0.3.9](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.9) (2016-12-22)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.8...v0.3.9)
+
+**Closed issues:**
+
 - Excludes options for config/converage.js doesn't seem to work [\#78](https://github.com/kategengler/ember-cli-code-coverage/issues/78)
 - conflict with yadda require\(\) [\#66](https://github.com/kategengler/ember-cli-code-coverage/issues/66)
 - The coverage summary json is missing a '}' in the end [\#47](https://github.com/kategengler/ember-cli-code-coverage/issues/47)
