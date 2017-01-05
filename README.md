@@ -29,6 +29,8 @@ and then:
 
 `cross-env COVERAGE=true ember test`
 
+When running with `parallel` set to true, the final reports can be merged by using `ember coverage-merge`. The final merged output will be stored in the `coverageFolder`.
+
 ## Configuration
 
 Configuration is optional. It should be put in a file at `config/coverage.js`. 
@@ -44,6 +46,8 @@ Configuration is optional. It should be put in a file at `config/coverage.js`.
 - `coverageFolder`: Defaults to `coverage`. A folder relative to the root of your project to store coverage results.
 
 - `useBabelInstrumenter`: Defaults to `false`. Whether or not to use Babel instrumenter instead of default instrumenter. The Babel instrumenter is useful when you are using features of ESNext as it uses your Babel configuration defined in `ember-cli-build.js`.
+
+- `parallel`: Defaults to `false`. Should be set to true if parallel testing is being used, for example when using [ember-exam](https://github.com/trentmwillis/ember-exam) with the `--parallel` flag. This will generate the coverage reports in directories suffixed with `_<random_string>` to avoid overwriting other threads reports. These reports can be joined by using the `ember coverage-merge` command.
 
 #### Example
 ```js
