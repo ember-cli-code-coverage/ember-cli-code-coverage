@@ -25,9 +25,11 @@
 
     if (REQUEST_ASYNC) {
       request.responseType = 'json';
-      request.onload = function() {
-        handleCoverageResponse(this, callback);
-      }
+      request.onreadystatechange = function() {
+        if (request.readyState === 4) {
+          handleCoverageResponse(this, callback);
+        }
+      };
     } else {
       // The request is already done at this point, since it is synchronous
       if (request.status === 200) {
