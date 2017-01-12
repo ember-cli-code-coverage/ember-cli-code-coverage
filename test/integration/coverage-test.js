@@ -92,4 +92,25 @@ export default Ember.Route.extend({
       expect(summary['tests/dummy/app/templates/application.hbs'].lines.pct).to.equal(100);
     });
   });
+
+  it('uses nested coverageFolder and parallel configuration and run merge-coverage', function() {
+    this.timeout(100000);
+    var coverageFolder = 'coverage/abc/easy-as/123';
+
+    expect(dir(coverageFolder)).to.not.exist;
+    fs.copySync('config/coverage-nested-folder.js', 'config/coverage.js');
+    return runCommand('ember', ['exam', '--split=2', '--parallel=true'], {env: {COVERAGE: true}}).then(function() {
+      expect(dir(coverageFolder)).to.not.exist;
+      return runCommand('ember', ['coverage-merge']);
+    }).then(function() {
+      expect(file(coverageFolder + '/lcov-report/index.html')).to.not.be.empty;
+      expect(file(coverageFolder + '/index.html')).to.not.be.empty;
+      var summary = fs.readJSONSync(coverageFolder + '/coverage-summary.json');
+      expect(summary.total.lines.pct).to.equal(100);
+      expect(summary['tests/dummy/app/resolver.js'].lines.pct).to.equal(100);
+      expect(summary['tests/dummy/app/app.js'].lines.pct).to.equal(100);
+      expect(summary['tests/dummy/app/router.js'].lines.pct).to.equal(100);
+      expect(summary['tests/dummy/app/templates/application.hbs'].lines.pct).to.equal(100);
+    });
+  });
 });
