@@ -1,10 +1,23 @@
 # Change Log
 
-## [0.3.10](https://github.com/kategengler/ember-cli-code-coverage/tree/0.3.10) (2017-01-05)
-[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.9...0.3.10)
+## [v0.3.11](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.11) (2017-01-19)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.10...v0.3.11)
 
 **Closed issues:**
 
+- ember-test never terminates with COVERAGE=true [\#81](https://github.com/kategengler/ember-cli-code-coverage/issues/81)
+
+**Merged pull requests:**
+
+- Move `rsvp` package to `dependencies` [\#94](https://github.com/kategengler/ember-cli-code-coverage/pull/94) ([samtsai](https://github.com/samtsai))
+- Add test for parallel configuration and coverage-merge command. [\#92](https://github.com/kategengler/ember-cli-code-coverage/pull/92) ([jdenly](https://github.com/jdenly))
+
+## [v0.3.10](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.10) (2017-01-05)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.9...v0.3.10)
+
+**Closed issues:**
+
+- What is the best way to wdio or selenium test on the instrumented code and the coveragae result   [\#84](https://github.com/kategengler/ember-cli-code-coverage/issues/84)
 - \[Q\]: What is the best way to integrate ember-cli-code-coverage with ember-exam [\#80](https://github.com/kategengler/ember-cli-code-coverage/issues/80)
 - "Error: request aborted" on \>= v0.3.0 [\#39](https://github.com/kategengler/ember-cli-code-coverage/issues/39)
 
