@@ -48,7 +48,6 @@
     "glob": "^7.0.3",
     "loader.js": "^4.0.1",
     "mocha": "^2.4.5",
-    "rsvp": "^3.2.1",
     "sinon": "^1.17.4"
   },
   "keywords": [
@@ -68,6 +67,7 @@
     "fs-extra": "^0.26.7",
     "istanbul": "^0.4.3",
     "node-dir": "^0.1.16",
+    "rsvp": "^3.2.1",
     "source-map": "0.5.6",
     "string.prototype.startswith": "^0.2.0"
   },
