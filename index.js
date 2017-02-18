@@ -189,14 +189,20 @@ module.exports = {
       relativePath = relativePath.replace('dummy/', '');
     }
 
-    var fileExists = (
-      this._doesFileExistInDummyApp(relativePath) ||
-      this._doesFileExistInCurrentProjectApp(relativePath) ||
-      this._doesFileExistInCurrentProjectAddon(relativePath) ||
-      this._doesFileExistInCurrentProjectAddonModule(relativePath)
-    );
+    var remove;
 
-    return !fileExists;
+    if (this._doesFileExistInDummyApp(relativePath)) {
+      remove = true;
+    } else {
+      remove = !(
+        this._doesFileExistInCurrentProjectApp(relativePath) ||
+        this._doesFileExistInCurrentProjectAddon(relativePath) ||
+        this._doesFileExistInCurrentProjectAddonModule(relativePath)
+      );
+    }
+
+    return remove;
+
   },
 
   /**
