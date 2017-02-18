@@ -54,7 +54,7 @@
     "ember-addon"
   ],
   "dependencies": {
-    "babel-core": "^5.8.38",
+    "babel-core": "^6.23.1",
     "body-parser": "^1.15.0",
     "broccoli-filter": "^1.2.3",
     "broccoli-funnel": "^1.0.1",
