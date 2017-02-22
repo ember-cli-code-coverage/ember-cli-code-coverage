@@ -18,7 +18,7 @@ describe('`ember test`', function() {
   });
 
   afterEach(function() {
-    return remove('config/coverage.js');
+    return remove('tests/dummy/config/coverage.js');
   });
 
   it('runs coverage when env var is set', function() {
@@ -43,7 +43,7 @@ describe('`ember test`', function() {
   it('uses parallel configuration and merges coverage when merge-coverage command is issued', function() {
     this.timeout(100000);
     expect(dir('coverage')).to.not.exist;
-    fs.copySync('config/coverage-parallel.js', 'config/coverage.js');
+    fs.copySync('tests/dummy/config/coverage-parallel.js', 'tests/dummy/config/coverage.js');
     return runCommand('ember', ['exam', '--split=2', '--parallel=true'], {env: {COVERAGE: true}}).then(function() {
       expect(dir('coverage')).to.not.exist;
       return runCommand('ember', ['coverage-merge']);
