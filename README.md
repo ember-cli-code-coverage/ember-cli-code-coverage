@@ -33,7 +33,7 @@ When running with `parallel` set to true, the final reports can be merged by usi
 
 ## Configuration
 
-Configuration is optional. It should be put in a file at `config/coverage.js`. 
+Configuration is optional. It should be put in a file at `config/coverage.js` (`configPath` configuration in package.json is honored)
 
 #### Options
 
