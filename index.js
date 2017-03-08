@@ -77,7 +77,7 @@ module.exports = {
 
   testemMiddleware: function(app) {
     if (!this._isCoverageEnabled()) { return; }
-    attachMiddleware(app, { root: this.project.root, ui: this.ui });
+    attachMiddleware(app, { configPath: this.project.configPath(), root: this.project.root });
   },
 
   // Custom Methods
@@ -210,7 +210,7 @@ module.exports = {
    * @returns {Configuration} project configuration
    */
   _getConfig: function() {
-    return config(this.project.root);
+    return config(this.project.configPath());
   },
 
   /**

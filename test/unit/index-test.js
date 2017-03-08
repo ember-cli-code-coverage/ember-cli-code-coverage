@@ -80,7 +80,8 @@ describe('index.js', function() {
       };
 
       Index.project = {
-        root: '/path/to/foo-bar'
+        root: '/path/to/foo-bar',
+        configPath: sinon.stub().returns('tests/dummy/config/environment.js')
       };
     });
 
