@@ -191,8 +191,9 @@ module.exports = {
 
     var remove;
 
+    //do default exclude logic
     if (this._doesFileExistInDummyApp(relativePath)) {
-      remove = true;
+      remove = true;  //remove dummy app files by default
     } else {
       remove = !(
         this._doesFileExistInCurrentProjectApp(relativePath) ||
@@ -201,8 +202,16 @@ module.exports = {
       );
     }
 
-    return remove;
+    //do exclude logic from config
+    var shouldIncludeFile = this._getConfig('shouldIncludeFile');
+    if (typeof shouldIncludeFile === 'function') {
+      var shouldInclude = shouldIncludeFile(this.project, relativePath, !remove);
+      if (shouldInclude !== 'null') {
+        remove = !shouldInclude;
+      }
+    }
 
+    return remove;
   },
 
   /**
