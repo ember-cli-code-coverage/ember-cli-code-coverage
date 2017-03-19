@@ -43,6 +43,24 @@ module.exports = {
   fileLookup: null,
 
   // Ember Methods
+  setupPreprocessorRegistry: function(type, registry) {
+    if (!this._isCoverageEnabled()) { return; }
+
+    const buildTemplateInstrumenter = require('./lib/template-instrumenter');
+    let TemplateInstrumenter = buildTemplateInstrumenter(
+      this._parentName(),
+      this.parent.root,
+      this.registry.extensionsForType('template'),
+      this.project.isEmberCLIAddon()
+    );
+
+    registry.add('htmlbars-ast-plugin', {
+      name: "template-instrumenter",
+      plugin: TemplateInstrumenter,
+      baseDir: __dirname
+    });
+  },
+
 
   included: function(appOrAddon) {
     this._super.included.apply(this, arguments);
