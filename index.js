@@ -14,6 +14,18 @@ module.exports = {
 
   // Ember Methods
 
+  setupPreprocessorRegistry: function(type, registry) {
+    if (!this._isCoverageEnabled()) { return; }
+
+    var TemplateInstrumenter = require('./lib/template-instrumenter');
+
+    registry.add('htmlbars-ast-plugin', {
+      name: "template-instrumenter",
+      plugin: TemplateInstrumenter,
+      baseDir: __dirname
+    });
+  },
+
   included: function() {
     if (this._isCoverageEnabled() && this.parent.isEmberCLIAddon()) {
       var coveredAddon = this._findCoveredAddon();
