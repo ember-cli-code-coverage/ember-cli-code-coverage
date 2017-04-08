@@ -1,5 +1,24 @@
 # Change Log
 
+## [v0.3.12](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.12) (2017-04-08)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.11...v0.3.12)
+
+**Closed issues:**
+
+- Cannot parse async/await [\#106](https://github.com/kategengler/ember-cli-code-coverage/issues/106)
+- Produce coverage report if environment variable COVERAGE is set to true before running `ember test` [\#104](https://github.com/kategengler/ember-cli-code-coverage/issues/104)
+- readable/accurate template reports with Glimmer2? [\#96](https://github.com/kategengler/ember-cli-code-coverage/issues/96)
+- Question: option to fail a build if coverage result is below a given percentage? [\#95](https://github.com/kategengler/ember-cli-code-coverage/issues/95)
+- CI hangs when updating 0.3.8 =\> 0.3.9 [\#88](https://github.com/kategengler/ember-cli-code-coverage/issues/88)
+- new error in 0.3.7 [\#65](https://github.com/kategengler/ember-cli-code-coverage/issues/65)
+- Work with ember test --server, not with ember test [\#57](https://github.com/kategengler/ember-cli-code-coverage/issues/57)
+- How to view coverage files? [\#44](https://github.com/kategengler/ember-cli-code-coverage/issues/44)
+- Use `configPath` instead of hard-coded "config" [\#42](https://github.com/kategengler/ember-cli-code-coverage/issues/42)
+
+**Merged pull requests:**
+
+- Fixes \#42 use configPath instead of hard-coded config [\#100](https://github.com/kategengler/ember-cli-code-coverage/pull/100) ([eddie-ruva](https://github.com/eddie-ruva))
+
 ## [v0.3.11](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.11) (2017-01-19)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.10...v0.3.11)
 
