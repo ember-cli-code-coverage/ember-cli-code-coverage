@@ -63,6 +63,18 @@ module.exports = {
     return new BroccoliMergeTrees([tree, instrumentedNode], { overwrite: true });
   },
 
+  setupPreprocessorRegistry: function() {
+    var codeCoverageAddon = this;
+    function iterateAddons(addons) {
+      addons.forEach(function(addon) {
+        if (addon.isDevelopingAddon && addon.isDevelopingAddon()) {
+          addon.addons.push(codeCoverageAddon);
+        }
+      });
+    }
+    iterateAddons(this.project.addons);
+  },
+
   includedCommands: function () {
     return {
       'coverage-merge': require('./lib/coverage-merge')
@@ -146,6 +158,22 @@ module.exports = {
   },
 
   /**
+   * Check if a file exists within an in-repo addon
+   * @param {String} relativePath - path to file
+   * @returns {Boolean} whether or not the file exists within an in-app addon
+   */
+  _doesFileExistInCurrentProjectInRepoAddons: function(relativePath) {
+    relativePath = relativePath.split('/').splice(1, 0, 'addon').join('/');
+    relativePath = path.join('lib', relativePath);
+
+    if (this._existsSync(relativePath)) {
+      return true;
+    }
+
+    return this._doesTemplateFileExist(relativePath);
+  },
+
+  /**
    * Check if a template file exists within the current app/addon
    * Note: Template files are already compiled into JavaScript files so we must
    * check for the pre-compiled .hbs file
@@ -195,7 +223,8 @@ module.exports = {
       this._doesFileExistInDummyApp(relativePath) ||
       this._doesFileExistInCurrentProjectApp(relativePath) ||
       this._doesFileExistInCurrentProjectAddon(relativePath) ||
-      this._doesFileExistInCurrentProjectAddonModule(relativePath)
+      this._doesFileExistInCurrentProjectAddonModule(relativePath) ||
+      this._doesFileExistInCurrentProjectInRepoAddons(relativePath)
     );
 
     return !fileExists;
