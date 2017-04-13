@@ -68,6 +68,7 @@ module.exports = {
         if (addon.isDevelopingAddon && addon.isDevelopingAddon()) {
           addon.addons.push(codeCoverageAddon);
         }
+        iterateAddons(addon.addons);
       });
     }
     iterateAddons(this.project.addons);
