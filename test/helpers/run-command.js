@@ -1,5 +1,3 @@
-'use strict';
-
 var RSVP = require('rsvp');
 var spawn = require('child_process').spawn;
 

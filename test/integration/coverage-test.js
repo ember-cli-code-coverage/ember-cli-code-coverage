@@ -1,5 +1,3 @@
-'use strict';
-
 var fs = require('fs-extra');
 var RSVP = require('rsvp');
 var remove = RSVP.denodeify(fs.remove);
