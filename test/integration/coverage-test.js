@@ -38,6 +38,17 @@ describe('`ember test`', function() {
     });
   });
 
+  it('uses the babel instrumenter when the configuration is set', function() {
+    this.timeout(100000);
+    fs.copySync('tests/dummy/config/coverage-babel.js', 'tests/dummy/config/coverage.js');
+    return runCommand('ember', ['test'], {env: {COVERAGE: true}}).then(function() {
+      expect(file('coverage/lcov-report/index.html')).to.not.be.empty;
+      expect(file('coverage/index.html')).to.not.be.empty;
+      var summary = fs.readJSONSync('coverage/coverage-summary.json');
+      expect(summary.total.lines.pct).to.equal(100);
+    });
+  });
+
   it('uses parallel configuration and merges coverage when merge-coverage command is issued', function() {
     this.timeout(100000);
     expect(dir('coverage')).to.not.exist;
