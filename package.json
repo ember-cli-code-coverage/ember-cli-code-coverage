@@ -14,7 +14,7 @@
   },
   "repository": "kategengler/ember-cli-code-coverage",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 4"
   },
   "author": "Katie Gengler",
   "contributors": [
