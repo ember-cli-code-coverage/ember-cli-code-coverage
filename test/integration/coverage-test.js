@@ -16,7 +16,10 @@ describe('`ember test`', function() {
   });
 
   afterEach(function() {
-    return remove('tests/dummy/config/coverage.js');
+    return RSVP.all([
+      remove('tests/dummy/config/coverage.js'),
+      remove('tests/dummy/app/routes/index.js')
+    ]);
   });
 
   it('runs coverage when env var is set', function() {
@@ -41,6 +44,26 @@ describe('`ember test`', function() {
   it('uses the babel instrumenter when the configuration is set', function() {
     this.timeout(100000);
     fs.copySync('tests/dummy/config/coverage-babel.js', 'tests/dummy/config/coverage.js');
+    return runCommand('ember', ['test'], {env: {COVERAGE: true}}).then(function() {
+      expect(file('coverage/lcov-report/index.html')).to.not.be.empty;
+      expect(file('coverage/index.html')).to.not.be.empty;
+      var summary = fs.readJSONSync('coverage/coverage-summary.json');
+      expect(summary.total.lines.pct).to.equal(100);
+    });
+  });
+
+  it('works with the babel instrumenter and ES2017 async functions', function() {
+    this.timeout(100000);
+    fs.copySync('tests/dummy/config/coverage-babel.js', 'tests/dummy/config/coverage.js');
+    // We want something that will always be evaluated whenever the app starts.
+    fs.writeFileSync('tests/dummy/app/routes/index.js', `
+import Ember from 'ember';
+export default Ember.Route.extend({
+  async model() {
+    return {};
+  }
+});
+`);
     return runCommand('ember', ['test'], {env: {COVERAGE: true}}).then(function() {
       expect(file('coverage/lcov-report/index.html')).to.not.be.empty;
       expect(file('coverage/index.html')).to.not.be.empty;
