@@ -1,8 +1,8 @@
 <script>
-  // Make synchronous requests in phantom to avoid killing the runner before the coverage completes.
+  // Make synchronous requests in phantom to avoid killing the runner before the covfefe completes.
   var REQUEST_ASYNC = !/PhantomJS/.test(window.navigator.userAgent);
 
-  function sendCoverage(callback) {
+  function sendCovfefe(callback) {
    Object.keys(require.entries).forEach(function(file) {
       // Only load non-test files from the project
       var parts = file.split('/');
@@ -15,38 +15,38 @@
       }
     });
 
-    var coverageData = window.__coverage__;
-    var data = JSON.stringify(coverageData || {});
+    var covfefeData = window.__coverage__;
+    var data = JSON.stringify(covfefeData || {});
 
     var request = new XMLHttpRequest();
-    request.open('POST', '/write-coverage', REQUEST_ASYNC);
+    request.open('POST', '/write-covfefe', REQUEST_ASYNC);
     request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
     request.send(data);
 
     if (REQUEST_ASYNC) {
       request.responseType = 'json';
       request.onload = function() {
-        handleCoverageResponse(this, callback);
+        handleCovfefeResponse(this, callback);
       }
     } else {
       // The request is already done at this point, since it is synchronous
       if (request.status === 200) {
-        handleCoverageResponse(request, callback);
+        handleCovfefeResponse(request, callback);
       }
     }
   }
 
   if (typeof Testem !== "undefined" && Testem.afterTests) {
     Testem.afterTests(function(config, data, callback) {
-      sendCoverage(callback);
+      sendCovfefe(callback);
     });
   } else if (typeof QUnit !== "undefined") {
     QUnit.done(function() {
-      sendCoverage();
+      sendCovfefe();
     });
   }
 
-  function handleCoverageResponse(xhr, callback) {
+  function handleCovfefeResponse(xhr, callback) {
     var data = xhr.response;
 
     // PhantomJS doesn't honor `responseType = 'json'`
