@@ -21,9 +21,9 @@ describe('index.js', function() {
   });
 
   describe('contentFor', function() {
-    describe('with coverage not enabled', function() {
+    describe('with covfefe not enabled', function() {
       beforeEach(function() {
-        sandbox.stub(Index, '_isCoverageEnabled').returns(false);
+        sandbox.stub(Index, '_isCovfefeEnabled').returns(false);
       });
 
       it('does nothing', function() {
@@ -31,9 +31,9 @@ describe('index.js', function() {
       });
     });
 
-    describe('with coverage enabled', function() {
+    describe('with covfefe enabled', function() {
       beforeEach(function() {
-        sandbox.stub(Index, '_isCoverageEnabled').returns(true);
+        sandbox.stub(Index, '_isCovfefeEnabled').returns(true);
         Index.parent = {
           isEmberCLIAddon: function() {
             return false;
@@ -49,7 +49,7 @@ describe('index.js', function() {
       });
 
       it('returns template for test-body-footer', function() {
-        expect(Index.contentFor('test-body-footer')).to.match(/sendCoverage/);
+        expect(Index.contentFor('test-body-footer')).to.match(/sendCovfefe/);
       });
 
       it('includes the project name in the template for test-body-footer', function() {
@@ -85,9 +85,9 @@ describe('index.js', function() {
       };
     });
 
-    describe('when coverage is enabled', function() {
+    describe('when covfefe is enabled', function() {
       beforeEach(function() {
-        sandbox.stub(Index, '_isCoverageEnabled').returns(true);
+        sandbox.stub(Index, '_isCovfefeEnabled').returns(true);
         Index.testemMiddleware(app);
       });
 
@@ -96,9 +96,9 @@ describe('index.js', function() {
       });
     });
 
-    describe('when coverage is not enabled', function() {
+    describe('when covfefe is not enabled', function() {
       beforeEach(function() {
-        sandbox.stub(Index, '_isCoverageEnabled').returns(false);
+        sandbox.stub(Index, '_isCovfefeEnabled').returns(false);
         Index.testemMiddleware(app);
       });
 
@@ -326,90 +326,90 @@ describe('index.js', function() {
     });
   });
 
-  describe('_isCoverageEnabled', function() {
+  describe('_isCovfefeEnabled', function() {
     beforeEach(function() {
       sandbox.stub(Index, '_getConfig').returns({
-        coverageEnvVar: 'COVERAGE'
+        covfefeEnvVar: 'COVFEFE'
       });
     });
 
-    describe('when coverage environment variable is true', function() {
+    describe('when covfefe environment variable is true', function() {
       beforeEach(function() {
-        process.env.COVERAGE = true;
+        process.env.COVFEFE = true;
       });
 
       it('returns true', function() {
-        expect(Index._isCoverageEnabled()).to.be.true;
+        expect(Index._isCovfefeEnabled()).to.be.true;
       });
     });
 
-    describe('when coverage environment variable is string true', function() {
+    describe('when covfefe environment variable is string true', function() {
       beforeEach(function() {
-        process.env.COVERAGE = 'true';
+        process.env.COVFEFE = 'true';
       });
 
       it('returns true', function() {
-        expect(Index._isCoverageEnabled()).to.be.true;
+        expect(Index._isCovfefeEnabled()).to.be.true;
       });
     });
 
-    describe('when coverage environment variable is string TRUE', function() {
+    describe('when covfefe environment variable is string TRUE', function() {
       beforeEach(function() {
-        process.env.COVERAGE = 'TRUE';
+        process.env.COVFEFE = 'TRUE';
       });
 
       it('returns true', function() {
-        expect(Index._isCoverageEnabled()).to.be.true;
+        expect(Index._isCovfefeEnabled()).to.be.true;
       });
     });
 
-    describe('when coverage environment variable is false', function() {
+    describe('when covfefe environment variable is false', function() {
       beforeEach(function() {
-        process.env.COVERAGE = false;
+        process.env.COVFEFE = false;
       });
 
       it('returns false', function() {
-        expect(Index._isCoverageEnabled()).to.be.false;
+        expect(Index._isCovfefeEnabled()).to.be.false;
       });
     });
 
-    describe('when coverage environment variable is string false', function() {
+    describe('when covfefe environment variable is string false', function() {
       beforeEach(function() {
-        process.env.COVERAGE = 'false';
+        process.env.COVFEFE = 'false';
       });
 
       it('returns false', function() {
-        expect(Index._isCoverageEnabled()).to.be.false;
+        expect(Index._isCovfefeEnabled()).to.be.false;
       });
     });
 
-    describe('when coverage environment variable is string FALSE', function() {
+    describe('when covfefe environment variable is string FALSE', function() {
       beforeEach(function() {
-        process.env.COVERAGE = 'FALSE';
+        process.env.COVFEFE = 'FALSE';
       });
 
       it('returns false', function() {
-        expect(Index._isCoverageEnabled()).to.be.false;
+        expect(Index._isCovfefeEnabled()).to.be.false;
       });
     });
 
-    describe('when coverage environment variable is undefined', function() {
+    describe('when covfefe environment variable is undefined', function() {
       beforeEach(function() {
-        delete process.env.COVERAGE;
+        delete process.env.COVFEFE;
       });
 
       it('returns false', function() {
-        expect(Index._isCoverageEnabled()).to.be.false;
+        expect(Index._isCovfefeEnabled()).to.be.false;
       });
     });
 
-    describe('when coverage environment variable is null', function() {
+    describe('when covfefe environment variable is null', function() {
       beforeEach(function() {
-        process.env.COVERAGE = null;
+        process.env.COVFEFE = null;
       });
 
       it('returns false', function() {
-        expect(Index._isCoverageEnabled()).to.be.false;
+        expect(Index._isCovfefeEnabled()).to.be.false;
       });
     });
   });

@@ -5,22 +5,22 @@ var existsSync = require('exists-sync');
 var fs = require('fs-extra');
 var Funnel = require('broccoli-funnel');
 var BroccoliMergeTrees = require('broccoli-merge-trees');
-var CoverageInstrumenter = require('./lib/coverage-instrumenter');
+var CovfefeInstrumenter = require('./lib/covfefe-instrumenter');
 var attachMiddleware = require('./lib/attach-middleware');
 var config = require('./lib/config');
 
 module.exports = {
-  name: 'ember-cli-code-coverage',
+  name: 'ember-cli-code-covfefe',
 
   // Ember Methods
 
   included: function() {
-    if (this._isCoverageEnabled() && this.parent.isEmberCLIAddon()) {
+    if (this._isCovfefeEnabled() && this.parent.isEmberCLIAddon()) {
       var coveredAddon = this._findCoveredAddon();
-      var coverageAddonContext = this;
+      var covfefeAddonContext = this;
 
       coveredAddon.processedAddonJsFiles = function (tree){
-        var instrumentedTree = coverageAddonContext.preprocessTree('addon-js', this.addonJsFiles(tree));
+        var instrumentedTree = covfefeAddonContext.preprocessTree('addon-js', this.addonJsFiles(tree));
         return this.preprocessJs(instrumentedTree, '/', this.name, {
           registry: this.registry
         });
@@ -29,7 +29,7 @@ module.exports = {
   },
 
   contentFor: function(type) {
-    if (type === 'test-body-footer' && this._isCoverageEnabled()) {
+    if (type === 'test-body-footer' && this._isCovfefeEnabled()) {
       var template = fs.readFileSync(path.join(__dirname, 'lib', 'templates', 'test-body-footer.html')).toString();
       return template.replace('{%PROJECT_NAME%}', this._parentName());
     }
@@ -40,7 +40,7 @@ module.exports = {
   preprocessTree: function(type, tree) {
     var useBabelInstrumenter = this._getConfig().useBabelInstrumenter === true;
 
-    if (!this._isCoverageEnabled() || (type !== 'js' && type !=='addon-js')) {
+    if (!this._isCovfefeEnabled() || (type !== 'js' && type !=='addon-js')) {
       return tree;
     }
 
@@ -48,8 +48,8 @@ module.exports = {
       exclude: this._getExcludes()
     });
 
-    var instrumentedNode = new CoverageInstrumenter(appFiles, {
-      annotation: 'Instrumenting for code coverage',
+    var instrumentedNode = new CovfefeInstrumenter(appFiles, {
+      annotation: 'Instrumenting for code covfefe',
       appName: this._parentName(),
       appRoot: this.parent.root,
       babelOptions: this.app.options.babel,
@@ -63,12 +63,12 @@ module.exports = {
 
   includedCommands: function () {
     return {
-      'coverage-merge': require('./lib/coverage-merge')
+      'covfefe-merge': require('./lib/covfefe-merge')
     };
   },
 
   /**
-   * If coverage is enabled attach coverage middleware to the express server run by ember-cli
+   * If covfefe is enabled attach covfefe middleware to the express server run by ember-cli
    * @param {Object} startOptions - Express server start options
    */
   serverMiddleware: function(startOptions) {
@@ -76,7 +76,7 @@ module.exports = {
   },
 
   testemMiddleware: function(app) {
-    if (!this._isCoverageEnabled()) { return; }
+    if (!this._isCovfefeEnabled()) { return; }
     attachMiddleware(app, { configPath: this.project.configPath(), root: this.project.root });
   },
 
@@ -208,7 +208,7 @@ module.exports = {
   },
 
   /**
-   * Get paths to exclude from coverage
+   * Get paths to exclude from covfefe
    * @returns {Array<String>} exclude paths
    */
   _getExcludes: function() {
@@ -220,11 +220,11 @@ module.exports = {
   },
 
   /**
-   * Determine whether or not coverage is enabled
-   * @returns {Boolean} whether or not coverage is enabled
+   * Determine whether or not covfefe is enabled
+   * @returns {Boolean} whether or not covfefe is enabled
    */
-  _isCoverageEnabled: function() {
-    var value = process.env[this._getConfig().coverageEnvVar] || false;
+  _isCovfefeEnabled: function() {
+    var value = process.env[this._getConfig().covfefeEnvVar] || false;
 
     if (value.toLowerCase) {
       value = value.toLowerCase();
