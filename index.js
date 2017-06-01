@@ -39,6 +39,7 @@ module.exports = {
 
   preprocessTree: function(type, tree) {
     var useBabelInstrumenter = this._getConfig().useBabelInstrumenter === true;
+    var babelPlugins = this._getConfig().babelPlugins;
 
     if (!this._isCoverageEnabled() || (type !== 'js' && type !=='addon-js')) {
       return tree;
@@ -55,6 +56,7 @@ module.exports = {
       babelOptions: this.app.options.babel,
       isAddon: this.project.isEmberCLIAddon(),
       useBabelInstrumenter: useBabelInstrumenter,
+      babelPlugins: babelPlugins,
       templateExtensions: this.registry.extensionsForType('template')
     });
 

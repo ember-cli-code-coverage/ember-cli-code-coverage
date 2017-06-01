@@ -2,7 +2,8 @@
 module.exports = {
   root: true,
   parserOptions: {
-    ecmaVersion: 6
+    ecmaVersion: 2017,
+    sourceType: 'module'
   },
   extends: 'eslint:recommended',
   env: {
@@ -18,9 +19,6 @@ module.exports = {
 
     // JSHint "proto", disabled due to warnings
     'no-proto': 0,
-
-    // JSHint "strict"
-    'strict': [2, 'global'],
 
     // JSHint "indent", disabled due to warnings
     'indent': [2, 2, {

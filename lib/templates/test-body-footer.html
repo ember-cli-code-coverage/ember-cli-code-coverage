@@ -44,10 +44,16 @@
     QUnit.done(function() {
       sendCoverage();
     });
+  } else if (typeof Mocha !== "undefined" && typeof after !== "undefined") {
+    after(function(done) {
+      sendCoverage(done);
+    });
+  } else {
+    console.warn('No testing framework found for ember-cli-code-coverage to integrate with.');
   }
 
   function handleCoverageResponse(xhr, callback) {
-    var data = xhr.response;
+    var data = xhr.response || xhr.responseText;
 
     // PhantomJS doesn't honor `responseType = 'json'`
     if (typeof data === 'string') {
