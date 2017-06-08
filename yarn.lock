@@ -2390,9 +2390,9 @@ ember-disable-prototype-extensions@^1.1.0:
   dependencies:
     ember-cli-babel "^5.1.5"
 
-ember-exam@0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/ember-exam/-/ember-exam-0.6.0.tgz#665a5c14c80daeea0d85b1beb62b7f5c2e29d14f"
+ember-exam@0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/ember-exam/-/ember-exam-0.7.0.tgz#740ad0e4df3cb6cff8e83ae9c98536d8bb04332a"
   dependencies:
     chalk "^1.1.3"
     cli-table2 "^0.2.0"
