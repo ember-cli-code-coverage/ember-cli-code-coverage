@@ -47,6 +47,8 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
 
 - `useBabelInstrumenter`: Defaults to `false`. Whether or not to use Babel instrumenter instead of default instrumenter. The Babel instrumenter is useful when you are using features of ESNext as it uses your Babel configuration defined in `ember-cli-build.js`.
 
+- `babelPlugins`: Defaults to `['babel-plugin-transform-async-to-generator']`. When using the Babel instrumenter, this specifies a set of additional plugins to pass to the parser. Use this to parse specific ESNext features you may be using in your app (decorators, for instance).
+
 - `parallel`: Defaults to `false`. Should be set to true if parallel testing is being used, for example when using [ember-exam](https://github.com/trentmwillis/ember-exam) with the `--parallel` flag. This will generate the coverage reports in directories suffixed with `_<random_string>` to avoid overwriting other threads reports. These reports can be joined by using the `ember coverage-merge` command.
 
 #### Example
