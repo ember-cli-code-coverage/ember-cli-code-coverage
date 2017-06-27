@@ -1,5 +1,22 @@
 # Change Log
 
+## [v0.4.0](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.4.0) (2017-06-27)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.12...v0.4.0)
+
+**Closed issues:**
+
+- Enabling coverage with enabled Babel plugin fails [\#123](https://github.com/kategengler/ember-cli-code-coverage/issues/123)
+- ember coverage-merge does not merge the coverage report generated from different test type say unit and functional? [\#122](https://github.com/kategengler/ember-cli-code-coverage/issues/122)
+- Running with `COVERAGE=true` generates additional tests that fail [\#114](https://github.com/kategengler/ember-cli-code-coverage/issues/114)
+- Plugin fails with ember-cli 2.13 and useBabelInstrumenter: true [\#111](https://github.com/kategengler/ember-cli-code-coverage/issues/111)
+- Parsing async/await crashes [\#108](https://github.com/kategengler/ember-cli-code-coverage/issues/108)
+- Coverage failing with version 0.3.6 and up [\#75](https://github.com/kategengler/ember-cli-code-coverage/issues/75)
+
+**Merged pull requests:**
+
+- \[Fixes \#111\] Update dependencies, get babel instrumenter working [\#115](https://github.com/kategengler/ember-cli-code-coverage/pull/115) ([paulcwatts](https://github.com/paulcwatts))
+- Improve ES7 error message [\#109](https://github.com/kategengler/ember-cli-code-coverage/pull/109) ([sukima](https://github.com/sukima))
+
 ## [v0.3.12](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.12) (2017-04-08)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.11...v0.3.12)
 
