@@ -1,5 +1,12 @@
 # Change Log
 
+## [v0.4.1](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.4.1) (2017-06-27)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.4.0...v0.4.1)
+
+**Merged pull requests:**
+
+- Fixes the hanging issue of \#88 [\#90](https://github.com/kategengler/ember-cli-code-coverage/pull/90) ([ming-codes](https://github.com/ming-codes))
+
 ## [v0.4.0](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.4.0) (2017-06-27)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.12...v0.4.0)
 
