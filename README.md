@@ -49,7 +49,7 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
 
 - `babelPlugins`: Defaults to `['babel-plugin-transform-async-to-generator']`. When using the Babel instrumenter, this specifies a set of additional plugins to pass to the parser. Use this to parse specific ESNext features you may be using in your app (decorators, for instance).
 
-- `parallel`: Defaults to `false`. Should be set to true if parallel testing is being used, for example when using [ember-exam](https://github.com/trentmwillis/ember-exam) with the `--parallel` flag. This will generate the coverage reports in directories suffixed with `_<random_string>` to avoid overwriting other threads reports. These reports can be joined by using the `ember coverage-merge` command.
+- `parallel`: Defaults to `false`. Should be set to true if parallel testing is being used, for example when using [ember-exam](https://github.com/trentmwillis/ember-exam) with the `--parallel` flag. This will generate the coverage reports in directories suffixed with `_<random_string>` to avoid overwriting other threads reports. These reports can be joined by using the `ember coverage-merge` command (potentially as part of the [posttest hook](https://docs.npmjs.com/misc/scripts) in your `package.json`).
 
 #### Example
 ```js
