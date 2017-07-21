@@ -54,7 +54,7 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
 #### Example
 ```js
   module.exports = {
-    coverageEnvVar: 'COV'
+    coverageEnvVar: 'COVFEFE'
   }
 ```
 
