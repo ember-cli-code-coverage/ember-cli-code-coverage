@@ -3,7 +3,7 @@
   var REQUEST_ASYNC = !/PhantomJS/.test(window.navigator.userAgent);
 
   function sendCoverage(callback) {
-   Object.keys(require.entries).forEach(function(file) {
+   Object.keys(require.entries || {}).forEach(function(file) {
       // Only load non-test files from the project
       var parts = file.split('/');
       if (parts[0] === '{%PROJECT_NAME%}' && parts[1] !== 'tests') {
