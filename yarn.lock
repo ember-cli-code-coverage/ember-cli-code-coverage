@@ -2291,14 +2291,13 @@ ember-cli-get-dependency-depth@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ember-cli-get-dependency-depth/-/ember-cli-get-dependency-depth-1.0.0.tgz#e0afecf82a2d52f00f28ab468295281aec368d11"
 
-ember-cli-htmlbars-inline-precompile@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/ember-cli-htmlbars-inline-precompile/-/ember-cli-htmlbars-inline-precompile-1.0.2.tgz#5b544f664d5d9911f08cd979c5f70d8cb0ca2add"
+ember-cli-htmlbars-inline-precompile@^0.4.0:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/ember-cli-htmlbars-inline-precompile/-/ember-cli-htmlbars-inline-precompile-0.4.4.tgz#24a7617152630d64a047e553b72e00963a4f8d73"
   dependencies:
     babel-plugin-htmlbars-inline-precompile "^0.2.3"
     ember-cli-version-checker "^2.0.0"
     hash-for-dep "^1.0.2"
-    heimdalljs-logger "^0.1.7"
     silent-error "^1.1.0"
 
 ember-cli-htmlbars@^2.0.3:
