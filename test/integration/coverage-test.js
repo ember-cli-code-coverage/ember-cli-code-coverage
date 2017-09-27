@@ -98,7 +98,7 @@ export default Ember.Route.extend({
     var coverageFolder = 'coverage/abc/easy-as/123';
 
     expect(dir(coverageFolder)).to.not.exist;
-    fs.copySync('config/coverage-nested-folder.js', 'config/coverage.js');
+    fs.copySync('tests/dummy/config/coverage-nested-folder.js', 'tests/dummy/config/coverage.js');
     return runCommand('ember', ['exam', '--split=2', '--parallel=true'], {env: {COVERAGE: true}}).then(function() {
       expect(dir(coverageFolder)).to.not.exist;
       return runCommand('ember', ['coverage-merge']);
