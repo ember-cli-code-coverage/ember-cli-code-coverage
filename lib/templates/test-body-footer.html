@@ -46,6 +46,12 @@
     QUnit.done(function() {
       sendCoverage();
     });
+  } else if (typeof Mocha !== "undefined" && typeof after !== "undefined") {
+    after(function(done) {
+      sendCoverage(done);
+    });
+  } else {
+    console.warn('No testing framework found for ember-cli-code-coverage to integrate with.');
   }
 
   function handleCoverageResponse(xhr, callback) {
