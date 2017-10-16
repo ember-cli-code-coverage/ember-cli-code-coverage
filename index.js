@@ -191,14 +191,29 @@ module.exports = {
       relativePath = relativePath.replace('dummy/', '');
     }
 
-    var fileExists = (
-      this._doesFileExistInDummyApp(relativePath) ||
-      this._doesFileExistInCurrentProjectApp(relativePath) ||
-      this._doesFileExistInCurrentProjectAddon(relativePath) ||
-      this._doesFileExistInCurrentProjectAddonModule(relativePath)
-    );
+    var remove;
 
-    return !fileExists;
+    //do default exclude logic
+    if (this._doesFileExistInDummyApp(relativePath)) {
+      remove = true;  //remove dummy app files by default
+    } else {
+      remove = !(
+        this._doesFileExistInCurrentProjectApp(relativePath) ||
+        this._doesFileExistInCurrentProjectAddon(relativePath) ||
+        this._doesFileExistInCurrentProjectAddonModule(relativePath)
+      );
+    }
+
+    //do exclude logic from config
+    var shouldIncludeFile = this._getConfig('shouldIncludeFile');
+    if (typeof shouldIncludeFile === 'function') {
+      var shouldInclude = shouldIncludeFile(this.project, relativePath, !remove);
+      if (shouldInclude !== 'null') {
+        remove = !shouldInclude;
+      }
+    }
+
+    return remove;
   },
 
   /**
