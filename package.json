@@ -1,7 +1,7 @@
 {
-  "name": "ember-cli-code-coverage",
+  "name": "ember-cli-code-coverage-ts",
   "version": "0.4.2",
-  "description": "Code coverage for ember projects using Istanbul",
+  "description": "Code coverage for ember projects using Istanbul with TS support",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -12,7 +12,7 @@
     "lint": "eslint config lib test tests *.js",
     "test": "npm run-script lint && npm run-script node-test"
   },
-  "repository": "kategengler/ember-cli-code-coverage",
+  "repository": "igbopie/ember-cli-code-coverage",
   "engines": {
     "node": ">= 4"
   },
@@ -20,7 +20,8 @@
   "contributors": [
     "Matthew Dahl (https://github.com/sandersky)",
     "Robert Jackson (https://github.com/rwjblue)",
-    "Robert Wagner (https://github.com/rwwagner90)"
+    "Robert Wagner (https://github.com/rwwagner90)",
+    "Ignacio Bona (https://github.com/igbopie)"
   ],
   "license": "MIT",
   "devDependencies": {
