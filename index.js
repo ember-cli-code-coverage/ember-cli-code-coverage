@@ -37,10 +37,7 @@ module.exports = {
     return undefined;
   },
 
-  preprocessTree: function(type, tree) {
-    var useBabelInstrumenter = this._getConfig().useBabelInstrumenter === true;
-    var babelPlugins = this._getConfig().babelPlugins;
-
+  postprocessTree: function(type, tree) {
     if (!this._isCoverageEnabled() || (type !== 'js' && type !=='addon-js')) {
       return tree;
     }
@@ -53,10 +50,7 @@ module.exports = {
       annotation: 'Instrumenting for code coverage',
       appName: this._parentName(),
       appRoot: this.parent.root,
-      babelOptions: this.app.options.babel,
       isAddon: this.project.isEmberCLIAddon(),
-      useBabelInstrumenter: useBabelInstrumenter,
-      babelPlugins: babelPlugins,
       templateExtensions: this.registry.extensionsForType('template')
     });
 
@@ -93,6 +87,11 @@ module.exports = {
     relativePath = path.join('app', relativePath);
 
     if (this._existsSync(relativePath)) {
+      return true;
+    }
+
+    // support for ts files
+    if (this._existsSync(relativePath.replace(/\.js/, '.ts'))) {
       return true;
     }
 

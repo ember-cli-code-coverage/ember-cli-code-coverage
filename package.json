@@ -55,8 +55,6 @@
     "ember-addon"
   ],
   "dependencies": {
-    "babel-core": "^6.24.1",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
     "body-parser": "^1.15.0",
     "broccoli-filter": "^1.2.3",
     "broccoli-funnel": "^1.0.1",
