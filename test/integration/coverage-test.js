@@ -31,7 +31,7 @@ describe('`ember test`', function() {
       expect(file('coverage/lcov-report/index.html')).to.not.be.empty;
       expect(file('coverage/index.html')).to.not.be.empty;
       var summary = fs.readJSONSync('coverage/coverage-summary.json');
-      expect(summary.total.lines.pct).to.equal(100);
+      expect(summary.total.lines.pct).to.equal(50);
     });
   });
 
@@ -43,74 +43,18 @@ describe('`ember test`', function() {
     });
   });
 
-  it('uses the babel instrumenter when the configuration is set', function() {
-    this.timeout(100000);
-    fs.copySync('tests/dummy/config/coverage-babel.js', 'tests/dummy/config/coverage.js');
-    return runCommand('ember', ['test'], {env: {COVERAGE: true}}).then(function() {
-      expect(file('coverage/lcov-report/index.html')).to.not.be.empty;
-      expect(file('coverage/index.html')).to.not.be.empty;
-      var summary = fs.readJSONSync('coverage/coverage-summary.json');
-      expect(summary.total.lines.pct).to.equal(100);
-    });
-  });
-
-  it('works with the babel instrumenter and ES2017 async functions', function() {
-    this.timeout(100000);
-    fs.copySync('tests/dummy/config/coverage-babel.js', 'tests/dummy/config/coverage.js');
-    // We want something that will always be evaluated whenever the app starts.
-    fs.writeFileSync('tests/dummy/app/routes/index.js', `
-import Ember from 'ember';
-export default Ember.Route.extend({
-  async model() {
-    return {};
-  }
-});
-`);
-    return runCommand('ember', ['test'], {env: {COVERAGE: true}}).then(function() {
-      expect(file('coverage/lcov-report/index.html')).to.not.be.empty;
-      expect(file('coverage/index.html')).to.not.be.empty;
-      var summary = fs.readJSONSync('coverage/coverage-summary.json');
-      expect(summary.total.lines.pct).to.equal(100);
-    });
-  });
-
-  it('uses parallel configuration and merges coverage when merge-coverage command is issued', function() {
+  it('merges coverage when tests are run in parallel', function() {
     this.timeout(100000);
     expect(dir('coverage')).to.not.exist;
-    fs.copySync('tests/dummy/config/coverage-parallel.js', 'tests/dummy/config/coverage.js');
     return runCommand('ember', ['exam', '--split=2', '--parallel=true'], {env: {COVERAGE: true}}).then(function() {
-      expect(dir('coverage')).to.not.exist;
-      return runCommand('ember', ['coverage-merge']);
-    }).then(function() {
       expect(file('coverage/lcov-report/index.html')).to.not.be.empty;
       expect(file('coverage/index.html')).to.not.be.empty;
       var summary = fs.readJSONSync('coverage/coverage-summary.json');
-      expect(summary.total.lines.pct).to.equal(100);
-      expect(summary['tests/dummy/app/resolver.js'].lines.pct).to.equal(100);
-      expect(summary['tests/dummy/app/app.js'].lines.pct).to.equal(100);
-      expect(summary['tests/dummy/app/router.js'].lines.pct).to.equal(100);
-      expect(summary['tests/dummy/app/templates/application.hbs'].lines.pct).to.equal(100);
-    });
-  });
-
-  it('uses nested coverageFolder and parallel configuration and run merge-coverage', function() {
-    this.timeout(100000);
-    var coverageFolder = 'coverage/abc/easy-as/123';
-
-    expect(dir(coverageFolder)).to.not.exist;
-    fs.copySync('tests/dummy/config/coverage-nested-folder.js', 'tests/dummy/config/coverage.js');
-    return runCommand('ember', ['exam', '--split=2', '--parallel=true'], {env: {COVERAGE: true}}).then(function() {
-      expect(dir(coverageFolder)).to.not.exist;
-      return runCommand('ember', ['coverage-merge']);
-    }).then(function() {
-      expect(file(coverageFolder + '/lcov-report/index.html')).to.not.be.empty;
-      expect(file(coverageFolder + '/index.html')).to.not.be.empty;
-      var summary = fs.readJSONSync(coverageFolder + '/coverage-summary.json');
-      expect(summary.total.lines.pct).to.equal(100);
-      expect(summary['tests/dummy/app/resolver.js'].lines.pct).to.equal(100);
-      expect(summary['tests/dummy/app/app.js'].lines.pct).to.equal(100);
-      expect(summary['tests/dummy/app/router.js'].lines.pct).to.equal(100);
-      expect(summary['tests/dummy/app/templates/application.hbs'].lines.pct).to.equal(100);
+      expect(summary.total.lines.pct).to.equal(50);
+      expect(summary['addon/components/my-covered-component.js'].lines.pct).to.equal(100);
+      expect(summary['addon/components/my-uncovered-component.js'].lines.pct).to.equal(0);
+      expect(summary['addon/utils/my-covered-util.js'].lines.pct).to.equal(100);
+      expect(summary['addon/utils/my-uncovered-util.js'].lines.pct).to.equal(0);
     });
   });
 });

@@ -34,12 +34,13 @@ describe('index.js', function() {
     describe('with coverage enabled', function() {
       beforeEach(function() {
         sandbox.stub(Index, '_isCoverageEnabled').returns(true);
+        Index.fileLookup = {
+          'some/module.js': 'some/file.js',
+          'some/other/module.js': 'some/other/file.js'
+        };
         Index.parent = {
           isEmberCLIAddon: function() {
             return false;
-          },
-          name: function() {
-            return 'fake-app';
           }
         };
       });
@@ -53,7 +54,7 @@ describe('index.js', function() {
       });
 
       it('includes the project name in the template for test-body-footer', function() {
-        expect(Index.contentFor('test-body-footer')).to.match(/fake-app/);
+        expect(Index.contentFor('test-body-footer')).to.match(/`["some/module", "some/other/module"`]/);
       });
     });
   });
@@ -108,164 +109,8 @@ describe('index.js', function() {
     });
   });
 
-  describe('_doesFileExistInCurrentProjectApp', function() {
-    describe('when file exists', function() {
-      var result;
-
-      beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(true);
-        result = Index._doesFileExistInCurrentProjectApp('adapters/application.js');
-      });
-
-      it('uses path to file in app', function() {
-        expect(Index._existsSync.lastCall.args).to.eql(['app/adapters/application.js']);
-      });
-
-      it('returns true', function() {
-        expect(result).to.be.true;
-      });
-    });
-
-    describe('when file does not exist', function() {
-      beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(false);
-      });
-
-      describe('when template file exists', function() {
-        var result;
-
-        beforeEach(function() {
-          sandbox.stub(Index, '_doesTemplateFileExist').returns(true);
-          result = Index._doesFileExistInCurrentProjectApp('templates/application.js');
-        });
-
-        it('uses path to file in app', function() {
-          expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.js']);
-        });
-
-        it('returns true', function() {
-          expect(result).to.be.true;
-        });
-      });
-
-      describe('when template file does not exist', function() {
-        var result;
-
-        beforeEach(function() {
-          sandbox.stub(Index, '_doesTemplateFileExist').returns(false);
-          result = Index._doesFileExistInCurrentProjectApp('templates/application.js');
-        });
-
-        it('uses path to file in app', function() {
-          expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.js']);
-        });
-
-        it('returns false', function() {
-          expect(result).to.be.false;
-        });
-      });
-    });
-  });
-
-  describe('_doesFileExistInDummyApp', function() {
-    describe('when file exists', function() {
-      var result;
-
-      beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(true);
-        result = Index._doesFileExistInDummyApp('adapters/application.js');
-      });
-
-      it('uses path to file in dummy app', function() {
-        expect(Index._existsSync.lastCall.args).to.eql(['tests/dummy/app/adapters/application.js']);
-      });
-
-      it('returns true', function() {
-        expect(result).to.be.true;
-      });
-    });
-
-    describe('when file does not exist', function() {
-      beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(false);
-      });
-
-      describe('when template file exists', function() {
-        var result;
-
-        beforeEach(function() {
-          sandbox.stub(Index, '_doesTemplateFileExist').returns(true);
-          result = Index._doesFileExistInDummyApp('templates/application.js');
-        });
-
-        it('uses path to file in dummy app', function() {
-          expect(Index._existsSync.lastCall.args).to.eql(['tests/dummy/app/templates/application.js']);
-        });
-
-        it('returns true', function() {
-          expect(result).to.be.true;
-        });
-      });
-
-      describe('when template file does not exist', function() {
-        var result;
-
-        beforeEach(function() {
-          sandbox.stub(Index, '_doesTemplateFileExist').returns(false);
-          result = Index._doesFileExistInDummyApp('templates/application.js');
-        });
-
-        it('uses path to file in dummy app', function() {
-          expect(Index._existsSync.lastCall.args).to.eql(['tests/dummy/app/templates/application.js']);
-        });
-
-        it('returns false', function() {
-          expect(result).to.be.false;
-        });
-      });
-    });
-  });
-
-  describe('_doesTemplateFileExist', function() {
-    describe('when file exists', function() {
-      var result;
-
-      beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(true);
-        result = Index._doesTemplateFileExist('app/templates/application.js');
-      });
-
-      it('uses path to hbs file', function() {
-        expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.hbs']);
-      });
-
-      it('returns true', function() {
-        expect(result).to.be.true;
-      });
-    });
-
-    describe('when file does not exist', function() {
-      var result;
-
-      beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(false);
-        result = Index._doesTemplateFileExist('app/templates/application.js');
-      });
-
-      it('uses path to hbs file', function() {
-        expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.hbs']);
-      });
-
-      it('returns false', function() {
-        expect(result).to.be.false;
-      });
-    });
-  });
-
   describe('_getExcludes', function() {
     beforeEach(function() {
-      sandbox.stub(Index, '_filterOutAddonFiles').returns('test');
-
       Index.parent = {
         isEmberCLIAddon: function() {
           return false;
@@ -284,17 +129,10 @@ describe('index.js', function() {
         results = Index._getExcludes();
       });
 
-      it('returns one exclude', function() {
-        expect(results.length).to.equal(1);
+      it('returns no excludes', function() {
+        expect(results.length).to.equal(0);
       });
 
-      it('exclude is a function', function() {
-        expect(typeof results[0]).to.equal('function');
-      });
-
-      it('exclude is expected function', function() {
-        expect(results[0]()).to.equal('test');
-      });
     });
 
     describe('when excludes defined in config', function() {
@@ -308,21 +146,14 @@ describe('index.js', function() {
         results = Index._getExcludes();
       });
 
-      it('returns two excludes', function() {
-        expect(results.length).to.equal(2);
+      it('returns one exclude', function() {
+        expect(results.length).to.equal(1);
       });
 
-      it('first exclude is from config', function() {
+      it('exclude is from config', function() {
         expect(results[0]).to.eql('*/mirage/**/*');
       });
 
-      it('second exclude is a function', function() {
-        expect(typeof results[1]).to.equal('function');
-      });
-
-      it('second exclude is expected function', function() {
-        expect(results[1]()).to.equal('test');
-      });
     });
   });
 

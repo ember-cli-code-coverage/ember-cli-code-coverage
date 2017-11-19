@@ -3,17 +3,7 @@
   var REQUEST_ASYNC = !/PhantomJS/.test(window.navigator.userAgent);
 
   function sendCoverage(callback) {
-   Object.keys(require.entries).forEach(function(file) {
-      // Only load non-test files from the project
-      var parts = file.split('/');
-      if (parts[0] === '{%PROJECT_NAME%}' && parts[1] !== 'tests') {
-        try {
-          require(file);
-        } catch(error) {
-          console.warn('Error occurred while evaluating `' + file + '`: ' + error.message + '\n' + error.stack);
-        }
-      }
-    });
+   {%ENTRIES%}.forEach(require);
 
     var coverageData = window.__coverage__;
     var data = JSON.stringify(coverageData || {});
@@ -62,16 +52,16 @@
       data = JSON.parse(data);
     }
 
-    if (!data || !data.total) {
+    if (!data) {
       return;
     }
 
     var results = ['Lines', 'Branches', 'Functions', 'Statements']
       .filter(function (name) {
-        return data.total[name.toLowerCase()]
+        return name.toLowerCase();
       })
       .map(function (name) {
-        return name + ' ' + data.total[name.toLowerCase()].pct + '%'
+        return name + ' ' + data[name.toLowerCase()].pct + '%'
       });
 
     var resultsText = document.createTextNode(results.join(' | '));

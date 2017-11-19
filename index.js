@@ -5,6 +5,7 @@ var existsSync = require('exists-sync');
 var fs = require('fs-extra');
 var attachMiddleware = require('./lib/attach-middleware');
 var config = require('./lib/config');
+var walkSync = require('walk-sync');
 const VersionChecker = require('ember-cli-version-checker');
 
 function requireBabelPlugin(pluginName) {
@@ -21,32 +22,29 @@ function requireBabelPlugin(pluginName) {
   return plugin;
 }
 
+function getPlugins(options) {
+  options.babel = options.babel || {};
+  return options.babel.plugins = options.babel.plugins || [];
+}
+
+const EXT_RE = /\.[^\.]+$/;
+
 module.exports = {
   name: 'ember-cli-code-coverage',
 
+  /**
+   * Look up the file path from an ember module path.
+   * @type {Object<String, String>}
+   */
+  fileLookup: null,
+
   // Ember Methods
-
-  _getParentOptions: function() {
-    let options;
-
-    // The parent can either be an Addon or a Project. If it's the project,
-    // we want to use the app instead.
-    if (this.parent !== this.project) {
-      // the parent is an addon, so use its options directly
-      options = this.parent.options = this.parent.options || {};
-    } else {
-      // the parent is the project, and therefore we need to use
-      // the app.options instead
-      options = this.app.options = this.app.options || {};
-    }
-
-    return options;
-  },
 
   included: function() {
     this._super.included.apply(this, arguments);
 
-    let parentOptions = this._getParentOptions();
+    let options;
+    this.fileLookup = {};
 
     if (!this._registeredWithBabel && this._isCoverageEnabled()) {
       let checker = new VersionChecker(this.parent).for('ember-cli-babel', 'npm');
@@ -54,13 +52,28 @@ module.exports = {
       if (checker.satisfies('>= 6.0.0')) {
         const IstanbulPlugin = requireBabelPlugin('babel-plugin-istanbul');
 
-        // Create babel options if they do not exist
-        parentOptions.babel = parentOptions.babel || {};
+        const appDir = path.join(this.project.root, 'app');
+        if (fs.existsSync(appDir)) {
+          // Instrument the app directory.
+          let prefix = this.parent.isEmberCLIAddon() ? 'dummy' : this.parent.name();
+          options = this.app.options = this.app.options || {};
+          getPlugins(options).push([IstanbulPlugin, {
+            exclude: this._getExcludes(),
+            include: this._getIncludes(appDir, 'app', prefix)
+          }]);
+        }
 
-        // Create and pull off babel plugins
-        let plugins = parentOptions.babel.plugins = parentOptions.babel.plugins || [];
+        const addonDir = path.join(this.project.root, 'addon');
+        if (fs.existsSync(addonDir)) {
+          // Instrument the addon directory.
+          let addon = this._findCoveredAddon();
+          options = addon.options = addon.options || {};
+          getPlugins(options).push([IstanbulPlugin, {
+            exclude: this._getExcludes(),
+            include: this._getIncludes(addonDir, 'addon', addon.name)
+          }]);
+        }
 
-        plugins.push([IstanbulPlugin, { exclude: this._getExcludes() }]);
       } else {
         this.project.ui.writeWarnLine(
           'ember-cli-code-coverage: You are using an unsupported ember-cli-babel version,' +
@@ -75,16 +88,10 @@ module.exports = {
   contentFor: function(type) {
     if (type === 'test-body-footer' && this._isCoverageEnabled()) {
       var template = fs.readFileSync(path.join(__dirname, 'lib', 'templates', 'test-body-footer.html')).toString();
-      return template.replace('{%PROJECT_NAME%}', this._parentName());
+      return template.replace('{%ENTRIES%}', JSON.stringify(Object.keys(this.fileLookup).map(file => file.replace(EXT_RE, ''))));
     }
 
     return undefined;
-  },
-
-  includedCommands: function () {
-    return {
-      'coverage-merge': require('./lib/coverage-merge')
-    };
   },
 
   /**
@@ -97,7 +104,11 @@ module.exports = {
 
   testemMiddleware: function(app) {
     if (!this._isCoverageEnabled()) { return; }
-    attachMiddleware(app, { configPath: this.project.configPath(), root: this.project.root });
+    attachMiddleware(app, {
+      configPath: this.project.configPath(),
+      root: this.project.root,
+      fileLookup: this.fileLookup
+    });
   },
 
   // Custom Methods
@@ -120,13 +131,25 @@ module.exports = {
   },
 
   /**
+   * Get paths to include for coverage
+   * @returns {Array<String>} include paths
+   */
+  _getIncludes: function(dir, folder, prefix) {
+    let globs = this.registry.extensionsForType('js').map((extension) => `**/*.${extension}`);
+
+    return walkSync(dir, { directories: false, globs }).map(file => {
+      let module = prefix + '/' + file.replace(EXT_RE, '.js');
+      this.fileLookup[module] = path.join(folder, file);
+      return module;
+    });
+  },
+
+  /**
    * Get paths to exclude from coverage
    * @returns {Array<String>} exclude paths
    */
   _getExcludes: function() {
-    var excludes = this._getConfig().excludes || [];
-
-    return excludes;
+    return this._getConfig().excludes || [];
   },
 
   /**
