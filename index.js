@@ -37,7 +37,7 @@ module.exports = {
     return undefined;
   },
 
-  preprocessTree: function(type, tree) {
+  postprocessTree: function(type, tree) {
     var useBabelInstrumenter = this._getConfig().useBabelInstrumenter === true;
     var babelPlugins = this._getConfig().babelPlugins;
 
@@ -57,7 +57,7 @@ module.exports = {
       isAddon: this.project.isEmberCLIAddon(),
       useBabelInstrumenter: useBabelInstrumenter,
       babelPlugins: babelPlugins,
-      templateExtensions: this.registry.extensionsForType('template')
+      preCompiledExtensions: this.registry.extensionsForType('template').concat(this._getTranspiledSourceExtensions())
     });
 
     return new BroccoliMergeTrees([tree, instrumentedNode], { overwrite: true });
@@ -96,7 +96,18 @@ module.exports = {
       return true;
     }
 
-    return this._doesTemplateFileExist(relativePath);
+    return this._doesTemplateFileExist(relativePath) || this._doesFileExistAsTranspilationSource(relativePath);
+  },
+
+  /**
+   * Checks if a file exists as a transpiled source specified in the addon configuration
+   * @param {String} relativePath path to file within current app
+   * @returns {Boolean} whether or not the file exists within the current app
+   * @private
+   */
+  _doesFileExistAsTranspilationSource: function(relativePath) {
+    var sourceExtensions = this._getTranspiledSourceExtensions();
+    return this._doesPrecompiledFileExist(relativePath, sourceExtensions);
   },
 
   /**
@@ -146,6 +157,29 @@ module.exports = {
   },
 
   /**
+   * Checks if a file exists as a precompilation source
+   * @param {String} relativePath path to the file within the current app/addon
+   * @param {String[]} extensions list of precompilation extensions that the file may exist as
+   * @returns {boolean} Flag indicating whether the file exists with any of the precompilation extensions
+   * @private
+   */
+  _doesPrecompiledFileExist: function(relativePath, extensions) {
+    var sourceExtensions = Array.isArray(extensions) ? extensions : [];
+    var extension, extensionPath;
+
+    for (var i = 0, len = sourceExtensions.length; i < len; i++) {
+      extension = sourceExtensions[i];
+      extensionPath = relativePath.replace('.js', '.' + extension);
+
+      if (this._existsSync(extensionPath)) {
+        return true;
+      }
+    }
+
+    return false;
+  },
+
+  /**
    * Check if a template file exists within the current app/addon
    * Note: Template files are already compiled into JavaScript files so we must
    * check for the pre-compiled .hbs file
@@ -154,17 +188,7 @@ module.exports = {
    */
   _doesTemplateFileExist: function(relativePath) {
     var templateExtensions = this.registry.extensionsForType('template');
-
-    for (var i = 0, len = templateExtensions.length; i < len; i++) {
-      var extension = templateExtensions[i];
-      var extensionPath = relativePath.replace('.js', '.' + extension);
-
-      if (this._existsSync(extensionPath)) {
-        return true;
-      }
-    }
-
-    return false;
+    return this._doesPrecompiledFileExist(relativePath, templateExtensions);
   },
 
   /**
@@ -207,6 +231,15 @@ module.exports = {
    */
   _getConfig: function() {
     return config(this.project.configPath());
+  },
+
+  /**
+   * Gets the list of transpiled source extensions from the host configuration options
+   * @returns {String[]} list of transpilation source extensions if provided
+   * @private
+   */
+  _getTranspiledSourceExtensions: function() {
+    return this._getConfig().includeTranspiledSources || [];
   },
 
   /**
