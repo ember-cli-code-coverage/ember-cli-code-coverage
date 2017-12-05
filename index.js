@@ -53,10 +53,7 @@ module.exports = {
       annotation: 'Instrumenting for code coverage',
       appName: this._parentName(),
       appRoot: this.parent.root,
-      babelOptions: this.app.options.babel,
       isAddon: this.project.isEmberCLIAddon(),
-      useBabelInstrumenter: useBabelInstrumenter,
-      babelPlugins: babelPlugins,
       preCompiledExtensions: this.registry.extensionsForType('template').concat(this._getTranspiledSourceExtensions())
     });
 

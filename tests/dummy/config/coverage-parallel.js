@@ -1,5 +1,6 @@
 /* eslint-env node */
 
 module.exports = {
-  parallel: true
+  parallel: true,
+  sourceMaps: 'inline'
 };
