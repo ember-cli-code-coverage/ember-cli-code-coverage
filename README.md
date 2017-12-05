@@ -51,6 +51,8 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
 
 - `parallel`: Defaults to `false`. Should be set to true if parallel testing is being used, for example when using [ember-exam](https://github.com/trentmwillis/ember-exam) with the `--parallel` flag. This will generate the coverage reports in directories suffixed with `_<random_string>` to avoid overwriting other threads reports. These reports can be joined by using the `ember coverage-merge` command (potentially as part of the [posttest hook](https://docs.npmjs.com/misc/scripts) in your `package.json`).
 
+- `includeTranspiledSources`: Defaults to `[]`. Should include a list of transpiled JavaScript source extensions to be included in the coverage instrumentation. However, the compiled output is what will be instrumented so this will only be a close approximation of the source coverage.
+
 #### Example
 ```js
   module.exports = {
