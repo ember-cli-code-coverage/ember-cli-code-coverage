@@ -231,12 +231,12 @@ describe('index.js', function() {
       var result;
 
       beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(true);
+        sandbox.stub(Index, '_doesPrecompiledFileExist').returns(true);
         result = Index._doesTemplateFileExist('app/templates/application.js');
       });
 
       it('uses path to hbs file', function() {
-        expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.hbs']);
+        expect(Index._doesPrecompiledFileExist.lastCall.args).to.eql(['app/templates/application.js', ['hbs']]);
       });
 
       it('returns true', function() {
@@ -248,16 +248,137 @@ describe('index.js', function() {
       var result;
 
       beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(false);
+        sandbox.stub(Index, '_doesPrecompiledFileExist').returns(false);
         result = Index._doesTemplateFileExist('app/templates/application.js');
       });
 
       it('uses path to hbs file', function() {
-        expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.hbs']);
+        expect(Index._doesPrecompiledFileExist.lastCall.args).to.eql(['app/templates/application.js', ['hbs']]);
       });
 
       it('returns false', function() {
         expect(result).to.be.false;
+      });
+    });
+  });
+
+  describe('_doesFileExistAsTranspilationSource', function () {
+    describe('when file exists', function() {
+      var result;
+
+      beforeEach(function() {
+        sandbox.stub(Index, '_doesPrecompiledFileExist').returns(true);
+        sandbox.stub(Index, '_getTranspiledSourceExtensions').returns(['ts']);
+        result = Index._doesFileExistAsTranspilationSource('app/utils/file.js');
+      });
+
+      it('uses path to ts file', function() {
+        expect(Index._doesPrecompiledFileExist.lastCall.args).to.eql(['app/utils/file.js', ['ts']]);
+      });
+
+      it('returns true', function() {
+        expect(result).to.be.true;
+      });
+    });
+
+    describe('when file does not exist', function() {
+      var result;
+
+      beforeEach(function() {
+        sandbox.stub(Index, '_doesPrecompiledFileExist').returns(false);
+        sandbox.stub(Index, '_getTranspiledSourceExtensions').returns(['ts']);
+        result = Index._doesFileExistAsTranspilationSource('app/utils/file.js');
+      });
+
+      it('uses path to ts file', function() {
+        expect(Index._doesPrecompiledFileExist.lastCall.args).to.eql(['app/utils/file.js', ['ts']]);
+      });
+
+      it('returns true', function() {
+        expect(result).to.be.false;
+      });
+    });
+  });
+
+  describe('_doesPrecompiledFileExist', function() {
+    describe('when file is not precompiled', function() {
+      var result;
+      beforeEach(function() {
+        sandbox.stub(Index, '_existsSync').returns(false);
+        result = Index._doesPrecompiledFileExist('app/utils/file.js');
+      });
+
+      it('should not check if a file exists', function() {
+        expect(Index._existsSync).not.to.have.been.called;
+      });
+
+      it('returns true', function() {
+        expect(result).to.be.false;
+      });
+    });
+
+    describe('when precompiled file exists', function() {
+      var result;
+
+      beforeEach(function() {
+        sandbox.stub(Index, '_existsSync').returns(true);
+        result = Index._doesPrecompiledFileExist('app/utils/file.js', ['ts']);
+      });
+
+      it('uses path to ts file', function() {
+        expect(Index._existsSync.lastCall.args).to.eql(['app/utils/file.ts']);
+      });
+
+      it('returns true', function() {
+        expect(result).to.be.true;
+      });
+    });
+
+    describe('when precompiled file does not exist', function() {
+      var result;
+
+      beforeEach(function() {
+        sandbox.stub(Index, '_existsSync').returns(false);
+        result = Index._doesPrecompiledFileExist('app/utils/file.js', ['ts']);
+      });
+
+      it('uses path to ts file', function() {
+        expect(Index._existsSync.lastCall.args).to.eql(['app/utils/file.ts']);
+      });
+
+      it('returns false', function() {
+        expect(result).to.be.false;
+      });
+    });
+  });
+
+  describe('_getTranspiledSourceExtensions', function() {
+    describe('when includeTranspiledSources not defined in config', function() {
+      var results;
+
+      beforeEach(function() {
+        sandbox.stub(Index, '_getConfig').returns({});
+        results = Index._getTranspiledSourceExtensions();
+      });
+
+      it('return no extensions', function() {
+        expect(results.length).to.equal(0);
+      });
+    });
+
+    describe('when _getTranspiledSourceExtensions is defined in config', function() {
+      var results;
+
+      beforeEach(function() {
+        sandbox.stub(Index, '_getConfig').returns({
+          includeTranspiledSources: ['ts', 'coffee']
+        });
+
+        results = Index._getTranspiledSourceExtensions();
+      });
+
+      it('returns two extensions', function() {
+        expect(results.length).to.equal(2);
       });
     });
   });
