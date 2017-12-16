@@ -22,12 +22,6 @@ function requireBabelPlugin(pluginName) {
   return plugin;
 }
 
-function getPlugins(appOrAddon) {
-  let options = appOrAddon.options = appOrAddon.options || {};
-  options.babel = options.babel || {};
-  return options.babel.plugins = options.babel.plugins || [];
-}
-
 const EXT_RE = /\.[^\.]+$/;
 
 module.exports = {
@@ -50,30 +44,11 @@ module.exports = {
       let checker = new VersionChecker(this.parent).for('ember-cli-babel', 'npm');
 
       if (checker.satisfies('>= 6.0.0')) {
-        const IstanbulPlugin = requireBabelPlugin('babel-plugin-istanbul');
-        const excludes = this._getExcludes();
+        this.IstanbulPlugin = requireBabelPlugin('babel-plugin-istanbul');
 
-        const appDir = path.join(this.project.root, 'app');
-        if (fs.existsSync(appDir)) {
-          // Instrument the app directory.
-          let prefix = this.parent.isEmberCLIAddon() ? 'dummy' : this.parent.name();
-
-          getPlugins(this.app).push([IstanbulPlugin, {
-            exclude: excludes,
-            include: this._getIncludes(appDir, 'app', prefix)
-          }]);
-        }
-
-        const addonDir = path.join(this.project.root, 'addon');
-        if (fs.existsSync(addonDir)) {
-          // Instrument the addon directory.
-          let addon = this._findCoveredAddon();
-          getPlugins(addon).push([IstanbulPlugin, {
-            exclude: excludes,
-            include: this._getIncludes(addonDir, 'addon', addon.name)
-          }]);
-        }
-
+        this._instrumentAppDirectory();
+        this._instrumentAddonDirectory();
+        this._instrumentInRepoAddonDirectories();
       } else {
         this.project.ui.writeWarnLine(
           'ember-cli-code-coverage: You are using an unsupported ember-cli-babel version,' +
@@ -114,6 +89,62 @@ module.exports = {
   // Custom Methods
 
   /**
+   * Instrument the "app" directory.
+   */
+  _instrumentAppDirectory() {
+    const dir = path.join(this.project.root, 'app');
+    let prefix = this.parent.isEmberCLIAddon() ? 'dummy' : this.parent.name();
+    this._instrumentDirectory(this.app, dir, prefix);
+  },
+
+  /**
+   * Instrument the "addon" directory.
+   */
+  _instrumentAddonDirectory() {
+    let addon = this._findCoveredAddon();
+    if (addon) {
+      const dir = path.join(this.project.root, 'addon');
+      this._instrumentDirectory(addon, dir, addon.name);
+    }
+  },
+
+  /**
+   * Instrument the in-repo-addon directories in "lib/*".
+   */
+  _instrumentInRepoAddonDirectories() {
+    const pkg = this.project.pkg;
+    if (pkg['ember-addon'] && pkg['ember-addon'].paths) {
+      pkg['ember-addon'].paths.forEach((addonPath) => {
+        let addonName = path.basename(addonPath);
+        let addonDir = path.join(this.project.root, addonPath);
+        let addon = this.project.findAddonByName(addonName);
+        let addonAppDir = path.join(addonDir, 'app');
+        let addonAddonDir = path.join(addonDir, 'addon');
+        this._instrumentDirectory(this.app, addonAppDir, this.parent.name());
+        this._instrumentDirectory(addon, addonAddonDir, addonName);
+      });
+    }
+  },
+
+  /**
+   * Instrument directory helper.
+   * @param {Object} appOrAddon The Ember app or addon config.
+   * @param {String} dir The path to the Ember app or addon.
+   * @param {String} modulePrefix The prefix to the ember module ('app', 'dummy' or the name of the addon).
+   */
+  _instrumentDirectory(appOrAddon, dir, modulePrefix) {
+    if (fs.existsSync(dir)) {
+      let options = appOrAddon.options = appOrAddon.options || {};
+      options.babel = options.babel || {};
+      let plugins = options.babel.plugins = options.babel.plugins || [];
+      plugins.push([this.IstanbulPlugin, {
+        exclude: this._getExcludes(),
+        include: this._getIncludes(dir, modulePrefix)
+      }]);
+    }
+  },
+
+  /**
    * Thin wrapper around exists-sync that allows easy stubbing in tests
    * @param {String} path - path to check existence of
    * @returns {Boolean} whether or not path exists
@@ -132,14 +163,17 @@ module.exports = {
 
   /**
    * Get paths to include for coverage
+   * @param {String} dir Include all js files under this directory.
+   * @param {String} prefix The prefix to the ember module ('app', 'dummy' or the name of the addon).
    * @returns {Array<String>} include paths
    */
-  _getIncludes: function(dir, folder, prefix) {
+  _getIncludes: function(dir, prefix) {
+    let dirname = path.relative(this.project.root, dir);
     let globs = this.registry.extensionsForType('js').map((extension) => `**/*.${extension}`);
 
     return walkSync(dir, { directories: false, globs }).map(file => {
       let module = prefix + '/' + file.replace(EXT_RE, '.js');
-      this.fileLookup[module] = path.join(folder, file);
+      this.fileLookup[module] = path.join(dirname, file);
       return module;
     });
   },
