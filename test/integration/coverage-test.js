@@ -51,10 +51,21 @@ describe('`ember test`', function() {
       expect(file('coverage/index.html')).to.not.be.empty;
       var summary = fs.readJSONSync('coverage/coverage-summary.json');
       expect(summary.total.lines.pct).to.equal(50);
-      expect(summary['addon/components/my-covered-component.js'].lines.pct).to.equal(100);
-      expect(summary['addon/components/my-uncovered-component.js'].lines.pct).to.equal(0);
       expect(summary['addon/utils/my-covered-util.js'].lines.pct).to.equal(100);
       expect(summary['addon/utils/my-uncovered-util.js'].lines.pct).to.equal(0);
     });
   });
+
+  it('excludes files when the configuration is set', function() {
+    this.timeout(100000);
+    fs.copySync('tests/dummy/config/coverage-excludes.js', 'tests/dummy/config/coverage.js');
+    return runCommand('ember', ['test'], {env: {COVERAGE: true}}).then(function() {
+      expect(file('coverage/lcov-report/index.html')).to.not.be.empty;
+      expect(file('coverage/index.html')).to.not.be.empty;
+      var summary = fs.readJSONSync('coverage/coverage-summary.json');
+      console.log(summary);
+      expect(summary.total.lines.pct).to.equal(100);
+    });
+  });
+
 });

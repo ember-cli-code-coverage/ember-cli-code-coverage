@@ -5,7 +5,7 @@ var existsSync = require('exists-sync');
 var fs = require('fs-extra');
 var attachMiddleware = require('./lib/attach-middleware');
 var config = require('./lib/config');
-var walkSync = require('walk-sync');
+const walkSync = require('walk-sync');
 const VersionChecker = require('ember-cli-version-checker');
 
 function requireBabelPlugin(pluginName) {
@@ -22,7 +22,8 @@ function requireBabelPlugin(pluginName) {
   return plugin;
 }
 
-function getPlugins(options) {
+function getPlugins(appOrAddon) {
+  let options = appOrAddon.options = appOrAddon.options || {};
   options.babel = options.babel || {};
   return options.babel.plugins = options.babel.plugins || [];
 }
@@ -43,7 +44,6 @@ module.exports = {
   included: function() {
     this._super.included.apply(this, arguments);
 
-    let options;
     this.fileLookup = {};
 
     if (!this._registeredWithBabel && this._isCoverageEnabled()) {
@@ -51,14 +51,15 @@ module.exports = {
 
       if (checker.satisfies('>= 6.0.0')) {
         const IstanbulPlugin = requireBabelPlugin('babel-plugin-istanbul');
+        const excludes = this._getExcludes();
 
         const appDir = path.join(this.project.root, 'app');
         if (fs.existsSync(appDir)) {
           // Instrument the app directory.
           let prefix = this.parent.isEmberCLIAddon() ? 'dummy' : this.parent.name();
-          options = this.app.options = this.app.options || {};
-          getPlugins(options).push([IstanbulPlugin, {
-            exclude: this._getExcludes(),
+
+          getPlugins(this.app).push([IstanbulPlugin, {
+            exclude: excludes,
             include: this._getIncludes(appDir, 'app', prefix)
           }]);
         }
@@ -67,9 +68,8 @@ module.exports = {
         if (fs.existsSync(addonDir)) {
           // Instrument the addon directory.
           let addon = this._findCoveredAddon();
-          options = addon.options = addon.options || {};
-          getPlugins(options).push([IstanbulPlugin, {
-            exclude: this._getExcludes(),
+          getPlugins(addon).push([IstanbulPlugin, {
+            exclude: excludes,
             include: this._getIncludes(addonDir, 'addon', addon.name)
           }]);
         }
