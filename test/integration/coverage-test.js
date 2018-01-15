@@ -43,19 +43,6 @@ describe('`ember test`', function() {
     });
   });
 
-  it('merges coverage when tests are run in parallel', function() {
-    this.timeout(100000);
-    expect(dir('coverage')).to.not.exist;
-    return runCommand('ember', ['exam', '--split=2', '--parallel=true'], {env: {COVERAGE: true}}).then(function() {
-      expect(file('coverage/lcov-report/index.html')).to.not.be.empty;
-      expect(file('coverage/index.html')).to.not.be.empty;
-      var summary = fs.readJSONSync('coverage/coverage-summary.json');
-      expect(summary.total.lines.pct).to.equal(50);
-      expect(summary['addon/utils/my-covered-util.js'].lines.pct).to.equal(100);
-      expect(summary['addon/utils/my-uncovered-util.js'].lines.pct).to.equal(0);
-    });
-  });
-
   it('excludes files when the configuration is set', function() {
     this.timeout(100000);
     fs.copySync('tests/dummy/config/coverage-excludes.js', 'tests/dummy/config/coverage.js');
@@ -67,4 +54,35 @@ describe('`ember test`', function() {
     });
   });
 
+  it('uses parallel configuration and merges coverage when merge-coverage command is issued', function() {
+    this.timeout(100000);
+    expect(dir('coverage')).to.not.exist;
+    fs.copySync('tests/dummy/config/coverage-parallel.js', 'tests/dummy/config/coverage.js');
+    return runCommand('ember', ['exam', '--split=2', '--parallel=true'], {env: {COVERAGE: true}}).then(function() {
+      expect(dir('coverage')).to.not.exist;
+      return runCommand('ember', ['coverage-merge']);
+    }).then(function() {
+      expect(file('coverage/lcov-report/index.html')).to.not.be.empty;
+      expect(file('coverage/index.html')).to.not.be.empty;
+      var summary = fs.readJSONSync('coverage/coverage-summary.json');
+      expect(summary.total.lines.pct).to.equal(50);
+    });
+  });
+
+  it('uses nested coverageFolder and parallel configuration and run merge-coverage', function() {
+    this.timeout(100000);
+    var coverageFolder = 'coverage/abc/easy-as/123';
+
+    expect(dir(coverageFolder)).to.not.exist;
+    fs.copySync('tests/dummy/config/coverage-nested-folder.js', 'tests/dummy/config/coverage.js');
+    return runCommand('ember', ['exam', '--split=2', '--parallel=true'], {env: {COVERAGE: true}}).then(function() {
+      expect(dir(coverageFolder)).to.not.exist;
+      return runCommand('ember', ['coverage-merge']);
+    }).then(function() {
+      expect(file(coverageFolder + '/lcov-report/index.html')).to.not.be.empty;
+      expect(file(coverageFolder + '/index.html')).to.not.be.empty;
+      var summary = fs.readJSONSync(coverageFolder + '/coverage-summary.json');
+      expect(summary.total.lines.pct).to.equal(50);
+    });
+  });
 });

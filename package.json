@@ -65,6 +65,7 @@
     "extend": "^3.0.0",
     "fs-extra": "^0.26.7",
     "istanbul-api": "^1.1.14",
+    "node-dir": "^0.1.16",
     "rsvp": "^3.2.1"
   },
   "ember-addon": {
