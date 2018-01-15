@@ -22,6 +22,7 @@ function requireBabelPlugin(pluginName) {
   return plugin;
 }
 
+// Regular expression to extract the file extension from a path.
 const EXT_RE = /\.[^\.]+$/;
 
 module.exports = {
@@ -94,7 +95,7 @@ module.exports = {
 
   treeFor() {
     // Only include test fixtures when testing the addon.
-    if (this.app.env === 'test' && this._parentName() === this.name) {
+    if (this._parentName() === this.name) {
       return this._super.treeFor.apply(this, arguments);
     }
   },
