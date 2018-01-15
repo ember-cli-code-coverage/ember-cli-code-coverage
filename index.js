@@ -92,6 +92,13 @@ module.exports = {
     });
   },
 
+  treeFor() {
+    // Only include test fixtures when testing the addon.
+    if (this.app.env === 'test' && this._parentName() === this.name) {
+      return this._super.treeFor.apply(this, arguments);
+    }
+  },
+
   // Custom Methods
 
   /**
