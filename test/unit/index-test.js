@@ -3,6 +3,8 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
 var Index = require('../../index.js');
+var path = require('path');
+
 describe('index.js', function() {
   var sandbox;
 
@@ -11,9 +13,11 @@ describe('index.js', function() {
 
     Index.registry = {
       extensionsForType: function() {
-        return ['hbs'];
+        return ['js'];
       }
     };
+    Index.parent = Index.project = Index.app = Index.IstanbulPlugin = null;
+    sandbox.stub(Index, 'fileLookup', {});
   });
 
   afterEach(function() {
@@ -105,6 +109,28 @@ describe('index.js', function() {
 
       it('does not add POST endpoint to app', function() {
         expect(app.post.callCount).to.equal(0);
+      });
+    });
+  });
+
+  describe('_getIncludes', function() {
+    beforeEach(function() {
+      sandbox.stub(Index, 'project', { root: process.cwd() });
+    });
+
+    it('gets files to include from the app directory', function() {
+      Index._getIncludes('app', 'my-app');
+      expect(Index.fileLookup).to.deep.equal({
+        'my-app/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
+        'my-app/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js'
+      });
+    });
+
+    it('gets files to include from the addon directory', function() {
+      Index._getIncludes('addon', 'my-addon');
+      expect(Index.fileLookup).to.deep.equal({
+        'my-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
+        'my-addon/utils/my-uncovered-util.js': 'addon/utils/my-uncovered-util.js'
       });
     });
   });
@@ -303,4 +329,216 @@ describe('index.js', function() {
       expect(result.name).to.equal('my-addon');
     });
   });
+
+  describe('_instrumentDirectory', function() {
+    beforeEach(function() {
+      sandbox.stub(Index, 'IstanbulPlugin', 'istanbul');
+      sandbox.stub(Index, '_getExcludes').returns([]);
+      sandbox.stub(Index, 'project', { root: process.cwd() });
+      sandbox.stub(Index, 'parent', {
+        name() { return 'my-app' },
+      });
+      sandbox.stub(Index, 'app', {});
+    });
+
+    describe('_instrumentAppDirectory', function() {
+
+      describe('for an app', function() {
+        beforeEach(function() {
+          sandbox.stub(Index, 'parent', {
+            name() { return 'my-app' },
+            isEmberCLIAddon() { return false }
+          });
+        });
+
+        it('instruments the app directory', function() {
+          Index._instrumentAppDirectory();
+          expect(Index.fileLookup).to.deep.equal({
+            'my-app/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
+            'my-app/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js'
+          });
+          expect(Index.app).to.deep.equal({
+            options: {
+              babel: {
+                plugins: [
+                  [
+                    'istanbul',
+                    {
+                      exclude: [],
+                      include: [
+                        'my-app/utils/my-covered-util.js',
+                        'my-app/utils/my-uncovered-util.js'
+                      ]
+                    }
+                  ]
+                ]
+              }
+            }
+          });
+        });
+      });
+
+      describe('for an addon', function() {
+        beforeEach(function() {
+          sandbox.stub(Index, 'parent', {
+            name() { return 'my-app' },
+            isEmberCLIAddon() { return true }
+          });
+        });
+
+        it('instruments the app directory', function() {
+          Index._instrumentAppDirectory();
+          expect(Index.fileLookup).to.deep.equal({
+            'dummy/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
+            'dummy/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js'
+          });
+          expect(Index.app).to.deep.equal({
+            options: {
+              babel: {
+                plugins: [
+                  [
+                    'istanbul',
+                    {
+                      exclude: [],
+                      include: [
+                        'dummy/utils/my-covered-util.js',
+                        'dummy/utils/my-uncovered-util.js'
+                      ]
+                    }
+                  ]
+                ]
+              }
+            }
+          });
+        });
+      });
+
+    });
+
+    describe('_instrumentAddonDirectory', function() {
+
+      describe('for an app', function() {
+        beforeEach(function() {
+          sandbox.stub(Index, '_findCoveredAddon').returns(null);
+          sandbox.spy(Index, '_instrumentDirectory');
+        });
+
+        it('does not instrument the addon directory', function() {
+          Index._instrumentAddonDirectory();
+          sinon.assert.notCalled(Index._instrumentDirectory);
+        });
+      });
+
+      describe('for an addon', function() {
+        let addon = {
+          name: 'my-addon'
+        };
+
+        beforeEach(function() {
+          sandbox.stub(Index, '_findCoveredAddon').returns(addon);
+        });
+
+        afterEach(function() {
+          addon = null;
+        });
+
+        it('instruments the addon directory', function() {
+          Index._instrumentAddonDirectory();
+          expect(Index.fileLookup).to.deep.equal({
+            'my-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
+            'my-addon/utils/my-uncovered-util.js': 'addon/utils/my-uncovered-util.js'
+          });
+          expect(addon).to.deep.equal({
+            name: 'my-addon',
+            options: {
+              babel: {
+                plugins: [
+                  [
+                    'istanbul',
+                    {
+                      exclude: [],
+                      include: [
+                        'my-addon/utils/my-covered-util.js',
+                        'my-addon/utils/my-uncovered-util.js'
+                      ]
+                    }
+                  ]
+                ]
+              }
+            }
+          });
+        });
+      });
+
+    });
+
+    describe('_instrumentInRepoAddonDirectories', function() {
+
+      describe('for an app with no inrepo addons', function() {
+        beforeEach(function() {
+          sandbox.stub(Index, 'project', { pkg: { } });
+          sandbox.spy(Index, '_instrumentDirectory');
+        });
+
+        it('does not instrument any inrepo addon directories', function() {
+          Index._instrumentInRepoAddonDirectories();
+          sinon.assert.notCalled(Index._instrumentDirectory);
+        });
+      });
+
+      describe('for an app with an inrepo addon', function() {
+        let addon = {};
+
+        beforeEach(function() {
+          sandbox.stub(path, 'basename').returns('my-inrepo-addon');
+          sandbox.stub(Index, 'project', {
+            pkg: {
+              'ember-addon': {
+                paths: [
+                  ''
+                ]
+              }
+            },
+            root: process.cwd(),
+            findAddonByName() { return addon; }
+          });
+        });
+
+        afterEach(function() {
+          addon = null;
+        });
+
+        it('instruments the inrepo addon', function() {
+          Index._instrumentInRepoAddonDirectories();
+          expect(Index.fileLookup).to.deep.equal({
+            'my-app/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
+            'my-app/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js',
+            'my-inrepo-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
+            'my-inrepo-addon/utils/my-uncovered-util.js': 'addon/utils/my-uncovered-util.js',
+          });
+          expect(addon).to.deep.equal({
+            options: {
+              babel: {
+                plugins: [
+                  [
+                    'istanbul',
+                    {
+                      exclude: [],
+                      include: [
+                        'my-inrepo-addon/utils/my-covered-util.js',
+                        'my-inrepo-addon/utils/my-uncovered-util.js'
+                      ]
+                    }
+                  ]
+                ]
+              }
+            }
+          });
+        });
+      });
+
+    });
+
+  });
+
 });
