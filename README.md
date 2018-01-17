@@ -6,8 +6,8 @@ Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember
 * If using Mocha, Testem `>= 1.6.0` for which you need ember-cli `> 2.4.3`
 * If using Mirage you need `ember-cli-mirage >= 0.1.13`
 * If using Pretender (even as a dependency of Mirage) you need `pretender >= 0.11.0`
-* If using Mirage or Pretender, you need to [set up a passthrough for coverage to be written](#create-a-passthrough-when-intercepting-all-ajax-requests-in-tests). 
-* `ember-cli-babel >= 6.0.0` 
+* If using Mirage or Pretender, you need to [set up a passthrough for coverage to be written](#create-a-passthrough-when-intercepting-all-ajax-requests-in-tests).
+* `ember-cli-babel >= 6.0.0`
 
 
 ## Installation
@@ -34,7 +34,7 @@ When running with `parallel` set to true, the final reports can be merged by usi
 
 ## Configuration
 
-Configuration is optional. It should be put in a file at `config/coverage.js` (`configPath` configuration in package.json is honored)
+Configuration is optional. It should be put in a file at `config/coverage.js` (`configPath` configuration in package.json is honored). In addition to this you can configure Istanbul by adding a `.istanbul.yml` file to the root directory of you app (See https://github.com/gotwarlost/istanbul#configuring)
 
 #### Options
 
@@ -55,7 +55,7 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
   }
 ```
 
-## Create a passthrough when intercepting all ajax requests in tests 
+## Create a passthrough when intercepting all ajax requests in tests
 
 To work, this addon has to post coverage results back to a middleware at `/write-coverage`.
 
