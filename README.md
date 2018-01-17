@@ -34,7 +34,7 @@ When running with `parallel` set to true, the final reports can be merged by usi
 
 ## Configuration
 
-Configuration is optional. It should be put in a file at `config/coverage.js` (`configPath` configuration in package.json is honored). In addition to this you can configure Istanbul by adding a `.istanbul.yml` file to the root directory of you app (See https://github.com/gotwarlost/istanbul#configuring)
+Configuration is optional. It should be put in a file at `config/coverage.js` (`configPath` configuration in package.json is honored). In addition to this you can configure Istanbul by adding a `.istanbul.yml` file to the root directory of your app (See https://github.com/gotwarlost/istanbul#configuring)
 
 #### Options
 
