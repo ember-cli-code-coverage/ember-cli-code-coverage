@@ -50,7 +50,7 @@
     "ember-cli-htmlbars-inline-precompile": "^1.0.0",
     "ember-cli-inject-live-reload": "^1.4.1",
     "ember-cli-qunit": "^4.1.1",
-    "ember-cli-release": "^1.0.0-beta.1",
+    "ember-cli-release": "^0.2.9",
     "ember-cli-shims": "^1.2.0",
     "ember-cli-sri": "^2.1.0",
     "ember-cli-uglify": "^2.0.0",
@@ -66,9 +66,9 @@
     "eslint": "^4.16.0",
     "eslint-plugin-ember": "^5.0.0",
     "eslint-plugin-node": "^5.2.1",
-    "glob": "^7.0.3",
+    "glob": "^7.1.2",
     "loader.js": "^4.2.3",
-    "mocha": "^2.4.5",
+    "mocha": "^5.0.0",
     "sinon": "^1.17.4"
   },
   "engines": {
