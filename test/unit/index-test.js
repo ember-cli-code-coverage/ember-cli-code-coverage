@@ -3,6 +3,8 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
 var Index = require('../../index.js');
+var path = require('path');
+
 describe('index.js', function() {
   var sandbox;
 
@@ -11,9 +13,11 @@ describe('index.js', function() {
 
     Index.registry = {
       extensionsForType: function() {
-        return ['hbs'];
+        return ['js'];
       }
     };
+    Index.parent = Index.project = Index.app = Index.IstanbulPlugin = null;
+    sandbox.stub(Index, 'fileLookup', {});
   });
 
   afterEach(function() {
@@ -34,12 +38,13 @@ describe('index.js', function() {
     describe('with coverage enabled', function() {
       beforeEach(function() {
         sandbox.stub(Index, '_isCoverageEnabled').returns(true);
+        Index.fileLookup = {
+          'some/module.js': 'some/file.js',
+          'some/other/module.js': 'some/other/file.js'
+        };
         Index.parent = {
           isEmberCLIAddon: function() {
             return false;
-          },
-          name: function() {
-            return 'fake-app';
           }
         };
       });
@@ -53,7 +58,7 @@ describe('index.js', function() {
       });
 
       it('includes the project name in the template for test-body-footer', function() {
-        expect(Index.contentFor('test-body-footer')).to.match(/fake-app/);
+        expect(Index.contentFor('test-body-footer')).to.match(/`["some/module", "some/other/module"`]/);
       });
     });
   });
@@ -108,164 +113,30 @@ describe('index.js', function() {
     });
   });
 
-  describe('_doesFileExistInCurrentProjectApp', function() {
-    describe('when file exists', function() {
-      var result;
+  describe('_getIncludes', function() {
+    beforeEach(function() {
+      sandbox.stub(Index, 'project', { root: process.cwd() });
+    });
 
-      beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(true);
-        result = Index._doesFileExistInCurrentProjectApp('adapters/application.js');
-      });
-
-      it('uses path to file in app', function() {
-        expect(Index._existsSync.lastCall.args).to.eql(['app/adapters/application.js']);
-      });
-
-      it('returns true', function() {
-        expect(result).to.be.true;
+    it('gets files to include from the app directory', function() {
+      Index._getIncludes('app', 'my-app');
+      expect(Index.fileLookup).to.deep.equal({
+        'my-app/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
+        'my-app/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js'
       });
     });
 
-    describe('when file does not exist', function() {
-      beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(false);
-      });
-
-      describe('when template file exists', function() {
-        var result;
-
-        beforeEach(function() {
-          sandbox.stub(Index, '_doesTemplateFileExist').returns(true);
-          result = Index._doesFileExistInCurrentProjectApp('templates/application.js');
-        });
-
-        it('uses path to file in app', function() {
-          expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.js']);
-        });
-
-        it('returns true', function() {
-          expect(result).to.be.true;
-        });
-      });
-
-      describe('when template file does not exist', function() {
-        var result;
-
-        beforeEach(function() {
-          sandbox.stub(Index, '_doesTemplateFileExist').returns(false);
-          result = Index._doesFileExistInCurrentProjectApp('templates/application.js');
-        });
-
-        it('uses path to file in app', function() {
-          expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.js']);
-        });
-
-        it('returns false', function() {
-          expect(result).to.be.false;
-        });
-      });
-    });
-  });
-
-  describe('_doesFileExistInDummyApp', function() {
-    describe('when file exists', function() {
-      var result;
-
-      beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(true);
-        result = Index._doesFileExistInDummyApp('adapters/application.js');
-      });
-
-      it('uses path to file in dummy app', function() {
-        expect(Index._existsSync.lastCall.args).to.eql(['tests/dummy/app/adapters/application.js']);
-      });
-
-      it('returns true', function() {
-        expect(result).to.be.true;
-      });
-    });
-
-    describe('when file does not exist', function() {
-      beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(false);
-      });
-
-      describe('when template file exists', function() {
-        var result;
-
-        beforeEach(function() {
-          sandbox.stub(Index, '_doesTemplateFileExist').returns(true);
-          result = Index._doesFileExistInDummyApp('templates/application.js');
-        });
-
-        it('uses path to file in dummy app', function() {
-          expect(Index._existsSync.lastCall.args).to.eql(['tests/dummy/app/templates/application.js']);
-        });
-
-        it('returns true', function() {
-          expect(result).to.be.true;
-        });
-      });
-
-      describe('when template file does not exist', function() {
-        var result;
-
-        beforeEach(function() {
-          sandbox.stub(Index, '_doesTemplateFileExist').returns(false);
-          result = Index._doesFileExistInDummyApp('templates/application.js');
-        });
-
-        it('uses path to file in dummy app', function() {
-          expect(Index._existsSync.lastCall.args).to.eql(['tests/dummy/app/templates/application.js']);
-        });
-
-        it('returns false', function() {
-          expect(result).to.be.false;
-        });
-      });
-    });
-  });
-
-  describe('_doesTemplateFileExist', function() {
-    describe('when file exists', function() {
-      var result;
-
-      beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(true);
-        result = Index._doesTemplateFileExist('app/templates/application.js');
-      });
-
-      it('uses path to hbs file', function() {
-        expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.hbs']);
-      });
-
-      it('returns true', function() {
-        expect(result).to.be.true;
-      });
-    });
-
-    describe('when file does not exist', function() {
-      var result;
-
-      beforeEach(function() {
-        sandbox.stub(Index, '_existsSync').returns(false);
-        result = Index._doesTemplateFileExist('app/templates/application.js');
-      });
-
-      it('uses path to hbs file', function() {
-        expect(Index._existsSync.lastCall.args).to.eql(['app/templates/application.hbs']);
-      });
-
-      it('returns false', function() {
-        expect(result).to.be.false;
+    it('gets files to include from the addon directory', function() {
+      Index._getIncludes('addon', 'my-addon');
+      expect(Index.fileLookup).to.deep.equal({
+        'my-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
+        'my-addon/utils/my-uncovered-util.js': 'addon/utils/my-uncovered-util.js'
       });
     });
   });
 
   describe('_getExcludes', function() {
     beforeEach(function() {
-      sandbox.stub(Index, '_filterOutAddonFiles').returns('test');
-
       Index.parent = {
         isEmberCLIAddon: function() {
           return false;
@@ -284,17 +155,10 @@ describe('index.js', function() {
         results = Index._getExcludes();
       });
 
-      it('returns one exclude', function() {
-        expect(results.length).to.equal(1);
+      it('returns no excludes', function() {
+        expect(results.length).to.equal(0);
       });
 
-      it('exclude is a function', function() {
-        expect(typeof results[0]).to.equal('function');
-      });
-
-      it('exclude is expected function', function() {
-        expect(results[0]()).to.equal('test');
-      });
     });
 
     describe('when excludes defined in config', function() {
@@ -308,21 +172,14 @@ describe('index.js', function() {
         results = Index._getExcludes();
       });
 
-      it('returns two excludes', function() {
-        expect(results.length).to.equal(2);
+      it('returns one exclude', function() {
+        expect(results.length).to.equal(1);
       });
 
-      it('first exclude is from config', function() {
+      it('exclude is from config', function() {
         expect(results[0]).to.eql('*/mirage/**/*');
       });
 
-      it('second exclude is a function', function() {
-        expect(typeof results[1]).to.equal('function');
-      });
-
-      it('second exclude is expected function', function() {
-        expect(results[1]()).to.equal('test');
-      });
     });
   });
 
@@ -472,4 +329,216 @@ describe('index.js', function() {
       expect(result.name).to.equal('my-addon');
     });
   });
+
+  describe('_instrumentDirectory', function() {
+    beforeEach(function() {
+      sandbox.stub(Index, 'IstanbulPlugin', 'istanbul');
+      sandbox.stub(Index, '_getExcludes').returns([]);
+      sandbox.stub(Index, 'project', { root: process.cwd() });
+      sandbox.stub(Index, 'parent', {
+        name() { return 'my-app' },
+      });
+      sandbox.stub(Index, 'app', {});
+    });
+
+    describe('_instrumentAppDirectory', function() {
+
+      describe('for an app', function() {
+        beforeEach(function() {
+          sandbox.stub(Index, 'parent', {
+            name() { return 'my-app' },
+            isEmberCLIAddon() { return false }
+          });
+        });
+
+        it('instruments the app directory', function() {
+          Index._instrumentAppDirectory();
+          expect(Index.fileLookup).to.deep.equal({
+            'my-app/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
+            'my-app/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js'
+          });
+          expect(Index.app).to.deep.equal({
+            options: {
+              babel: {
+                plugins: [
+                  [
+                    'istanbul',
+                    {
+                      exclude: [],
+                      include: [
+                        'my-app/utils/my-covered-util.js',
+                        'my-app/utils/my-uncovered-util.js'
+                      ]
+                    }
+                  ]
+                ]
+              }
+            }
+          });
+        });
+      });
+
+      describe('for an addon', function() {
+        beforeEach(function() {
+          sandbox.stub(Index, 'parent', {
+            name() { return 'my-app' },
+            isEmberCLIAddon() { return true }
+          });
+        });
+
+        it('instruments the app directory', function() {
+          Index._instrumentAppDirectory();
+          expect(Index.fileLookup).to.deep.equal({
+            'dummy/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
+            'dummy/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js'
+          });
+          expect(Index.app).to.deep.equal({
+            options: {
+              babel: {
+                plugins: [
+                  [
+                    'istanbul',
+                    {
+                      exclude: [],
+                      include: [
+                        'dummy/utils/my-covered-util.js',
+                        'dummy/utils/my-uncovered-util.js'
+                      ]
+                    }
+                  ]
+                ]
+              }
+            }
+          });
+        });
+      });
+
+    });
+
+    describe('_instrumentAddonDirectory', function() {
+
+      describe('for an app', function() {
+        beforeEach(function() {
+          sandbox.stub(Index, '_findCoveredAddon').returns(null);
+          sandbox.spy(Index, '_instrumentDirectory');
+        });
+
+        it('does not instrument the addon directory', function() {
+          Index._instrumentAddonDirectory();
+          sinon.assert.notCalled(Index._instrumentDirectory);
+        });
+      });
+
+      describe('for an addon', function() {
+        let addon = {
+          name: 'my-addon'
+        };
+
+        beforeEach(function() {
+          sandbox.stub(Index, '_findCoveredAddon').returns(addon);
+        });
+
+        afterEach(function() {
+          addon = null;
+        });
+
+        it('instruments the addon directory', function() {
+          Index._instrumentAddonDirectory();
+          expect(Index.fileLookup).to.deep.equal({
+            'my-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
+            'my-addon/utils/my-uncovered-util.js': 'addon/utils/my-uncovered-util.js'
+          });
+          expect(addon).to.deep.equal({
+            name: 'my-addon',
+            options: {
+              babel: {
+                plugins: [
+                  [
+                    'istanbul',
+                    {
+                      exclude: [],
+                      include: [
+                        'my-addon/utils/my-covered-util.js',
+                        'my-addon/utils/my-uncovered-util.js'
+                      ]
+                    }
+                  ]
+                ]
+              }
+            }
+          });
+        });
+      });
+
+    });
+
+    describe('_instrumentInRepoAddonDirectories', function() {
+
+      describe('for an app with no inrepo addons', function() {
+        beforeEach(function() {
+          sandbox.stub(Index, 'project', { pkg: { } });
+          sandbox.spy(Index, '_instrumentDirectory');
+        });
+
+        it('does not instrument any inrepo addon directories', function() {
+          Index._instrumentInRepoAddonDirectories();
+          sinon.assert.notCalled(Index._instrumentDirectory);
+        });
+      });
+
+      describe('for an app with an inrepo addon', function() {
+        let addon = {};
+
+        beforeEach(function() {
+          sandbox.stub(path, 'basename').returns('my-inrepo-addon');
+          sandbox.stub(Index, 'project', {
+            pkg: {
+              'ember-addon': {
+                paths: [
+                  ''
+                ]
+              }
+            },
+            root: process.cwd(),
+            findAddonByName() { return addon; }
+          });
+        });
+
+        afterEach(function() {
+          addon = null;
+        });
+
+        it('instruments the inrepo addon', function() {
+          Index._instrumentInRepoAddonDirectories();
+          expect(Index.fileLookup).to.deep.equal({
+            'my-app/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
+            'my-app/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js',
+            'my-inrepo-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
+            'my-inrepo-addon/utils/my-uncovered-util.js': 'addon/utils/my-uncovered-util.js',
+          });
+          expect(addon).to.deep.equal({
+            options: {
+              babel: {
+                plugins: [
+                  [
+                    'istanbul',
+                    {
+                      exclude: [],
+                      include: [
+                        'my-inrepo-addon/utils/my-covered-util.js',
+                        'my-inrepo-addon/utils/my-uncovered-util.js'
+                      ]
+                    }
+                  ]
+                ]
+              }
+            }
+          });
+        });
+      });
+
+    });
+
+  });
+
 });
