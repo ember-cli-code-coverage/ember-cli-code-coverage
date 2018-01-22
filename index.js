@@ -5,6 +5,7 @@ var existsSync = require('exists-sync');
 var fs = require('fs-extra');
 var attachMiddleware = require('./lib/attach-middleware');
 var config = require('./lib/config');
+const walkSync = require('walk-sync');
 const VersionChecker = require('ember-cli-version-checker');
 
 function requireBabelPlugin(pluginName) {
@@ -21,46 +22,34 @@ function requireBabelPlugin(pluginName) {
   return plugin;
 }
 
+// Regular expression to extract the file extension from a path.
+const EXT_RE = /\.[^\.]+$/;
+
 module.exports = {
   name: 'ember-cli-code-coverage',
 
+  /**
+   * Look up the file path from an ember module path.
+   * @type {Object<String, String>}
+   */
+  fileLookup: null,
+
   // Ember Methods
-
-  _getParentOptions: function() {
-    let options;
-
-    // The parent can either be an Addon or a Project. If it's the project,
-    // we want to use the app instead.
-    if (this.parent !== this.project) {
-      // the parent is an addon, so use its options directly
-      options = this.parent.options = this.parent.options || {};
-    } else {
-      // the parent is the project, and therefore we need to use
-      // the app.options instead
-      options = this.app.options = this.app.options || {};
-    }
-
-    return options;
-  },
 
   included: function() {
     this._super.included.apply(this, arguments);
 
-    let parentOptions = this._getParentOptions();
+    this.fileLookup = {};
 
     if (!this._registeredWithBabel && this._isCoverageEnabled()) {
       let checker = new VersionChecker(this.parent).for('ember-cli-babel', 'npm');
 
       if (checker.satisfies('>= 6.0.0')) {
-        const IstanbulPlugin = requireBabelPlugin('babel-plugin-istanbul');
+        this.IstanbulPlugin = requireBabelPlugin('babel-plugin-istanbul');
 
-        // Create babel options if they do not exist
-        parentOptions.babel = parentOptions.babel || {};
-
-        // Create and pull off babel plugins
-        let plugins = parentOptions.babel.plugins = parentOptions.babel.plugins || [];
-
-        plugins.push([IstanbulPlugin, { exclude: this._getExcludes() }]);
+        this._instrumentAppDirectory();
+        this._instrumentAddonDirectory();
+        this._instrumentInRepoAddonDirectories();
       } else {
         this.project.ui.writeWarnLine(
           'ember-cli-code-coverage: You are using an unsupported ember-cli-babel version,' +
@@ -75,7 +64,7 @@ module.exports = {
   contentFor: function(type) {
     if (type === 'test-body-footer' && this._isCoverageEnabled()) {
       var template = fs.readFileSync(path.join(__dirname, 'lib', 'templates', 'test-body-footer.html')).toString();
-      return template.replace('{%PROJECT_NAME%}', this._parentName());
+      return template.replace('{%ENTRIES%}', JSON.stringify(Object.keys(this.fileLookup).map(file => file.replace(EXT_RE, ''))));
     }
 
     return undefined;
@@ -97,10 +86,77 @@ module.exports = {
 
   testemMiddleware: function(app) {
     if (!this._isCoverageEnabled()) { return; }
-    attachMiddleware(app, { configPath: this.project.configPath(), root: this.project.root });
+    attachMiddleware(app, {
+      configPath: this.project.configPath(),
+      root: this.project.root,
+      fileLookup: this.fileLookup
+    });
+  },
+
+  treeFor() {
+    // Only include test fixtures when testing the addon.
+    if (this._parentName() === this.name) {
+      return this._super.treeFor.apply(this, arguments);
+    }
   },
 
   // Custom Methods
+
+  /**
+   * Instrument the "app" directory.
+   */
+  _instrumentAppDirectory() {
+    const dir = path.join(this.project.root, 'app');
+    let prefix = this.parent.isEmberCLIAddon() ? 'dummy' : this.parent.name();
+    this._instrumentDirectory(this.app, dir, prefix);
+  },
+
+  /**
+   * Instrument the "addon" directory.
+   */
+  _instrumentAddonDirectory() {
+    let addon = this._findCoveredAddon();
+    if (addon) {
+      const dir = path.join(this.project.root, 'addon');
+      this._instrumentDirectory(addon, dir, addon.name);
+    }
+  },
+
+  /**
+   * Instrument the in-repo-addon directories in "lib/*".
+   */
+  _instrumentInRepoAddonDirectories() {
+    const pkg = this.project.pkg;
+    if (pkg['ember-addon'] && pkg['ember-addon'].paths) {
+      pkg['ember-addon'].paths.forEach((addonPath) => {
+        let addonName = path.basename(addonPath);
+        let addonDir = path.join(this.project.root, addonPath);
+        let addon = this.project.findAddonByName(addonName);
+        let addonAppDir = path.join(addonDir, 'app');
+        let addonAddonDir = path.join(addonDir, 'addon');
+        this._instrumentDirectory(this.app, addonAppDir, this.parent.name());
+        this._instrumentDirectory(addon, addonAddonDir, addonName);
+      });
+    }
+  },
+
+  /**
+   * Instrument directory helper.
+   * @param {Object} appOrAddon The Ember app or addon config.
+   * @param {String} dir The path to the Ember app or addon.
+   * @param {String} modulePrefix The prefix to the ember module ('app', 'dummy' or the name of the addon).
+   */
+  _instrumentDirectory(appOrAddon, dir, modulePrefix) {
+    if (fs.existsSync(dir)) {
+      let options = appOrAddon.options = appOrAddon.options || {};
+      options.babel = options.babel || {};
+      let plugins = options.babel.plugins = options.babel.plugins || [];
+      plugins.push([this.IstanbulPlugin, {
+        exclude: this._getExcludes(),
+        include: this._getIncludes(dir, modulePrefix)
+      }]);
+    }
+  },
 
   /**
    * Thin wrapper around exists-sync that allows easy stubbing in tests
@@ -120,13 +176,28 @@ module.exports = {
   },
 
   /**
+   * Get paths to include for coverage
+   * @param {String} dir Include all js files under this directory.
+   * @param {String} prefix The prefix to the ember module ('app', 'dummy' or the name of the addon).
+   * @returns {Array<String>} include paths
+   */
+  _getIncludes: function(dir, prefix) {
+    let dirname = path.relative(this.project.root, dir);
+    let globs = this.registry.extensionsForType('js').map((extension) => `**/*.${extension}`);
+
+    return walkSync(dir, { directories: false, globs }).map(file => {
+      let module = prefix + '/' + file.replace(EXT_RE, '.js');
+      this.fileLookup[module] = path.join(dirname, file);
+      return module;
+    });
+  },
+
+  /**
    * Get paths to exclude from coverage
    * @returns {Array<String>} exclude paths
    */
   _getExcludes: function() {
-    var excludes = this._getConfig().excludes || [];
-
-    return excludes;
+    return this._getConfig().excludes || [];
   },
 
   /**
