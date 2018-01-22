@@ -1,6 +1,13 @@
 # Change Log
 
 ## [v0.4.1](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.4.1) (2017-06-27)
+## v1.0.0-beta.0
+
+### Pull Requests
+
+- [#145](https://github.com/kategengler/ember-cli-code-coverage/pull/145)  [WIP] Refactor to use babel-plugin-istanbul cont.  *by [adamjmcgrath](https://github.com/adamjmcgrath)*
+- [#141](https://github.com/kategengler/ember-cli-code-coverage/pull/141)  [WIP] Refactor to use babel-plugin-istanbul  *by [rwjblue](https://github.com/rwjblue)*
+
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.4.0...v0.4.1)
 
 **Merged pull requests:**
