@@ -3,7 +3,13 @@
   var REQUEST_ASYNC = !/PhantomJS/.test(window.navigator.userAgent);
 
   function sendCoverage(callback) {
-   {%ENTRIES%}.forEach(require);
+    {%ENTRIES%}.forEach(function(file) {
+      try {
+        require(file);
+      } catch(error) {
+        console.warn('Error occurred while evaluating `' + file + '`: ' + error.message + '\n' + error.stack);
+      }
+    });
 
     var coverageData = window.__coverage__;
     var data = JSON.stringify(coverageData || {});
