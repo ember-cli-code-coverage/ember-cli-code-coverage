@@ -2,7 +2,7 @@
 
 var fs = require('fs-extra');
 var RSVP = require('rsvp');
-var remove = RSVP.denodeify(fs.remove);
+var rimraf = RSVP.denodeify(require('rimraf'));
 var runCommand = require('../helpers/run-command');
 var chai = require('chai');
 var expect = chai.expect;
@@ -14,13 +14,13 @@ chai.use(chaiFiles);
 
 describe('`ember test`', function() {
   beforeEach(function() {
-    return remove('coverage*');
+    return rimraf('coverage*')
   });
 
   afterEach(function() {
     return RSVP.all([
-      remove('tests/dummy/config/coverage.js'),
-      remove('tests/dummy/app/routes/index.js')
+      rimraf('tests/dummy/config/coverage.js'),
+      rimraf('tests/dummy/app/routes/index.js')
     ]);
   });
 
@@ -93,7 +93,7 @@ describe('`ember test`', function() {
     return runCommand('ember', ['test'], {env: {COVERAGE: true}}).then(function() {
       expect(dir('coverage')).to.exist;
     }).finally(function() {
-      remove('addon/error-module.js');
+      rimraf('addon/error-module.js');
     });
   });
 
