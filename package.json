@@ -30,6 +30,7 @@
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "body-parser": "^1.15.0",
     "ember-cli-babel": "^6.6.0",
+    "ember-cli-code-coverage-tests": "^0.0.0",
     "ember-cli-htmlbars": "^2.0.1",
     "ember-cli-version-checker": "^2.0.0",
     "exists-sync": "0.0.4",

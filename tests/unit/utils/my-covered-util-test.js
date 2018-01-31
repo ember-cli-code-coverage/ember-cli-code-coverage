@@ -1,4 +1,4 @@
-import myCoveredUtil from 'dummy/utils/my-covered-util';
+import myCoveredUtil from 'ember-cli-code-coverage-tests/utils/my-covered-util';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | my covered util');
