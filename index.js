@@ -147,7 +147,7 @@ module.exports = {
    * @param {String} modulePrefix The prefix to the ember module ('app', 'dummy' or the name of the addon).
    */
   _instrumentDirectory(appOrAddon, dir, modulePrefix) {
-    if (fs.existsSync(dir)) {
+    if (existsSync(dir)) {
       let options = appOrAddon.options = appOrAddon.options || {};
       options.babel = options.babel || {};
       let plugins = options.babel.plugins = options.babel.plugins || [];
