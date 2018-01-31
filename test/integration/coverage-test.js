@@ -85,4 +85,16 @@ describe('`ember test`', function() {
       expect(summary.total.lines.pct).to.equal(50);
     });
   });
+
+  it('runs coverage when a module has an import error', function() {
+    this.timeout(100000);
+    expect(dir('coverage')).to.not.exist;
+    fs.copySync('test/helpers/error-module.js', 'addon/error-module.js');
+    return runCommand('ember', ['test'], {env: {COVERAGE: true}}).then(function() {
+      expect(dir('coverage')).to.exist;
+    }).finally(function() {
+      remove('addon/error-module.js');
+    });
+  });
+
 });
