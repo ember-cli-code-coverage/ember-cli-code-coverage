@@ -17,7 +17,7 @@ describe('index.js', function() {
       }
     };
     Index.parent = Index.project = Index.app = Index.IstanbulPlugin = null;
-    sandbox.stub(Index, 'fileLookup', {});
+    sandbox.stub(Index, 'fileLookup').value({});
   });
 
   afterEach(function() {
@@ -115,7 +115,7 @@ describe('index.js', function() {
 
   describe('_getIncludes', function() {
     beforeEach(function() {
-      sandbox.stub(Index, 'project', { root: process.cwd() });
+      sandbox.stub(Index, 'project').value({ root: process.cwd() });
     });
 
     it('gets files to include from the app directory', function() {
@@ -332,20 +332,20 @@ describe('index.js', function() {
 
   describe('_instrumentDirectory', function() {
     beforeEach(function() {
-      sandbox.stub(Index, 'IstanbulPlugin', 'istanbul');
+      sandbox.stub(Index, 'IstanbulPlugin').value('istanbul');
       sandbox.stub(Index, '_getExcludes').returns([]);
-      sandbox.stub(Index, 'project', { root: process.cwd() });
-      sandbox.stub(Index, 'parent', {
+      sandbox.stub(Index, 'project').value({ root: process.cwd() });
+      sandbox.stub(Index, 'parent').value({
         name() { return 'my-app' },
       });
-      sandbox.stub(Index, 'app', {});
+      sandbox.stub(Index, 'app').value({});
     });
 
     describe('_instrumentAppDirectory', function() {
 
       describe('for an app', function() {
         beforeEach(function() {
-          sandbox.stub(Index, 'parent', {
+          sandbox.stub(Index, 'parent').value({
             name() { return 'my-app' },
             isEmberCLIAddon() { return false }
           });
@@ -380,7 +380,7 @@ describe('index.js', function() {
 
       describe('for an addon', function() {
         beforeEach(function() {
-          sandbox.stub(Index, 'parent', {
+          sandbox.stub(Index, 'parent').value({
             name() { return 'my-app' },
             isEmberCLIAddon() { return true }
           });
@@ -476,7 +476,7 @@ describe('index.js', function() {
 
       describe('for an app with no inrepo addons', function() {
         beforeEach(function() {
-          sandbox.stub(Index, 'project', { pkg: { } });
+          sandbox.stub(Index, 'project').value({ pkg: { } });
           sandbox.spy(Index, '_instrumentDirectory');
         });
 
@@ -491,7 +491,7 @@ describe('index.js', function() {
 
         beforeEach(function() {
           sandbox.stub(path, 'basename').returns('my-inrepo-addon');
-          sandbox.stub(Index, 'project', {
+          sandbox.stub(Index, 'project').value({
             pkg: {
               'ember-addon': {
                 paths: [
