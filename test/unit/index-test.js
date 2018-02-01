@@ -115,11 +115,11 @@ describe('index.js', function() {
 
   describe('_getIncludes', function() {
     beforeEach(function() {
-      sandbox.stub(Index, 'project').value({ root: process.cwd() });
+      sandbox.stub(Index, 'project').value({ root: 'test/fixtures/my-addon/' });
     });
 
     it('gets files to include from the app directory', function() {
-      Index._getIncludes('app', 'my-app');
+      Index._getIncludes('test/fixtures/my-addon/app', 'my-app');
       expect(Index.fileLookup).to.deep.equal({
         'my-app/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
         'my-app/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js'
@@ -127,7 +127,7 @@ describe('index.js', function() {
     });
 
     it('gets files to include from the addon directory', function() {
-      Index._getIncludes('addon', 'my-addon');
+      Index._getIncludes('test/fixtures/my-addon/addon', 'my-addon');
       expect(Index.fileLookup).to.deep.equal({
         'my-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
         'my-addon/utils/my-uncovered-util.js': 'addon/utils/my-uncovered-util.js'
@@ -334,7 +334,7 @@ describe('index.js', function() {
     beforeEach(function() {
       sandbox.stub(Index, 'IstanbulPlugin').value('istanbul');
       sandbox.stub(Index, '_getExcludes').returns([]);
-      sandbox.stub(Index, 'project').value({ root: process.cwd() });
+      sandbox.stub(Index, 'project').value({ root: 'test/fixtures/my-addon/' });
       sandbox.stub(Index, 'parent').value({
         name() { return 'my-app' },
       });
@@ -499,7 +499,7 @@ describe('index.js', function() {
                 ]
               }
             },
-            root: process.cwd(),
+            root: 'test/fixtures/my-addon/',
             findAddonByName() { return addon; }
           });
         });
