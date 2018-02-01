@@ -1,6 +1,18 @@
 # Change Log
 
-## [v0.4.1](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.4.1) (2017-06-27)
+## v1.0.0-beta.1 (2018-02-01)
+
+#### :bug: Bug Fix
+* [#153](https://github.com/kategengler/ember-cli-code-coverage/pull/153) Add back "Avoid throwing errors while requiring files for coverage" #64. ([@adamjmcgrath](https://github.com/adamjmcgrath))
+
+#### :house: Internal
+* [#157](https://github.com/kategengler/ember-cli-code-coverage/pull/157) Setup travis ci to release on pushed tag, add lerna-changelog. ([@kategengler](https://github.com/kategengler))
+* [#155](https://github.com/kategengler/ember-cli-code-coverage/pull/155) Upgrade deps. ([@kategengler](https://github.com/kategengler))
+
+#### Committers: 2
+- Adam Mcgrath ([adamjmcgrath](https://github.com/adamjmcgrath))
+- Katie Gengler ([kategengler](https://github.com/kategengler))
+
 ## v1.0.0-beta.0
 
 ### Pull Requests
@@ -13,6 +25,8 @@
 **Merged pull requests:**
 
 - Fixes the hanging issue of \#88 [\#90](https://github.com/kategengler/ember-cli-code-coverage/pull/90) ([ming-codes](https://github.com/ming-codes))
+
+## [v0.4.1](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.4.1) (2017-06-27)
 
 ## [v0.4.0](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.4.0) (2017-06-27)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.12...v0.4.0)
