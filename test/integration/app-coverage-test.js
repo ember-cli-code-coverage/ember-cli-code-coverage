@@ -105,8 +105,7 @@ describe('app coverage generation', function() {
     process.env.COVERAGE = true;
     return app.run('ember', 'test').then(function() {
       expect(dir(`${app.path}/coverage`)).to.exist;
-    }).finally(function() {
-      rimraf(`${app.path}/app/error-module.js`);
+      return rimraf(`${app.path}/app/error-module.js`);
     });
   });
 });
