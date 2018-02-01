@@ -31,6 +31,7 @@ module.exports = {
       excludedFiles: [
         'app/**',
         'addon/**',
+        'test/fixtures/**',
         'tests/dummy/app/**'
       ],
       parserOptions: {
