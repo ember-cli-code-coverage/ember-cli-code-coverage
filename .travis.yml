@@ -5,7 +5,7 @@ node_js:
   - "6"
 
 dist: trusty
-sudo: false
+sudo: required
 
 addons:
   chrome: stable
@@ -17,10 +17,10 @@ stages:
   - lint
   - test
   - deploy
-  
+
 jobs:
   fail_fast: true
-  
+
   include:
     - stage: lint
       script: yarn lint:js
