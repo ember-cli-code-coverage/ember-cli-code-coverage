@@ -29,7 +29,7 @@ jobs:
     - stage: deploy
       if: tag IS present
       node_js: "6"
-      install: yarn global add auto-dist-tag
+      install: yarn global add auto-dist-tag@0.1.5
       script: auto-dist-tag --write
       deploy:
         provider: npm
