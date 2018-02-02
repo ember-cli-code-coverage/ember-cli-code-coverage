@@ -1,11 +1,11 @@
 ---
 language: node_js
 node_js:
-  - "4"
   - "6"
+  - "8"
 
-dist: trusty
 sudo: false
+dist: trusty
 
 addons:
   chrome: stable
@@ -17,13 +17,13 @@ stages:
   - lint
   - test
   - deploy
-  
+
 jobs:
   fail_fast: true
-  
+
   include:
     - stage: lint
-      script: yarn lint:js
+      script: npm run-script lint:js
     - stage: deploy
       if: tag IS present
       node_js: "6"
@@ -46,4 +46,4 @@ install:
   - yarn install --no-lockfile --non-interactive
 
 script:
-  - yarn node-test
+  - npm run-script node-test

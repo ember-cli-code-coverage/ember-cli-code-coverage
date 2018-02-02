@@ -4,12 +4,8 @@ module.exports = {
     ecmaVersion: 2017,
     sourceType: 'module'
   },
-  plugins: [
-    'ember'
-  ],
   extends: [
-    'eslint:recommended',
-    'plugin:ember/recommended'
+    'eslint:recommended'
   ],
   env: {
     browser: true
@@ -41,13 +37,7 @@ module.exports = {
       env: {
         browser: false,
         node: true
-      },
-      plugins: ['node'],
-      rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
-        'no-console': 'off',
-        'no-useless-escape': 'off',
-        'node/no-unpublished-require': 'off'
-      })
+      }
     }
   ]
 };
