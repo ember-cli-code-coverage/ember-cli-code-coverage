@@ -1,1 +1,1 @@
-export { default } from 'my-in-repo-addon/addon/utils/my-covered-util';
+export { default } from 'my-in-repo-addon/utils/my-covered-util';

@@ -1,1 +1,1 @@
-export { default } from '../../addon/utils/my-covered-util';
+export { default } from 'my-addon/utils/my-covered-util';

@@ -1,2 +1,2 @@
-export { default } from '../../addon/utils/my-uncovered-util';
+export { default } from 'my-addon/utils/my-uncovered-util';
 
