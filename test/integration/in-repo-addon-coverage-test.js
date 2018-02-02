@@ -39,7 +39,7 @@ describe('in-repo addon coverage generation', function() {
     ]);
   });
 
-  it.only('runs coverage on in-repo addon', co.wrap(function* () {
+  it('runs coverage on in-repo addon', co.wrap(function* () {
     let addon = yield InRepoAddon.generate(app, 'my-in-repo-addon');
     addon.editPackageJSON(
       pkg => (pkg.dependencies = { 'ember-cli-babel': '*' })

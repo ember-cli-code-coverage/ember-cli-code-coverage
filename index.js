@@ -144,10 +144,17 @@ module.exports = {
       let options = appOrAddon.options = appOrAddon.options || {};
       options.babel = options.babel || {};
       let plugins = options.babel.plugins = options.babel.plugins || [];
-      plugins.push([this.IstanbulPlugin, {
-        exclude: this._getExcludes(),
-        include: this._getIncludes(dir, modulePrefix)
-      }]);
+      let include = this._getIncludes(dir, modulePrefix);
+      let plugin = plugins.find((plugin) => plugin[0] === this.IstanbulPlugin);
+      if (plugin) { // plugin already exists, so amend it rather than adding another one
+        plugin[1].include = plugin[1].include.concat(include);
+      } else {
+        plugins.push([this.IstanbulPlugin, {
+          exclude: this._getExcludes(),
+          include
+        }]);
+      }
+
     }
   },
 
