@@ -40,16 +40,25 @@ module.exports = {
     this._super.included.apply(this, arguments);
 
     this.fileLookup = {};
+    this.includes = [];
+    this.plugins = [];
 
     if (!this._registeredWithBabel && this._isCoverageEnabled()) {
       let checker = new VersionChecker(this.parent).for('ember-cli-babel', 'npm');
 
       if (checker.satisfies('>= 6.0.0')) {
-        this.IstanbulPlugin = requireBabelPlugin('babel-plugin-istanbul');
+        const IstanbulPlugin = requireBabelPlugin('babel-plugin-istanbul');
 
         this._instrumentAppDirectory();
         this._instrumentAddonDirectory();
         this._instrumentInRepoAddonDirectories();
+        this.plugins.forEach((plugins) => {
+          plugins.push([IstanbulPlugin, {
+            exclude: this._getExcludes(),
+            include: this.includes
+          }])
+        })
+
       } else {
         this.project.ui.writeWarnLine(
           'ember-cli-code-coverage: You are using an unsupported ember-cli-babel version,' +
@@ -144,17 +153,10 @@ module.exports = {
       let options = appOrAddon.options = appOrAddon.options || {};
       options.babel = options.babel || {};
       let plugins = options.babel.plugins = options.babel.plugins || [];
-      let include = this._getIncludes(dir, modulePrefix);
-      let plugin = plugins.find((plugin) => plugin[0] === this.IstanbulPlugin);
-      if (plugin) { // plugin already exists, so amend it rather than adding another one
-        plugin[1].include = plugin[1].include.concat(include);
-      } else {
-        plugins.push([this.IstanbulPlugin, {
-          exclude: this._getExcludes(),
-          include
-        }]);
+      this.includes = this.includes.concat(this._getIncludes(dir, modulePrefix));
+      if (this.plugins.indexOf(plugins) === -1) {
+        this.plugins.push(plugins);
       }
-
     }
   },
 
