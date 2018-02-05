@@ -20,7 +20,7 @@ let app;
 describe('in-repo addon coverage generation', function() {
   this.timeout(10000000);
   beforeEach(function() {
-    app = new AddonTestApp({ skipNpm: true });
+    app = new AddonTestApp();
     return app.create('my-app-with-in-repo-addon', {
       emberVersion: '2.16.0'
     }).then(() => {
