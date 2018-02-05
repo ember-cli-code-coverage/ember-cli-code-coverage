@@ -18,7 +18,7 @@ let app;
 describe('app coverage generation', function() {
   this.timeout(10000000);
   beforeEach(function() {
-    app = new AddonTestApp({ skipNpm: true });
+    app = new AddonTestApp();
     return app.create('my-app', {
       emberVersion: '2.16.0'
     }).then(() => {
