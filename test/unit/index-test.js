@@ -11,16 +11,17 @@ describe('index.js', function() {
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
 
-    Index.registry = {
+    Index.parent = Index.project = Index.app = Index.IstanbulPlugin = Index.registry = null;
+    sandbox.stub(Index, 'fileLookup').value({});
+    sandbox.stub(Index, 'registry').value({
       extensionsForType: function() {
         return ['js'];
       }
-    };
-    Index.parent = Index.project = Index.app = Index.IstanbulPlugin = null;
-    sandbox.stub(Index, 'fileLookup').value({});
+    });
   });
 
   afterEach(function() {
+    Index._coveredAddon = Index._inRepoAddons = null;
     sandbox.restore();
   });
 
@@ -38,15 +39,15 @@ describe('index.js', function() {
     describe('with coverage enabled', function() {
       beforeEach(function() {
         sandbox.stub(Index, '_isCoverageEnabled').returns(true);
-        Index.fileLookup = {
+        sandbox.stub(Index, 'fileLookup').value({
           'some/module.js': 'some/file.js',
           'some/other/module.js': 'some/other/file.js'
-        };
-        Index.parent = {
+        });
+        sandbox.stub(Index, 'parent').value({
           isEmberCLIAddon: function() {
             return false;
           }
-        };
+        });
       });
 
       it('does nothing if type is not test-body-footer', function() {
@@ -84,10 +85,10 @@ describe('index.js', function() {
         post: sinon.spy()
       };
 
-      Index.project = {
+      sandbox.stub(Index, 'project').value({
         root: '/path/to/foo-bar',
         configPath: sinon.stub().returns('tests/dummy/config/environment.js')
-      };
+      });
     });
 
     describe('when coverage is enabled', function() {
@@ -113,13 +114,13 @@ describe('index.js', function() {
     });
   });
 
-  describe('_getIncludes', function() {
+  describe('_getIncludesForDir', function() {
     beforeEach(function() {
       sandbox.stub(Index, 'project').value({ root: 'test/fixtures/my-addon/' });
     });
 
     it('gets files to include from the app directory', function() {
-      Index._getIncludes('test/fixtures/my-addon/app', 'my-app');
+      Index._getIncludesForDir('test/fixtures/my-addon/app', 'my-app');
       expect(Index.fileLookup).to.deep.equal({
         'my-app/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
         'my-app/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js'
@@ -127,7 +128,7 @@ describe('index.js', function() {
     });
 
     it('gets files to include from the addon directory', function() {
-      Index._getIncludes('test/fixtures/my-addon/addon', 'my-addon');
+      Index._getIncludesForDir('test/fixtures/my-addon/addon', 'my-addon');
       expect(Index.fileLookup).to.deep.equal({
         'my-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
         'my-addon/utils/my-uncovered-util.js': 'addon/utils/my-uncovered-util.js'
@@ -137,14 +138,14 @@ describe('index.js', function() {
 
   describe('_getExcludes', function() {
     beforeEach(function() {
-      Index.parent = {
+      sandbox.stub(Index, 'parent').value({
         isEmberCLIAddon: function() {
           return false;
         },
         name: function() {
           return 'test';
         }
-      };
+      });
     });
 
     describe('when excludes not defined in config', function() {
@@ -275,14 +276,14 @@ describe('index.js', function() {
     var isAddon;
 
     beforeEach(function() {
-      Index.parent = {
+      sandbox.stub(Index, 'parent').value({
         name: function() {
           return 'parent-app';
         },
         isEmberCLIAddon: function() {
           return isAddon;
         }
-      };
+      });
     });
 
     describe('when parent is an app', function() {
@@ -311,13 +312,12 @@ describe('index.js', function() {
     var result;
 
     beforeEach(function() {
-      Index.project = {
+      sandbox.stub(Index, 'project').value({
         findAddonByName: sinon.stub().returns({ name: 'my-addon' }),
         pkg: {
           name: '@scope/ember-cli-my-addon'
         }
-      };
-
+      });
       result = Index._findCoveredAddon();
     });
 
@@ -330,7 +330,7 @@ describe('index.js', function() {
     });
   });
 
-  describe('_instrumentDirectory', function() {
+  describe('_getIncludes', function() {
     beforeEach(function() {
       sandbox.stub(Index, 'IstanbulPlugin').value('istanbul');
       sandbox.stub(Index, '_getExcludes').returns([]);
@@ -341,7 +341,7 @@ describe('index.js', function() {
       sandbox.stub(Index, 'app').value({});
     });
 
-    describe('_instrumentAppDirectory', function() {
+    describe('_getIncludesForAppDirectory', function() {
 
       describe('for an app', function() {
         beforeEach(function() {
@@ -351,29 +351,15 @@ describe('index.js', function() {
           });
         });
 
-        it('instruments the app directory', function() {
-          Index._instrumentAppDirectory();
+        it('gets includes for the app directory', function() {
+          const includes = Index._getIncludesForAppDirectory();
+          expect(includes).to.deep.equal([
+            'my-app/utils/my-covered-util.js',
+            'my-app/utils/my-uncovered-util.js'
+          ]);
           expect(Index.fileLookup).to.deep.equal({
             'my-app/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
             'my-app/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js'
-          });
-          expect(Index.app).to.deep.equal({
-            options: {
-              babel: {
-                plugins: [
-                  [
-                    'istanbul',
-                    {
-                      exclude: [],
-                      include: [
-                        'my-app/utils/my-covered-util.js',
-                        'my-app/utils/my-uncovered-util.js'
-                      ]
-                    }
-                  ]
-                ]
-              }
-            }
           });
         });
       });
@@ -386,46 +372,33 @@ describe('index.js', function() {
           });
         });
 
-        it('instruments the app directory', function() {
-          Index._instrumentAppDirectory();
+        it('gets includes for the app directory', function() {
+          const includes = Index._getIncludesForAppDirectory();
+          expect(includes).to.deep.equal([
+            'dummy/utils/my-covered-util.js',
+            'dummy/utils/my-uncovered-util.js'
+          ]);
           expect(Index.fileLookup).to.deep.equal({
             'dummy/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
             'dummy/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js'
-          });
-          expect(Index.app).to.deep.equal({
-            options: {
-              babel: {
-                plugins: [
-                  [
-                    'istanbul',
-                    {
-                      exclude: [],
-                      include: [
-                        'dummy/utils/my-covered-util.js',
-                        'dummy/utils/my-uncovered-util.js'
-                      ]
-                    }
-                  ]
-                ]
-              }
-            }
           });
         });
       });
 
     });
 
-    describe('_instrumentAddonDirectory', function() {
+    describe('_getIncludesForAddonDirectory', function() {
 
       describe('for an app', function() {
         beforeEach(function() {
           sandbox.stub(Index, '_findCoveredAddon').returns(null);
-          sandbox.spy(Index, '_instrumentDirectory');
+          sandbox.spy(Index, '_getIncludesForDir');
         });
 
-        it('does not instrument the addon directory', function() {
-          Index._instrumentAddonDirectory();
-          sinon.assert.notCalled(Index._instrumentDirectory);
+        it('does not get includes for the addon directory', function() {
+          const includes = Index._getIncludesForAddonDirectory();
+          expect(includes).to.be.undefined;
+          sinon.assert.notCalled(Index._getIncludesForDir);
         });
       });
 
@@ -442,55 +415,41 @@ describe('index.js', function() {
           addon = null;
         });
 
-        it('instruments the addon directory', function() {
-          Index._instrumentAddonDirectory();
+        it('gets includes for the addon directory', function() {
+          const includes = Index._getIncludesForAddonDirectory();
+          expect(includes).to.deep.equal([
+            'my-addon/utils/my-covered-util.js',
+            'my-addon/utils/my-uncovered-util.js'
+          ]);
           expect(Index.fileLookup).to.deep.equal({
             'my-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
             'my-addon/utils/my-uncovered-util.js': 'addon/utils/my-uncovered-util.js'
-          });
-          expect(addon).to.deep.equal({
-            name: 'my-addon',
-            options: {
-              babel: {
-                plugins: [
-                  [
-                    'istanbul',
-                    {
-                      exclude: [],
-                      include: [
-                        'my-addon/utils/my-covered-util.js',
-                        'my-addon/utils/my-uncovered-util.js'
-                      ]
-                    }
-                  ]
-                ]
-              }
-            }
           });
         });
       });
 
     });
 
-    describe('_instrumentInRepoAddonDirectories', function() {
+    describe('_getIncludesForInRepoAddonDirectories', function() {
 
       describe('for an app with no inrepo addons', function() {
         beforeEach(function() {
           sandbox.stub(Index, 'project').value({ pkg: { } });
-          sandbox.spy(Index, '_instrumentDirectory');
+          sandbox.spy(Index, '_getIncludesForDir');
         });
 
         it('does not instrument any inrepo addon directories', function() {
-          Index._instrumentInRepoAddonDirectories();
-          sinon.assert.notCalled(Index._instrumentDirectory);
+          const includes = Index._getIncludesForInRepoAddonDirectories();
+          expect(includes).to.deep.equal([]);
+          sinon.assert.notCalled(Index._getIncludesForDir);
         });
       });
 
       describe('for an app with an inrepo addon', function() {
-        let addon = {};
+        let addon = { name: 'my-in-repo-addon' };
 
         beforeEach(function() {
-          sandbox.stub(path, 'basename').returns('my-inrepo-addon');
+          sandbox.stub(path, 'basename').returns('my-in-repo-addon');
           sandbox.stub(Index, 'project').value({
             pkg: {
               'ember-addon': {
@@ -499,7 +458,7 @@ describe('index.js', function() {
                 ]
               }
             },
-            root: 'test/fixtures/my-addon/',
+            root: 'test/fixtures/my-app-with-in-repo-addon/',
             findAddonByName() { return addon; }
           });
         });
@@ -509,30 +468,18 @@ describe('index.js', function() {
         });
 
         it('instruments the inrepo addon', function() {
-          Index._instrumentInRepoAddonDirectories();
+          const includes = Index._getIncludesForInRepoAddonDirectories();
+          expect(includes).to.deep.equal([
+            'my-app/utils/my-covered-util.js',
+            'my-app/utils/my-uncovered-util.js',
+            'my-in-repo-addon/utils/my-covered-util.js',
+            'my-in-repo-addon/utils/my-uncovered-util.js'
+          ]);
           expect(Index.fileLookup).to.deep.equal({
-            'my-app/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
-            'my-app/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js',
-            'my-inrepo-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
-            'my-inrepo-addon/utils/my-uncovered-util.js': 'addon/utils/my-uncovered-util.js',
-          });
-          expect(addon).to.deep.equal({
-            options: {
-              babel: {
-                plugins: [
-                  [
-                    'istanbul',
-                    {
-                      exclude: [],
-                      include: [
-                        'my-inrepo-addon/utils/my-covered-util.js',
-                        'my-inrepo-addon/utils/my-uncovered-util.js'
-                      ]
-                    }
-                  ]
-                ]
-              }
-            }
+            'my-app/utils/my-covered-util.js': 'lib/my-in-repo-addon/app/utils/my-covered-util.js',
+            'my-app/utils/my-uncovered-util.js': 'lib/my-in-repo-addon/app/utils/my-uncovered-util.js',
+            'my-in-repo-addon/utils/my-covered-util.js': 'lib/my-in-repo-addon/addon/utils/my-covered-util.js',
+            'my-in-repo-addon/utils/my-uncovered-util.js': 'lib/my-in-repo-addon/addon/utils/my-uncovered-util.js',
           });
         });
       });

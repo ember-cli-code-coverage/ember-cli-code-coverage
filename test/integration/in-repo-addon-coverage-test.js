@@ -20,7 +20,7 @@ let app;
 describe('in-repo addon coverage generation', function() {
   this.timeout(10000000);
   beforeEach(function() {
-    app = new AddonTestApp();
+    app = new AddonTestApp({ skipNpm: true });
     return app.create('my-app-with-in-repo-addon', {
       emberVersion: '2.16.0'
     }).then(() => {
@@ -50,7 +50,9 @@ describe('in-repo addon coverage generation', function() {
       expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
       var summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-      expect(summary.total.lines.pct).to.equal(83.33);
+      expect(summary.total.lines.pct).to.equal(75);
+      expect(summary['app/utils/my-covered-util-app.js'].lines.total).to.equal(1);
+      expect(summary['lib/my-in-repo-addon/addon/utils/my-covered-util.js'].lines.total).to.equal(1);
     });
   }));
 });
