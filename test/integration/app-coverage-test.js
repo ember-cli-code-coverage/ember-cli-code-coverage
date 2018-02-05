@@ -24,6 +24,7 @@ describe('app coverage generation', function() {
     }).then(() => {
       app.editPackageJSON(pkg => {
         pkg.devDependencies['ember-exam'] = '0.7.0';
+        pkg.devDependencies['ember-cli-code-coverage'] = process.cwd();
       });
       return app.run('npm', 'install').then(() => {
         return rimraf(`${app.path}/coverage*`);
