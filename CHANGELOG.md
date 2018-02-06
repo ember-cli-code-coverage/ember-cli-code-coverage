@@ -1,5 +1,17 @@
 # Change Log
 
+## v1.0.0-beta.2 (2018-02-06)
+
+#### :rocket: Enhancement
+* [#158](https://github.com/kategengler/ember-cli-code-coverage/pull/158) Add in-repo addon support and tests. ([@rwwagner90](https://github.com/rwwagner90))
+
+#### :house: Internal
+* [#156](https://github.com/kategengler/ember-cli-code-coverage/pull/156) Make fixtures external. ([@rwwagner90](https://github.com/rwwagner90))
+
+#### Committers: 2
+- Adam Mcgrath ([adamjmcgrath](https://github.com/adamjmcgrath))
+- Robert Wagner ([rwwagner90](https://github.com/rwwagner90))
+
 ## v1.0.0-beta.1 (2018-02-01)
 
 #### :bug: Bug Fix
