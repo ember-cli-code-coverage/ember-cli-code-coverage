@@ -7,6 +7,7 @@ var attachMiddleware = require('./lib/attach-middleware');
 var config = require('./lib/config');
 const walkSync = require('walk-sync');
 const VersionChecker = require('ember-cli-version-checker');
+const concat = require('lodash.concat');
 
 function requireBabelPlugin(pluginName) {
   let plugin = require(pluginName);
@@ -20,6 +21,12 @@ function requireBabelPlugin(pluginName) {
   plugin.baseDir = () => pluginBaseDir;
 
   return plugin;
+}
+
+function getPlugins(appOrAddon) {
+  let options = appOrAddon.options = appOrAddon.options || {};
+  options.babel = options.babel || {};
+  return options.babel.plugins = options.babel.plugins || [];
 }
 
 // Regular expression to extract the file extension from a path.
@@ -45,11 +52,19 @@ module.exports = {
       let checker = new VersionChecker(this.parent).for('ember-cli-babel', 'npm');
 
       if (checker.satisfies('>= 6.0.0')) {
-        this.IstanbulPlugin = requireBabelPlugin('babel-plugin-istanbul');
+        const IstanbulPlugin = requireBabelPlugin('babel-plugin-istanbul');
+        const exclude = this._getExcludes();
+        const include = this._getIncludes();
 
-        this._instrumentAppDirectory();
-        this._instrumentAddonDirectory();
-        this._instrumentInRepoAddonDirectories();
+        concat(
+            this.app,
+            this._findCoveredAddon(),
+            this._findInRepoAddons()
+          )
+          .filter(Boolean)
+          .map(getPlugins)
+          .forEach((plugins) => plugins.push([IstanbulPlugin, { exclude, include }]));
+
       } else {
         this.project.ui.writeWarnLine(
           'ember-cli-code-coverage: You are using an unsupported ember-cli-babel version,' +
@@ -96,62 +111,6 @@ module.exports = {
   // Custom Methods
 
   /**
-   * Instrument the "app" directory.
-   */
-  _instrumentAppDirectory() {
-    const dir = path.join(this.project.root, 'app');
-    let prefix = this.parent.isEmberCLIAddon() ? 'dummy' : this.parent.name();
-    this._instrumentDirectory(this.app, dir, prefix);
-  },
-
-  /**
-   * Instrument the "addon" directory.
-   */
-  _instrumentAddonDirectory() {
-    let addon = this._findCoveredAddon();
-    if (addon) {
-      const dir = path.join(this.project.root, 'addon');
-      this._instrumentDirectory(addon, dir, addon.name);
-    }
-  },
-
-  /**
-   * Instrument the in-repo-addon directories in "lib/*".
-   */
-  _instrumentInRepoAddonDirectories() {
-    const pkg = this.project.pkg;
-    if (pkg['ember-addon'] && pkg['ember-addon'].paths) {
-      pkg['ember-addon'].paths.forEach((addonPath) => {
-        let addonName = path.basename(addonPath);
-        let addonDir = path.join(this.project.root, addonPath);
-        let addon = this.project.findAddonByName(addonName);
-        let addonAppDir = path.join(addonDir, 'app');
-        let addonAddonDir = path.join(addonDir, 'addon');
-        this._instrumentDirectory(this.app, addonAppDir, this.parent.name());
-        this._instrumentDirectory(addon, addonAddonDir, addonName);
-      });
-    }
-  },
-
-  /**
-   * Instrument directory helper.
-   * @param {Object} appOrAddon The Ember app or addon config.
-   * @param {String} dir The path to the Ember app or addon.
-   * @param {String} modulePrefix The prefix to the ember module ('app', 'dummy' or the name of the addon).
-   */
-  _instrumentDirectory(appOrAddon, dir, modulePrefix) {
-    if (existsSync(dir)) {
-      let options = appOrAddon.options = appOrAddon.options || {};
-      options.babel = options.babel || {};
-      let plugins = options.babel.plugins = options.babel.plugins || [];
-      plugins.push([this.IstanbulPlugin, {
-        exclude: this._getExcludes(),
-        include: this._getIncludes(dir, modulePrefix)
-      }]);
-    }
-  },
-
-  /**
    * Thin wrapper around exists-sync that allows easy stubbing in tests
    * @param {String} path - path to check existence of
    * @returns {Boolean} whether or not path exists
@@ -170,11 +129,62 @@ module.exports = {
 
   /**
    * Get paths to include for coverage
+   * @returns {Array<String>} include paths
+   */
+  _getIncludes: function() {
+    return concat(
+      this._getIncludesForAppDirectory(),
+      this._getIncludesForAddonDirectory(),
+      this._getIncludesForInRepoAddonDirectories()
+    ).filter(Boolean);
+  },
+
+  /**
+   * Get paths to include for covering the "app" directory.
+   * @returns {Array<String>} include paths
+   */
+  _getIncludesForAppDirectory: function() {
+    const dir = path.join(this.project.root, 'app');
+    let prefix = this.parent.isEmberCLIAddon() ? 'dummy' : this.parent.name();
+    return this._getIncludesForDir(dir, prefix);
+  },
+
+  /**
+   * Get paths to include for covering the "addon" directory.
+   * @returns {Array<String>} include paths
+   */
+  _getIncludesForAddonDirectory: function() {
+    let addon = this._findCoveredAddon();
+    if (addon) {
+      const dir = path.join(this.project.root, 'addon');
+      return this._getIncludesForDir(dir, addon.name);
+    }
+  },
+
+  /**
+   * Get paths to include for covering the in-repo-addon directories in "lib/*".
+   * @returns {Array<String>} include paths
+   */
+  _getIncludesForInRepoAddonDirectories: function() {
+    return this._findInRepoAddons().reduce((acc, addon) => {
+      let addonDir = path.join(this.project.root, 'lib', addon.name);
+      let addonAppDir = path.join(addonDir, 'app');
+      let addonAddonDir = path.join(addonDir, 'addon');
+      return concat(
+        acc,
+        this._getIncludesForDir(addonAppDir, this.parent.name()),
+        this._getIncludesForDir(addonAddonDir, addon.name)
+      );
+    }, []);
+  },
+
+  /**
+   * Get paths to include for coverage
    * @param {String} dir Include all js files under this directory.
    * @param {String} prefix The prefix to the ember module ('app', 'dummy' or the name of the addon).
    * @returns {Array<String>} include paths
    */
-  _getIncludes: function(dir, prefix) {
+  _getIncludesForDir: function(dir, prefix) {
     let dirname = path.relative(this.project.root, dir);
     let globs = this.registry.extensionsForType('js').map((extension) => `**/*.${extension}`);
 
@@ -229,5 +239,22 @@ module.exports = {
     }
 
     return this._coveredAddon;
+  },
+
+  /**
+   * Find the app's in-repo addons (if any).
+   * @returns {Array<Addon>} the in-repo addons
+   */
+  _findInRepoAddons: function() {
+    if (!this._inRepoAddons) {
+      const pkg = this.project.pkg;
+      const inRepoAddonPaths = pkg['ember-addon'] && pkg['ember-addon'].paths;
+      this._inRepoAddons = (inRepoAddonPaths || []).map((addonPath) => {
+        let addonName = path.basename(addonPath);
+        return this.project.findAddonByName(addonName);
+      });
+    }
+
+    return this._inRepoAddons;
   }
 };
