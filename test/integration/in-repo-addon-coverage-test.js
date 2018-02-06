@@ -9,6 +9,7 @@ var expect = chai.expect;
 var chaiFiles = require('chai-files');
 var dir = chaiFiles.dir;
 var file = chaiFiles.file;
+var path = require('path');
 
 const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 const InRepoAddon = require('../helpers/in-repo-addon');
@@ -26,9 +27,16 @@ describe('in-repo addon coverage generation', function() {
     }).then(() => {
       app.editPackageJSON(pkg => {
         pkg.devDependencies['ember-exam'] = '0.7.0';
-        pkg.devDependencies['ember-cli-code-coverage'] = process.cwd();
+        // Temporarily remove the addon before install to work around https://github.com/tomdale/ember-cli-addon-tests/issues/176
+        delete pkg.devDependencies['ember-cli-code-coverage'];
       });
       return app.run('npm', 'install').then(() => {
+        app.editPackageJSON(pkg => {
+          pkg.devDependencies['ember-cli-code-coverage'] = '*';
+        });
+        let addonPath = path.join(app.path, 'node_modules', 'ember-cli-code-coverage');
+        fs.removeSync(addonPath);
+        fs.ensureSymlinkSync(process.cwd(), addonPath);
         return rimraf(`${app.path}/coverage*`);
       });
     });
