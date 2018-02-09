@@ -420,10 +420,10 @@ describe('index.js', function() {
           expect(includes).to.deep.equal([
             'my-addon/utils/my-covered-util.js',
             'my-addon/utils/my-uncovered-util.js',
-            'my-addon/uncovered-test-support.js'
+            'my-addon/test-support/uncovered-test-support.js'
           ]);
           expect(Index.fileLookup).to.deep.equal({
-            'my-addon/uncovered-test-support.js': 'addon-test-support/uncovered-test-support.js',
+            'my-addon/test-support/uncovered-test-support.js': 'addon-test-support/uncovered-test-support.js',
             'my-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
             'my-addon/utils/my-uncovered-util.js': 'addon/utils/my-uncovered-util.js'
           });

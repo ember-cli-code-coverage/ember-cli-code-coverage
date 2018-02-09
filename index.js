@@ -160,7 +160,7 @@ module.exports = {
       const addonTestSupportDir = path.join(this.project.root, 'addon-test-support');
       return concat(
         this._getIncludesForDir(addonDir, addon.name),
-        this._getIncludesForDir(addonTestSupportDir, addon.name)
+        this._getIncludesForDir(addonTestSupportDir, `${addon.name}/test-support`)
       );
     }
   },
