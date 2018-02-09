@@ -475,13 +475,15 @@ describe('index.js', function() {
             'my-app/utils/my-covered-util.js',
             'my-app/utils/my-uncovered-util.js',
             'my-in-repo-addon/utils/my-covered-util.js',
-            'my-in-repo-addon/utils/my-uncovered-util.js'
+            'my-in-repo-addon/utils/my-uncovered-util.js',
+            'my-in-repo-addon/test-support/uncovered-test-support.js'
           ]);
           expect(Index.fileLookup).to.deep.equal({
             'my-app/utils/my-covered-util.js': 'lib/my-in-repo-addon/app/utils/my-covered-util.js',
             'my-app/utils/my-uncovered-util.js': 'lib/my-in-repo-addon/app/utils/my-uncovered-util.js',
             'my-in-repo-addon/utils/my-covered-util.js': 'lib/my-in-repo-addon/addon/utils/my-covered-util.js',
             'my-in-repo-addon/utils/my-uncovered-util.js': 'lib/my-in-repo-addon/addon/utils/my-uncovered-util.js',
+            'my-in-repo-addon/test-support/uncovered-test-support.js': 'lib/my-in-repo-addon/addon-test-support/uncovered-test-support.js'
           });
         });
       });

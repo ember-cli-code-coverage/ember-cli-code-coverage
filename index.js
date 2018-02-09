@@ -57,10 +57,10 @@ module.exports = {
         const include = this._getIncludes();
 
         concat(
-            this.app,
-            this._findCoveredAddon(),
-            this._findInRepoAddons()
-          )
+          this.app,
+          this._findCoveredAddon(),
+          this._findInRepoAddons()
+        )
           .filter(Boolean)
           .map(getPlugins)
           .forEach((plugins) => plugins.push([IstanbulPlugin, { exclude, include }]));
@@ -85,7 +85,7 @@ module.exports = {
     return undefined;
   },
 
-  includedCommands: function () {
+  includedCommands: function() {
     return {
       'coverage-merge': require('./lib/coverage-merge')
     };
@@ -100,7 +100,9 @@ module.exports = {
   },
 
   testemMiddleware: function(app) {
-    if (!this._isCoverageEnabled()) { return; }
+    if (!this._isCoverageEnabled()) {
+      return;
+    }
     attachMiddleware(app, {
       configPath: this.project.configPath(),
       root: this.project.root,
@@ -174,10 +176,12 @@ module.exports = {
       let addonDir = path.join(this.project.root, 'lib', addon.name);
       let addonAppDir = path.join(addonDir, 'app');
       let addonAddonDir = path.join(addonDir, 'addon');
+      const addonAddonTestSupportDir = path.join(addonDir, 'addon-test-support');
       return concat(
         acc,
         this._getIncludesForDir(addonAppDir, this.parent.name()),
-        this._getIncludesForDir(addonAddonDir, addon.name)
+        this._getIncludesForDir(addonAddonDir, addon.name),
+        this._getIncludesForDir(addonAddonTestSupportDir, `${addon.name}/test-support`)
       );
     }, []);
   },

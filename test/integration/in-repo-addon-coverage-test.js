@@ -58,10 +58,22 @@ describe('in-repo addon coverage generation', function() {
     return app.run('ember', 'test').then(function() {
       expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
-      var summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-      expect(summary.total.lines.pct).to.equal(75);
+
+      const summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
+      expect(summary.total.lines.pct).to.equal(50);
       expect(summary['app/utils/my-covered-util-app.js'].lines.total).to.equal(1);
+
+      // Check that lib/my-in-repo-addon/utils/my-covered-utill is 1 line and that 1 line is covered
       expect(summary['lib/my-in-repo-addon/addon/utils/my-covered-util.js'].lines.total).to.equal(1);
+      expect(summary['lib/my-in-repo-addon/addon/utils/my-covered-util.js'].lines.covered).to.equal(1);
+
+      // Check that lib/my-in-repo-addon/utils/my-uncovered-utill is 1 line and that 0 lines are covered
+      expect(summary['lib/my-in-repo-addon/addon/utils/my-uncovered-util.js'].lines.total).to.equal(1);
+      expect(summary['lib/my-in-repo-addon/addon/utils/my-uncovered-util.js'].lines.covered).to.equal(0);
+
+      // Check that lib/my-in-repo-addon/addon-test-support/uncovered-test-support is 4 lines and that 0 lines are covered
+      expect(summary['lib/my-in-repo-addon/addon-test-support/uncovered-test-support.js'].lines.total).to.equal(4);
+      expect(summary['lib/my-in-repo-addon/addon-test-support/uncovered-test-support.js'].lines.covered).to.equal(0);
     });
   }));
 });
