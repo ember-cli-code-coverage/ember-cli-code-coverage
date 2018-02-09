@@ -415,7 +415,7 @@ describe('index.js', function() {
           addon = null;
         });
 
-        it.only('gets includes for the addon directory', function() {
+        it('gets includes for the addon directory', function() {
           const includes = Index._getIncludesForAddonDirectory();
           expect(includes).to.deep.equal([
             'my-addon/utils/my-covered-util.js',
