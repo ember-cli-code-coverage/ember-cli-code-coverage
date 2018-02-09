@@ -156,8 +156,12 @@ module.exports = {
   _getIncludesForAddonDirectory: function() {
     let addon = this._findCoveredAddon();
     if (addon) {
-      const dir = path.join(this.project.root, 'addon');
-      return this._getIncludesForDir(dir, addon.name);
+      const addonDir = path.join(this.project.root, 'addon');
+      const addonTestSupportDir = path.join(this.project.root, 'addon-test-support');
+      return concat(
+        this._getIncludesForDir(addonDir, addon.name),
+        this._getIncludesForDir(addonTestSupportDir, addon.name)
+      );
     }
   },
 
@@ -185,14 +189,18 @@ module.exports = {
    * @returns {Array<String>} include paths
    */
   _getIncludesForDir: function(dir, prefix) {
-    let dirname = path.relative(this.project.root, dir);
-    let globs = this.registry.extensionsForType('js').map((extension) => `**/*.${extension}`);
+    if (fs.existsSync(dir)) {
+      let dirname = path.relative(this.project.root, dir);
+      let globs = this.registry.extensionsForType('js').map((extension) => `**/*.${extension}`);
 
-    return walkSync(dir, { directories: false, globs }).map(file => {
-      let module = prefix + '/' + file.replace(EXT_RE, '.js');
-      this.fileLookup[module] = path.join(dirname, file);
-      return module;
-    });
+      return walkSync(dir, { directories: false, globs }).map(file => {
+        let module = prefix + '/' + file.replace(EXT_RE, '.js');
+        this.fileLookup[module] = path.join(dirname, file);
+        return module;
+      });
+    } else {
+      return [];
+    }
   },
 
   /**
