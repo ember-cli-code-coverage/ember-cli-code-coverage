@@ -49,12 +49,15 @@ describe('in-repo engine coverage generation', function() {
     ]);
   });
 
-  it.only('runs coverage on in-repo engine', co.wrap(function* () {
+  it('runs coverage on in-repo engine', co.wrap(function* () {
     let engine = yield InRepoEngine.generate(app, 'my-in-repo-engine', {
-      lazy: true
+      lazy: false
     });
     engine.editPackageJSON(
-      pkg => (pkg.dependencies = { 'ember-cli-babel': '*' })
+      pkg => (pkg.dependencies = {
+        'ember-cli-babel': '*',
+        'ember-cli-htmlbars': '*',
+      })
     );
     expect(dir(`${app.path}/coverage`)).to.not.exist;
     process.env.COVERAGE = true;
@@ -63,7 +66,7 @@ describe('in-repo engine coverage generation', function() {
       expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
 
       const summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-      expect(summary.total.lines.pct).to.equal(50);
+      expect(summary.total.lines.pct).to.equal(75);
       expect(summary['app/utils/my-covered-util-app.js'].lines.total).to.equal(1);
 
       // Check that lib/my-in-repo-engine/utils/my-covered-utill is 1 line and that 1 line is covered

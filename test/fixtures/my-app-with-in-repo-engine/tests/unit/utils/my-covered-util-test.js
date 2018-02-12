@@ -1,4 +1,4 @@
-import myCoveredUtil from 'my-app-with-in-repo-addon/utils/my-covered-util-app';
+import myCoveredUtil from 'my-app-with-in-repo-engine/utils/my-covered-util-app';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | my covered util app');
