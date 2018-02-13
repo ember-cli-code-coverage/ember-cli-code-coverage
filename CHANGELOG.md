@@ -1,5 +1,14 @@
 # Change Log
 
+## v1.0.0-beta.3 (2018-02-13)
+
+#### :rocket: Enhancement
+* [#162](https://github.com/kategengler/ember-cli-code-coverage/pull/162) Add tests for in-repo engines. ([@rwwagner90](https://github.com/rwwagner90))
+* [#160](https://github.com/kategengler/ember-cli-code-coverage/pull/160) Support for addon-test-support. ([@rwwagner90](https://github.com/rwwagner90))
+
+#### Committers: 1
+- Robert Wagner ([rwwagner90](https://github.com/rwwagner90))
+
 ## v1.0.0-beta.2 (2018-02-06)
 
 #### :rocket: Enhancement
