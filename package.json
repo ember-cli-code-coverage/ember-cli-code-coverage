@@ -38,7 +38,6 @@
     "fs-extra": "^5.0.0",
     "istanbul-api": "^1.1.14",
     "lodash.concat": "^4.5.0",
-    "node-dir": "^0.1.16",
     "rsvp": "^4.8.1",
     "walk-sync": "^0.3.2"
   },
