@@ -3,7 +3,7 @@
 var path = require('path');
 var existsSync = require('exists-sync');
 var fs = require('fs-extra');
-var { attachServerMiddleware, attachTestMiddleware } = require('./lib/attach-middleware');
+var attachMiddleware = require('./lib/attach-middleware');
 var config = require('./lib/config');
 const walkSync = require('walk-sync');
 const VersionChecker = require('ember-cli-version-checker');
@@ -93,7 +93,7 @@ module.exports = {
     if (!this._isCoverageEnabled()) {
       return;
     }
-    attachServerMiddleware(startOptions.app, {
+    attachMiddleware.serverMiddleware(startOptions.app, {
       configPath: this.project.configPath(),
       root: this.project.root,
       fileLookup: this.fileLookup
@@ -113,7 +113,7 @@ module.exports = {
     if (process.argv.includes('--server') || process.argv.includes('-s')) {
       return this.serverMiddleware({ app }, config);
     }
-    attachTestMiddleware(app, config);
+    attachMiddleware.testMiddleware(app, config);
   },
 
   // Custom Methods
