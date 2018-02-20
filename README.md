@@ -30,6 +30,10 @@ and then:
 
 `cross-env COVERAGE=true ember test`
 
+Coverage also works when running tests in parallel, eg:
+
+`COVERAGE=true ember exam --split=2 --parallel=true`
+
 ## Configuration
 
 Configuration is optional. It should be put in a file at `config/coverage.js` (`configPath` configuration in package.json is honored). In addition to this you can configure Istanbul by adding a `.istanbul.yml` file to the root directory of your app (See https://github.com/gotwarlost/istanbul#configuring)
