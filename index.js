@@ -274,5 +274,11 @@ module.exports = {
     }
 
     return this._inRepoAddons;
+  },
+
+  includedCommands: function() {
+    return {
+      'test-code-coverage': require('./lib/commands/test-code-coverage')
+    };
   }
 };

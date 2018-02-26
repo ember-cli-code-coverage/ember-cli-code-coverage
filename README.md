@@ -78,6 +78,45 @@ If you are using [`ember-cli-pretender`](https://github.com/rwjblue/ember-cli-pr
   });
 ```
 
+## Testing code coverage goals
+
+You can also test for code coverage goals with the included command `ember test-code-coverage`.
+
+It takes the following parameters:
+
+* target-lines: The target percentage for lines covered
+* target-functions: The target percentage for functions covered
+* target-statements: The target percentage for statements covered
+* target-branches: The target percentage for branches covered
+
+For example: `ember test-code-coverage -target-lines=80 -target-branches=85`
+
+You can also configure those in the `config/coverage.js` file, in their camel cased form, like this:
+
+```js
+ module.exports = {
+    targetLines: 80,
+    targetFunctions: 85.5,
+  
+    // Other configuration
+    coverageEnvVar: 'COV'
+  }
+```
+
+These values will then be the defaults when running `ember test-code-coverage`.
+
+Running the command will output something like this to your console:
+
+```diff
++ Lines covered:       60.00%   69.17%
++ Functions covered:   --.--%   72.18%
++ Statements covered:  --.--%   68.93%
+- Branches covered:    70.00%   60.16%
+- Test coverage check failed
+```
+
+For any type of check where no target is specified, it will simply output the actual value without doing any comparison.
+
 ## Inspiration
 
 This addon was inspired by [`ember-cli-blanket`](https://github.com/sglanzer/ember-cli-blanket).
