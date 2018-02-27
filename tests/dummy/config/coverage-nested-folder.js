@@ -3,5 +3,5 @@
 
 module.exports = {
   coverageFolder: 'coverage/abc/easy-as/123',
-  reporters: ['lcov', 'html', 'text', 'json-summary']
+  parallel: true
 };

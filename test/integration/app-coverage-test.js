@@ -76,10 +76,14 @@ describe('app coverage generation', function() {
     });
   });
 
-  it('merges coverage when tests are run in parallel', function() {
+  it('uses parallel configuration and merges coverage when merge-coverage command is issued', function() {
     expect(dir(`${app.path}/coverage`)).to.not.exist;
+    fs.copySync('tests/dummy/config/coverage-parallel.js', `${app.path}/config/coverage.js`);
     process.env.COVERAGE = true;
     return app.run('ember', 'exam', '--split=2', '--parallel=true').then(function() {
+      expect(dir(`${app.path}/coverage`)).to.not.exist;
+      return app.run('ember', 'coverage-merge');
+    }).then(function() {
       expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
       var summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
@@ -87,13 +91,16 @@ describe('app coverage generation', function() {
     });
   });
 
-  it('uses nested coverageFolder', function() {
+  it('uses nested coverageFolder and parallel configuration and run merge-coverage', function() {
     var coverageFolder = `${app.path}/coverage/abc/easy-as/123`;
 
     expect(dir(coverageFolder)).to.not.exist;
     fs.copySync('tests/dummy/config/coverage-nested-folder.js', `${app.path}/config/coverage.js`);
     process.env.COVERAGE = true;
     return app.run('ember', 'exam', '--split=2', '--parallel=true').then(function() {
+      expect(dir(coverageFolder)).to.not.exist;
+      return app.run('ember', 'coverage-merge');
+    }).then(function() {
       expect(file(`${coverageFolder}/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${coverageFolder}/index.html`)).to.not.be.empty;
       var summary = fs.readJSONSync(`${coverageFolder}/coverage-summary.json`);

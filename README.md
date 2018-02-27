@@ -30,9 +30,7 @@ and then:
 
 `cross-env COVERAGE=true ember test`
 
-Coverage also works when running tests in parallel, eg:
-
-`COVERAGE=true ember exam --split=2 --parallel=true`
+When running with `parallel` set to true, the final reports can be merged by using `ember coverage-merge`. The final merged output will be stored in the `coverageFolder`.
 
 ## Configuration
 
@@ -47,6 +45,8 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
 - `excludes`: Defaults to `['*/mirage/**/*']`. An array of globs to exclude from instrumentation. Useful to exclude files from coverage statistics.
 
 - `coverageFolder`: Defaults to `coverage`. A folder relative to the root of your project to store coverage results.
+
+- `parallel`: Defaults to `false`. Should be set to true if parallel testing is being used, for example when using [ember-exam](https://github.com/trentmwillis/ember-exam) with the `--parallel` flag. This will generate the coverage reports in directories suffixed with `_<random_string>` to avoid overwriting other threads reports. These reports can be joined by using the `ember coverage-merge` command (potentially as part of the [posttest hook](https://docs.npmjs.com/misc/scripts) in your `package.json`).
 
 #### Example
 ```js

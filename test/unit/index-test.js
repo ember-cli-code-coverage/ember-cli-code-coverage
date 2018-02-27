@@ -65,39 +65,15 @@ describe('index.js', function() {
   });
 
   describe('serverMiddleware', function() {
-    var app;
-
     beforeEach(function() {
-      app = {
-        post: sinon.spy()
-      };
-
-      sandbox.stub(Index, 'project').value({
-        root: '/path/to/foo-bar',
-        configPath: sinon.stub().returns('tests/dummy/config/environment.js')
+      sandbox.stub(Index, 'testemMiddleware');
+      Index.serverMiddleware({
+        app: 'foo-bar'
       });
     });
 
-    describe('when coverage is enabled', function() {
-      beforeEach(function() {
-        sandbox.stub(Index, '_isCoverageEnabled').returns(true);
-        Index.serverMiddleware({ app });
-      });
-
-      it('adds POST endpoint to app', function() {
-        expect(app.post.callCount).to.equal(1);
-      });
-    });
-
-    describe('when coverage is not enabled', function() {
-      beforeEach(function() {
-        sandbox.stub(Index, '_isCoverageEnabled').returns(false);
-        Index.serverMiddleware({ app });
-      });
-
-      it('does not add POST endpoint to app', function() {
-        expect(app.post.callCount).to.equal(0);
-      });
+    it('calls testemMiddleware with correct arguments', function() {
+      expect(Index.testemMiddleware.lastCall.args).to.eql(['foo-bar']);
     });
   });
 
