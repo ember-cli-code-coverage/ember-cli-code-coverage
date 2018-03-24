@@ -85,6 +85,12 @@ module.exports = {
     return undefined;
   },
 
+  includedCommands: function() {
+    return {
+      'coverage-merge': require('./lib/coverage-merge')
+    };
+  },
+
   /**
    * If coverage is enabled attach coverage middleware to the express server run by ember-cli
    * @param {Object} startOptions - Express server start options
