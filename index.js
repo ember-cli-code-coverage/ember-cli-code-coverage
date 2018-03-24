@@ -96,18 +96,30 @@ module.exports = {
    * @param {Object} startOptions - Express server start options
    */
   serverMiddleware: function(startOptions) {
-    this.testemMiddleware(startOptions.app);
+    if (!this._isCoverageEnabled()) {
+      return;
+    }
+    attachMiddleware.serverMiddleware(startOptions.app, {
+      configPath: this.project.configPath(),
+      root: this.project.root,
+      fileLookup: this.fileLookup
+    });
   },
 
   testemMiddleware: function(app) {
     if (!this._isCoverageEnabled()) {
       return;
     }
-    attachMiddleware(app, {
+    const config = {
       configPath: this.project.configPath(),
       root: this.project.root,
       fileLookup: this.fileLookup
-    });
+    };
+    // if we're running `ember test --server` use the `serverMiddleware`.
+    if (process.argv.includes('--server') || process.argv.includes('-s')) {
+      return this.serverMiddleware({ app }, config);
+    }
+    attachMiddleware.testMiddleware(app, config);
   },
 
   // Custom Methods

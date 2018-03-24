@@ -76,6 +76,17 @@ describe('app coverage generation', function() {
     });
   });
 
+  it('merges coverage when tests are run in parallel', function() {
+    expect(dir(`${app.path}/coverage`)).to.not.exist;
+    process.env.COVERAGE = true;
+    return app.run('ember', 'exam', '--split=2', '--parallel=true').then(function() {
+      expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
+      expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
+      var summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
+      expect(summary.total.lines.pct).to.equal(83.33);
+    });
+  });
+
   it('uses parallel configuration and merges coverage when merge-coverage command is issued', function() {
     expect(dir(`${app.path}/coverage`)).to.not.exist;
     fs.copySync('tests/dummy/config/coverage-parallel.js', `${app.path}/config/coverage.js`);
