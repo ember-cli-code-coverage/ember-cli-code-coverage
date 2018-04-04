@@ -11,9 +11,9 @@ describe('index.js', function() {
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
 
-    Index.parent = Index.project = Index.app = Index.IstanbulPlugin = Index.registry = null;
+    Index.parent = Index.project = Index.app = Index.IstanbulPlugin = Index.parentRegistry = null;
     sandbox.stub(Index, 'fileLookup').value({});
-    sandbox.stub(Index, 'registry').value({
+    sandbox.stub(Index, 'parentRegistry').value({
       extensionsForType: function() {
         return ['js'];
       }

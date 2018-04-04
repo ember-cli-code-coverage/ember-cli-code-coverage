@@ -43,10 +43,11 @@ module.exports = {
 
   // Ember Methods
 
-  included: function() {
+  included: function(appOrAddon) {
     this._super.included.apply(this, arguments);
 
     this.fileLookup = {};
+    this.parentRegistry = appOrAddon.registry;
 
     if (!this._registeredWithBabel && this._isCoverageEnabled()) {
       let checker = new VersionChecker(this.parent).for('ember-cli-babel', 'npm');
@@ -207,7 +208,7 @@ module.exports = {
   _getIncludesForDir: function(dir, prefix) {
     if (fs.existsSync(dir)) {
       let dirname = path.relative(this.project.root, dir);
-      let globs = this.registry.extensionsForType('js').map((extension) => `**/*.${extension}`);
+      let globs = this.parentRegistry.extensionsForType('js').map((extension) => `**/*.${extension}`);
 
       return walkSync(dir, { directories: false, globs }).map(file => {
         let module = prefix + '/' + file.replace(EXT_RE, '.js');
