@@ -7,7 +7,7 @@ module('invalid modules');
 test('noop to setup module for exit handler', function(assert) {
   assert.expect(0);
 
-  define('ember-cli-code-coverage/fake-module-from-unit-test', [], function() {
+  define('ember-cli-nacho-coverage/fake-module-from-unit-test', [], function() {
     // This exists to confirm that modules that throw errors during
     // eval, do not fail the build
     //

@@ -10,14 +10,36 @@ var attachMiddleware = require('./lib/attach-middleware');
 var config = require('./lib/config');
 
 module.exports = {
-  name: 'ember-cli-code-coverage',
+  name: 'ember-cli-nacho-coverage',
 
   // Ember Methods
+  config() {
+    if (this._isCoverageEnabled()) {
+      this.setRequiredConfig();
+    }
+    return {
+      'ember-cli-nacho-coverage': this._getConfig()
+    }
+  },
 
-  included: function() {
+  setRequiredConfig() {
+    let babelConf = this.app.options.babel;
+    if (!babelConf) {
+      this.app.options.babel = {};
+      babelConf = this.app.options.babel;
+    }
+
+    this.app.options.babel.sourceMaps = 'inline';
+  },
+
+  included() {
+    if (this._isCoverageEnabled()) {
+      this.setRequiredConfig();
+    }
     if (this._isCoverageEnabled() && this.parent.isEmberCLIAddon()) {
-      var coveredAddon = this._findCoveredAddon();
-      var coverageAddonContext = this;
+
+      const coveredAddon = this._findCoveredAddon();
+      const coverageAddonContext = this;
 
       coveredAddon.processedAddonJsFiles = function (tree){
         var instrumentedTree = coverageAddonContext.preprocessTree('addon-js', this.addonJsFiles(tree));
@@ -30,7 +52,7 @@ module.exports = {
 
   contentFor: function(type) {
     if (type === 'test-body-footer' && this._isCoverageEnabled()) {
-      var template = fs.readFileSync(path.join(__dirname, 'lib', 'templates', 'test-body-footer.html')).toString();
+      const template = fs.readFileSync(path.join(__dirname, 'lib', 'templates', 'test-body-footer.html')).toString();
       return template.replace('{%PROJECT_NAME%}', this._parentName());
     }
 
@@ -38,18 +60,15 @@ module.exports = {
   },
 
   postprocessTree: function(type, tree) {
-    var useBabelInstrumenter = this._getConfig().useBabelInstrumenter === true;
-    var babelPlugins = this._getConfig().babelPlugins;
-
     if (!this._isCoverageEnabled() || (type !== 'js' && type !=='addon-js')) {
       return tree;
     }
 
-    var appFiles = new Funnel(tree, {
+    const appFiles = new Funnel(tree, {
       exclude: this._getExcludes()
     });
 
-    var instrumentedNode = new CoverageInstrumenter(appFiles, {
+    const instrumentedNode = new CoverageInstrumenter(appFiles, {
       annotation: 'Instrumenting for code coverage',
       appName: this._parentName(),
       appRoot: this.parent.root,
@@ -60,7 +79,7 @@ module.exports = {
     return new BroccoliMergeTrees([tree, instrumentedNode], { overwrite: true });
   },
 
-  includedCommands: function () {
+  includedCommands() {
     return {
       'coverage-merge': require('./lib/coverage-merge')
     };
@@ -70,13 +89,13 @@ module.exports = {
    * If coverage is enabled attach coverage middleware to the express server run by ember-cli
    * @param {Object} startOptions - Express server start options
    */
-  serverMiddleware: function(startOptions) {
+  serverMiddleware(startOptions) {
     this.testemMiddleware(startOptions.app);
   },
 
-  testemMiddleware: function(app) {
+  testemMiddleware(app) {
     if (!this._isCoverageEnabled()) { return; }
-    attachMiddleware(app, { configPath: this.project.configPath(), root: this.project.root });
+    attachMiddleware(app, { configPath: this.project.configPath(), root: this.project.root, config: this._getConfig() });
   },
 
   // Custom Methods
@@ -86,7 +105,7 @@ module.exports = {
    * @param {String} relativePath - path to file within current app
    * @returns {Boolean} whether or not the file exists within the current app
    */
-  _doesFileExistInCurrentProjectApp: function(relativePath) {
+  _doesFileExistInCurrentProjectApp(relativePath) {
     relativePath = path.join('app', relativePath);
 
     if (this._existsSync(relativePath)) {
@@ -102,7 +121,7 @@ module.exports = {
    * @returns {Boolean} whether or not the file exists within the current app
    * @private
    */
-  _doesFileExistAsTranspilationSource: function(relativePath) {
+  _doesFileExistAsTranspilationSource(relativePath) {
     var sourceExtensions = this._getTranspiledSourceExtensions();
     return this._doesPrecompiledFileExist(relativePath, sourceExtensions);
   },
@@ -112,7 +131,7 @@ module.exports = {
    * @param {String} relativePath - path to file within current app
    * @returns {Boolean} whether or not the file exists within the current app
    */
-  _doesFileExistInCurrentProjectAddon: function(relativePath) {
+  _doesFileExistInCurrentProjectAddon(relativePath) {
     relativePath = path.join('addon', relativePath);
 
     if (this._existsSync(relativePath)) {
@@ -127,7 +146,7 @@ module.exports = {
    * @param {String} relativePath - path to file within current app
    * @returns {Boolean} whether or not the file exists within the current app
    */
-  _doesFileExistInCurrentProjectAddonModule: function(relativePath) {
+  _doesFileExistInCurrentProjectAddonModule(relativePath) {
     var relativePathWithoutProjectNamePrefix = relativePath.replace('modules' + '/' +  this._parentName(), '');
     var _relativePath = 'addon/' + relativePathWithoutProjectNamePrefix;
 
@@ -143,7 +162,7 @@ module.exports = {
    * @param {String} relativePath - path to file within dummy app
    * @returns {Boolean} whether or not the file exists within the dummy app
    */
-  _doesFileExistInDummyApp: function(relativePath) {
+  _doesFileExistInDummyApp(relativePath) {
     relativePath = path.join('tests', 'dummy', 'app', relativePath);
 
     if (this._existsSync(relativePath)) {
@@ -160,7 +179,7 @@ module.exports = {
    * @returns {boolean} Flag indicating whether the file exists with any of the precompilation extensions
    * @private
    */
-  _doesPrecompiledFileExist: function(relativePath, extensions) {
+  _doesPrecompiledFileExist(relativePath, extensions) {
     var sourceExtensions = Array.isArray(extensions) ? extensions : [];
     var extension, extensionPath;
 
@@ -183,7 +202,7 @@ module.exports = {
    * @param {String} relativePath - path to file within current app/addon
    * @returns {Boolean} whether or not the file exists within the current app/addon
    */
-  _doesTemplateFileExist: function(relativePath) {
+  _doesTemplateFileExist(relativePath) {
     var templateExtensions = this.registry.extensionsForType('template');
     return this._doesPrecompiledFileExist(relativePath, templateExtensions);
   },
@@ -193,7 +212,7 @@ module.exports = {
    * @param {String} path - path to check existence of
    * @returns {Boolean} whether or not path exists
    */
-  _existsSync: function(path) {
+  _existsSync(path) {
     return existsSync(path);
   },
 
@@ -203,7 +222,7 @@ module.exports = {
    * @param {String} relativePath - relative path to file
    * @returns {Boolean} whether or not to filter out file
    */
-  _filterOutAddonFiles: function(name, relativePath) {
+  _filterOutAddonFiles(name, relativePath) {
     if (relativePath.indexOf(name + '/') === 0) {
       relativePath = relativePath.replace(name + '/', '');
     }
@@ -226,8 +245,17 @@ module.exports = {
    * Get project configuration
    * @returns {Configuration} project configuration
    */
-  _getConfig: function() {
-    return config(this.project.configPath());
+  _getConfig() {
+    const appOptions = this._getAddonOptions() || {};
+    const options = appOptions['ember-cli-nacho-coverage'];
+    if (!this.myConfig) {
+      this.myConfig = config(this.project.configPath(), options);
+    }
+    return this.myConfig;
+  },
+
+  _getAddonOptions() {
+    return (this.parent && this.parent.options) || (this.app && this.app.options) || {};
   },
 
   /**
@@ -235,7 +263,7 @@ module.exports = {
    * @returns {String[]} list of transpilation source extensions if provided
    * @private
    */
-  _getTranspiledSourceExtensions: function() {
+  _getTranspiledSourceExtensions() {
     return this._getConfig().includeTranspiledSources || [];
   },
 
@@ -243,7 +271,7 @@ module.exports = {
    * Get paths to exclude from coverage
    * @returns {Array<String>} exclude paths
    */
-  _getExcludes: function() {
+  _getExcludes() {
     var excludes = this._getConfig().excludes || [];
     var name = this._parentName();
     excludes.push(this._filterOutAddonFiles.bind(this, name));
@@ -255,7 +283,7 @@ module.exports = {
    * Determine whether or not coverage is enabled
    * @returns {Boolean} whether or not coverage is enabled
    */
-  _isCoverageEnabled: function() {
+  _isCoverageEnabled() {
     var value = process.env[this._getConfig().coverageEnvVar] || false;
 
     if (value.toLowerCase) {
@@ -269,7 +297,7 @@ module.exports = {
    * Determine the name of the parent app or addon.
    * @returns {String} the name of the parent
    */
-  _parentName: function() {
+  _parentName() {
     if (this.parent.isEmberCLIAddon()) {
       return this._findCoveredAddon().name;
     } else {
@@ -281,7 +309,7 @@ module.exports = {
    * Find the addon (if any) that's being covered.
    * @returns {Addon} the addon under test
    */
-  _findCoveredAddon: function() {
+  _findCoveredAddon() {
     if (!this._coveredAddon) {
       this._coveredAddon = this.project.findAddonByName(this.project.pkg.name);
     }

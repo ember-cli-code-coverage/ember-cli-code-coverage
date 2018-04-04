@@ -1,17 +1,17 @@
-# ember-cli-code-coverage [![npm version](https://badge.fury.io/js/ember-cli-code-coverage.svg)](http://badge.fury.io/js/ember-cli-code-coverage) [![Build Status](https://travis-ci.org/kategengler/ember-cli-code-coverage.svg?branch=master)](https://travis-ci.org/kategengler/ember-cli-code-coverage)
+# ember-cli-nacho-coverage
 
-Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember apps.
+Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember apps that works with any transpiler.
 
 ## Requirements
 * If using Mocha, Testem `>= 1.6.0` for which you need ember-cli `> 2.4.3`
 * If using Mirage you need `ember-cli-mirage >= 0.1.13`
 * If using Pretender (even as a dependency of Mirage) you need `pretender >= 0.11.0`
-* If using Mirage or Pretender, you need to [set up a passthrough for coverage to be written](#create-a-passthrough-when-intercepting-all-ajax-requests-in-tests). 
+* If using Mirage or Pretender, you need to [set up a passthrough for coverage to be written](#create-a-passthrough-when-intercepting-all-ajax-requests-in-tests).
 
 
 ## Installation
 
-* `ember install ember-cli-code-coverage`
+* `ember install ember-cli-nacho-coverage`
 
 ## Usage
 
@@ -33,7 +33,7 @@ When running with `parallel` set to true, the final reports can be merged by usi
 
 ## Configuration
 
-Configuration is optional. It should be put in a file at `config/coverage.js` (`configPath` configuration in package.json is honored)
+Configuration is optional. Use `ember-cli-build.js`, as `ember-cli-nacho-coverage`.
 
 #### Options
 
@@ -44,10 +44,6 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
 - `excludes`: Defaults to `['*/mirage/**/*']`. An array of globs to exclude from instrumentation. Useful to exclude files from coverage statistics.
 
 - `coverageFolder`: Defaults to `coverage`. A folder relative to the root of your project to store coverage results.
-
-- `useBabelInstrumenter`: Defaults to `false`. Whether or not to use Babel instrumenter instead of default instrumenter. The Babel instrumenter is useful when you are using features of ESNext as it uses your Babel configuration defined in `ember-cli-build.js`.
-
-- `babelPlugins`: Defaults to `['babel-plugin-transform-async-to-generator']`. When using the Babel instrumenter, this specifies a set of additional plugins to pass to the parser. Use this to parse specific ESNext features you may be using in your app (decorators, for instance).
 
 - `parallel`: Defaults to `false`. Should be set to true if parallel testing is being used, for example when using [ember-exam](https://github.com/trentmwillis/ember-exam) with the `--parallel` flag. This will generate the coverage reports in directories suffixed with `_<random_string>` to avoid overwriting other threads reports. These reports can be joined by using the `ember coverage-merge` command (potentially as part of the [posttest hook](https://docs.npmjs.com/misc/scripts) in your `package.json`).
 
@@ -60,7 +56,7 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
   }
 ```
 
-## Create a passthrough when intercepting all ajax requests in tests 
+## Create a passthrough when intercepting all ajax requests in tests
 
 To work, this addon has to post coverage results back to a middleware at `/write-coverage`.
 

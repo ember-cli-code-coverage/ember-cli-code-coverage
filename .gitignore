@@ -16,3 +16,7 @@
 /libpeerconnection.log
 npm-debug.log*
 testem.log
+
+yalc.lock
+.yalc
+yarn-error.log

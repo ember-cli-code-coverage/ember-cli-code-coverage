@@ -1,7 +1,7 @@
 {
-  "name": "ember-cli-code-coverage-ts",
+  "name": "ember-cli-nacho-coverage",
   "version": "1.0.0",
-  "description": "Code coverage for ember projects using Istanbul with TS support",
+  "description": "Code coverage for ember projects using Istanbul regarless what transpiler you use.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -12,7 +12,7 @@
     "lint": "eslint config lib test tests *.js",
     "test": "npm run-script lint && npm run-script node-test"
   },
-  "repository": "igbopie/ember-cli-code-coverage",
+  "repository": "igbopie/ember-cli-nacho-coverage",
   "engines": {
     "node": ">= 4"
   },
@@ -26,31 +26,31 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
-    "chai": "^3.5.0",
+    "chai": "^4.1.2",
     "chai-files": "^1.2.0",
-    "ember-cli": "^2.13.1",
-    "ember-cli-app-version": "^1.0.0",
-    "ember-cli-dependency-checker": "^1.3.0",
-    "ember-cli-eslint": "^3.0.0",
-    "ember-cli-htmlbars": "^1.1.1",
-    "ember-cli-htmlbars-inline-precompile": "^0.4.0",
+    "ember-cli": "^3.0.2",
+    "ember-cli-app-version": "^3.1.3",
+    "ember-cli-dependency-checker": "^2.1.0",
+    "ember-cli-eslint": "^4.2.3",
+    "ember-cli-htmlbars": "^2.0.3",
+    "ember-cli-htmlbars-inline-precompile": "^1.0.2",
     "ember-cli-inject-live-reload": "^1.4.1",
     "ember-cli-qunit": "^4.0.0",
     "ember-cli-release": "^1.0.0-beta.1",
     "ember-cli-shims": "^1.1.0",
     "ember-cli-sri": "^2.1.0",
-    "ember-cli-uglify": "^1.2.0",
+    "ember-cli-uglify": "^2.1.0",
     "ember-disable-prototype-extensions": "^1.1.0",
-    "ember-exam": "0.7.0",
+    "ember-exam": "1.0.0",
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
     "ember-resolver": "^4.0.0",
-    "ember-source": "~2.13.0",
-    "eslint": "^2.10.2",
+    "ember-source": "~3.0.0",
+    "eslint": "^4.19.1",
     "glob": "^7.0.3",
     "loader.js": "^4.2.3",
-    "mocha": "^2.4.5",
-    "sinon": "^1.17.4"
+    "mocha": "^5.0.5",
+    "sinon": "^4.5.0"
   },
   "keywords": [
     "ember-addon"
@@ -58,18 +58,18 @@
   "dependencies": {
     "body-parser": "^1.15.0",
     "broccoli-filter": "^1.2.3",
-    "broccoli-funnel": "^1.0.1",
-    "broccoli-merge-trees": "^1.1.1",
+    "broccoli-funnel": "^2.0.1",
+    "broccoli-merge-trees": "^3.0.0",
     "ember-cli-babel": "^6.8.2",
     "escodegen": "^1.8.0",
-    "esprima": "^3.1.3",
-    "exists-sync": "0.0.3",
+    "esprima": "^4.0.0",
+    "exists-sync": "0.1.0",
     "extend": "^3.0.0",
-    "fs-extra": "^0.26.7",
+    "fs-extra": "^5.0.0",
     "istanbul": "^0.4.3",
     "node-dir": "^0.1.16",
-    "rsvp": "^3.2.1",
-    "source-map": "0.5.6",
+    "rsvp": "^4.8.2",
+    "source-map": "^0.7.2",
     "string.prototype.startswith": "^0.2.0"
   },
   "ember-addon": {
