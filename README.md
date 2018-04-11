@@ -55,6 +55,54 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
   }
 ```
 
+## Fail a build when coverage doesn’t meet defined thresholds
+
+To analyze coverage stats you will need the [`nyc`](https://github.com/istanbuljs/nyc) command line tool. The first step is to install it:
+
+`npm install nyc --save-dev`
+
+Then you will need to define the thresholds you would like by adding a `.nycrc` file to the root of your app.
+
+For example:
+
+```
+{
+  "all": true,
+  "check-coverage": true,
+  "per-file": true,
+  "temp-directory": "coverage",
+  "branches": 60,
+  "functions": 60,
+  "lines": 60,
+  "statements": 60,
+  "watermarks": {
+    "branches": [70, 80],
+    "functions": [70, 80],
+    "lines": [70, 80],
+    "statements": [70, 80]
+  }
+}
+```
+
+With this config, `nyc` will validate the coverage percentage for each file individually and fail whenever it’s lower than 60%. The watermarks numbers are used only as guidelines to modify the output color of the reporter.
+
+Next, to execute `nyc` you can define a command to check the coverage in `package.json`:
+
+```json
+"scripts": {
+  "test": "COVERAGE=true ember test",
+  "check-coverage": "./node_modules/.bin/nyc check-coverage"
+}
+```
+
+Finally, to fail the build on Travis if the thresholds are not met, you can add the previously defined command in the "script" section:
+
+```yml
+script:
+  - npm test
+  - npm run check-coverage
+```
+
 ## Create a passthrough when intercepting all ajax requests in tests
 
 To work, this addon has to post coverage results back to a middleware at `/write-coverage`.
