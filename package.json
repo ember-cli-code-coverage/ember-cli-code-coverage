@@ -33,7 +33,6 @@
     "ember-cli-babel": "^6.6.0",
     "ember-cli-htmlbars": "^2.0.1",
     "ember-cli-version-checker": "^2.0.0",
-    "exists-sync": "0.0.4",
     "extend": "^3.0.0",
     "fs-extra": "^5.0.0",
     "istanbul-api": "^1.1.14",
