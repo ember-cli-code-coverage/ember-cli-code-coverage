@@ -1,7 +1,6 @@
 'use strict';
 
 var path = require('path');
-var existsSync = require('exists-sync');
 var fs = require('fs-extra');
 var attachMiddleware = require('./lib/attach-middleware');
 var config = require('./lib/config');
@@ -121,17 +120,6 @@ module.exports = {
       return this.serverMiddleware({ app }, config);
     }
     attachMiddleware.testMiddleware(app, config);
-  },
-
-  // Custom Methods
-
-  /**
-   * Thin wrapper around exists-sync that allows easy stubbing in tests
-   * @param {String} path - path to check existence of
-   * @returns {Boolean} whether or not path exists
-   */
-  _existsSync: function(path) {
-    return existsSync(path);
   },
 
   /**
