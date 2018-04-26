@@ -1,5 +1,22 @@
 # Change Log
 
+## v1.0.0-beta.4 (2018-04-26)
+
+#### :rocket: Enhancement
+* [#179](https://github.com/kategengler/ember-cli-code-coverage/pull/179) Removing unused dependency exists-sync which fixes the deprecation warning from ember-cli. ([@selvaa89](https://github.com/selvaa89))
+* [#164](https://github.com/kategengler/ember-cli-code-coverage/pull/164) Use the parent registry for determining JS extensions. ([@dfreeman](https://github.com/dfreeman))
+* [#169](https://github.com/kategengler/ember-cli-code-coverage/pull/169) Update babel-plugin-istanbul. ([@charlesdemers](https://github.com/charlesdemers))
+* [#163](https://github.com/kategengler/ember-cli-code-coverage/pull/163) Remove merge-coverage and explicit parallel option. ([@adamjmcgrath](https://github.com/adamjmcgrath))
+
+#### :bug: Bug Fix
+* [#166](https://github.com/kategengler/ember-cli-code-coverage/pull/166) Revert "Remove merge-coverage and explicit parallel option (#163)". ([@adamjmcgrath](https://github.com/adamjmcgrath))
+
+#### Committers: 4
+- Adam Mcgrath ([adamjmcgrath](https://github.com/adamjmcgrath))
+- Charles Demers ([charlesdemers](https://github.com/charlesdemers))
+- Dan Freeman ([dfreeman](https://github.com/dfreeman))
+- Selvaraj Antonyraj ([selvaa89](https://github.com/selvaa89))
+
 ## v1.0.0-beta.3 (2018-02-13)
 
 #### :rocket: Enhancement
