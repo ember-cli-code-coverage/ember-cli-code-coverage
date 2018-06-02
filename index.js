@@ -31,6 +31,8 @@ function getPlugins(appOrAddon) {
 // Regular expression to extract the file extension from a path.
 const EXT_RE = /\.[^\.]+$/;
 
+let fileLookup = null;
+
 module.exports = {
   name: 'ember-cli-code-coverage',
 
@@ -45,7 +47,7 @@ module.exports = {
   included: function(appOrAddon) {
     this._super.included.apply(this, arguments);
 
-    this.fileLookup = {};
+    fileLookup = this.fileLookup = {};
     this.parentRegistry = appOrAddon.registry;
 
     if (!this._registeredWithBabel && this._isCoverageEnabled()) {
@@ -102,7 +104,7 @@ module.exports = {
     attachMiddleware.serverMiddleware(startOptions.app, {
       configPath: this.project.configPath(),
       root: this.project.root,
-      fileLookup: this.fileLookup
+      fileLookup: fileLookup
     });
   },
 
@@ -113,7 +115,7 @@ module.exports = {
     const config = {
       configPath: this.project.configPath(),
       root: this.project.root,
-      fileLookup: this.fileLookup
+      fileLookup: fileLookup
     };
     // if we're running `ember test --server` use the `serverMiddleware`.
     if (process.argv.includes('--server') || process.argv.includes('-s')) {
