@@ -12,6 +12,14 @@ module.exports = function() {
       useYarn: true,
       scenarios: [
         {
+          name: 'ember-2.5.1',
+          npm: {
+            devDependencies: {
+              'ember-source': '~2.5.1'
+            }
+          }
+        },
+        {
           name: 'ember-lts-2.12',
           npm: {
             devDependencies: {
