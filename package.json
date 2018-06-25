@@ -35,7 +35,7 @@
     "ember-cli-version-checker": "^2.0.0",
     "extend": "^3.0.0",
     "fs-extra": "^5.0.0",
-    "istanbul-api": "^1.1.14",
+    "istanbul-api": "^2.0.1",
     "lodash.concat": "^4.5.0",
     "node-dir": "^0.1.16",
     "rsvp": "^4.8.1",
