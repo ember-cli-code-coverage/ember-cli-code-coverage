@@ -270,6 +270,6 @@ module.exports = {
       });
     }
 
-    return this._inRepoAddons;
+    return this._inRepoAddons.filter(Boolean);
   }
 };
