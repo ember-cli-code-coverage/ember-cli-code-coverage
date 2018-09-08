@@ -23,10 +23,10 @@ describe('in-repo engine coverage generation', function() {
   beforeEach(function() {
     app = new AddonTestApp();
     return app.create('my-app-with-in-repo-engine', {
-      emberVersion: '3.4.0'
+      emberVersion: '2.16.0'
     }).then(() => {
       app.editPackageJSON(pkg => {
-        pkg.devDependencies['ember-engines'] = '0.5.22';
+        pkg.devDependencies['ember-engines'] = '0.5.14';
         pkg.devDependencies['ember-exam'] = '1.0.0';
         // Temporarily remove the addon before install to work around https://github.com/tomdale/ember-cli-addon-tests/issues/176
         delete pkg.devDependencies['ember-cli-code-coverage'];
