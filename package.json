@@ -26,21 +26,20 @@
     "test": "npm run-script lint:js && npm run-script node-test"
   },
   "dependencies": {
-    "babel-core": "^6.24.1",
-    "babel-plugin-istanbul": "^4.1.6",
+    "@babel/core": "^7.0.0",
+    "babel-plugin-istanbul": "^5.0.1",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "body-parser": "^1.15.0",
+    "body-parser": "^1.18.3",
     "co": "^4.6.0",
-    "ember-cli-babel": "^6.16.0",
-    "ember-cli-htmlbars": "^2.0.1",
-    "ember-cli-version-checker": "^2.0.0",
-    "extend": "^3.0.0",
+    "ember-cli-babel": "^7.1.0",
+    "ember-cli-version-checker": "^2.1.2",
+    "extend": "^3.0.2",
     "fs-extra": "^5.0.0",
-    "istanbul-api": "^2.0.1",
+    "istanbul-api": "^2.0.6",
     "lodash.concat": "^4.5.0",
     "node-dir": "^0.1.16",
-    "rsvp": "^4.8.1",
-    "walk-sync": "^0.3.2"
+    "rsvp": "^4.8.3",
+    "walk-sync": "^0.3.3"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.6.3",
@@ -70,10 +69,10 @@
     "eslint-plugin-ember": "^5.2.0",
     "eslint-plugin-node": "^7.0.1",
     "fixturify": "^0.3.4",
-    "glob": "^7.1.2",
+    "glob": "^7.1.3",
     "lerna-changelog": "^0.7.0",
     "loader.js": "^4.7.0",
-    "mocha": "^5.0.0",
+    "mocha": "^5.2.0",
     "qunit-dom": "^0.7.1",
     "rimraf": "^2.6.2",
     "sinon": "^4.2.2"
