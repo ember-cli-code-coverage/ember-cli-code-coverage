@@ -34,7 +34,7 @@ const EXT_RE = /\.[^\.]+$/;
 let fileLookup = null;
 
 module.exports = {
-  name: 'ember-cli-code-coverage',
+  name: require('./package').name,
 
   /**
    * Look up the file path from an ember module path.
