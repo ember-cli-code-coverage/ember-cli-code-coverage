@@ -1,5 +1,24 @@
 # Change Log
 
+## v1.0.0-beta.5 (2018-09-09)
+
+#### :boom: Breaking Change
+* [#190](https://github.com/kategengler/ember-cli-code-coverage/pull/190) Update to Ember 3.4, dropping support for Node 4. ([@rwwagner90](https://github.com/rwwagner90))
+* [#186](https://github.com/kategengler/ember-cli-code-coverage/pull/186) upgrade istanbul-api to 2.0.1. ([@lennyburdette](https://github.com/lennyburdette))
+
+#### :bug: Bug Fix
+* [#188](https://github.com/kategengler/ember-cli-code-coverage/pull/188) Filter out in-repo addons that could not be found. ([@jamescdavis](https://github.com/jamescdavis))
+* [#182](https://github.com/kategengler/ember-cli-code-coverage/pull/182) Fix fileLookup is null in testemMiddleware. ([@Gaurav0](https://github.com/Gaurav0))
+
+#### :house: Internal
+* [#191](https://github.com/kategengler/ember-cli-code-coverage/pull/191) Bump deps. ([@rwwagner90](https://github.com/rwwagner90))
+
+#### Committers: 4
+- Gaurav Munjal ([Gaurav0](https://github.com/Gaurav0))
+- James C. Davis ([jamescdavis](https://github.com/jamescdavis))
+- Lenny Burdette ([lennyburdette](https://github.com/lennyburdette))
+- Robert Wagner ([rwwagner90](https://github.com/rwwagner90))
+
 ## v1.0.0-beta.4 (2018-04-26)
 
 #### :rocket: Enhancement
