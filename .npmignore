@@ -12,12 +12,15 @@
 /.eslintignore
 /.eslintrc.js
 /.gitignore
+/.idea/
 /.watchmanconfig
 /.travis.yml
 /bower.json
 /config/ember-try.js
+/coverage/
 /ember-cli-build.js
 /testem.js
+/test/
 /tests/
 /yarn.lock
 .gitkeep
