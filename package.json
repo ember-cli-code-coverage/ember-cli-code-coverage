@@ -26,7 +26,7 @@
     "test": "npm run-script lint:js && npm run-script node-test"
   },
   "dependencies": {
-    "babel-plugin-istanbul": "^5.0.1",
+    "babel-plugin-istanbul": "^5.1.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "body-parser": "^1.18.3",
     "co": "^4.6.0",
