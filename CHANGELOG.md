@@ -1,5 +1,16 @@
 # Change Log
 
+## v1.0.0-beta.6 (2018-09-19)
+
+#### :bug: Bug Fix
+* [#194](https://github.com/kategengler/ember-cli-code-coverage/pull/194) Update babel-plugin-istanbul. ([@rwwagner90](https://github.com/rwwagner90))
+
+#### :house: Internal
+* [#192](https://github.com/kategengler/ember-cli-code-coverage/pull/192) Do not publish coverage, tests, or .idea to npm. ([@rwwagner90](https://github.com/rwwagner90))
+
+#### Committers: 1
+- Robert Wagner ([rwwagner90](https://github.com/rwwagner90))
+
 ## v1.0.0-beta.5 (2018-09-09)
 
 #### :boom: Breaking Change
