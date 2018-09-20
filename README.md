@@ -61,7 +61,7 @@ Steps:
 ```js
   {
     devDependencies: {
-      "ember-cli-code-coverage": "https://github.com/kategengler/ember-cli-code-coverage#master#2018-08-15T15:51:29Zs"
+      "ember-cli-code-coverage": "^1.0.0-beta.6"
     }
   }
 ```
