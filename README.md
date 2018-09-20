@@ -52,7 +52,7 @@ Steps:
       sourceMaps: 'inline'
     },
     sourcemaps: {
-      enabled: config.sourcemapsEnabled,
+      enabled: true,
       extensions: ['js']
     }
   });
