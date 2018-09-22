@@ -7,6 +7,7 @@ var config = require('./lib/config');
 const walkSync = require('walk-sync');
 const VersionChecker = require('ember-cli-version-checker');
 const concat = require('lodash.concat');
+const isModuleUnificationProject = require('./lib/module-unification').isModuleUnificationProject;
 
 function requireBabelPlugin(pluginName) {
   let plugin = require(pluginName);
@@ -149,8 +150,11 @@ module.exports = {
    * @returns {Array<String>} include paths
    */
   _getIncludesForAppDirectory: function() {
-    const dir = path.join(this.project.root, 'app');
-    let prefix = this.parent.isEmberCLIAddon() ? 'dummy' : this.parent.name();
+    let root = isModuleUnificationProject(this.project) ? 'src' : 'app';
+    const dir = path.join(this.project.root, root);
+    let prefix = this.parent.isEmberCLIAddon()
+      ? 'dummy'
+      : (isModuleUnificationProject(this.project) ? `${this.parent.name()}/${root}` : this.parent.name());
     return this._getIncludesForDir(dir, prefix);
   },
 
