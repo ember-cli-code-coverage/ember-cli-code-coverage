@@ -34,6 +34,40 @@ When running with `parallel` set to true, the final reports can be merged by usi
 
 NOTE: If you are under a module unification based folder structure, you need to ensure that you have `EMBER_CLI_MODULE_UNIFICATION` flag turned to `TRUE`
 
+## TypeScript integration
+
+Steps:
+
+* in `tsconfig.json`
+```js
+  {
+    "compilerOptions": {
+      "inlineSourceMap": true,
+      "inlineSources": true
+    }
+  }
+```
+* in `ember-cli-build.js`
+```js
+  const app = new EmberApp(defaults, {
+    babel: {
+      sourceMaps: 'inline'
+    },
+    sourcemaps: {
+      enabled: true,
+      extensions: ['js']
+    }
+  });
+```
+* in `package.json` specify latest available version
+```js
+  {
+    devDependencies: {
+      "ember-cli-code-coverage": "^1.0.0-beta.6"
+    }
+  }
+```
+
 ## Configuration
 
 Configuration is optional. It should be put in a file at `config/coverage.js` (`configPath` configuration in package.json is honored). In addition to this you can configure Istanbul by adding a `.istanbul.yml` file to the root directory of your app (See https://github.com/gotwarlost/istanbul#configuring)
