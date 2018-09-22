@@ -32,6 +32,8 @@ and then:
 
 When running with `parallel` set to true, the final reports can be merged by using `ember coverage-merge`. The final merged output will be stored in the `coverageFolder`.
 
+NOTE: If you are under a module unification based folder structure, you need to ensure that you have `EMBER_CLI_MODULE_UNIFICATION` flag turned to `TRUE`
+
 ## Configuration
 
 Configuration is optional. It should be put in a file at `config/coverage.js` (`configPath` configuration in package.json is honored). In addition to this you can configure Istanbul by adding a `.istanbul.yml` file to the root directory of your app (See https://github.com/gotwarlost/istanbul#configuring)
