@@ -1,80 +1,95 @@
 {
   "name": "ember-cli-code-coverage",
-  "version": "0.3.11",
+  "version": "1.0.0-beta.6",
   "description": "Code coverage for ember projects using Istanbul",
-  "directories": {
-    "doc": "doc",
-    "test": "tests"
-  },
-  "scripts": {
-    "node-test": "mocha test/**/*-test.js",
-    "browser-test": "COVERAGE=true ember test",
-    "lint": "eslint config lib test tests *.js",
-    "test": "npm run-script lint && npm run-script node-test"
-  },
-  "repository": "kategengler/ember-cli-code-coverage",
-  "engines": {
-    "node": ">= 0.10.0"
-  },
+  "keywords": [
+    "ember-addon"
+  ],
+  "license": "MIT",
   "author": "Katie Gengler",
   "contributors": [
     "Matthew Dahl (https://github.com/sandersky)",
     "Robert Jackson (https://github.com/rwjblue)",
     "Robert Wagner (https://github.com/rwwagner90)"
   ],
-  "license": "MIT",
-  "devDependencies": {
-    "broccoli-asset-rev": "^2.4.2",
-    "chai": "^3.5.0",
-    "chai-files": "^1.2.0",
-    "ember-cli": "2.5.0",
-    "ember-cli-app-version": "^1.0.0",
-    "ember-cli-dependency-checker": "^1.2.0",
-    "ember-cli-eslint": "^2.0.0",
-    "ember-cli-htmlbars": "^1.0.3",
-    "ember-cli-htmlbars-inline-precompile": "^0.3.1",
-    "ember-cli-inject-live-reload": "^1.4.0",
-    "ember-cli-qunit": "^1.4.0",
-    "ember-cli-release": "^1.0.0-beta.1",
-    "ember-cli-sri": "^2.1.0",
-    "ember-cli-uglify": "^1.2.0",
-    "ember-disable-prototype-extensions": "^1.1.0",
-    "ember-exam": "0.6.0",
-    "ember-export-application-global": "^1.0.5",
-    "ember-load-initializers": "^0.5.1",
-    "ember-resolver": "^2.0.3",
-    "ember-try": "^0.2.2",
-    "eslint": "^2.10.2",
-    "glob": "^7.0.3",
-    "loader.js": "^4.0.1",
-    "mocha": "^2.4.5",
-    "sinon": "^1.17.4"
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
   },
-  "keywords": [
-    "ember-addon"
-  ],
+  "repository": "https://github.com/kategengler/ember-cli-code-coverage",
+  "scripts": {
+    "browser-test": "COVERAGE=true ember test",
+    "changelog": "lerna-changelog",
+    "lint:hbs": "ember-template-lint .",
+    "lint:js": "eslint .",
+    "node-test": "mocha test/**/*-test.js",
+    "test": "npm run-script lint:js && npm run-script node-test"
+  },
   "dependencies": {
-    "babel-core": "^5.8.38",
-    "body-parser": "^1.15.0",
-    "broccoli-filter": "^1.2.3",
-    "broccoli-funnel": "^1.0.1",
-    "broccoli-merge-trees": "^1.1.1",
-    "ember-cli-babel": "^5.1.6",
-    "escodegen": "^1.8.0",
-    "esprima": "^2.7.2",
-    "exists-sync": "0.0.3",
-    "extend": "^3.0.0",
-    "fs-extra": "^0.26.7",
-    "istanbul": "^0.4.3",
+    "babel-plugin-istanbul": "^5.1.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "body-parser": "^1.18.3",
+    "co": "^4.6.0",
+    "ember-cli-babel": "^7.1.0",
+    "ember-cli-version-checker": "^2.1.2",
+    "extend": "^3.0.2",
+    "fs-extra": "^5.0.0",
+    "istanbul-api": "^2.0.6",
+    "lodash.concat": "^4.5.0",
     "node-dir": "^0.1.16",
-    "rsvp": "^3.2.1",
-    "source-map": "0.5.6",
-    "string.prototype.startswith": "^0.2.0"
+    "rsvp": "^4.8.3",
+    "walk-sync": "^0.3.3"
+  },
+  "devDependencies": {
+    "@ember/optional-features": "^0.6.3",
+    "broccoli-asset-rev": "^2.7.0",
+    "chai": "^4.1.2",
+    "chai-files": "^1.2.0",
+    "ember-cli": "~3.4.1",
+    "ember-cli-addon-tests": "^0.11.0",
+    "ember-cli-dependency-checker": "^3.0.0",
+    "ember-cli-eslint": "^4.2.3",
+    "ember-cli-htmlbars": "^3.0.0",
+    "ember-cli-htmlbars-inline-precompile": "^1.0.3",
+    "ember-cli-inject-live-reload": "^1.8.2",
+    "ember-cli-qunit": "^4.3.2",
+    "ember-cli-sri": "^2.1.1",
+    "ember-cli-template-lint": "^1.0.0-beta.1",
+    "ember-cli-uglify": "^2.1.0",
+    "ember-disable-prototype-extensions": "^1.1.3",
+    "ember-exam": "1.0.0",
+    "ember-export-application-global": "^2.0.0",
+    "ember-load-initializers": "^1.1.0",
+    "ember-maybe-import-regenerator": "^0.1.6",
+    "ember-resolver": "^5.0.1",
+    "ember-source": "~3.4.0",
+    "ember-source-channel-url": "^1.1.0",
+    "ember-try": "^1.0.0",
+    "eslint-plugin-ember": "^5.2.0",
+    "eslint-plugin-node": "^7.0.1",
+    "fixturify": "^0.3.4",
+    "glob": "^7.1.3",
+    "lerna-changelog": "^0.7.0",
+    "loader.js": "^4.7.0",
+    "mocha": "^5.2.0",
+    "qunit-dom": "^0.7.1",
+    "rimraf": "^2.6.2",
+    "sinon": "^4.2.2"
+  },
+  "engines": {
+    "node": "6.* || 8.* || >= 10.*"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config",
-    "versionCompatibility": {
-      "ember": ">=1.10.0"
+    "configPath": "tests/dummy/config"
+  },
+  "changelog": {
+    "repo": "kategengler/ember-cli-code-coverage",
+    "labels": {
+      "breaking": ":boom: Breaking Change",
+      "enhancement": ":rocket: Enhancement",
+      "bug": ":bug: Bug Fix",
+      "documentation": ":memo: Documentation",
+      "internal": ":house: Internal"
     }
   }
 }

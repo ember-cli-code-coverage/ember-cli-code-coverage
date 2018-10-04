@@ -1,43 +1,49 @@
 ---
 language: node_js
 node_js:
-  - "0.12"
-  - "4.2"
   - "6"
+  - "8"
 
+sudo: false
 dist: trusty
-sudo: required
 
-branches:
-  only:
-    - master
-    - auto
-    - /^greenkeeper.*$/
+addons:
+  chrome: stable
 
 cache:
-  directories:
-    - node_modules
+  yarn: true
 
-env:
-  - NPM_SCRIPT=node-test
+stages:
+  - lint
+  - test
+  - deploy
 
-matrix:
-  fast_finish: true
+jobs:
+  fail_fast: true
+
   include:
-  - node_js: "6"
-    env: NPM_SCRIPT=lint
+    - stage: lint
+      script: npm run-script lint:js
+    - stage: deploy
+      if: tag IS present
+      node_js: "6"
+      install: yarn global add auto-dist-tag@0.1.5
+      script: auto-dist-tag --write
+      deploy:
+        provider: npm
+        email: katie@kmg.io
+        api_key:
+          secure: 1lwhuEjgX41j06ObP6VNIFXSWzTPylvG/iOa5BYdCmazFS5ry9d5CYBpTsGB6GhPfhPVYbrefwQSMerK7vzls6PfIxnSpGudIb48PGlHxZOlb5SQ/FOclWzwOylrCBSDWv0YRjlIkLkGf9VTo9zVBLvUWQs22ec40dVqcovj4Yy5YKRa2t3vLvOqV8KNx4n6AYmbSljZoJ6OePhSaYIwMYq56eBaphjumj7/cBShQ594azf0RBnvb2ILC2SixreiFTakThHAlNTbkIbMRdByzygZDTeZVLHoDaY5ZDmwBGP+SW25Qz6o2dLDAA5Xv4yhIGX4Zulai3nfhap0Jf65u/bGIK+4auZg1x0usjkewIqc8R7f+GKMjkhXCTA7bDtRmrkHA/WjdNiAXBaqRdFUwBaIJisL9RPpffgkgelMWHYwAH4R871pA0q8ebGsIY8KDsS0v6MeQT/jwCM4yVnNSYyJpLwIoZy0pLBII9rtdugEYL5wzBAfmmlBenyj5cYx/94bWw6R3aeZSEOTke8/JzzsH6dbjQEsPj21sHNS+DUCEdX5pX8xBWWDMsO/WBrzJptSXtyKdabnrpt2muF6VPUqHFGIlu/cS4RMswebJF160g3OhcFgSpbaXH60tKP2xIRzQx7KczL5+CM3E61XPsEyCfZ79KyUcr4zWJoS96Y=
+        on:
+          tags: true
+          repo: kategengler/ember-cli-code-coverage
 
 before_install:
-  - export CHROME_BIN=chromium-browser
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - npm config set spin false
-  - npm install -g npm@^2
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
 
 install:
-  - npm install -g bower
-  - npm install
-  - bower install
+  - yarn install --no-lockfile --non-interactive
 
 script:
-  - npm run-script $NPM_SCRIPT
+  - npm run-script node-test

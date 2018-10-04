@@ -1,4 +1,4 @@
-# ember-cli-code-coverage [![Build Status](https://travis-ci.org/kategengler/ember-cli-code-coverage.svg?branch=master)](https://travis-ci.org/kategengler/ember-cli-code-coverage)
+# ember-cli-code-coverage [![npm version](https://badge.fury.io/js/ember-cli-code-coverage.svg)](http://badge.fury.io/js/ember-cli-code-coverage) [![Build Status](https://travis-ci.org/kategengler/ember-cli-code-coverage.svg?branch=master)](https://travis-ci.org/kategengler/ember-cli-code-coverage)
 
 Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember apps.
 
@@ -6,7 +6,8 @@ Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember
 * If using Mocha, Testem `>= 1.6.0` for which you need ember-cli `> 2.4.3`
 * If using Mirage you need `ember-cli-mirage >= 0.1.13`
 * If using Pretender (even as a dependency of Mirage) you need `pretender >= 0.11.0`
-* If using Mirage or Pretender, you need to [set up a passthrough for coverage to be written](#create-a-passthrough-when-intercepting-all-ajax-requests-in-tests). 
+* If using Mirage or Pretender, you need to [set up a passthrough for coverage to be written](#create-a-passthrough-when-intercepting-all-ajax-requests-in-tests).
+* `ember-cli-babel >= 6.0.0`
 
 
 ## Installation
@@ -31,9 +32,43 @@ and then:
 
 When running with `parallel` set to true, the final reports can be merged by using `ember coverage-merge`. The final merged output will be stored in the `coverageFolder`.
 
+## TypeScript integration
+
+Steps:
+
+* in `tsconfig.json`
+```js
+  {
+    "compilerOptions": {
+      "inlineSourceMap": true,
+      "inlineSources": true
+    }
+  }
+```
+* in `ember-cli-build.js`
+```js
+  const app = new EmberApp(defaults, {
+    babel: {
+      sourceMaps: 'inline'
+    },
+    sourcemaps: {
+      enabled: true,
+      extensions: ['js']
+    }
+  });
+```
+* in `package.json` specify latest available version
+```js
+  {
+    devDependencies: {
+      "ember-cli-code-coverage": "^1.0.0-beta.6"
+    }
+  }
+```
+
 ## Configuration
 
-Configuration is optional. It should be put in a file at `config/coverage.js` (`configPath` configuration in package.json is honored)
+Configuration is optional. It should be put in a file at `config/coverage.js` (`configPath` configuration in package.json is honored). In addition to this you can configure Istanbul by adding a `.istanbul.yml` file to the root directory of your app (See https://github.com/gotwarlost/istanbul#configuring)
 
 #### Options
 
@@ -45,9 +80,7 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
 
 - `coverageFolder`: Defaults to `coverage`. A folder relative to the root of your project to store coverage results.
 
-- `useBabelInstrumenter`: Defaults to `false`. Whether or not to use Babel instrumenter instead of default instrumenter. The Babel instrumenter is useful when you are using features of ESNext as it uses your Babel configuration defined in `ember-cli-build.js`.
-
-- `parallel`: Defaults to `false`. Should be set to true if parallel testing is being used, for example when using [ember-exam](https://github.com/trentmwillis/ember-exam) with the `--parallel` flag. This will generate the coverage reports in directories suffixed with `_<random_string>` to avoid overwriting other threads reports. These reports can be joined by using the `ember coverage-merge` command.
+- `parallel`: Defaults to `false`. Should be set to true if parallel testing is being used for separate test runs, for example when using [ember-exam](https://github.com/trentmwillis/ember-exam) with the `--partition` flag. This will generate the coverage reports in directories suffixed with `_<random_string>` to avoid overwriting other threads reports. These reports can be joined by using the `ember coverage-merge` command (potentially as part of the [posttest hook](https://docs.npmjs.com/misc/scripts) in your `package.json`).
 
 #### Example
 ```js
@@ -56,7 +89,7 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
   }
 ```
 
-## Create a passthrough when intercepting all ajax requests in tests 
+## Create a passthrough when intercepting all ajax requests in tests
 
 To work, this addon has to post coverage results back to a middleware at `/write-coverage`.
 

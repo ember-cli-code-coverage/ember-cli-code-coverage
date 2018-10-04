@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-  publish: true
+  extends: 'recommended'
 };

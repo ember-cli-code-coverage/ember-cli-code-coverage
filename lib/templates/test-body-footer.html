@@ -3,15 +3,11 @@
   var REQUEST_ASYNC = !/PhantomJS/.test(window.navigator.userAgent);
 
   function sendCoverage(callback) {
-   Object.keys(require.entries).forEach(function(file) {
-      // Only load non-test files from the project
-      var parts = file.split('/');
-      if (parts[0] === '{%PROJECT_NAME%}' && parts[1] !== 'tests') {
-        try {
-          require(file);
-        } catch(error) {
-          console.warn('Error occurred while evaluating `' + file + '`: ' + error.message + '\n' + error.stack);
-        }
+    {%ENTRIES%}.forEach(function(file) {
+      try {
+        require(file);
+      } catch(error) {
+        console.warn('Error occurred while evaluating `' + file + '`: ' + error.message + '\n' + error.stack);
       }
     });
 
@@ -25,9 +21,11 @@
 
     if (REQUEST_ASYNC) {
       request.responseType = 'json';
-      request.onload = function() {
-        handleCoverageResponse(this, callback);
-      }
+      request.onreadystatechange = function() {
+        if (request.readyState === 4) {
+          handleCoverageResponse(this, callback);
+        }
+      };
     } else {
       // The request is already done at this point, since it is synchronous
       if (request.status === 200) {
@@ -44,26 +42,32 @@
     QUnit.done(function() {
       sendCoverage();
     });
+  } else if (typeof Mocha !== "undefined" && typeof after !== "undefined") {
+    after(function(done) {
+      sendCoverage(done);
+    });
+  } else {
+    console.warn('No testing framework found for ember-cli-code-coverage to integrate with.');
   }
 
   function handleCoverageResponse(xhr, callback) {
-    var data = xhr.response;
+    var data = xhr.response || xhr.responseText;
 
     // PhantomJS doesn't honor `responseType = 'json'`
     if (typeof data === 'string') {
       data = JSON.parse(data);
     }
 
-    if (!data || !data.total) {
+    if (!data) {
       return;
     }
 
     var results = ['Lines', 'Branches', 'Functions', 'Statements']
       .filter(function (name) {
-        return data.total[name.toLowerCase()]
+        return name.toLowerCase();
       })
       .map(function (name) {
-        return name + ' ' + data.total[name.toLowerCase()].pct + '%'
+        return name + ' ' + data[name.toLowerCase()].pct + '%'
       });
 
     var resultsText = document.createTextNode(results.join(' | '));

@@ -1,5 +1,137 @@
 # Change Log
 
+## v1.0.0-beta.6 (2018-09-19)
+
+#### :bug: Bug Fix
+* [#194](https://github.com/kategengler/ember-cli-code-coverage/pull/194) Update babel-plugin-istanbul. ([@rwwagner90](https://github.com/rwwagner90))
+
+#### :house: Internal
+* [#192](https://github.com/kategengler/ember-cli-code-coverage/pull/192) Do not publish coverage, tests, or .idea to npm. ([@rwwagner90](https://github.com/rwwagner90))
+
+#### Committers: 1
+- Robert Wagner ([rwwagner90](https://github.com/rwwagner90))
+
+## v1.0.0-beta.5 (2018-09-09)
+
+#### :boom: Breaking Change
+* [#190](https://github.com/kategengler/ember-cli-code-coverage/pull/190) Update to Ember 3.4, dropping support for Node 4. ([@rwwagner90](https://github.com/rwwagner90))
+* [#186](https://github.com/kategengler/ember-cli-code-coverage/pull/186) upgrade istanbul-api to 2.0.1. ([@lennyburdette](https://github.com/lennyburdette))
+
+#### :bug: Bug Fix
+* [#188](https://github.com/kategengler/ember-cli-code-coverage/pull/188) Filter out in-repo addons that could not be found. ([@jamescdavis](https://github.com/jamescdavis))
+* [#182](https://github.com/kategengler/ember-cli-code-coverage/pull/182) Fix fileLookup is null in testemMiddleware. ([@Gaurav0](https://github.com/Gaurav0))
+
+#### :house: Internal
+* [#191](https://github.com/kategengler/ember-cli-code-coverage/pull/191) Bump deps. ([@rwwagner90](https://github.com/rwwagner90))
+
+#### Committers: 4
+- Gaurav Munjal ([Gaurav0](https://github.com/Gaurav0))
+- James C. Davis ([jamescdavis](https://github.com/jamescdavis))
+- Lenny Burdette ([lennyburdette](https://github.com/lennyburdette))
+- Robert Wagner ([rwwagner90](https://github.com/rwwagner90))
+
+## v1.0.0-beta.4 (2018-04-26)
+
+#### :rocket: Enhancement
+* [#179](https://github.com/kategengler/ember-cli-code-coverage/pull/179) Removing unused dependency exists-sync which fixes the deprecation warning from ember-cli. ([@selvaa89](https://github.com/selvaa89))
+* [#164](https://github.com/kategengler/ember-cli-code-coverage/pull/164) Use the parent registry for determining JS extensions. ([@dfreeman](https://github.com/dfreeman))
+* [#169](https://github.com/kategengler/ember-cli-code-coverage/pull/169) Update babel-plugin-istanbul. ([@charlesdemers](https://github.com/charlesdemers))
+* [#163](https://github.com/kategengler/ember-cli-code-coverage/pull/163) Remove merge-coverage and explicit parallel option. ([@adamjmcgrath](https://github.com/adamjmcgrath))
+
+#### :bug: Bug Fix
+* [#166](https://github.com/kategengler/ember-cli-code-coverage/pull/166) Revert "Remove merge-coverage and explicit parallel option (#163)". ([@adamjmcgrath](https://github.com/adamjmcgrath))
+
+#### Committers: 4
+- Adam Mcgrath ([adamjmcgrath](https://github.com/adamjmcgrath))
+- Charles Demers ([charlesdemers](https://github.com/charlesdemers))
+- Dan Freeman ([dfreeman](https://github.com/dfreeman))
+- Selvaraj Antonyraj ([selvaa89](https://github.com/selvaa89))
+
+## v1.0.0-beta.3 (2018-02-13)
+
+#### :rocket: Enhancement
+* [#162](https://github.com/kategengler/ember-cli-code-coverage/pull/162) Add tests for in-repo engines. ([@rwwagner90](https://github.com/rwwagner90))
+* [#160](https://github.com/kategengler/ember-cli-code-coverage/pull/160) Support for addon-test-support. ([@rwwagner90](https://github.com/rwwagner90))
+
+#### Committers: 1
+- Robert Wagner ([rwwagner90](https://github.com/rwwagner90))
+
+## v1.0.0-beta.2 (2018-02-06)
+
+#### :rocket: Enhancement
+* [#158](https://github.com/kategengler/ember-cli-code-coverage/pull/158) Add in-repo addon support and tests. ([@rwwagner90](https://github.com/rwwagner90))
+
+#### :house: Internal
+* [#156](https://github.com/kategengler/ember-cli-code-coverage/pull/156) Make fixtures external. ([@rwwagner90](https://github.com/rwwagner90))
+
+#### Committers: 2
+- Adam Mcgrath ([adamjmcgrath](https://github.com/adamjmcgrath))
+- Robert Wagner ([rwwagner90](https://github.com/rwwagner90))
+
+## v1.0.0-beta.1 (2018-02-01)
+
+#### :bug: Bug Fix
+* [#153](https://github.com/kategengler/ember-cli-code-coverage/pull/153) Add back "Avoid throwing errors while requiring files for coverage" #64. ([@adamjmcgrath](https://github.com/adamjmcgrath))
+
+#### :house: Internal
+* [#157](https://github.com/kategengler/ember-cli-code-coverage/pull/157) Setup travis ci to release on pushed tag, add lerna-changelog. ([@kategengler](https://github.com/kategengler))
+* [#155](https://github.com/kategengler/ember-cli-code-coverage/pull/155) Upgrade deps. ([@kategengler](https://github.com/kategengler))
+
+#### Committers: 2
+- Adam Mcgrath ([adamjmcgrath](https://github.com/adamjmcgrath))
+- Katie Gengler ([kategengler](https://github.com/kategengler))
+
+## v1.0.0-beta.0
+
+### Pull Requests
+
+- [#145](https://github.com/kategengler/ember-cli-code-coverage/pull/145)  [WIP] Refactor to use babel-plugin-istanbul cont.  *by [adamjmcgrath](https://github.com/adamjmcgrath)*
+- [#141](https://github.com/kategengler/ember-cli-code-coverage/pull/141)  [WIP] Refactor to use babel-plugin-istanbul  *by [rwjblue](https://github.com/rwjblue)*
+
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.4.0...v0.4.1)
+
+**Merged pull requests:**
+
+- Fixes the hanging issue of \#88 [\#90](https://github.com/kategengler/ember-cli-code-coverage/pull/90) ([ming-codes](https://github.com/ming-codes))
+
+## [v0.4.1](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.4.1) (2017-06-27)
+
+## [v0.4.0](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.4.0) (2017-06-27)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.12...v0.4.0)
+
+**Closed issues:**
+
+- Enabling coverage with enabled Babel plugin fails [\#123](https://github.com/kategengler/ember-cli-code-coverage/issues/123)
+- ember coverage-merge does not merge the coverage report generated from different test type say unit and functional? [\#122](https://github.com/kategengler/ember-cli-code-coverage/issues/122)
+- Running with `COVERAGE=true` generates additional tests that fail [\#114](https://github.com/kategengler/ember-cli-code-coverage/issues/114)
+- Plugin fails with ember-cli 2.13 and useBabelInstrumenter: true [\#111](https://github.com/kategengler/ember-cli-code-coverage/issues/111)
+- Parsing async/await crashes [\#108](https://github.com/kategengler/ember-cli-code-coverage/issues/108)
+- Coverage failing with version 0.3.6 and up [\#75](https://github.com/kategengler/ember-cli-code-coverage/issues/75)
+
+**Merged pull requests:**
+
+- \[Fixes \#111\] Update dependencies, get babel instrumenter working [\#115](https://github.com/kategengler/ember-cli-code-coverage/pull/115) ([paulcwatts](https://github.com/paulcwatts))
+- Improve ES7 error message [\#109](https://github.com/kategengler/ember-cli-code-coverage/pull/109) ([sukima](https://github.com/sukima))
+
+## [v0.3.12](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.12) (2017-04-08)
+[Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.11...v0.3.12)
+
+**Closed issues:**
+
+- Cannot parse async/await [\#106](https://github.com/kategengler/ember-cli-code-coverage/issues/106)
+- Produce coverage report if environment variable COVERAGE is set to true before running `ember test` [\#104](https://github.com/kategengler/ember-cli-code-coverage/issues/104)
+- readable/accurate template reports with Glimmer2? [\#96](https://github.com/kategengler/ember-cli-code-coverage/issues/96)
+- Question: option to fail a build if coverage result is below a given percentage? [\#95](https://github.com/kategengler/ember-cli-code-coverage/issues/95)
+- CI hangs when updating 0.3.8 =\> 0.3.9 [\#88](https://github.com/kategengler/ember-cli-code-coverage/issues/88)
+- new error in 0.3.7 [\#65](https://github.com/kategengler/ember-cli-code-coverage/issues/65)
+- Work with ember test --server, not with ember test [\#57](https://github.com/kategengler/ember-cli-code-coverage/issues/57)
+- How to view coverage files? [\#44](https://github.com/kategengler/ember-cli-code-coverage/issues/44)
+- Use `configPath` instead of hard-coded "config" [\#42](https://github.com/kategengler/ember-cli-code-coverage/issues/42)
+
+**Merged pull requests:**
+
+- Fixes \#42 use configPath instead of hard-coded config [\#100](https://github.com/kategengler/ember-cli-code-coverage/pull/100) ([eddie-ruva](https://github.com/eddie-ruva))
+
 ## [v0.3.11](https://github.com/kategengler/ember-cli-code-coverage/tree/v0.3.11) (2017-01-19)
 [Full Changelog](https://github.com/kategengler/ember-cli-code-coverage/compare/v0.3.10...v0.3.11)
 
