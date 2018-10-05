@@ -32,6 +32,8 @@ and then:
 
 When running with `parallel` set to true, the final reports can be merged by using `ember coverage-merge`. The final merged output will be stored in the `coverageFolder`.
 
+NOTE: If you are under a module unification based folder structure, you need to ensure that you have `EMBER_CLI_MODULE_UNIFICATION` flag turned to `TRUE`
+
 ## TypeScript integration
 
 Steps:
