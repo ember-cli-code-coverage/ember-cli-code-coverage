@@ -25,7 +25,7 @@ describe('app coverage generation', function() {
     }).then(() => {
       app.editPackageJSON(pkg => {
         pkg.devDependencies['ember-exam'] = '1.0.0';
-        pkg.devDependencies['ember-cli-babel'] = '^7.1.0';
+        pkg.devDependencies['ember-cli-babel'] = '^6.6.0';
         // Temporarily remove the addon before install to work around https://github.com/tomdale/ember-cli-addon-tests/issues/176
         delete pkg.devDependencies['ember-cli-code-coverage'];
       });
