@@ -61,7 +61,6 @@ module.exports = {
     });
   },
 
-
   included: function(appOrAddon) {
     this._super.included.apply(this, arguments);
 
@@ -222,6 +221,7 @@ module.exports = {
       return walkSync(dir, { directories: false, globs }).map(file => {
         const postfix = hasEmberCliTypescript ? file : file.replace(EXT_RE, '.js');
         const module = prefix + '/' + postfix;
+
         this.fileLookup[module] = path.join(dirname, file);
         return module;
       });
