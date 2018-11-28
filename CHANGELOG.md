@@ -1,5 +1,15 @@
 # Change Log
 
+## v1.0.0-beta.7 (2018-11-28)
+
+#### :bug: Bug Fix
+* [#199](https://github.com/kategengler/ember-cli-code-coverage/pull/199) fix: handle babel 7 absolute paths. ([@adamjmcgrath](https://github.com/adamjmcgrath))
+
+#### Committers: 3
+- Adam Mcgrath ([adamjmcgrath](https://github.com/adamjmcgrath))
+- Alex Kanunnikov ([lifeart](https://github.com/lifeart))
+- Sivasubramanyam A ([astronomersiva](https://github.com/astronomersiva))
+
 ## v1.0.0-beta.6 (2018-09-19)
 
 #### :bug: Bug Fix
