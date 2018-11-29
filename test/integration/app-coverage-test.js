@@ -21,7 +21,8 @@ describe('app coverage generation', function() {
   beforeEach(function() {
     app = new AddonTestApp();
     return app.create('my-app', {
-      emberVersion: '3.4.0'
+      emberVersion: '3.4.0',
+      skipNpm: true,
     }).then(() => {
       app.editPackageJSON(pkg => {
         pkg.devDependencies['ember-exam'] = '1.0.0';
