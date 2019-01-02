@@ -1,5 +1,13 @@
 # Change Log
 
+## v1.0.0-beta.8 (2019-01-02)
+
+#### :bug: Bug Fix
+* [#206](https://github.com/kategengler/ember-cli-code-coverage/pull/206) fix build issues. ([@adamjmcgrath](https://github.com/adamjmcgrath))
+
+#### Committers: 1
+- Adam Mcgrath ([adamjmcgrath](https://github.com/adamjmcgrath))
+
 ## v1.0.0-beta.7 (2018-11-28)
 
 #### :bug: Bug Fix
