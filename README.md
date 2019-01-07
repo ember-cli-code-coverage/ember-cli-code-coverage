@@ -32,7 +32,21 @@ and then:
 
 When running with `parallel` set to true, the final reports can be merged by using `ember coverage-merge`. The final merged output will be stored in the `coverageFolder`.
 
+## Module Unification
 NOTE: If you are under a module unification based folder structure, you need to ensure that you have `EMBER_CLI_MODULE_UNIFICATION` flag turned to `TRUE`
+
+## Using with `--path`
+If you intend to use `ember test` with the `--path` flag, you should generate the build
+with `coverageEnvVar` set as true. This is because the code is instrumented for
+coverage during the build.
+
+For example:
+
+`COVERAGE=true ember build --environment=test --output-path=dist`
+
+followed by
+
+`COVERAGE=true ember test --path=dist`
 
 ## TypeScript integration
 
