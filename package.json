@@ -80,7 +80,8 @@
     "node": "6.* || 8.* || >= 10.*"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "configPath": "tests/dummy/config",
+    "before": "ember-cli-typescript"
   },
   "changelog": {
     "repo": "kategengler/ember-cli-code-coverage",
