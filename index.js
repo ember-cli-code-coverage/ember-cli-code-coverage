@@ -203,7 +203,7 @@ module.exports = {
       let globs = this.parentRegistry.extensionsForType('js').map((extension) => `**/*.${extension}`);
 
       return walkSync(dir, { directories: false, globs }).map(file => {
-        let module = prefix + '/' + hasEmberCliTypescript ? file : file.replace(EXT_RE, '.js');
+        let module = prefix + '/' + (hasEmberCliTypescript ? file : file.replace(EXT_RE, '.js'));
         this.fileLookup[module] = path.join(dirname, file);
         return module;
       });
