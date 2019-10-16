@@ -196,12 +196,14 @@ module.exports = {
    * @returns {Array<String>} include paths
    */
   _getIncludesForDir: function(dir, prefix) {
+    const hasEmberCliTypescript = this.project.findAddonByName('ember-cli-typescript');
+
     if (fs.existsSync(dir)) {
       let dirname = path.relative(this.project.root, dir);
       let globs = this.parentRegistry.extensionsForType('js').map((extension) => `**/*.${extension}`);
 
       return walkSync(dir, { directories: false, globs }).map(file => {
-        let module = prefix + '/' + file.replace(EXT_RE, '.js');
+        let module = prefix + '/' + hasEmberCliTypescript ? file : file.replace(EXT_RE, '.js');
         this.fileLookup[module] = path.join(dirname, file);
         return module;
       });

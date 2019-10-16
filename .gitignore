@@ -9,6 +9,7 @@
 /node_modules/
 
 # misc
+/.idea
 /.sass-cache
 /connect.lock
 /coverage/
