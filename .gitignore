@@ -11,6 +11,7 @@
 # misc
 /.env*
 /.pnp*
+/.idea
 /.sass-cache
 /connect.lock
 /coverage/
