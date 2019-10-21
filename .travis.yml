@@ -1,7 +1,6 @@
 ---
 language: node_js
 node_js:
-  - "6"
   - "8"
 
 sudo: false
@@ -17,6 +16,12 @@ stages:
   - lint
   - test
   - deploy
+
+branches:
+  only:
+    - master
+    # npm version tags
+    - /^v\d+\.\d+\.\d+/
 
 jobs:
   fail_fast: true
