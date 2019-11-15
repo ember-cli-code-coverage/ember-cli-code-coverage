@@ -31,7 +31,7 @@ function getPlugins(appOrAddon) {
 // Regular expression to extract the file extension from a path.
 const EXT_RE = /\.[^\.]+$/;
 
-let fileLookup = null;
+let fileLookup = {};
 
 module.exports = {
   name: require('./package').name,
