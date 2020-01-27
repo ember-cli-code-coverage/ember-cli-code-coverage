@@ -159,13 +159,13 @@ module.exports = {
    * @returns {Array<String>} include paths
    */
   _getIncludesForAddonDirectory: function() {
-    let addon = this._findCoveredAddon();
-    if (addon) {
+    let moduleName = this._findCoveredModuleName();
+    if (moduleName) {
       const addonDir = path.join(this.project.root, 'addon');
       const addonTestSupportDir = path.join(this.project.root, 'addon-test-support');
       return concat(
-        this._getIncludesForDir(addonDir, addon.name),
-        this._getIncludesForDir(addonTestSupportDir, `${addon.name}/test-support`)
+        this._getIncludesForDir(addonDir, moduleName),
+        this._getIncludesForDir(addonTestSupportDir, `${moduleName}/test-support`)
       );
     }
   },
@@ -240,7 +240,7 @@ module.exports = {
    */
   _parentName: function() {
     if (this.parent.isEmberCLIAddon()) {
-      return this._findCoveredAddon().name;
+      return this._findCoveredModuleName();
     } else {
       return this.parent.name();
     }
@@ -256,6 +256,18 @@ module.exports = {
     }
 
     return this._coveredAddon;
+  },
+
+  /**
+   * Find the module (if any) that's being covered.
+   * @returns {String} the name of the module under test
+   */
+  _findCoveredModuleName: function() {
+    if (!this._coveredModuleName) {
+      this._coveredModuleName = require(this.project.findAddonByName(this.project.pkg.name).root).moduleName()
+    }
+
+    return this._coveredModuleName;
   },
 
   /**
