@@ -29,6 +29,8 @@ jobs:
   include:
     - stage: lint
       script: npm run-script lint:js
+    - stage: test
+      script: npm run-script node-test
     - stage: deploy
       if: tag IS present
       node_js: "6"
@@ -49,6 +51,3 @@ before_install:
 
 install:
   - yarn install --no-lockfile --non-interactive
-
-script:
-  - npm run-script node-test
