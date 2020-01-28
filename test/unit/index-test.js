@@ -323,7 +323,7 @@ describe('index.js', function() {
     describe('when parent is an addon', function() {
       beforeEach(function() {
         isAddon = true;
-        sandbox.stub(Index, '_findCoveredModule').returns({ moduleName: () => 'some-addon' });
+        sandbox.stub(Index, '_findCoveredAddon').returns({ name: 'some-addon' });
       });
 
       it('returns the addon name', function() {
@@ -351,40 +351,6 @@ describe('index.js', function() {
 
     it('returns the located addon', function() {
       expect(result.name).to.equal('my-addon');
-    });
-  });
-
-  describe('moduleName', function() {
-    var result;
-
-    beforeEach(function() {
-      result = Index.moduleName();
-    });
-
-    it('returns name of module', function() {
-      expect(result).to.equal('ember-cli-code-coverage');
-    });
-  });
-
-  describe('_findCoveredModule', function() {
-    var result;
-
-    beforeEach(function() {
-      sandbox.stub(Index, 'project').value({
-        findAddonByName: sinon.stub().returns({ name: 'my-addon', root: 'ember-cli-code-coverage' }),
-        pkg: {
-          name: '@scope/ember-cli-my-addon'
-        }
-      });
-      result = Index._findCoveredModule();
-    });
-
-    it('looks up the module by the package name', function() {
-      expect(Index.project.findAddonByName.calledWith('@scope/ember-cli-my-addon')).to.be.true;
-    });
-
-    it('returns the located module name', function() {
-      expect(result.name).to.equal('ember-cli-code-coverage');
     });
   });
 
@@ -450,7 +416,6 @@ describe('index.js', function() {
       describe('for an app', function() {
         beforeEach(function() {
           sandbox.stub(Index, '_findCoveredAddon').returns(null);
-          sandbox.stub(Index, '_findCoveredModule').returns(null);
           sandbox.spy(Index, '_getIncludesForDir');
         });
 
@@ -468,7 +433,6 @@ describe('index.js', function() {
 
         beforeEach(function() {
           sandbox.stub(Index, '_findCoveredAddon').returns(addon);
-          sandbox.stub(Index, '_findCoveredModule').returns(addon);
         });
 
         afterEach(function() {

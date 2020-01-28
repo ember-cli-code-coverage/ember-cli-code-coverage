@@ -7,7 +7,6 @@ var config = require('./lib/config');
 const walkSync = require('walk-sync');
 const VersionChecker = require('ember-cli-version-checker');
 const concat = require('lodash.concat');
-const MODULE_NAME = 'ember-cli-code-coverage';
 
 function requireBabelPlugin(pluginName) {
   let plugin = require(pluginName);
@@ -36,10 +35,6 @@ let fileLookup = null;
 
 module.exports = {
   name: require('./package').name,
-
-  moduleName() {
-    return MODULE_NAME;
-  },
 
   /**
    * Look up the file path from an ember module path.
@@ -164,9 +159,8 @@ module.exports = {
    * @returns {Array<String>} include paths
    */
   _getIncludesForAddonDirectory: function() {
-    let coveredModule = this._findCoveredModule();
-    if (coveredModule) {
-      const moduleName = coveredModule.moduleName ? coveredModule.moduleName() : coveredModule.name;
+    let moduleName = this._findCoveredModuleName();
+    if (moduleName) {
       const addonDir = path.join(this.project.root, 'addon');
       const addonTestSupportDir = path.join(this.project.root, 'addon-test-support');
       return concat(
@@ -246,9 +240,7 @@ module.exports = {
    */
   _parentName: function() {
     if (this.parent.isEmberCLIAddon()) {
-      const coveredModule = this._findCoveredModule();
-
-      return coveredModule.moduleName ? coveredModule.moduleName() : coveredModule.name;
+      return this._findCoveredModuleName();
     } else {
       return this.parent.name();
     }
@@ -268,14 +260,14 @@ module.exports = {
 
   /**
    * Find the module (if any) that's being covered.
-   * @returns {Module} the module under test
+   * @returns {String} the name of the module under test
    */
-  _findCoveredModule: function() {
-    if (!this._coveredModule) {
-      this._coveredModule = require(this.project.findAddonByName(this.project.pkg.name).root);
+  _findCoveredModuleName: function() {
+    if (!this._coveredModuleName) {
+      this._coveredModuleName = require(this.project.findAddonByName(this.project.pkg.name).root).moduleName()
     }
 
-    return this._coveredModule;
+    return this._coveredModuleName;
   },
 
   /**
