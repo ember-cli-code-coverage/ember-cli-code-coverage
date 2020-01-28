@@ -426,9 +426,37 @@ describe('index.js', function() {
         });
       });
 
-      describe('for an addon', function() {
+      describe('for an addon without a moduleName method defined', function() {
         let addon = {
           name: 'my-addon'
+        };
+
+        beforeEach(function() {
+          sandbox.stub(Index, '_findCoveredAddon').returns(addon);
+        });
+
+        afterEach(function() {
+          addon = null;
+        });
+
+        it('gets includes for the addon directory', function() {
+          const includes = Index._getIncludesForAddonDirectory();
+          expect(includes).to.deep.equal([
+            'my-addon/utils/my-covered-util.js',
+            'my-addon/utils/my-uncovered-util.js',
+            'my-addon/test-support/uncovered-test-support.js'
+          ]);
+          expect(Index.fileLookup).to.deep.equal({
+            'my-addon/test-support/uncovered-test-support.js': 'addon-test-support/uncovered-test-support.js',
+            'my-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
+            'my-addon/utils/my-uncovered-util.js': 'addon/utils/my-uncovered-util.js'
+          });
+        });
+      });
+
+      describe('for an addon with a moduleName method defined', function() {
+        let addon = {
+          moduleName: () => 'my-addon'
         };
 
         beforeEach(function() {

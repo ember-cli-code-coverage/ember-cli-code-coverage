@@ -162,10 +162,11 @@ module.exports = {
     let addon = this._findCoveredAddon();
     if (addon) {
       const addonDir = path.join(this.project.root, 'addon');
+      const addonName = addon.moduleName ? addon.moduleName() : addon.name;
       const addonTestSupportDir = path.join(this.project.root, 'addon-test-support');
       return concat(
-        this._getIncludesForDir(addonDir, addon.name),
-        this._getIncludesForDir(addonTestSupportDir, `${addon.name}/test-support`)
+        this._getIncludesForDir(addonDir, addonName),
+        this._getIncludesForDir(addonTestSupportDir, `${addonName}/test-support`)
       );
     }
   },
