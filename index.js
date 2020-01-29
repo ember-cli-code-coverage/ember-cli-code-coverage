@@ -43,6 +43,23 @@ module.exports = {
   fileLookup: null,
 
   // Ember Methods
+  setupPreprocessorRegistry: function(type, registry) {
+    if (!this._isCoverageEnabled()) { return; }
+
+    const buildTemplateInstrumenter = require('./lib/template-instrumenter');
+    let TemplateInstrumenter = buildTemplateInstrumenter(
+      this._parentName(),
+      this.parent.root,
+      this.registry.extensionsForType('template'),
+      this.project.isEmberCLIAddon()
+    );
+
+    registry.add('htmlbars-ast-plugin', {
+      name: "template-instrumenter",
+      plugin: TemplateInstrumenter,
+      baseDir: __dirname
+    });
+  },
 
   included: function(appOrAddon) {
     this._super.included.apply(this, arguments);
@@ -205,6 +222,7 @@ module.exports = {
       return walkSync(dir, { directories: false, globs }).map(file => {
         const postfix = hasEmberCliTypescript ? file : file.replace(EXT_RE, '.js');
         const module = prefix + '/' + postfix;
+
         this.fileLookup[module] = path.join(dirname, file);
         return module;
       });
