@@ -31,8 +31,6 @@ function getPlugins(appOrAddon) {
 // Regular expression to extract the file extension from a path.
 const EXT_RE = /\.[^\.]+$/;
 
-let fileLookup = null;
-
 module.exports = {
   name: require('./package').name,
 
@@ -43,11 +41,14 @@ module.exports = {
   fileLookup: null,
 
   // Ember Methods
+  init: function() {
+    this._super.init.apply(this, arguments);
+    this.fileLookup = {};
+  },
 
   included: function(appOrAddon) {
     this._super.included.apply(this, arguments);
 
-    fileLookup = this.fileLookup = {};
     this.parentRegistry = appOrAddon.registry;
 
     if (!this._registeredWithBabel && this._isCoverageEnabled()) {
@@ -104,7 +105,7 @@ module.exports = {
     attachMiddleware.serverMiddleware(startOptions.app, {
       configPath: this.project.configPath(),
       root: this.project.root,
-      fileLookup: fileLookup
+      fileLookup: this.fileLookup
     });
   },
 
@@ -115,7 +116,7 @@ module.exports = {
     const config = {
       configPath: this.project.configPath(),
       root: this.project.root,
-      fileLookup: fileLookup
+      fileLookup: this.fileLookup
     };
     // if we're running `ember test --server` use the `serverMiddleware`.
     if (process.argv.includes('--server') || process.argv.includes('-s')) {
