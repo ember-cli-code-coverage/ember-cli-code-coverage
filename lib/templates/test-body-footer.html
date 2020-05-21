@@ -51,7 +51,12 @@
   }
 
   function handleCoverageResponse(xhr, callback) {
-    var data = xhr.response || xhr.responseText;
+    var data = xhr.response;
+
+    // avoid InvalidStateError by incorrectly accessing xhr.responseText property
+    if (!data && (xhr.responseType === '' || xhr.responseType === 'text')) {
+      data = xhr.responseText;
+    }
 
     // PhantomJS doesn't honor `responseType = 'json'`
     if (typeof data === 'string') {
