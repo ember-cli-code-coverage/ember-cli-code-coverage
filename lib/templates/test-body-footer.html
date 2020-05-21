@@ -1,7 +1,4 @@
 <script>
-  // Make synchronous requests in phantom to avoid killing the runner before the coverage completes.
-  var REQUEST_ASYNC = !/PhantomJS/.test(window.navigator.userAgent);
-
   function sendCoverage(callback) {
     {%ENTRIES%}.forEach(function(file) {
       try {
@@ -17,21 +14,14 @@
     var request = new XMLHttpRequest();
     request.open('POST', '/write-coverage', REQUEST_ASYNC);
     request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    request.responseType = 'json';
     request.send(data);
 
-    if (REQUEST_ASYNC) {
-      request.responseType = 'json';
-      request.onreadystatechange = function() {
-        if (request.readyState === 4) {
-          handleCoverageResponse(this, callback);
-        }
-      };
-    } else {
-      // The request is already done at this point, since it is synchronous
-      if (request.status === 200) {
-        handleCoverageResponse(request, callback);
+    request.onreadystatechange = function() {
+      if (request.readyState === 4) {
+        handleCoverageResponse(this, callback);
       }
-    }
+    };
   }
 
   if (typeof Testem !== "undefined" && Testem.afterTests) {
@@ -51,11 +41,13 @@
   }
 
   function handleCoverageResponse(xhr, callback) {
-    var data = xhr.response || xhr.responseText;
+    var data = xhr.response;
 
-    // PhantomJS doesn't honor `responseType = 'json'`
-    if (typeof data === 'string') {
-      data = JSON.parse(data);
+    // avoid InvalidStateError by incorrectly accessing xhr.responseText property
+    if (!data && (xhr.responseType === '' || xhr.responseType === 'text')) {
+      data = xhr.responseText;
+    } else {
+      throw new Error(`ember-cli-code-coverage: invalid data ${JSON.stringify(data)} received for responseType ${xhr.responseType}`);
     }
 
     if (!data) {
