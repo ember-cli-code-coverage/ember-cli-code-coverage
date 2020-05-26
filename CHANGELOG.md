@@ -1,5 +1,3 @@
-# Change Log
-
 ## v1.0.0-beta.8 (2019-01-02)
 
 #### :bug: Bug Fix
