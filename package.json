@@ -32,7 +32,6 @@
     "extend": "^3.0.2",
     "fs-extra": "^9.0.0",
     "istanbul-api": "^2.1.6",
-    "lodash.concat": "^4.5.0",
     "node-dir": "^0.1.17",
     "walk-sync": "^2.1.0"
   },

@@ -6,7 +6,6 @@ var attachMiddleware = require('./lib/attach-middleware');
 var config = require('./lib/config');
 const walkSync = require('walk-sync');
 const VersionChecker = require('ember-cli-version-checker');
-const concat = require('lodash.concat');
 
 function requireBabelPlugin(pluginName) {
   let plugin = require(pluginName);
@@ -59,11 +58,11 @@ module.exports = {
         const exclude = this._getExcludes();
         const include = this._getIncludes();
 
-        concat(
+        [
           this.app,
           this._findCoveredAddon(),
-          this._findInRepoAddons()
-        )
+          ...this._findInRepoAddons()
+        ]
           .filter(Boolean)
           .map(getPlugins)
           .forEach((plugins) => plugins.push([IstanbulPlugin, { exclude, include }]));
@@ -142,11 +141,11 @@ module.exports = {
    * @returns {Array<String>} include paths
    */
   _getIncludes: function() {
-    return concat(
-      this._getIncludesForAppDirectory(),
-      this._getIncludesForAddonDirectory(),
-      this._getIncludesForInRepoAddonDirectories()
-    ).filter(Boolean);
+    return [
+      ...this._getIncludesForAppDirectory(),
+      ...this._getIncludesForAddonDirectory(),
+      ...this._getIncludesForInRepoAddonDirectories()
+    ].filter(Boolean);
   },
 
   /**
@@ -169,10 +168,10 @@ module.exports = {
       const addonDir = path.join(this.project.root, 'addon');
       const addonName = addon.moduleName ? addon.moduleName() : addon.name;
       const addonTestSupportDir = path.join(this.project.root, 'addon-test-support');
-      return concat(
-        this._getIncludesForDir(addonDir, addonName),
-        this._getIncludesForDir(addonTestSupportDir, `${addonName}/test-support`)
-      );
+      return [
+        ...this._getIncludesForDir(addonDir, addonName),
+        ...this._getIncludesForDir(addonTestSupportDir, `${addonName}/test-support`)
+      ];
     }
   },
 
@@ -186,12 +185,13 @@ module.exports = {
       let addonAppDir = path.join(addonDir, 'app');
       let addonAddonDir = path.join(addonDir, 'addon');
       const addonAddonTestSupportDir = path.join(addonDir, 'addon-test-support');
-      return concat(
-        acc,
-        this._getIncludesForDir(addonAppDir, this.parent.name()),
-        this._getIncludesForDir(addonAddonDir, addon.name),
-        this._getIncludesForDir(addonAddonTestSupportDir, `${addon.name}/test-support`)
-      );
+
+      return [
+        ...acc,
+        ...this._getIncludesForDir(addonAppDir, this.parent.name()),
+        ...this._getIncludesForDir(addonAddonDir, addon.name),
+        ...this._getIncludesForDir(addonAddonTestSupportDir, `${addon.name}/test-support`)
+      ];
     }, []);
   },
 
