@@ -23,7 +23,8 @@ describe('in-repo addon coverage generation', function() {
   beforeEach(async function() {
     app = new AddonTestApp();
     await app.create('my-app-with-in-repo-addon', {
-      emberVersion: '3.4.0'
+      emberVersion: '3.4.0',
+      fixturesPath: 'node-tests/fixtures',
     })
 
     app.editPackageJSON(pkg => {

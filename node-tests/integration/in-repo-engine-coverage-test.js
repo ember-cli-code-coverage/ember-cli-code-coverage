@@ -23,7 +23,8 @@ describe('in-repo engine coverage generation', function() {
   beforeEach(async function() {
     app = new AddonTestApp();
     await app.create('my-app-with-in-repo-engine', {
-      emberVersion: '2.16.0'
+      emberVersion: '2.16.0',
+      fixturesPath: 'node-tests/fixtures',
     });
 
     app.editPackageJSON(pkg => {

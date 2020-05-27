@@ -23,6 +23,7 @@ describe('app coverage generation', function() {
     return app.create('my-app', {
       emberVersion: '3.4.0',
       skipNpm: true,
+      fixturesPath: 'node-tests/fixtures',
     }).then(() => {
       app.editPackageJSON(pkg => {
         pkg.devDependencies['ember-exam'] = '1.0.0';
@@ -121,7 +122,7 @@ describe('app coverage generation', function() {
 
   it('runs coverage when a module has an import error', function() {
     expect(dir(`${app.path}/coverage`)).to.not.exist;
-    fs.copySync('test/helpers/error-module.js', `${app.path}/app/error-module.js`);
+    fs.copySync('node-tests/helpers/error-module.js', `${app.path}/app/error-module.js`);
     process.env.COVERAGE = true;
     return app.run('ember', 'test').then(function() {
       expect(dir(`${app.path}/coverage`)).to.exist;
