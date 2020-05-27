@@ -1,8 +1,8 @@
 'use strict';
 
 var fs = require('fs-extra');
-var RSVP = require('rsvp');
-var rimraf = RSVP.denodeify(require('rimraf'));
+const util = require('util');
+var rimraf = util.promisify(require('rimraf'));
 var chai = require('chai');
 var expect = chai.expect;
 var chaiFiles = require('chai-files');
