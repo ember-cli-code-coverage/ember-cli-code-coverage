@@ -150,15 +150,18 @@ module.exports = {
    */
   _getIncludesForAddonDirectory: function() {
     let addon = this._findCoveredAddon();
-    if (addon) {
-      const addonDir = path.join(this.project.root, 'addon');
-      const addonName = addon.moduleName ? addon.moduleName() : addon.name;
-      const addonTestSupportDir = path.join(this.project.root, 'addon-test-support');
-      return [
-        ...this._getIncludesForDir(addonDir, addonName),
-        ...this._getIncludesForDir(addonTestSupportDir, `${addonName}/test-support`)
-      ];
+    if (!addon) {
+      return [];
     }
+
+    const addonDir = path.join(this.project.root, 'addon');
+    const addonName = addon.moduleName ? addon.moduleName() : addon.name;
+    const addonTestSupportDir = path.join(this.project.root, 'addon-test-support');
+
+    return [
+      ...this._getIncludesForDir(addonDir, addonName),
+      ...this._getIncludesForDir(addonTestSupportDir, `${addonName}/test-support`)
+    ];
   },
 
   /**
