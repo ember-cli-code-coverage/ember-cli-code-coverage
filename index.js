@@ -7,20 +7,6 @@ var config = require('./lib/config');
 const walkSync = require('walk-sync');
 const VersionChecker = require('ember-cli-version-checker');
 
-function requireBabelPlugin(pluginName) {
-  let plugin = require(pluginName);
-
-  plugin = plugin.__esModule ? plugin.default : plugin;
-
-  // adding `baseDir` ensures that broccoli-babel-transpiler does not
-  // issue a warning and opt out of caching
-  let pluginPath = require.resolve(`${pluginName}/package`);
-  let pluginBaseDir = path.dirname(pluginPath);
-  plugin.baseDir = () => pluginBaseDir;
-
-  return plugin;
-}
-
 function getPlugins(appOrAddon) {
   let options = appOrAddon.options = appOrAddon.options || {};
   options.babel = options.babel || {};
@@ -54,7 +40,7 @@ module.exports = {
       let checker = new VersionChecker(this.parent).for('ember-cli-babel', 'npm');
 
       if (checker.satisfies('>= 6.0.0')) {
-        const IstanbulPlugin = requireBabelPlugin('babel-plugin-istanbul');
+        const IstanbulPlugin = require.resolve('babel-plugin-istanbul');
         const exclude = this._getExcludes();
         const include = this._getIncludes();
 
