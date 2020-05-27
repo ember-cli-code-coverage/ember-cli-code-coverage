@@ -59,7 +59,7 @@ describe('index.js', function() {
       });
 
       it('includes the project name in the template for test-body-footer', function() {
-        expect(Index.contentFor('test-body-footer')).to.match(/`["some/module", "some/other/module"`]/);
+        expect(Index.contentFor('test-body-footer')).to.include(`["some/module","some/other/module"]`);
       });
     });
   });

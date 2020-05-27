@@ -12,7 +12,7 @@
     var data = JSON.stringify(coverageData || {});
 
     var request = new XMLHttpRequest();
-    request.open('POST', '/write-coverage', REQUEST_ASYNC);
+    request.open('POST', '/write-coverage');
     request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
     request.responseType = 'json';
     request.send(data);
@@ -42,13 +42,6 @@
 
   function handleCoverageResponse(xhr, callback) {
     var data = xhr.response;
-
-    // avoid InvalidStateError by incorrectly accessing xhr.responseText property
-    if (!data && (xhr.responseType === '' || xhr.responseType === 'text')) {
-      data = xhr.responseText;
-    } else {
-      throw new Error(`ember-cli-code-coverage: invalid data ${JSON.stringify(data)} received for responseType ${xhr.responseType}`);
-    }
 
     if (!data) {
       return;
