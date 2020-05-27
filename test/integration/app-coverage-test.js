@@ -1,8 +1,8 @@
 'use strict';
 
 var fs = require('fs-extra');
-var RSVP = require('rsvp');
-var rimraf = RSVP.denodeify(require('rimraf'));
+const util = require('util');
+const rimraf = util.promisify(require('rimraf'));
 var chai = require('chai');
 var expect = chai.expect;
 var chaiFiles = require('chai-files');
@@ -42,10 +42,8 @@ describe('app coverage generation', function() {
     });
   });
 
-  afterEach(function() {
-    return RSVP.all([
-      rimraf(`${app.path}/config/coverage.js`)
-    ]);
+  afterEach(async function() {
+    await rimraf(`${app.path}/config/coverage.js`)
   });
 
   it('runs coverage when env var is set', function() {

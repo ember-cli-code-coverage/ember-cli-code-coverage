@@ -34,7 +34,6 @@
     "istanbul-api": "^2.1.6",
     "lodash.concat": "^4.5.0",
     "node-dir": "^0.1.17",
-    "rsvp": "^4.8.5",
     "walk-sync": "^2.1.0"
   },
   "devDependencies": {
