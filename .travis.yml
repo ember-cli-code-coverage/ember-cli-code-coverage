@@ -29,9 +29,9 @@ jobs:
 
   include:
     - stage: lint
-      script: npm run-script lint:js
+      script: yarn lint:js
     - stage: test
-      script: npm run-script node-test
+      script: yarn node-tests
     - stage: deploy
       if: tag IS present
       node_js: "12"
