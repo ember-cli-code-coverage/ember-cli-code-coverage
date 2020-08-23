@@ -421,7 +421,7 @@ describe('index.js', function() {
 
         it('does not get includes for the addon directory', function() {
           const includes = Index._getIncludesForAddonDirectory();
-          expect(includes).to.be.undefined;
+          expect(includes).to.deep.equal([]);
           sinon.assert.notCalled(Index._getIncludesForDir);
         });
       });

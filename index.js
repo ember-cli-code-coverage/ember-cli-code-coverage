@@ -158,6 +158,8 @@ module.exports = {
         ...this._getIncludesForDir(addonDir, addonName),
         ...this._getIncludesForDir(addonTestSupportDir, `${addonName}/test-support`)
       ];
+    } else {
+      return [];
     }
   },
 
