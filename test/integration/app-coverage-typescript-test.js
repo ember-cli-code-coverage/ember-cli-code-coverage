@@ -24,6 +24,8 @@ describe('app coverage generation', function() {
       emberVersion: '3.12.0',
     }).then(() => {
       app.editPackageJSON(pkg => {
+        delete pkg.devDependencies['ember-cli-eslint'];
+
         pkg.devDependencies['ember-exam'] = '4.0.0';
         pkg.devDependencies['ember-cli-babel'] = '7.11.0';
         pkg.dependencies['ember-cli-typescript'] = '3.0.0';
