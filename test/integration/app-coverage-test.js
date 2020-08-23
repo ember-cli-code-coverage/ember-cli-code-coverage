@@ -54,7 +54,7 @@ describe('app coverage generation', function() {
       expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
       var summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-      expect(summary.total.lines.pct).to.equal(83.33);
+      expect(summary.total.lines.pct).to.equal(66.67);
     });
   });
 
@@ -73,7 +73,7 @@ describe('app coverage generation', function() {
       expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
       var summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-      expect(summary.total.lines.pct).to.equal(100);
+      expect(summary.total.lines.pct).to.equal(75);
     });
   });
 
@@ -84,7 +84,7 @@ describe('app coverage generation', function() {
       expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
       var summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-      expect(summary.total.lines.pct).to.equal(83.33);
+      expect(summary.total.lines.pct).to.equal(66.67);
     });
   });
 
@@ -99,7 +99,7 @@ describe('app coverage generation', function() {
       expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
       var summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-      expect(summary.total.lines.pct).to.equal(83.33);
+      expect(summary.total.lines.pct).to.equal(66.67);
     });
   });
 
@@ -116,7 +116,7 @@ describe('app coverage generation', function() {
       expect(file(`${coverageFolder}/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${coverageFolder}/index.html`)).to.not.be.empty;
       var summary = fs.readJSONSync(`${coverageFolder}/coverage-summary.json`);
-      expect(summary.total.lines.pct).to.equal(83.33);
+      expect(summary.total.lines.pct).to.equal(66.67);
     });
   });
 

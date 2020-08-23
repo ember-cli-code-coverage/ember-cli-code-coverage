@@ -72,7 +72,7 @@ describe('in-repo engine coverage generation', function() {
     expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
 
     const summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-    expect(summary.total.lines.pct).to.equal(75);
+    expect(summary.total.lines.pct).to.equal(78.57);
     expect(summary['app/utils/my-covered-util-app.js'].lines.total).to.equal(1);
 
     // Check that lib/my-in-repo-engine/utils/my-covered-utill is 1 line and that 1 line is covered
