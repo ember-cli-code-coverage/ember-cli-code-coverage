@@ -58,6 +58,19 @@ module.exports = {
         'no-useless-escape': 'off',
         'node/no-unpublished-require': 'off'
       })
+    },
+
+    // node test files
+    {
+      files: [
+        'test/**',
+      ],
+      env: {
+        mocha: true
+      },
+      rules: {
+        'no-unused-expressions': 0
+      }
     }
   ]
 };
