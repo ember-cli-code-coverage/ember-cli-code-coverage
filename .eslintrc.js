@@ -7,27 +7,23 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
     ecmaFeatures: {
-      legacyDecorators: true
-    }
+      legacyDecorators: true,
+    },
   },
-  plugins: [
-    'ember'
-  ],
-  extends: [
-    'eslint:recommended',
-    'plugin:ember/recommended'
-  ],
+  plugins: ['ember', 'prettier'],
+  extends: ['eslint:recommended', 'plugin:ember/recommended', 'plugin:prettier/recommended'],
   env: {
-    browser: true
+    browser: true,
   },
   rules: {
-    'ember/no-jquery': 'error'
+    'ember/no-jquery': 'error',
   },
   overrides: [
     // node files
     {
       files: [
         '.eslintrc.js',
+        '.prettierrc.js',
         '.template-lintrc.js',
         'ember-cli-build.js',
         'index.js',
@@ -36,41 +32,39 @@ module.exports = {
         'config/**/*.js',
         'lib/**',
         'test/**',
-        'tests/dummy/config/**/*.js'
+        'tests/dummy/config/**/*.js',
       ],
       excludedFiles: [
         'addon/**',
         'addon-test-support/**',
         'app/**',
         'test/fixtures/**',
-        'tests/dummy/app/**'
+        'tests/dummy/app/**',
       ],
       parserOptions: {
-        sourceType: 'script'
+        sourceType: 'script',
       },
       env: {
         browser: false,
-        node: true
+        node: true,
       },
       plugins: ['node'],
       rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
         'no-console': 'off',
         'no-useless-escape': 'off',
-        'node/no-unpublished-require': 'off'
-      })
+        'node/no-unpublished-require': 'off',
+      }),
     },
 
     // node test files
     {
-      files: [
-        'test/**',
-      ],
+      files: ['test/**'],
       env: {
-        mocha: true
+        mocha: true,
       },
       rules: {
-        'no-unused-expressions': 0
-      }
-    }
-  ]
+        'no-unused-expressions': 0,
+      },
+    },
+  ],
 };
