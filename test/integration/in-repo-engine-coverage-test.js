@@ -23,11 +23,13 @@ describe('in-repo engine coverage generation', function() {
   beforeEach(async function() {
     app = new AddonTestApp();
     await app.create('my-app-with-in-repo-engine', {
-      emberVersion: '2.16.0'
+      emberVersion: '3.12.0'
     });
 
     app.editPackageJSON(pkg => {
-      pkg.devDependencies['ember-engines'] = '0.5.14';
+      delete pkg.devDependencies['ember-cli-eslint'];
+
+      pkg.devDependencies['ember-engines'] = '0.6.3';
       pkg.devDependencies['ember-exam'] = '1.0.0';
       // Temporarily remove the addon before install to work around https://github.com/tomdale/ember-cli-addon-tests/issues/176
       delete pkg.devDependencies['ember-cli-code-coverage'];
@@ -70,7 +72,7 @@ describe('in-repo engine coverage generation', function() {
     expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
 
     const summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-    expect(summary.total.lines.pct).to.equal(75);
+    expect(summary.total.lines.pct).to.equal(78.57);
     expect(summary['app/utils/my-covered-util-app.js'].lines.total).to.equal(1);
 
     // Check that lib/my-in-repo-engine/utils/my-covered-utill is 1 line and that 1 line is covered

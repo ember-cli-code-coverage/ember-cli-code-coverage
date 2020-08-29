@@ -21,7 +21,7 @@
     "browser-test": "COVERAGE=true ember test",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
-    "node-test": "mocha ./test/{integraion,unit}/**/*-test.js --require @babel/polyfill --require @babel/register",
+    "node-test": "mocha ./test/{integration,unit}/**/*-test.js --require @babel/polyfill --require @babel/register",
     "test": "npm run-script lint:js && npm run-script node-test"
   },
   "dependencies": {

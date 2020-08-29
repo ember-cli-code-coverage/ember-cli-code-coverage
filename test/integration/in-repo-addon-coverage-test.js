@@ -27,6 +27,8 @@ describe('in-repo addon coverage generation', function() {
     })
 
     app.editPackageJSON(pkg => {
+      delete pkg.devDependencies['ember-cli-eslint'];
+
       pkg.devDependencies['ember-exam'] = '1.0.0';
       // Temporarily remove the addon before install to work around https://github.com/tomdale/ember-cli-addon-tests/issues/176
       delete pkg.devDependencies['ember-cli-code-coverage'];
@@ -63,7 +65,7 @@ describe('in-repo addon coverage generation', function() {
     expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
 
     const summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-    expect(summary.total.lines.pct).to.equal(50);
+    expect(summary.total.lines.pct).to.equal(46.67);
     expect(summary['app/utils/my-covered-util-app.js'].lines.total).to.equal(1);
 
     // Check that lib/my-in-repo-addon/utils/my-covered-utill is 1 line and that 1 line is covered

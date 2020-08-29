@@ -22,9 +22,10 @@ describe('app coverage generation', function() {
     app = new AddonTestApp();
     return app.create('my-app', {
       emberVersion: '3.4.0',
-      skipNpm: true,
     }).then(() => {
       app.editPackageJSON(pkg => {
+        delete pkg.devDependencies['ember-cli-eslint'];
+
         pkg.devDependencies['ember-exam'] = '1.0.0';
         pkg.devDependencies['ember-cli-babel'] = '^7.1.0';
         // Temporarily remove the addon before install to work around https://github.com/tomdale/ember-cli-addon-tests/issues/176
@@ -53,7 +54,7 @@ describe('app coverage generation', function() {
       expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
       var summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-      expect(summary.total.lines.pct).to.equal(83.33);
+      expect(summary.total.lines.pct).to.equal(66.67);
     });
   });
 
@@ -72,7 +73,7 @@ describe('app coverage generation', function() {
       expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
       var summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-      expect(summary.total.lines.pct).to.equal(100);
+      expect(summary.total.lines.pct).to.equal(75);
     });
   });
 
@@ -83,7 +84,7 @@ describe('app coverage generation', function() {
       expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
       var summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-      expect(summary.total.lines.pct).to.equal(83.33);
+      expect(summary.total.lines.pct).to.equal(66.67);
     });
   });
 
@@ -98,7 +99,7 @@ describe('app coverage generation', function() {
       expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${app.path}/coverage/index.html`)).to.not.be.empty;
       var summary = fs.readJSONSync(`${app.path}/coverage/coverage-summary.json`);
-      expect(summary.total.lines.pct).to.equal(83.33);
+      expect(summary.total.lines.pct).to.equal(66.67);
     });
   });
 
@@ -115,7 +116,7 @@ describe('app coverage generation', function() {
       expect(file(`${coverageFolder}/lcov-report/index.html`)).to.not.be.empty;
       expect(file(`${coverageFolder}/index.html`)).to.not.be.empty;
       var summary = fs.readJSONSync(`${coverageFolder}/coverage-summary.json`);
-      expect(summary.total.lines.pct).to.equal(83.33);
+      expect(summary.total.lines.pct).to.equal(66.67);
     });
   });
 
