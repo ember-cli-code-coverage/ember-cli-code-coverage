@@ -15,16 +15,16 @@ const InRepoAddon = require('../helpers/in-repo-addon');
 
 chai.use(chaiFiles);
 
-describe('in-repo addon coverage generation', function() {
+describe('in-repo addon coverage generation', function () {
   let app;
 
   this.timeout(10000000);
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     app = new AddonTestApp();
     await app.create('my-app-with-in-repo-addon', {
-      emberVersion: '3.4.0'
-    })
+      emberVersion: '3.4.0',
+    });
 
     app.editPackageJSON(pkg => {
       delete pkg.devDependencies['ember-cli-eslint'];
@@ -47,15 +47,13 @@ describe('in-repo addon coverage generation', function() {
     await rimraf(`${app.path}/coverage*`);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await rimraf(`${app.path}/config/coverage.js`);
   });
 
-  it('runs coverage on in-repo addon', async function() {
+  it('runs coverage on in-repo addon', async function () {
     let addon = await InRepoAddon.generate(app, 'my-in-repo-addon');
-    addon.editPackageJSON(
-      pkg => (pkg.dependencies = { 'ember-cli-babel': '*' })
-    );
+    addon.editPackageJSON(pkg => (pkg.dependencies = { 'ember-cli-babel': '*' }));
     expect(dir(`${app.path}/coverage`)).to.not.exist;
     process.env.COVERAGE = true;
 
@@ -70,14 +68,24 @@ describe('in-repo addon coverage generation', function() {
 
     // Check that lib/my-in-repo-addon/utils/my-covered-utill is 1 line and that 1 line is covered
     expect(summary['lib/my-in-repo-addon/addon/utils/my-covered-util.js'].lines.total).to.equal(1);
-    expect(summary['lib/my-in-repo-addon/addon/utils/my-covered-util.js'].lines.covered).to.equal(1);
+    expect(summary['lib/my-in-repo-addon/addon/utils/my-covered-util.js'].lines.covered).to.equal(
+      1
+    );
 
     // Check that lib/my-in-repo-addon/utils/my-uncovered-utill is 1 line and that 0 lines are covered
-    expect(summary['lib/my-in-repo-addon/addon/utils/my-uncovered-util.js'].lines.total).to.equal(1);
-    expect(summary['lib/my-in-repo-addon/addon/utils/my-uncovered-util.js'].lines.covered).to.equal(0);
+    expect(summary['lib/my-in-repo-addon/addon/utils/my-uncovered-util.js'].lines.total).to.equal(
+      1
+    );
+    expect(summary['lib/my-in-repo-addon/addon/utils/my-uncovered-util.js'].lines.covered).to.equal(
+      0
+    );
 
     // Check that lib/my-in-repo-addon/addon-test-support/uncovered-test-support is 4 lines and that 0 lines are covered
-    expect(summary['lib/my-in-repo-addon/addon-test-support/uncovered-test-support.js'].lines.total).to.equal(4);
-    expect(summary['lib/my-in-repo-addon/addon-test-support/uncovered-test-support.js'].lines.covered).to.equal(0);
+    expect(
+      summary['lib/my-in-repo-addon/addon-test-support/uncovered-test-support.js'].lines.total
+    ).to.equal(4);
+    expect(
+      summary['lib/my-in-repo-addon/addon-test-support/uncovered-test-support.js'].lines.covered
+    ).to.equal(0);
   });
 });

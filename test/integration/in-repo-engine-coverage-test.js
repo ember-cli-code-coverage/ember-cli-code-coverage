@@ -17,13 +17,13 @@ chai.use(chaiFiles);
 
 let app;
 
-describe('in-repo engine coverage generation', function() {
+describe('in-repo engine coverage generation', function () {
   this.timeout(10000000);
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     app = new AddonTestApp();
     await app.create('my-app-with-in-repo-engine', {
-      emberVersion: '3.12.0'
+      emberVersion: '3.12.0',
     });
 
     app.editPackageJSON(pkg => {
@@ -47,20 +47,21 @@ describe('in-repo engine coverage generation', function() {
     await rimraf(`${app.path}/coverage*`);
   });
 
-  afterEach(async function() {
-    await rimraf(`${app.path}/config/coverage.js`)
+  afterEach(async function () {
+    await rimraf(`${app.path}/config/coverage.js`);
   });
 
-  it('runs coverage on in-repo engine', async function() {
+  it('runs coverage on in-repo engine', async function () {
     let engine = await InRepoEngine.generate(app, 'my-in-repo-engine', {
-      lazy: false
+      lazy: false,
     });
 
     engine.editPackageJSON(
-      pkg => (pkg.dependencies = {
-        'ember-cli-babel': '*',
-        'ember-cli-htmlbars': '*',
-      })
+      pkg =>
+        (pkg.dependencies = {
+          'ember-cli-babel': '*',
+          'ember-cli-htmlbars': '*',
+        })
     );
 
     expect(dir(`${app.path}/coverage`)).to.not.exist;
@@ -77,10 +78,16 @@ describe('in-repo engine coverage generation', function() {
 
     // Check that lib/my-in-repo-engine/utils/my-covered-utill is 1 line and that 1 line is covered
     expect(summary['lib/my-in-repo-engine/addon/utils/my-covered-util.js'].lines.total).to.equal(1);
-    expect(summary['lib/my-in-repo-engine/addon/utils/my-covered-util.js'].lines.covered).to.equal(1);
+    expect(summary['lib/my-in-repo-engine/addon/utils/my-covered-util.js'].lines.covered).to.equal(
+      1
+    );
 
     // Check that lib/my-in-repo-engine/utils/my-uncovered-utill is 1 line and that 0 lines are covered
-    expect(summary['lib/my-in-repo-engine/addon/utils/my-uncovered-util.js'].lines.total).to.equal(1);
-    expect(summary['lib/my-in-repo-engine/addon/utils/my-uncovered-util.js'].lines.covered).to.equal(0);
+    expect(summary['lib/my-in-repo-engine/addon/utils/my-uncovered-util.js'].lines.total).to.equal(
+      1
+    );
+    expect(
+      summary['lib/my-in-repo-engine/addon/utils/my-uncovered-util.js'].lines.covered
+    ).to.equal(0);
   });
 });

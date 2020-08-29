@@ -35,9 +35,7 @@ class InRepoEngine extends InRepoAddon {
     return InRepoEngine.generate.apply(null, args).then(engine => {
       // Remove the in-repo-engine from the app...
       this.app.editPackageJSON(pkg => {
-        pkg['ember-addon'].paths = pkg['ember-addon'].paths.filter(
-          path => path !== `lib/${name}`
-        );
+        pkg['ember-addon'].paths = pkg['ember-addon'].paths.filter(path => path !== `lib/${name}`);
       });
 
       // Add the in-repo-engine to this engine.
