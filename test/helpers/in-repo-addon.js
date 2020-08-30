@@ -5,13 +5,13 @@ const fs = require('fs-extra');
 const fixturify = require('fixturify');
 
 class InRepoAddon {
-  static generate(app, name) {
+  static async generate(app, name) {
     let args = ['generate', 'in-repo-addon', name];
-    return app.runEmberCommand.apply(app, args).then(() => {
-      let addon = new InRepoAddon(app, name);
-      addon.editPackageJSON(pkg => (pkg.dependencies = { 'ember-cli-htmlbars': '*' }));
-      return addon;
-    });
+    await app.runEmberCommand.apply(app, args);
+
+    let addon = new InRepoAddon(app, name);
+    addon.editPackageJSON(pkg => (pkg.dependencies = { 'ember-cli-htmlbars': '*' }));
+    return addon;
   }
 
   constructor(app, name) {
@@ -39,25 +39,25 @@ class InRepoAddon {
     });
   }
 
-  generateNestedAddon(name) {
+  async generateNestedAddon(name) {
     // Generate another in-repo-addon at the app level...
     let args = Array.prototype.slice.call(arguments);
     args.unshift(this.app);
-    return InRepoAddon.generate.apply(null, args).then(addon => {
-      // Remove the in-repo-addon from the app...
-      this.app.editPackageJSON(pkg => {
-        pkg['ember-addon'].paths = pkg['ember-addon'].paths.filter(path => path !== `lib/${name}`);
-      });
+    let addon = await InRepoAddon.generate.apply(null, args);
 
-      // Add the in-repo-addon to this engine.
-      this.editPackageJSON(pkg => {
-        pkg['ember-addon'] = pkg['ember-addon'] || {};
-        pkg['ember-addon'].paths = pkg['ember-addon'].paths || [];
-        pkg['ember-addon'].paths.push(`../${name}`);
-      });
-
-      return addon;
+    // Remove the in-repo-addon from the app...
+    this.app.editPackageJSON(pkg => {
+      pkg['ember-addon'].paths = pkg['ember-addon'].paths.filter(path => path !== `lib/${name}`);
     });
+
+    // Add the in-repo-addon to this engine.
+    this.editPackageJSON(pkg => {
+      pkg['ember-addon'] = pkg['ember-addon'] || {};
+      pkg['ember-addon'].paths = pkg['ember-addon'].paths || [];
+      pkg['ember-addon'].paths.push(`../${name}`);
+    });
+
+    return addon;
   }
 }
 
