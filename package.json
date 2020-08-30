@@ -21,11 +21,10 @@
     "browser-test": "COVERAGE=true ember test",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
-    "node-test": "mocha ./test/{integration,unit}/**/*-test.js --require @babel/polyfill --require @babel/register",
+    "node-test": "mocha ./test/{integration,unit}/**/*-test.js",
     "test": "npm run-script lint:js && npm run-script node-test"
   },
   "dependencies": {
-    "@babel/register": "^7.9.0",
     "babel-plugin-istanbul": "^6.0.0",
     "body-parser": "^1.19.0",
     "ember-cli-version-checker": "^5.1.1",
