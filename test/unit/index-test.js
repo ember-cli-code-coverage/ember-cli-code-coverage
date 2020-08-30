@@ -296,42 +296,6 @@ describe('index.js', function () {
     });
   });
 
-  describe('_parentName', function () {
-    var isAddon;
-
-    beforeEach(function () {
-      sandbox.stub(Index, 'parent').value({
-        name() {
-          return 'parent-app';
-        },
-        isEmberCLIAddon() {
-          return isAddon;
-        },
-      });
-    });
-
-    describe('when parent is an app', function () {
-      beforeEach(function () {
-        isAddon = false;
-      });
-
-      it('returns the app name', function () {
-        expect(Index._parentName()).to.equal('parent-app');
-      });
-    });
-
-    describe('when parent is an addon', function () {
-      beforeEach(function () {
-        isAddon = true;
-        sandbox.stub(Index, '_findCoveredAddon').returns({ name: 'some-addon' });
-      });
-
-      it('returns the addon name', function () {
-        expect(Index._parentName()).to.equal('some-addon');
-      });
-    });
-  });
-
   describe('_findCoveredAddon', function () {
     var result;
 
