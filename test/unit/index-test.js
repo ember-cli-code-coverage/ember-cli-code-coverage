@@ -14,7 +14,7 @@ describe('index.js', function () {
     Index.parent = Index.project = Index.app = Index.IstanbulPlugin = Index.parentRegistry = null;
     sandbox.stub(Index, 'fileLookup').value({});
     sandbox.stub(Index, 'parentRegistry').value({
-      extensionsForType: function () {
+      extensionsForType() {
         return ['js'];
       },
     });
@@ -44,7 +44,7 @@ describe('index.js', function () {
           'some/other/module.js': 'some/other/file.js',
         });
         sandbox.stub(Index, 'parent').value({
-          isEmberCLIAddon: function () {
+          isEmberCLIAddon() {
             return false;
           },
         });
@@ -165,10 +165,10 @@ describe('index.js', function () {
   describe('_getExcludes', function () {
     beforeEach(function () {
       sandbox.stub(Index, 'parent').value({
-        isEmberCLIAddon: function () {
+        isEmberCLIAddon() {
           return false;
         },
-        name: function () {
+        name() {
           return 'test';
         },
       });
@@ -301,10 +301,10 @@ describe('index.js', function () {
 
     beforeEach(function () {
       sandbox.stub(Index, 'parent').value({
-        name: function () {
+        name() {
           return 'parent-app';
         },
-        isEmberCLIAddon: function () {
+        isEmberCLIAddon() {
           return isAddon;
         },
       });
