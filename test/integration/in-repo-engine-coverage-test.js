@@ -66,7 +66,7 @@ describe('in-repo engine coverage generation', function () {
 
     expect(dir(`${app.path}/coverage`)).to.not.exist;
 
-    process.env.COVERAGE = true;
+    process.env.COVERAGE = 'true';
 
     await app.run('ember', 'test');
     expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
