@@ -232,18 +232,6 @@ module.exports = {
   },
 
   /**
-   * Determine the name of the parent app or addon.
-   * @returns {String} the name of the parent
-   */
-  _parentName() {
-    if (this.parent.isEmberCLIAddon()) {
-      return this._findCoveredAddon().name;
-    } else {
-      return this.parent.name();
-    }
-  },
-
-  /**
    * Find the addon (if any) that's being covered.
    * @returns {Addon} the addon under test
    */
