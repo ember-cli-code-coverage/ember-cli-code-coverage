@@ -55,7 +55,7 @@ describe('in-repo addon coverage generation', function () {
     let addon = await InRepoAddon.generate(app, 'my-in-repo-addon');
     addon.editPackageJSON(pkg => (pkg.dependencies = { 'ember-cli-babel': '*' }));
     expect(dir(`${app.path}/coverage`)).to.not.exist;
-    process.env.COVERAGE = true;
+    process.env.COVERAGE = 'true';
 
     await app.run('ember', 'test');
 
