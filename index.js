@@ -222,13 +222,9 @@ module.exports = {
    * @returns {Boolean} whether or not coverage is enabled
    */
   _isCoverageEnabled() {
-    var value = process.env[this._getConfig().coverageEnvVar] || false;
-
-    if (value.toLowerCase) {
-      value = value.toLowerCase();
-    }
-
-    return ['true', true].indexOf(value) !== -1;
+    let envVar = this._getConfig().coverageEnvVar;
+    let value = process.env[envVar] || '';
+    return value.toLowerCase() === 'true';
   },
 
   /**

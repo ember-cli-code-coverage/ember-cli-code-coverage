@@ -215,16 +215,6 @@ describe('index.js', function () {
       });
     });
 
-    describe('when coverage environment variable is true', function () {
-      beforeEach(function () {
-        process.env.COVERAGE = true;
-      });
-
-      it('returns true', function () {
-        expect(Index._isCoverageEnabled()).to.be.true;
-      });
-    });
-
     describe('when coverage environment variable is string true', function () {
       beforeEach(function () {
         process.env.COVERAGE = 'true';
@@ -242,16 +232,6 @@ describe('index.js', function () {
 
       it('returns true', function () {
         expect(Index._isCoverageEnabled()).to.be.true;
-      });
-    });
-
-    describe('when coverage environment variable is false', function () {
-      beforeEach(function () {
-        process.env.COVERAGE = false;
-      });
-
-      it('returns false', function () {
-        expect(Index._isCoverageEnabled()).to.be.false;
       });
     });
 
@@ -278,16 +258,6 @@ describe('index.js', function () {
     describe('when coverage environment variable is undefined', function () {
       beforeEach(function () {
         delete process.env.COVERAGE;
-      });
-
-      it('returns false', function () {
-        expect(Index._isCoverageEnabled()).to.be.false;
-      });
-    });
-
-    describe('when coverage environment variable is null', function () {
-      beforeEach(function () {
-        process.env.COVERAGE = null;
       });
 
       it('returns false', function () {

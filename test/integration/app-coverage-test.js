@@ -55,7 +55,7 @@ describe('app coverage generation', function () {
   it('runs coverage when env var is set', async function () {
     expect(dir(`${app.path}/coverage`)).to.not.exist;
 
-    process.env.COVERAGE = true;
+    process.env.COVERAGE = 'true';
 
     await app.run('ember', 'test');
     expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
@@ -67,7 +67,7 @@ describe('app coverage generation', function () {
   it('does not run coverage when env var is NOT set', async function () {
     expect(dir(`${app.path}/coverage`)).to.not.exist;
 
-    process.env.COVERAGE = false;
+    process.env.COVERAGE = 'false';
 
     await app.run('ember', 'test');
     expect(dir(`${app.path}/coverage`)).to.not.exist;
@@ -76,7 +76,7 @@ describe('app coverage generation', function () {
   it('excludes files when the configuration is set', async function () {
     fs.copySync('tests/dummy/config/coverage-excludes.js', `${app.path}/config/coverage.js`);
 
-    process.env.COVERAGE = true;
+    process.env.COVERAGE = 'true';
 
     await app.run('ember', 'test');
     expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
@@ -88,7 +88,7 @@ describe('app coverage generation', function () {
   it('merges coverage when tests are run in parallel', async function () {
     expect(dir(`${app.path}/coverage`)).to.not.exist;
 
-    process.env.COVERAGE = true;
+    process.env.COVERAGE = 'true';
 
     await app.run('ember', 'exam', '--split=2', '--parallel=true');
     expect(file(`${app.path}/coverage/lcov-report/index.html`)).to.not.be.empty;
@@ -101,7 +101,7 @@ describe('app coverage generation', function () {
     expect(dir(`${app.path}/coverage`)).to.not.exist;
     fs.copySync('tests/dummy/config/coverage-parallel.js', `${app.path}/config/coverage.js`);
 
-    process.env.COVERAGE = true;
+    process.env.COVERAGE = 'true';
 
     await app.run('ember', 'exam', '--split=2', '--parallel=true');
     expect(dir(`${app.path}/coverage`)).to.not.exist;
@@ -119,7 +119,7 @@ describe('app coverage generation', function () {
     expect(dir(coverageFolder)).to.not.exist;
     fs.copySync('tests/dummy/config/coverage-nested-folder.js', `${app.path}/config/coverage.js`);
 
-    process.env.COVERAGE = true;
+    process.env.COVERAGE = 'true';
 
     await app.run('ember', 'exam', '--split=2', '--parallel=true');
     expect(dir(coverageFolder)).to.not.exist;
@@ -134,7 +134,7 @@ describe('app coverage generation', function () {
   it('runs coverage when a module has an import error', async function () {
     expect(dir(`${app.path}/coverage`)).to.not.exist;
     fs.copySync('test/helpers/error-module.js', `${app.path}/app/error-module.js`);
-    process.env.COVERAGE = true;
+    process.env.COVERAGE = 'true';
 
     await app.run('ember', 'test');
     expect(dir(`${app.path}/coverage`)).to.exist;
