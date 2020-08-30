@@ -26,12 +26,12 @@ module.exports = {
   fileLookup: null,
 
   // Ember Methods
-  init: function () {
+  init() {
     this._super.init.apply(this, arguments);
     this.fileLookup = {};
   },
 
-  included: function (appOrAddon) {
+  included(appOrAddon) {
     this._super.included.apply(this, arguments);
 
     this.parentRegistry = appOrAddon.registry;
@@ -59,7 +59,7 @@ module.exports = {
     }
   },
 
-  contentFor: function (type) {
+  contentFor(type) {
     if (type === 'test-body-footer' && this._isCoverageEnabled()) {
       var template = fs
         .readFileSync(path.join(__dirname, 'lib', 'templates', 'test-body-footer.html'))
@@ -73,7 +73,7 @@ module.exports = {
     return undefined;
   },
 
-  includedCommands: function () {
+  includedCommands() {
     return {
       'coverage-merge': require('./lib/coverage-merge'),
     };
@@ -83,7 +83,7 @@ module.exports = {
    * If coverage is enabled attach coverage middleware to the express server run by ember-cli
    * @param {Object} startOptions - Express server start options
    */
-  serverMiddleware: function (startOptions) {
+  serverMiddleware(startOptions) {
     if (!this._isCoverageEnabled()) {
       return;
     }
@@ -94,7 +94,7 @@ module.exports = {
     });
   },
 
-  testemMiddleware: function (app) {
+  testemMiddleware(app) {
     if (!this._isCoverageEnabled()) {
       return;
     }
@@ -118,7 +118,7 @@ module.exports = {
    * Get project configuration
    * @returns {Configuration} project configuration
    */
-  _getConfig: function () {
+  _getConfig() {
     return config(this.project.configPath());
   },
 
@@ -126,7 +126,7 @@ module.exports = {
    * Get paths to include for coverage
    * @returns {Array<String>} include paths
    */
-  _getIncludes: function () {
+  _getIncludes() {
     return [
       ...this._getIncludesForAppDirectory(),
       ...this._getIncludesForAddonDirectory(),
@@ -138,7 +138,7 @@ module.exports = {
    * Get paths to include for covering the "app" directory.
    * @returns {Array<String>} include paths
    */
-  _getIncludesForAppDirectory: function () {
+  _getIncludesForAppDirectory() {
     const dir = path.join(this.project.root, 'app');
     let prefix = this.parent.isEmberCLIAddon() ? 'dummy' : this.parent.name();
     return this._getIncludesForDir(dir, prefix);
@@ -148,7 +148,7 @@ module.exports = {
    * Get paths to include for covering the "addon" directory.
    * @returns {Array<String>} include paths
    */
-  _getIncludesForAddonDirectory: function () {
+  _getIncludesForAddonDirectory() {
     let addon = this._findCoveredAddon();
     if (addon) {
       const addonDir = path.join(this.project.root, 'addon');
@@ -167,7 +167,7 @@ module.exports = {
    * Get paths to include for covering the in-repo-addon directories in "lib/*".
    * @returns {Array<String>} include paths
    */
-  _getIncludesForInRepoAddonDirectories: function () {
+  _getIncludesForInRepoAddonDirectories() {
     return this._findInRepoAddons().reduce((acc, addon) => {
       let addonDir = path.join(this.project.root, 'lib', addon.name);
       let addonAppDir = path.join(addonDir, 'app');
@@ -189,7 +189,7 @@ module.exports = {
    * @param {String} prefix The prefix to the ember module ('app', 'dummy' or the name of the addon).
    * @returns {Array<String>} include paths
    */
-  _getIncludesForDir: function (dir, prefix) {
+  _getIncludesForDir(dir, prefix) {
     const hasEmberCliTypescript =
       this.project &&
       this.project.findAddonByName &&
@@ -213,7 +213,7 @@ module.exports = {
    * Get paths to exclude from coverage
    * @returns {Array<String>} exclude paths
    */
-  _getExcludes: function () {
+  _getExcludes() {
     return this._getConfig().excludes || [];
   },
 
@@ -221,7 +221,7 @@ module.exports = {
    * Determine whether or not coverage is enabled
    * @returns {Boolean} whether or not coverage is enabled
    */
-  _isCoverageEnabled: function () {
+  _isCoverageEnabled() {
     var value = process.env[this._getConfig().coverageEnvVar] || false;
 
     if (value.toLowerCase) {
@@ -235,7 +235,7 @@ module.exports = {
    * Determine the name of the parent app or addon.
    * @returns {String} the name of the parent
    */
-  _parentName: function () {
+  _parentName() {
     if (this.parent.isEmberCLIAddon()) {
       return this._findCoveredAddon().name;
     } else {
@@ -247,7 +247,7 @@ module.exports = {
    * Find the addon (if any) that's being covered.
    * @returns {Addon} the addon under test
    */
-  _findCoveredAddon: function () {
+  _findCoveredAddon() {
     if (!this._coveredAddon) {
       this._coveredAddon = this.project.findAddonByName(this.project.pkg.name);
     }
@@ -259,7 +259,7 @@ module.exports = {
    * Find the app's in-repo addons (if any).
    * @returns {Array<Addon>} the in-repo addons
    */
-  _findInRepoAddons: function () {
+  _findInRepoAddons() {
     if (!this._inRepoAddons) {
       const pkg = this.project.pkg;
       const inRepoAddonPaths = pkg['ember-addon'] && pkg['ember-addon'].paths;
