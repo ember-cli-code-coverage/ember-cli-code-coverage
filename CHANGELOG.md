@@ -1,3 +1,49 @@
+## v1.0.0 (2020-08-31)
+
+#### :boom: Breaking Change
+* [#252](https://github.com/kategengler/ember-cli-code-coverage/pull/252) Drop Node 8 and 11 support. ([@rwjblue](https://github.com/rwjblue))
+
+#### :rocket: Enhancement
+* [#263](https://github.com/kategengler/ember-cli-code-coverage/pull/263) Remove deprecated istanbul-api package. ([@rwjblue](https://github.com/rwjblue))
+* [#261](https://github.com/kategengler/ember-cli-code-coverage/pull/261) Replace `extend` package with `Object.assign` ([@rwjblue](https://github.com/rwjblue))
+* [#259](https://github.com/kategengler/ember-cli-code-coverage/pull/259) Remove lodash.concat dependency ([@rwjblue](https://github.com/rwjblue))
+* [#258](https://github.com/kategengler/ember-cli-code-coverage/pull/258) Remove RSVP dependency. ([@rwjblue](https://github.com/rwjblue))
+* [#255](https://github.com/kategengler/ember-cli-code-coverage/pull/255) Update dependencies to latest ([@rwjblue](https://github.com/rwjblue))
+
+#### :bug: Bug Fix
+* [#262](https://github.com/kategengler/ember-cli-code-coverage/pull/262) Fix issue with coverage report. ([@rwjblue](https://github.com/rwjblue))
+* [#260](https://github.com/kategengler/ember-cli-code-coverage/pull/260) Ensure coverage build is parallelizable ([@rwjblue](https://github.com/rwjblue))
+* [#257](https://github.com/kategengler/ember-cli-code-coverage/pull/257) Remove unused babel-plugin-transform-async-to-generator package ([@rwjblue](https://github.com/rwjblue))
+* [#248](https://github.com/kategengler/ember-cli-code-coverage/pull/248) test cases fail with --path option in 1.0.0-beta.8 version ([@abishek-srinivasan](https://github.com/abishek-srinivasan))
+* [#251](https://github.com/kategengler/ember-cli-code-coverage/pull/251) fix `InvalidStateError` exception ([@brokenalarms](https://github.com/brokenalarms))
+
+#### :memo: Documentation
+* [#273](https://github.com/kategengler/ember-cli-code-coverage/pull/273) Update instructions for Typescript integration to use 1.0.0-beta.9 ([@tomichal](https://github.com/tomichal))
+
+#### :house: Internal
+* [#282](https://github.com/kategengler/ember-cli-code-coverage/pull/282) Use `.includes()` instead of `.indexOf()` ([@Turbo87](https://github.com/Turbo87))
+* [#281](https://github.com/kategengler/ember-cli-code-coverage/pull/281) Simplify `_isCoverageEnabled()` method ([@Turbo87](https://github.com/Turbo87))
+* [#280](https://github.com/kategengler/ember-cli-code-coverage/pull/280) Remove unused `_parentName()` method ([@Turbo87](https://github.com/Turbo87))
+* [#279](https://github.com/kategengler/ember-cli-code-coverage/pull/279) tests: Use async/await ([@Turbo87](https://github.com/Turbo87))
+* [#278](https://github.com/kategengler/ember-cli-code-coverage/pull/278) mocha: Remove unnecessary Babel integration ([@Turbo87](https://github.com/Turbo87))
+* [#277](https://github.com/kategengler/ember-cli-code-coverage/pull/277) Use shorthand methods and named functions ([@Turbo87](https://github.com/Turbo87))
+* [#274](https://github.com/kategengler/ember-cli-code-coverage/pull/274) Use Prettier for code formatting ([@Turbo87](https://github.com/Turbo87))
+* [#276](https://github.com/kategengler/ember-cli-code-coverage/pull/276) Use GitHub Actions for CI/CD ([@Turbo87](https://github.com/Turbo87))
+* [#272](https://github.com/kategengler/ember-cli-code-coverage/pull/272) Fix `node-tests` ([@Turbo87](https://github.com/Turbo87))
+* [#256](https://github.com/kategengler/ember-cli-code-coverage/pull/256) Remove `co` usage ([@rwjblue](https://github.com/rwjblue))
+* [#254](https://github.com/kategengler/ember-cli-code-coverage/pull/254) Migrate to more modern linting setup. ([@rwjblue](https://github.com/rwjblue))
+* [#253](https://github.com/kategengler/ember-cli-code-coverage/pull/253) Update release process ([@rwjblue](https://github.com/rwjblue))
+* [#249](https://github.com/kategengler/ember-cli-code-coverage/pull/249) Update to 3.16 ember-cli blueprint ([@rajasegar](https://github.com/rajasegar))
+
+#### Committers: 6
+- Daniel ([@brokenalarms](https://github.com/brokenalarms))
+- Rajasegar Chandran ([@rajasegar](https://github.com/rajasegar))
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+- [@tomichal](https://github.com/tomichal)
+- abishek-srinivasan ([@abishek-srinivasan](https://github.com/abishek-srinivasan))
+
+
 ## v1.0.0-beta.8 (2019-01-02)
 
 #### :bug: Bug Fix
