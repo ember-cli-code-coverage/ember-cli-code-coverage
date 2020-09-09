@@ -47,6 +47,14 @@
       return;
     }
 
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data)
+      } catch (e) {
+        throw new Error('Response from POST /write-coverage is invalid. Expecting JSON.')
+      }
+    }
+
     var results = ['Lines', 'Branches', 'Functions', 'Statements']
       .filter(function (name) {
         return name.toLowerCase();
