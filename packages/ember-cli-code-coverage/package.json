@@ -25,7 +25,6 @@
     "browser-test": "COVERAGE=true ember test",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
-    "node-test": "mocha ./test/{integration,unit}/**/*-test.js",
     "test": "npm run-script lint:js && npm run-script node-test"
   },
   "dependencies": {
@@ -45,8 +44,6 @@
     "@glimmer/tracking": "^1.0.0",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
-    "chai": "^4.2.0",
-    "chai-files": "^1.4.0",
     "ember-auto-import": "^1.5.3",
     "ember-cli": "~3.16.2",
     "ember-cli-addon-tests": "^0.11.0",
@@ -72,15 +69,12 @@
     "eslint-plugin-ember": "^8.5.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "fixturify": "^0.3.4",
     "glob": "^7.1.3",
     "loader.js": "^4.7.0",
-    "mocha": "^5.2.0",
     "prettier": "^2.0.5",
     "qunit-dom": "^1.0.0",
     "release-it": "^13.6.0",
     "release-it-lerna-changelog": "^2.3.0",
-    "rimraf": "^2.6.2",
     "sinon": "^4.2.2"
   },
   "engines": {
