@@ -21,5 +21,9 @@ jobs:
           node-version: 10
 
       - run: yarn install --no-lockfile
+
       - run: yarn lint:js
+        working-directory: packages/ember-cli-code-coverage
+
       - run: yarn node-test
+        working-directory: packages/ember-cli-code-coverage

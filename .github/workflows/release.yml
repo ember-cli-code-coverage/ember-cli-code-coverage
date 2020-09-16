@@ -19,7 +19,9 @@ jobs:
 
       - name: auto-dist-tag
         run: npx auto-dist-tag@1 --write
+        working-directory: packages/ember-cli-code-coverage
 
       - run: npm publish
+        working-directory: packages/ember-cli-code-coverage
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
