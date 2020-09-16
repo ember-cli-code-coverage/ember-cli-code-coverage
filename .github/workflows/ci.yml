@@ -25,5 +25,7 @@ jobs:
       - run: yarn lint:js
         working-directory: packages/ember-cli-code-coverage
 
+      - run: yarn test
+
       - run: yarn node-test
         working-directory: packages/ember-cli-code-coverage
