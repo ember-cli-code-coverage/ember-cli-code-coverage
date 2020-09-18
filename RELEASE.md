@@ -1,37 +1,67 @@
-# Release Process
+# Release
 
-The following is the release process you should follow to publish a new version of `ember-cli-code-coverage`.
+Releases are mostly automated using
+[release-it](https://github.com/release-it/release-it/) and
+[lerna-changelog](https://github.com/lerna/lerna-changelog/).
 
-## Update The Changelog
 
-First, we need to update the `CHANGELOG.md` file for the project. We do this via the [lerna-changelog](https://github.com/lerna/lerna-changelog). This requires all PRs to be labeled appropriately. Use the following command to generate the changelog from the most recent tag:
+## Preparation
 
-```bash
-yarn changelog
+Since the majority of the actual release process is automated, the primary
+remaining task prior to releasing is confirming that all pull requests that
+have been merged since the last release have been labeled with the appropriate
+`lerna-changelog` labels and the titles have been updated to ensure they
+represent something that would make sense to our users. Some great information
+on why this is important can be found at
+[keepachangelog.com](https://keepachangelog.com/en/1.0.0/), but the overall
+guiding principle here is that changelogs are for humans, not machines.
+
+When reviewing merged PR's the labels to be used are:
+
+* breaking - Used when the PR is considered a breaking change.
+* enhancement - Used when the PR adds a new feature or enhancement.
+* bug - Used when the PR fixes a bug included in a previous release.
+* documentation - Used when the PR adds or updates documentation.
+* internal - Used for internal changes that still require a mention in the
+  changelog/release notes.
+
+
+## Release
+
+Once the prep work is completed, the actual release is straight forward:
+
+* First ensure that you have `release-it` installed globally, generally done by
+  using one of the following commands:
+
+```
+# using https://volta.sh
+volta install release-it
+
+# using Yarn
+yarn global add release-it
+
+# using npm
+npm install --global release-it
 ```
 
-Copy the output into `CHANGELOG.md`, where you replace the `Unreleased` with the appropriate version you are publishing.
+* Second, ensure that you have installed your projects dependencies:
 
-_Note: Ensure you set up a GitHub Token (as GITHUB_AUTH environment variable) when using the changelog generator, or else it will not work properly._
-
-Review the changes and then commit them with a message like:
-
-```bash
-git commit -am "Update CHANGELOG for vx.x.x."
+```
+yarn install
 ```
 
-## Bump The Version
+* And last (but not least 😁) do your release. It requires a
+  [GitHub personal access token](https://github.com/settings/tokens) as
+  `$GITHUB_AUTH` environment variable. Only "repo" access is needed; no "admin"
+  or other scopes are required.
 
-Next, we bump the version of the addon and tag it. You can do this by using the default `npm version` command, like so:
-
-```bash
-npm version x.x.x
+```
+export GITHUB_AUTH="f941e0..."
+release-it
 ```
 
-That should bump the version in `package.json`, commit it, and then tag it. Be sure to push the commit and tag.
-
-## Publish
-Next, push the version bump and the changelog changes to the repository. Upon successful build of the tag, Travis CI will publish to `npm`.
-
-
-**This RELEASE.md shamelessly cribbed from `ember-cli-qunit`**
+[release-it](https://github.com/release-it/release-it/) manages the actual
+release process. It will prompt you to to choose the version number after which
+you will have the chance to hand tweak the changelog to be used (for the
+`CHANGELOG.md` and GitHub release), then `release-it` continues on to tagging,
+pushing the tag and commits, etc.
