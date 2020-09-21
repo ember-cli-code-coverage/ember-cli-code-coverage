@@ -12,7 +12,6 @@
     "test": "jest --runInBand"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
     "chai-files": "^1.4.0",
     "execa": "^4.0.3",
     "jest": "^26.4.2",
