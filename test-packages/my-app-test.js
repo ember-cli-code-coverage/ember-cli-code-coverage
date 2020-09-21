@@ -31,8 +31,9 @@ describe('app coverage generation', function () {
     await execa('ember', ['test'], { cwd: BASE_PATH, env });
     file(`${BASE_PATH}/coverage/lcov-report/index.html`).assertIsNotEmpty();
     file(`${BASE_PATH}/coverage/index.html`).assertIsNotEmpty();
+
     let summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
-    expect(summary.total.lines.pct).to.equal(66.67);
+    expect(summary).toMatchSnapshot();
   });
 
   it('does not run coverage when env var is NOT set', async function () {
@@ -50,8 +51,9 @@ describe('app coverage generation', function () {
     await execa('ember', ['test'], { cwd: BASE_PATH, env });
     file(`${BASE_PATH}/coverage/lcov-report/index.html`).assertIsNotEmpty();
     file(`${BASE_PATH}/coverage/index.html`).assertIsNotEmpty();
+
     let summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
-    expect(summary.total.lines.pct).to.equal(75);
+    expect(summary).toMatchSnapshot();
   });
 
   it('merges coverage when tests are run in parallel', async function () {
@@ -61,8 +63,9 @@ describe('app coverage generation', function () {
     await execa('ember', ['exam', '--split=2', '--parallel=true'], { cwd: BASE_PATH, env });
     file(`${BASE_PATH}/coverage/lcov-report/index.html`).assertIsNotEmpty();
     file(`${BASE_PATH}/coverage/index.html`).assertIsNotEmpty();
+
     let summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
-    expect(summary.total.lines.pct).to.equal(66.67);
+    expect(summary).toMatchSnapshot();
   });
 
   it('uses parallel configuration and merges coverage when merge-coverage command is issued', async function () {
@@ -76,8 +79,9 @@ describe('app coverage generation', function () {
     await execa('ember', ['coverage-merge'], { cwd: BASE_PATH });
     file(`${BASE_PATH}/coverage/lcov-report/index.html`).assertIsNotEmpty();
     file(`${BASE_PATH}/coverage/index.html`).assertIsNotEmpty();
+
     let summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
-    expect(summary.total.lines.pct).to.equal(66.67);
+    expect(summary).toMatchSnapshot();
   });
 
   it('uses nested coverageFolder and parallel configuration and run merge-coverage', async function () {
@@ -96,8 +100,9 @@ describe('app coverage generation', function () {
     await execa('ember', ['coverage-merge'], { cwd: BASE_PATH });
     file(`${coverageFolder}/lcov-report/index.html`).assertIsNotEmpty();
     file(`${coverageFolder}/index.html`).assertIsNotEmpty();
+
     let summary = fs.readJSONSync(`${coverageFolder}/coverage-summary.json`);
-    expect(summary.total.lines.pct).to.equal(66.67);
+    expect(summary).toMatchSnapshot();
   });
 
   it('runs coverage when a module has an import error', async function () {
@@ -107,5 +112,8 @@ describe('app coverage generation', function () {
     let env = { COVERAGE: 'true' };
     await execa('ember', ['test'], { cwd: BASE_PATH, env });
     dir(`${BASE_PATH}/coverage`).assertExists();
+
+    let summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
+    expect(summary).toMatchSnapshot();
   });
 });

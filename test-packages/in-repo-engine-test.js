@@ -33,21 +33,6 @@ describe('in-repo engine coverage generation', function () {
     file(`${BASE_PATH}/coverage/index.html`).assertIsNotEmpty();
 
     const summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
-    expect(summary.total.lines.pct).to.equal(66.67);
-    expect(summary['app/utils/my-covered-util-app.js'].lines.total).to.equal(1);
-
-    // Check that lib/my-in-repo-engine/utils/my-covered-utill is 1 line and that 1 line is covered
-    expect(summary['lib/my-in-repo-engine/addon/utils/my-covered-util.js'].lines.total).to.equal(1);
-    expect(summary['lib/my-in-repo-engine/addon/utils/my-covered-util.js'].lines.covered).to.equal(
-      1
-    );
-
-    // Check that lib/my-in-repo-engine/utils/my-uncovered-utill is 1 line and that 0 lines are covered
-    expect(summary['lib/my-in-repo-engine/addon/utils/my-uncovered-util.js'].lines.total).to.equal(
-      1
-    );
-    expect(
-      summary['lib/my-in-repo-engine/addon/utils/my-uncovered-util.js'].lines.covered
-    ).to.equal(0);
+    expect(summary).toMatchSnapshot();
   });
 });
