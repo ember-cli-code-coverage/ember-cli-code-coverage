@@ -484,6 +484,53 @@ describe('index.js', function () {
           });
         });
       });
+
+      describe('for an app with an inrepo addon under a custom path', function () {
+        let root = path.join(__dirname, 'my-app-with-custom-path-in-repo-addon');
+        let addon = { name: 'my-in-repo-addon', root: root + '/local-lib/addons/my-in-repo-addon' };
+
+        beforeEach(function () {
+          sandbox.stub(path, 'basename').returns('my-in-repo-addon');
+          sandbox.stub(Index, 'project').value({
+            pkg: {
+              'ember-addon': {
+                paths: [''],
+              },
+            },
+            root: root,
+            findAddonByName() {
+              return addon;
+            },
+          });
+        });
+
+        afterEach(function () {
+          addon = null;
+        });
+
+        it('instruments the inrepo addon', function () {
+          const includes = Index._getIncludesForInRepoAddonDirectories();
+          expect(includes).to.deep.equal([
+            'my-app/utils/my-covered-util.js',
+            'my-app/utils/my-uncovered-util.js',
+            'my-in-repo-addon/utils/my-covered-util.js',
+            'my-in-repo-addon/utils/my-uncovered-util.js',
+            'my-in-repo-addon/test-support/uncovered-test-support.js',
+          ]);
+          expect(Index.fileLookup).to.deep.equal({
+            'my-app/utils/my-covered-util.js':
+              'local-lib/addons/my-in-repo-addon/app/utils/my-covered-util.js',
+            'my-app/utils/my-uncovered-util.js':
+              'local-lib/addons/my-in-repo-addon/app/utils/my-uncovered-util.js',
+            'my-in-repo-addon/utils/my-covered-util.js':
+              'local-lib/addons/my-in-repo-addon/addon/utils/my-covered-util.js',
+            'my-in-repo-addon/utils/my-uncovered-util.js':
+              'local-lib/addons/my-in-repo-addon/addon/utils/my-uncovered-util.js',
+            'my-in-repo-addon/test-support/uncovered-test-support.js':
+              'local-lib/addons/my-in-repo-addon/addon-test-support/uncovered-test-support.js',
+          });
+        });
+      });
     });
   });
 });
