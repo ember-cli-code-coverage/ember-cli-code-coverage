@@ -46,14 +46,11 @@ describe('in-repo addon coverage generation', function () {
     fs.ensureSymlinkSync(process.cwd(), addonPath);
 
     await rimraf(`${app.path}/coverage*`);
-
-    debugger;
   });
 
   afterEach(async function () {
     await rimraf(`${app.path}/config/coverage.js`);
   });
-
 
   it('runs coverage on in-repo addons from a non-standard directory structure', async function () {
     let addon = await CustomPathInRepoAddon.generate(app, 'my-in-repo-addon');
@@ -73,29 +70,32 @@ describe('in-repo addon coverage generation', function () {
 
     // Check that local-lib/addons/my-in-repo-addon/utils/my-covered-utill
     // is 1 line and that 1 line is covered
-    expect(summary['local-lib/addons/my-in-repo-addon/addon/utils/my-covered-util.js'].lines.total).to.equal(
-      1
-    );
-    expect(summary['local-lib/addons/my-in-repo-addon/addon/utils/my-covered-util.js'].lines.covered).to.equal(
-      1
-    );
+    expect(
+      summary['local-lib/addons/my-in-repo-addon/addon/utils/my-covered-util.js'].lines.total
+    ).to.equal(1);
+    expect(
+      summary['local-lib/addons/my-in-repo-addon/addon/utils/my-covered-util.js'].lines.covered
+    ).to.equal(1);
 
     // Check that local-lib/addons/my-in-repo-addon/utils/my-uncovered-utill
     // is 1 line and that 0 lines are covered
-    expect(summary['local-lib/addons/my-in-repo-addon/addon/utils/my-uncovered-util.js'].lines.total).to.equal(
-      1
-    );
-    expect(summary['local-lib/addons/my-in-repo-addon/addon/utils/my-uncovered-util.js'].lines.covered).to.equal(
-      0
-    );
+    expect(
+      summary['local-lib/addons/my-in-repo-addon/addon/utils/my-uncovered-util.js'].lines.total
+    ).to.equal(1);
+    expect(
+      summary['local-lib/addons/my-in-repo-addon/addon/utils/my-uncovered-util.js'].lines.covered
+    ).to.equal(0);
 
     // Check that local-lib/addons/my-in-repo-addon/addon-test-support/uncovered-test-support
     // is 4 lines and that 0 lines are covered
     expect(
-      summary['local-lib/addons/my-in-repo-addon/addon-test-support/uncovered-test-support.js'].lines.total
+      summary['local-lib/addons/my-in-repo-addon/addon-test-support/uncovered-test-support.js']
+        .lines.total
     ).to.equal(4);
+
     expect(
-      summary['local-lib/addons/my-in-repo-addon/addon-test-support/uncovered-test-support.js'].lines.covered
+      summary['local-lib/addons/my-in-repo-addon/addon-test-support/uncovered-test-support.js']
+        .lines.covered
     ).to.equal(0);
   });
 });

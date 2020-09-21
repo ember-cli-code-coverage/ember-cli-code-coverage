@@ -12,7 +12,11 @@ class InRepoAddon {
     let addon = new InRepoAddon(app, name);
 
     // Move generated addon stubs from /lib to /local-lib
-    await fs.move(path.join(app.path, 'lib', name, 'package.json'), path.join(addon.path, 'package.json'));
+    await fs.move(
+      path.join(app.path, 'lib', name, 'package.json'),
+      path.join(addon.path, 'package.json')
+    );
+
     await fs.move(path.join(app.path, 'lib', name, 'index.js'), path.join(addon.path, 'index.js'));
 
     app.editPackageJSON(pkg => {

@@ -485,7 +485,6 @@ describe('index.js', function () {
         });
       });
 
-
       describe('for an app with an inrepo addon under a custom path', function () {
         let root = 'test/fixtures/my-app-with-custom-path-in-repo-addon/';
         let addon = { name: 'my-in-repo-addon', root: root + 'local-lib/addons/my-in-repo-addon' };
