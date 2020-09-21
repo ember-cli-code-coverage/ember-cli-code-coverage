@@ -16,7 +16,7 @@ chai.use(chaiFiles);
 const BASE_PATH = path.join(__dirname, 'my-app');
 
 describe('app coverage generation', function () {
-  this.timeout(10000000);
+  jest.setTimeout(10000000);
 
   beforeEach(async function () {
     await rimraf(`${BASE_PATH}/coverage*`);
