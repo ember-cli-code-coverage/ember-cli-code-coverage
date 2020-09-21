@@ -1,8 +1,8 @@
 {
-  "name": "my-app-with-in-repo-addon",
+  "name": "my-app-with-custom-path-in-repo-addon",
   "version": "0.0.0",
   "private": true,
-  "description": "Small description for my-app-with-in-repo-addon goes here",
+  "description": "Small description for my-app-with-custom-path-in-repo-addon goes here",
   "repository": "",
   "license": "MIT",
   "author": "",

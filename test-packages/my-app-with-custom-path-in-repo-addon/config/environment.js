@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   let ENV = {
-    modulePrefix: 'my-app-with-in-repo-addon',
+    modulePrefix: 'my-app-with-custom-path-in-repo-addon',
     environment,
     rootURL: '/',
     locationType: 'auto',
