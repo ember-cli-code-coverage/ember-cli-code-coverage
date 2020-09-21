@@ -9,6 +9,8 @@
 /node_modules/
 
 # misc
+/.env*
+/.pnp*
 /.idea
 /.sass-cache
 /connect.lock
