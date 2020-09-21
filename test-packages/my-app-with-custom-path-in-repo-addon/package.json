@@ -57,7 +57,7 @@
   },
   "ember-addon": {
     "paths": [
-      "lib/my-in-repo-addon"
+      "local-lib/addons/my-in-repo-addon"
     ]
   }
 }
