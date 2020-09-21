@@ -3,15 +3,9 @@
 const fs = require('fs-extra');
 const util = require('util');
 const rimraf = util.promisify(require('rimraf'));
-const chai = require('chai');
-const expect = chai.expect;
-const chaiFiles = require('chai-files');
-const dir = chaiFiles.dir;
-const file = chaiFiles.file;
+const { dir, file } = require('chai-files');
 const path = require('path');
 const execa = require('execa');
-
-chai.use(chaiFiles);
 
 const BASE_PATH = path.join(__dirname, 'my-app-with-custom-path-in-repo-addon');
 
@@ -31,12 +25,12 @@ describe('alternate in-repo addon coverage generation', function () {
   });
 
   it('runs coverage on in-repo addons from a non-standard directory structure', async function () {
-    expect(dir(`${BASE_PATH}/coverage`)).to.not.exist;
+    dir(`${BASE_PATH}/coverage`).assertDoesNotExist();
 
     let env = { COVERAGE: 'true' };
     await execa('ember', ['test'], { cwd: BASE_PATH, env });
-    expect(file(`${BASE_PATH}/coverage/lcov-report/index.html`)).to.not.be.empty;
-    expect(file(`${BASE_PATH}/coverage/index.html`)).to.not.be.empty;
+    file(`${BASE_PATH}/coverage/lcov-report/index.html`).assertIsNotEmpty();
+    file(`${BASE_PATH}/coverage/index.html`).assertIsNotEmpty();
 
     const summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
     expect(summary.total.lines.pct).to.equal(46.67);
