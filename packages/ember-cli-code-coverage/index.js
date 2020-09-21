@@ -169,7 +169,11 @@ module.exports = {
    */
   _getIncludesForInRepoAddonDirectories() {
     return this._findInRepoAddons().reduce((acc, addon) => {
-      let addonDir = path.join(this.project.root, 'lib', addon.name);
+      let addonDir =
+        typeof addon.root === 'string'
+          ? addon.root
+          : path.join(this.project.root, 'lib', addon.name);
+
       let addonAppDir = path.join(addonDir, 'app');
       let addonAddonDir = path.join(addonDir, 'addon');
       const addonAddonTestSupportDir = path.join(addonDir, 'addon-test-support');
