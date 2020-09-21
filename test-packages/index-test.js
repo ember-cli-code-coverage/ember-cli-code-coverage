@@ -1,6 +1,5 @@
 'use strict';
 
-var expect = require('chai').expect;
 var sinon = require('sinon');
 var Index = require('../packages/ember-cli-code-coverage/index.js');
 var path = require('path');
@@ -32,7 +31,7 @@ describe('index.js', function () {
       });
 
       it('does nothing', function () {
-        expect(Index.contentFor()).to.equal(undefined);
+        expect(Index.contentFor()).toEqual(undefined);
       });
     });
 
@@ -51,15 +50,15 @@ describe('index.js', function () {
       });
 
       it('does nothing if type is not test-body-footer', function () {
-        expect(Index.contentFor('test-head')).to.equal(undefined);
+        expect(Index.contentFor('test-head')).toEqual(undefined);
       });
 
       it('returns template for test-body-footer', function () {
-        expect(Index.contentFor('test-body-footer')).to.match(/sendCoverage/);
+        expect(Index.contentFor('test-body-footer')).toMatch(/sendCoverage/);
       });
 
       it('includes the project name in the template for test-body-footer', function () {
-        expect(Index.contentFor('test-body-footer')).to.include(
+        expect(Index.contentFor('test-body-footer')).toContain(
           `["some/module","some/other/module"]`
         );
       });
@@ -87,7 +86,7 @@ describe('index.js', function () {
       });
 
       it('adds POST endpoint to app', function () {
-        expect(app.post.callCount).to.equal(1);
+        expect(app.post.callCount).toEqual(1);
       });
     });
 
@@ -98,7 +97,7 @@ describe('index.js', function () {
       });
 
       it('does not add POST endpoint to app', function () {
-        expect(app.post.callCount).to.equal(0);
+        expect(app.post.callCount).toEqual(0);
       });
     });
   });
@@ -124,7 +123,7 @@ describe('index.js', function () {
       });
 
       it('adds POST endpoint to app', function () {
-        expect(app.post.callCount).to.equal(1);
+        expect(app.post.callCount).toEqual(1);
       });
     });
 
@@ -135,7 +134,7 @@ describe('index.js', function () {
       });
 
       it('does not add POST endpoint to app', function () {
-        expect(app.post.callCount).to.equal(0);
+        expect(app.post.callCount).toEqual(0);
       });
     });
   });
@@ -147,7 +146,7 @@ describe('index.js', function () {
 
     it('gets files to include from the app directory', function () {
       Index._getIncludesForDir(path.join(__dirname, 'my-addon/app'), 'my-app');
-      expect(Index.fileLookup).to.deep.equal({
+      expect(Index.fileLookup).toEqual({
         'my-app/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
         'my-app/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js',
       });
@@ -155,7 +154,7 @@ describe('index.js', function () {
 
     it('gets files to include from the addon directory', function () {
       Index._getIncludesForDir(path.join(__dirname, 'my-addon/addon'), 'my-addon');
-      expect(Index.fileLookup).to.deep.equal({
+      expect(Index.fileLookup).toEqual({
         'my-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
         'my-addon/utils/my-uncovered-util.js': 'addon/utils/my-uncovered-util.js',
       });
@@ -183,7 +182,7 @@ describe('index.js', function () {
       });
 
       it('returns no excludes', function () {
-        expect(results.length).to.equal(0);
+        expect(results.length).toEqual(0);
       });
     });
 
@@ -199,11 +198,11 @@ describe('index.js', function () {
       });
 
       it('returns one exclude', function () {
-        expect(results.length).to.equal(1);
+        expect(results.length).toEqual(1);
       });
 
       it('exclude is from config', function () {
-        expect(results[0]).to.eql('*/mirage/**/*');
+        expect(results[0]).toEqual('*/mirage/**/*');
       });
     });
   });
@@ -221,7 +220,7 @@ describe('index.js', function () {
       });
 
       it('returns true', function () {
-        expect(Index._isCoverageEnabled()).to.be.true;
+        expect(Index._isCoverageEnabled()).toBe(true);
       });
     });
 
@@ -231,7 +230,7 @@ describe('index.js', function () {
       });
 
       it('returns true', function () {
-        expect(Index._isCoverageEnabled()).to.be.true;
+        expect(Index._isCoverageEnabled()).toBe(true);
       });
     });
 
@@ -241,7 +240,7 @@ describe('index.js', function () {
       });
 
       it('returns false', function () {
-        expect(Index._isCoverageEnabled()).to.be.false;
+        expect(Index._isCoverageEnabled()).toBe(false);
       });
     });
 
@@ -251,7 +250,7 @@ describe('index.js', function () {
       });
 
       it('returns false', function () {
-        expect(Index._isCoverageEnabled()).to.be.false;
+        expect(Index._isCoverageEnabled()).toBe(false);
       });
     });
 
@@ -261,7 +260,7 @@ describe('index.js', function () {
       });
 
       it('returns false', function () {
-        expect(Index._isCoverageEnabled()).to.be.false;
+        expect(Index._isCoverageEnabled()).toBe(false);
       });
     });
   });
@@ -280,11 +279,11 @@ describe('index.js', function () {
     });
 
     it('looks up the addon by the package name', function () {
-      expect(Index.project.findAddonByName.calledWith('@scope/ember-cli-my-addon')).to.be.true;
+      expect(Index.project.findAddonByName.calledWith('@scope/ember-cli-my-addon')).toBe(true);
     });
 
     it('returns the located addon', function () {
-      expect(result.name).to.equal('my-addon');
+      expect(result.name).toEqual('my-addon');
     });
   });
 
@@ -316,11 +315,11 @@ describe('index.js', function () {
 
         it('gets includes for the app directory', function () {
           const includes = Index._getIncludesForAppDirectory();
-          expect(includes).to.deep.equal([
+          expect(includes).toEqual([
             'my-app/utils/my-covered-util.js',
             'my-app/utils/my-uncovered-util.js',
           ]);
-          expect(Index.fileLookup).to.deep.equal({
+          expect(Index.fileLookup).toEqual({
             'my-app/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
             'my-app/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js',
           });
@@ -341,11 +340,11 @@ describe('index.js', function () {
 
         it('gets includes for the app directory', function () {
           const includes = Index._getIncludesForAppDirectory();
-          expect(includes).to.deep.equal([
+          expect(includes).toEqual([
             'dummy/utils/my-covered-util.js',
             'dummy/utils/my-uncovered-util.js',
           ]);
-          expect(Index.fileLookup).to.deep.equal({
+          expect(Index.fileLookup).toEqual({
             'dummy/utils/my-covered-util.js': 'app/utils/my-covered-util.js',
             'dummy/utils/my-uncovered-util.js': 'app/utils/my-uncovered-util.js',
           });
@@ -362,7 +361,7 @@ describe('index.js', function () {
 
         it('does not get includes for the addon directory', function () {
           const includes = Index._getIncludesForAddonDirectory();
-          expect(includes).to.deep.equal([]);
+          expect(includes).toEqual([]);
           sinon.assert.notCalled(Index._getIncludesForDir);
         });
       });
@@ -382,12 +381,12 @@ describe('index.js', function () {
 
         it('gets includes for the addon directory', function () {
           const includes = Index._getIncludesForAddonDirectory();
-          expect(includes).to.deep.equal([
+          expect(includes).toEqual([
             'my-addon/utils/my-covered-util.js',
             'my-addon/utils/my-uncovered-util.js',
             'my-addon/test-support/uncovered-test-support.js',
           ]);
-          expect(Index.fileLookup).to.deep.equal({
+          expect(Index.fileLookup).toEqual({
             'my-addon/test-support/uncovered-test-support.js':
               'addon-test-support/uncovered-test-support.js',
             'my-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
@@ -411,12 +410,12 @@ describe('index.js', function () {
 
         it('gets includes for the addon directory', function () {
           const includes = Index._getIncludesForAddonDirectory();
-          expect(includes).to.deep.equal([
+          expect(includes).toEqual([
             'my-addon/utils/my-covered-util.js',
             'my-addon/utils/my-uncovered-util.js',
             'my-addon/test-support/uncovered-test-support.js',
           ]);
-          expect(Index.fileLookup).to.deep.equal({
+          expect(Index.fileLookup).toEqual({
             'my-addon/test-support/uncovered-test-support.js':
               'addon-test-support/uncovered-test-support.js',
             'my-addon/utils/my-covered-util.js': 'addon/utils/my-covered-util.js',
@@ -435,7 +434,7 @@ describe('index.js', function () {
 
         it('does not instrument any inrepo addon directories', function () {
           const includes = Index._getIncludesForInRepoAddonDirectories();
-          expect(includes).to.deep.equal([]);
+          expect(includes).toEqual([]);
           sinon.assert.notCalled(Index._getIncludesForDir);
         });
       });
@@ -464,14 +463,14 @@ describe('index.js', function () {
 
         it('instruments the inrepo addon', function () {
           const includes = Index._getIncludesForInRepoAddonDirectories();
-          expect(includes).to.deep.equal([
+          expect(includes).toEqual([
             'my-app/utils/my-covered-util.js',
             'my-app/utils/my-uncovered-util.js',
             'my-in-repo-addon/utils/my-covered-util.js',
             'my-in-repo-addon/utils/my-uncovered-util.js',
             'my-in-repo-addon/test-support/uncovered-test-support.js',
           ]);
-          expect(Index.fileLookup).to.deep.equal({
+          expect(Index.fileLookup).toEqual({
             'my-app/utils/my-covered-util.js': 'lib/my-in-repo-addon/app/utils/my-covered-util.js',
             'my-app/utils/my-uncovered-util.js':
               'lib/my-in-repo-addon/app/utils/my-uncovered-util.js',
@@ -510,14 +509,14 @@ describe('index.js', function () {
 
         it('instruments the inrepo addon', function () {
           const includes = Index._getIncludesForInRepoAddonDirectories();
-          expect(includes).to.deep.equal([
+          expect(includes).toEqual([
             'my-app/utils/my-covered-util.js',
             'my-app/utils/my-uncovered-util.js',
             'my-in-repo-addon/utils/my-covered-util.js',
             'my-in-repo-addon/utils/my-uncovered-util.js',
             'my-in-repo-addon/test-support/uncovered-test-support.js',
           ]);
-          expect(Index.fileLookup).to.deep.equal({
+          expect(Index.fileLookup).toEqual({
             'my-app/utils/my-covered-util.js':
               'local-lib/addons/my-in-repo-addon/app/utils/my-covered-util.js',
             'my-app/utils/my-uncovered-util.js':
