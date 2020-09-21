@@ -25,7 +25,7 @@
     "browser-test": "COVERAGE=true ember test",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
-    "test": "npm run-script lint:js && npm run-script node-test"
+    "test": "npm run lint:js"
   },
   "dependencies": {
     "babel-plugin-istanbul": "^6.0.0",
@@ -83,39 +83,11 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "changelog": {
-    "repo": "kategengler/ember-cli-code-coverage",
-    "labels": {
-      "breaking": ":boom: Breaking Change",
-      "enhancement": ":rocket: Enhancement",
-      "bug": ":bug: Bug Fix",
-      "documentation": ":memo: Documentation",
-      "internal": ":house: Internal"
-    }
-  },
   "ember": {
     "edition": "octane"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
     "before": "ember-cli-typescript"
-  },
-  "release-it": {
-    "plugins": {
-      "release-it-lerna-changelog": {
-        "infile": "CHANGELOG.md",
-        "launchEditor": true
-      }
-    },
-    "git": {
-      "tagName": "v${version}"
-    },
-    "github": {
-      "release": true,
-      "tokenRef": "GITHUB_AUTH"
-    },
-    "npm": {
-      "publish": false
-    }
   }
 }

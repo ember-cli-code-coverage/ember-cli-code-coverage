@@ -1,5 +1,9 @@
 {
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:kategengler/ember-cli-code-coverage.git"
+  },
   "workspaces": [
     "packages/*",
     "test-packages/*"
@@ -12,6 +16,49 @@
     "chai-files": "^1.4.0",
     "execa": "^4.0.3",
     "mocha": "^5.2.0",
+    "release-it": "^14.0.2",
+    "release-it-lerna-changelog": "^2.4.0",
+    "release-it-yarn-workspaces": "^1.5.0",
     "rimraf": "^2.6.2"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "changelog": {
+    "repo": "kategengler/ember-cli-code-coverage",
+    "labels": {
+      "breaking": ":boom: Breaking Change",
+      "enhancement": ":rocket: Enhancement",
+      "bug": ":bug: Bug Fix",
+      "documentation": ":memo: Documentation",
+      "internal": ":house: Internal"
+    }
+  },
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
+      },
+      "release-it-yarn-workspaces": {
+        "additionalManifests": {
+          "dependencyUpdates": [
+            "test-packages/*/package.json"
+          ]
+        },
+        "publish": false,
+        "workspaces": [
+          "packages/*"
+        ]
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    },
+    "npm": false
   }
 }
