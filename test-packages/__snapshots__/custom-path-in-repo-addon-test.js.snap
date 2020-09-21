@@ -1,0 +1,266 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`alternate in-repo addon coverage generation runs coverage on in-repo addons from a non-standard directory structure 1`] = `
+Object {
+  "app/app.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/router.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 33.33,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 33.33,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/utils/my-covered-util-app.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/utils/my-uncovered-util-app.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "local-lib/addons/my-in-repo-addon/addon-test-support/uncovered-test-support.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "local-lib/addons/my-in-repo-addon/addon/utils/my-covered-util.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "local-lib/addons/my-in-repo-addon/addon/utils/my-uncovered-util.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "local-lib/addons/my-in-repo-addon/app/utils/my-covered-util.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+  },
+  "local-lib/addons/my-in-repo-addon/app/utils/my-uncovered-util.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+  },
+  "total": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": Object {
+      "covered": 2,
+      "pct": 28.57,
+      "skipped": 0,
+      "total": 7,
+    },
+    "lines": Object {
+      "covered": 7,
+      "pct": 46.67,
+      "skipped": 0,
+      "total": 15,
+    },
+    "statements": Object {
+      "covered": 7,
+      "pct": 46.67,
+      "skipped": 0,
+      "total": 15,
+    },
+  },
+}
+`;
