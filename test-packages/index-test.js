@@ -119,11 +119,18 @@ describe('index.js', function () {
     describe('when coverage is enabled', function () {
       beforeEach(function () {
         sandbox.stub(Index, '_isCoverageEnabled').returns(true);
+        sandbox.stub(Index, 'included').value(sinon.spy());
         Index.testemMiddleware(app);
       });
 
       it('adds POST endpoint to app', function () {
         expect(app.post.callCount).toEqual(1);
+      });
+
+      describe('when the fileLookup is empty', function () {
+        it('calls the included function', function () {
+          expect(Index.included.callCount).toEqual(1);
+        });
       });
     });
 
