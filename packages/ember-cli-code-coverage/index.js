@@ -99,7 +99,7 @@ module.exports = {
       return;
     }
 
-    if (!this.fileLookup) {
+    if (Object.keys(this.fileLookup || {}).length === 0) {
       this.included(this);
     }
     const config = {
