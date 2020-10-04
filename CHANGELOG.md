@@ -1,3 +1,21 @@
+## v1.0.1 (2020-10-04)
+
+#### :bug: Bug Fix
+* `ember-cli-code-coverage`
+  * [#293](https://github.com/kategengler/ember-cli-code-coverage/pull/293) Fix empty reports when path option to existing build is used ([@robinborst95](https://github.com/robinborst95))
+  * [#290](https://github.com/kategengler/ember-cli-code-coverage/pull/290) Use in-repo addon's "root" property for includes location ([@mdeanjones](https://github.com/mdeanjones))
+
+#### :house: Internal
+* Other
+  * [#291](https://github.com/kategengler/ember-cli-code-coverage/pull/291) Use Jest for testing ([@Turbo87](https://github.com/Turbo87))
+* `ember-cli-code-coverage`
+  * [#289](https://github.com/kategengler/ember-cli-code-coverage/pull/289) Convert to Monorepo ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 3
+- Michael Jones ([@mdeanjones](https://github.com/mdeanjones))
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+- [@robinborst95](https://github.com/robinborst95)
+
 ## v1.0.0 (2020-08-31)
 
 #### :boom: Breaking Change
