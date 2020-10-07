@@ -128,8 +128,8 @@ module.exports = {
    */
   _getIncludes() {
     return [
-      ...this._getIncludesForInRepoAddonDirectories(),
       ...this._getIncludesForAddonDirectory(),
+      ...this._getIncludesForInRepoAddonDirectories(),
       ...this._getIncludesForAppDirectory(),
     ].filter(Boolean);
   },
