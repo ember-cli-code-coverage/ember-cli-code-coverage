@@ -128,9 +128,9 @@ module.exports = {
    */
   _getIncludes() {
     return [
-      ...this._getIncludesForAppDirectory(),
-      ...this._getIncludesForAddonDirectory(),
       ...this._getIncludesForInRepoAddonDirectories(),
+      ...this._getIncludesForAddonDirectory(),
+      ...this._getIncludesForAppDirectory(),
     ].filter(Boolean);
   },
 
@@ -155,8 +155,8 @@ module.exports = {
       const addonName = addon.moduleName ? addon.moduleName() : addon.name;
       const addonTestSupportDir = path.join(this.project.root, 'addon-test-support');
       return [
-        ...this._getIncludesForDir(addonDir, addonName),
         ...this._getIncludesForDir(addonTestSupportDir, `${addonName}/test-support`),
+        ...this._getIncludesForDir(addonDir, addonName),
       ];
     } else {
       return [];
@@ -180,9 +180,9 @@ module.exports = {
 
       return [
         ...acc,
-        ...this._getIncludesForDir(addonAppDir, this.parent.name()),
-        ...this._getIncludesForDir(addonAddonDir, addon.name),
         ...this._getIncludesForDir(addonAddonTestSupportDir, `${addon.name}/test-support`),
+        ...this._getIncludesForDir(addonAddonDir, addon.name),
+        ...this._getIncludesForDir(addonAppDir, this.parent.name()),
       ];
     }, []);
   },
