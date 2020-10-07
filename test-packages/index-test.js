@@ -389,9 +389,9 @@ describe('index.js', function () {
         it('gets includes for the addon directory', function () {
           const includes = Index._getIncludesForAddonDirectory();
           expect(includes).toEqual([
+            'my-addon/test-support/uncovered-test-support.js',
             'my-addon/utils/my-covered-util.js',
             'my-addon/utils/my-uncovered-util.js',
-            'my-addon/test-support/uncovered-test-support.js',
           ]);
           expect(Index.fileLookup).toEqual({
             'my-addon/test-support/uncovered-test-support.js':
@@ -418,9 +418,9 @@ describe('index.js', function () {
         it('gets includes for the addon directory', function () {
           const includes = Index._getIncludesForAddonDirectory();
           expect(includes).toEqual([
+            'my-addon/test-support/uncovered-test-support.js',
             'my-addon/utils/my-covered-util.js',
             'my-addon/utils/my-uncovered-util.js',
-            'my-addon/test-support/uncovered-test-support.js',
           ]);
           expect(Index.fileLookup).toEqual({
             'my-addon/test-support/uncovered-test-support.js':
@@ -471,16 +471,21 @@ describe('index.js', function () {
         it('instruments the inrepo addon', function () {
           const includes = Index._getIncludesForInRepoAddonDirectories();
           expect(includes).toEqual([
-            'my-app/utils/my-covered-util.js',
-            'my-app/utils/my-uncovered-util.js',
+            'my-in-repo-addon/test-support/uncovered-test-support.js',
+            'my-in-repo-addon/services/my-service.js',
             'my-in-repo-addon/utils/my-covered-util.js',
             'my-in-repo-addon/utils/my-uncovered-util.js',
-            'my-in-repo-addon/test-support/uncovered-test-support.js',
+            'my-app/services/my-service.js',
+            'my-app/utils/my-covered-util.js',
+            'my-app/utils/my-uncovered-util.js',
+            
           ]);
           expect(Index.fileLookup).toEqual({
+            "my-app/services/my-service.js": "lib/my-in-repo-addon/app/services/my-service.js",
             'my-app/utils/my-covered-util.js': 'lib/my-in-repo-addon/app/utils/my-covered-util.js',
             'my-app/utils/my-uncovered-util.js':
               'lib/my-in-repo-addon/app/utils/my-uncovered-util.js',
+            "my-in-repo-addon/services/my-service.js": "lib/my-in-repo-addon/addon/services/my-service.js",
             'my-in-repo-addon/utils/my-covered-util.js':
               'lib/my-in-repo-addon/addon/utils/my-covered-util.js',
             'my-in-repo-addon/utils/my-uncovered-util.js':
@@ -517,11 +522,11 @@ describe('index.js', function () {
         it('instruments the inrepo addon', function () {
           const includes = Index._getIncludesForInRepoAddonDirectories();
           expect(includes).toEqual([
-            'my-app/utils/my-covered-util.js',
-            'my-app/utils/my-uncovered-util.js',
+            'my-in-repo-addon/test-support/uncovered-test-support.js',
             'my-in-repo-addon/utils/my-covered-util.js',
             'my-in-repo-addon/utils/my-uncovered-util.js',
-            'my-in-repo-addon/test-support/uncovered-test-support.js',
+            'my-app/utils/my-covered-util.js',
+            'my-app/utils/my-uncovered-util.js',
           ]);
           expect(Index.fileLookup).toEqual({
             'my-app/utils/my-covered-util.js':
