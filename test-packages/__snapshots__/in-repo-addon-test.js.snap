@@ -54,6 +54,32 @@ Object {
       "total": 3,
     },
   },
+  "app/services/my-service.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
   "app/utils/my-covered-util-app.js": Object {
     "branches": Object {
       "covered": 0,
@@ -130,6 +156,32 @@ Object {
       "pct": 0,
       "skipped": 0,
       "total": 4,
+    },
+  },
+  "lib/my-in-repo-addon/addon/services/my-service.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
     },
   },
   "lib/my-in-repo-addon/addon/utils/my-covered-util.js": Object {
@@ -244,22 +296,22 @@ Object {
       "total": 2,
     },
     "functions": Object {
-      "covered": 2,
-      "pct": 28.57,
+      "covered": 3,
+      "pct": 33.33,
       "skipped": 0,
-      "total": 7,
+      "total": 9,
     },
     "lines": Object {
-      "covered": 7,
-      "pct": 46.67,
+      "covered": 8,
+      "pct": 47.06,
       "skipped": 0,
-      "total": 15,
+      "total": 17,
     },
     "statements": Object {
-      "covered": 7,
-      "pct": 46.67,
+      "covered": 8,
+      "pct": 47.06,
       "skipped": 0,
-      "total": 15,
+      "total": 17,
     },
   },
 }
