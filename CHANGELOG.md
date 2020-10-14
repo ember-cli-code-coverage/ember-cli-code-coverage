@@ -1,3 +1,13 @@
+## v1.0.2 (2020-10-14)
+
+#### :bug: Bug Fix
+* `ember-cli-code-coverage`
+  * [#294](https://github.com/kategengler/ember-cli-code-coverage/pull/294) Fix missing/incorrect file paths for in-repo addons re-exporting files into the app that are also extended/overridden in the app. ([@GCheung55](https://github.com/GCheung55))
+
+#### Committers: 1
+- Garrick Cheung ([@GCheung55](https://github.com/GCheung55))
+
+
 ## v1.0.1 (2020-10-04)
 
 #### :bug: Bug Fix
