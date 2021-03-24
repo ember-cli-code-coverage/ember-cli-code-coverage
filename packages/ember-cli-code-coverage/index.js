@@ -60,8 +60,8 @@ module.exports = {
   },
 
   contentFor(type) {
-    let isRightRype = type === 'test-body-footer' || type === 'code-coverage-footer';
-    if (isRightRype && this._isCoverageEnabled()) {
+    let isRightType = type === 'test-body-footer' || type === 'code-coverage-footer';
+    if (isRightType && this._isCoverageEnabled()) {
       var template = fs
         .readFileSync(path.join(__dirname, 'lib', 'templates', 'test-body-footer.html'))
         .toString();
