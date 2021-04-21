@@ -43,11 +43,8 @@
   function handleCoverageResponse(xhr, callback) {
     var data = xhr.response;
 
-    if (!data) {
-      return;
-    }
-
-    var results = ['Lines', 'Branches', 'Functions', 'Statements']
+    if (data) {
+      var results = ['Lines', 'Branches', 'Functions', 'Statements']
       .filter(function (name) {
         return name.toLowerCase();
       })
@@ -55,11 +52,12 @@
         return name + ' ' + data[name.toLowerCase()].pct + '%'
       });
 
-    var resultsText = document.createTextNode(results.join(' | '));
-    var element = document.createElement('div');
-    element.style = 'background-color: white; color: black; border: 2px solid black; padding: 1em;position: fixed; left: 15px; bottom: 15px';
-    element.appendChild(resultsText);
-    document.body.appendChild(element);
+      var resultsText = document.createTextNode(results.join(' | '));
+      var element = document.createElement('div');
+      element.style = 'background-color: white; color: black; border: 2px solid black; padding: 1em;position: fixed; left: 15px; bottom: 15px';
+      element.appendChild(resultsText);
+      document.body.appendChild(element);
+    }
 
     if (callback) {
       callback();
