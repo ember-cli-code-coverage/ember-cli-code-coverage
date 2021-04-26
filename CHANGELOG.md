@@ -1,3 +1,17 @@
+## v1.0.3 (2021-04-26)
+
+#### :bug: Bug Fix
+* `ember-cli-code-coverage`
+  * [#311](https://github.com/kategengler/ember-cli-code-coverage/pull/311) Make sure to fire callback whenever handleCoverageResponse has fired ([@choongsan](https://github.com/choongsan))
+
+#### :memo: Documentation
+* [#301](https://github.com/kategengler/ember-cli-code-coverage/pull/301) Fix repo README ([@chrisvdp](https://github.com/chrisvdp))
+
+#### Committers: 2
+- Chris van der Ploeg ([@chrisvdp](https://github.com/chrisvdp))
+- [@choongsan](https://github.com/choongsan)
+
+
 ## v1.0.2 (2020-10-14)
 
 #### :bug: Bug Fix
