@@ -89,5 +89,8 @@
   "ember-addon": {
     "configPath": "tests/dummy/config",
     "before": "ember-cli-typescript"
+  },
+  "volta": {
+    "extends": "../../package.json"
   }
 }
