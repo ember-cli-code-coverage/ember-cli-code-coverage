@@ -65,5 +65,9 @@
     },
     "npm": false
   },
-  "version": "1.0.3"
+  "version": "1.0.3",
+  "volta": {
+    "node": "12.22.7",
+    "yarn": "1.22.15"
+  }
 }
