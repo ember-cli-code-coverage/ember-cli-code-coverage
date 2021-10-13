@@ -14,7 +14,7 @@ function getPlugins(appOrAddon) {
 }
 
 // Regular expression to extract the file extension from a path.
-const EXT_RE = /\.[^\.]+$/;
+const EXT_RE = /\.[^.]+$/;
 
 module.exports = {
   name: require('./package').name,
@@ -37,7 +37,10 @@ module.exports = {
     this.parentRegistry = appOrAddon.registry;
 
     if (!this._registeredWithBabel && this._isCoverageEnabled()) {
-      let checker = new VersionChecker(this.parent).for('ember-cli-babel', 'npm');
+      let checker = new VersionChecker(this.parent).for(
+        'ember-cli-babel',
+        'npm'
+      );
 
       if (checker.satisfies('>= 6.0.0')) {
         const IstanbulPlugin = require.resolve('babel-plugin-istanbul');
@@ -47,7 +50,9 @@ module.exports = {
         [this.app, this._findCoveredAddon(), ...this._findInRepoAddons()]
           .filter(Boolean)
           .map(getPlugins)
-          .forEach(plugins => plugins.push([IstanbulPlugin, { exclude, include }]));
+          .forEach((plugins) =>
+            plugins.push([IstanbulPlugin, { exclude, include }])
+          );
       } else {
         this.project.ui.writeWarnLine(
           'ember-cli-code-coverage: You are using an unsupported ember-cli-babel version,' +
@@ -62,11 +67,15 @@ module.exports = {
   contentFor(type) {
     if (type === 'test-body-footer' && this._isCoverageEnabled()) {
       var template = fs
-        .readFileSync(path.join(__dirname, 'lib', 'templates', 'test-body-footer.html'))
+        .readFileSync(
+          path.join(__dirname, 'lib', 'templates', 'test-body-footer.html')
+        )
         .toString();
       return template.replace(
         '{%ENTRIES%}',
-        JSON.stringify(Object.keys(this.fileLookup).map(file => file.replace(EXT_RE, '')))
+        JSON.stringify(
+          Object.keys(this.fileLookup).map((file) => file.replace(EXT_RE, ''))
+        )
       );
     }
 
@@ -153,9 +162,15 @@ module.exports = {
     if (addon) {
       const addonDir = path.join(this.project.root, 'addon');
       const addonName = addon.moduleName ? addon.moduleName() : addon.name;
-      const addonTestSupportDir = path.join(this.project.root, 'addon-test-support');
+      const addonTestSupportDir = path.join(
+        this.project.root,
+        'addon-test-support'
+      );
       return [
-        ...this._getIncludesForDir(addonTestSupportDir, `${addonName}/test-support`),
+        ...this._getIncludesForDir(
+          addonTestSupportDir,
+          `${addonName}/test-support`
+        ),
         ...this._getIncludesForDir(addonDir, addonName),
       ];
     } else {
@@ -176,11 +191,17 @@ module.exports = {
 
       let addonAppDir = path.join(addonDir, 'app');
       let addonAddonDir = path.join(addonDir, 'addon');
-      const addonAddonTestSupportDir = path.join(addonDir, 'addon-test-support');
+      const addonAddonTestSupportDir = path.join(
+        addonDir,
+        'addon-test-support'
+      );
 
       return [
         ...acc,
-        ...this._getIncludesForDir(addonAddonTestSupportDir, `${addon.name}/test-support`),
+        ...this._getIncludesForDir(
+          addonAddonTestSupportDir,
+          `${addon.name}/test-support`
+        ),
         ...this._getIncludesForDir(addonAddonDir, addon.name),
         ...this._getIncludesForDir(addonAppDir, this.parent.name()),
       ];
@@ -200,10 +221,14 @@ module.exports = {
       this.project.findAddonByName('ember-cli-typescript');
     if (fs.existsSync(dir)) {
       let dirname = path.relative(this.project.root, dir);
-      let globs = this.parentRegistry.extensionsForType('js').map(extension => `**/*.${extension}`);
+      let globs = this.parentRegistry
+        .extensionsForType('js')
+        .map((extension) => `**/*.${extension}`);
 
-      return walkSync(dir, { directories: false, globs }).map(file => {
-        const postfix = hasEmberCliTypescript ? file : file.replace(EXT_RE, '.js');
+      return walkSync(dir, { directories: false, globs }).map((file) => {
+        const postfix = hasEmberCliTypescript
+          ? file
+          : file.replace(EXT_RE, '.js');
         const module = prefix + '/' + postfix;
         this.fileLookup[module] = path.join(dirname, file);
         return module;
@@ -251,7 +276,7 @@ module.exports = {
     if (!this._inRepoAddons) {
       const pkg = this.project.pkg;
       const inRepoAddonPaths = pkg['ember-addon'] && pkg['ember-addon'].paths;
-      this._inRepoAddons = (inRepoAddonPaths || []).map(addonPath => {
+      this._inRepoAddons = (inRepoAddonPaths || []).map((addonPath) => {
         let addonName = path.basename(addonPath);
         return this.project.findAddonByName(addonName);
       });

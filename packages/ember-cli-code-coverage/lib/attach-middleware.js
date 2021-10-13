@@ -25,12 +25,15 @@ function writeCoverage(coverage, fileLookup, root, map) {
   // eg. /Users/user/apps/my-ember-app/my-ember-app/app.js => my-ember-app/app.js
   const fixedCoverage = Object.keys(coverage).reduce((memo, filePath) => {
     const modulePath = path.relative(root, filePath).split(path.sep).join('/');
-    memo[modulePath] = Object.assign({}, coverage[filePath], { path: modulePath });
+    memo[modulePath] = Object.assign({}, coverage[filePath], {
+      path: modulePath,
+    });
     return memo;
   }, {});
 
-  Object.keys(fileLookup).forEach(filename => {
-    let fileCoverage = fixedCoverage[filename] || libCoverage.createFileCoverage(filename).data;
+  Object.keys(fileLookup).forEach((filename) => {
+    let fileCoverage =
+      fixedCoverage[filename] || libCoverage.createFileCoverage(filename).data;
     map.addFileCoverage(fixFilePaths(fileCoverage, fileLookup));
   });
 }
@@ -41,7 +44,8 @@ function reportCoverage(map, root, configPath) {
   let { reporters } = config;
 
   if (config.parallel) {
-    config.coverageFolder = config.coverageFolder + '_' + crypto.randomBytes(4).toString('hex');
+    config.coverageFolder =
+      config.coverageFolder + '_' + crypto.randomBytes(4).toString('hex');
 
     if (!reporters.includes('json')) {
       reporters.push('json');
@@ -59,7 +63,7 @@ function reportCoverage(map, root, configPath) {
     coverageMap: map,
   });
 
-  reporters.forEach(reporter => {
+  reporters.forEach((reporter) => {
     let report = reports.create(reporter, {});
 
     // call execute to synchronously create and write the report to disk

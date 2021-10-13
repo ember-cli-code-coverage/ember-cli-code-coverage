@@ -55,7 +55,7 @@ module.exports = {
             coverageMap: map,
           });
 
-          reporters.forEach(reporter => {
+          reporters.forEach((reporter) => {
             let report = reports.create(reporter, {});
 
             // call execute to synchronously create and write the report to disk
