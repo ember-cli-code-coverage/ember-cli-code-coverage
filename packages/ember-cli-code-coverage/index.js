@@ -1,30 +1,52 @@
 'use strict';
 
-let attachMiddleware = require('./lib/attach-middleware');
-let fs = require('fs');
 let path = require('path');
+let fs = require('fs-extra');
+let attachMiddleware = require('./lib/attach-middleware');
 
 module.exports = {
   name: require('./package').name,
 
-  /*
-   *  Optional options are:
-   *  - cwd
-   *  - coverageEnvVar
-   *  - embroider
-   *  - exclude
+  /**
+    @example
+    let app = new EmberApp(defaults, {
+      babel: {
+        plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
+      },
+    });
+
+    @example
+    module.exports = {
+      name: require('./package').name,
+
+      options: {
+        babel: {
+          plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
+        },
+      }
+    };
    */
   buildBabelPlugin(opts = {}) {
     let cwd = opts.cwd || process.cwd();
-    let exclude = opts.exclude || ['*/mirage/**/*'];
-    let coverageEnvVar = opts.coverageEnvVar || 'COVERAGE';
+    let exclude = ['*/mirage/**/*'];
+    let coverageEnvVar = 'COVERAGE';
+    let configBase = 'config';
 
-    // TODO: support custom config location
-    if (fs.existsSync(path.join(process.cwd(), 'config/coverage.js'))) {
-      let config = require(path.join(process.cwd(), 'config/coverage.js'));
+    let pkgJSON = fs.readJSONSync(path.join(process.cwd(), 'package.json'));
+
+    if (pkgJSON['ember-addon'] && pkgJSON['configPath']) {
+      configBase = pkgJSON['configPath'];
+    }
+
+    if (fs.existsSync(path.join(process.cwd(), configBase, 'coverage.js'))) {
+      let config = require(path.join(process.cwd(), configBase, 'coverage.js'));
 
       if (config.excludes) {
         exclude = config.excludes;
+      }
+
+      if (config.coverageEnvVar) {
+        coverageEnvVar = config.coverageEnvVar;
       }
     }
 

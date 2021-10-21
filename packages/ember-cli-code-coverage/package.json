@@ -34,11 +34,10 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
-    "@embroider/compat": "^0.45.0",
-    "@embroider/core": "^0.45.0",
+    "@embroider/compat": "^0.47.0",
+    "@embroider/core": "^0.47.0",
     "babel-plugin-istanbul": "^6.0.0",
     "body-parser": "^1.19.0",
-    "ember-cli-version-checker": "^5.1.1",
     "fs-extra": "^9.0.0",
     "istanbul-lib-coverage": "^3.0.0",
     "istanbul-lib-report": "^3.0.0",
