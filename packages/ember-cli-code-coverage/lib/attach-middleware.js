@@ -112,7 +112,8 @@ function adjustCoverageKey(root, filepath, isAddon) {
   if (fs.existsSync(path.join(root, 'package.json'))) {
     pkgJSON = fs.readJsonSync(path.join(root, 'package.json'));
   }
-  let inRepoPaths = (pkgJSON['ember-addon'] && pkgJSON['ember-addon']['paths']) || [];
+  let inRepoPaths =
+    (pkgJSON['ember-addon'] && pkgJSON['ember-addon']['paths']) || [];
   let embroiderTmpPathRegex = /embroider\/.{6}\/[^/]+/gm;
 
   // we can check if embroider based on how the path looks.

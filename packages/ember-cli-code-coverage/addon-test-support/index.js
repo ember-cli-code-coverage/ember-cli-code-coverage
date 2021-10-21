@@ -21,7 +21,6 @@ if (typeof __webpack_require__ !== 'undefined') {
 }
 
 export function forceModulesToBeLoaded() {
-  // check if webpack is present
   if (typeof __webpack_require__ !== 'undefined') {
     let __modules = __require.m;
     Object.keys(__modules).forEach((moduleName) => {
@@ -42,9 +41,8 @@ export function forceModulesToBeLoaded() {
 
   Object.keys(window.requirejs.entries).forEach((moduleName) => {
     try {
+      // do no require itself as it will cause a recursive loop
       let excludeTestModules = /^[^/]+\/tests\//;
-
-      // this causes an infinite loop without it
       if (!excludeTestModules.test(moduleName)) {
         require(moduleName); // eslint-disable-line no-undef
       }
