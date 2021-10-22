@@ -52,10 +52,12 @@ function isRelativeToInRepoAddon(root, inRepoAddons, relativePath) {
         relativePathParts[2] === '_app_' ||
         relativePathParts[2] === 'test-support'
       ) {
+        let renamedSubPath =
+          relativePathParts[2] === '_app_' ? 'app' : 'addon-test-support';
         relativePathParts.splice(2, 1);
         return path.join(
           inRepoAddons[i],
-          relativePathParts[2] === '_app_' ? 'app' : 'addon-test-support',
+          renamedSubPath,
           path.relative(inRepoAddons[i], relativePathParts.join(path.sep))
         );
       }
