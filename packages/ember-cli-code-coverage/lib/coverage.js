@@ -2,7 +2,7 @@ function sendCoverage(callback) {
   var coverageData = window.__coverage__; //eslint-disable-line no-undef
 
   if (coverageData === undefined) {
-    return false; // no opt if there is no coverage data
+    return callback(); // no opt if there is no coverage data
   }
 
   var data = JSON.stringify(coverageData || {});
