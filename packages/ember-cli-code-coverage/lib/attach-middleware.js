@@ -18,8 +18,10 @@ function logError(err, req, res, next) {
 }
 
 /*
- *
- * TODO:
+ * this function tries to check if a given relative path resides within an in repo
+ * addon or engine. most of the special logic within this function is attempting
+ * to translate a relateive namespaced path (ie is missing app or addon) such as
+ * lib/hello/components/world.js to lib/hello/addon/components/world.js
  */
 function isRelativeToInRepoAddon(root, inRepoAddons, relativePath) {
   let relativePathParts = relativePath.split(path.sep);
@@ -39,7 +41,6 @@ function isRelativeToInRepoAddon(root, inRepoAddons, relativePath) {
         );
       }
 
-      // TODO: it might not be addon but utils
       return path.join(inRepoAddons[i], 'addon', ...relativePathParts.slice(1));
     }
 
@@ -47,18 +48,14 @@ function isRelativeToInRepoAddon(root, inRepoAddons, relativePath) {
     // which we can simply check that its path starts with a known in repo
     // path.
     if (relativePath.startsWith(inRepoAddons[i])) {
-      if (relativePathParts[2] === '_app_') {
+      if (
+        relativePathParts[2] === '_app_' ||
+        relativePathParts[2] === 'test-support'
+      ) {
         relativePathParts.splice(2, 1);
         return path.join(
           inRepoAddons[i],
-          'app',
-          path.relative(inRepoAddons[i], relativePathParts.join(path.sep))
-        );
-      } else if (relativePathParts[2] === 'test-support') {
-        relativePathParts.splice(2, 1);
-        return path.join(
-          inRepoAddons[i],
-          'addon-test-support',
+          relativePathParts[2] === '_app_' ? 'app' : 'addon-test-support',
           path.relative(inRepoAddons[i], relativePathParts.join(path.sep))
         );
       }
@@ -102,10 +99,6 @@ function isRelativeToInRepoAddon(root, inRepoAddons, relativePath) {
  * `/private/var/folders/61/n399scw50nq264twrz32ccgr000vkn/T/embroider/fbeb74/ember-test-app/components/foo.js`
  * where as in Classic it will be the "actual" app like: `/Users/x/y/z/ember-test-app/ember-test-app/components/foo.js`
  * both of these absolute paths should be converted into `app/components/foo.js`
- *
- *
- * TODO: talk about in repo addons
- *
  */
 function adjustCoverageKey(root, filepath, isAddon) {
   let pkgJSON = {};
