@@ -48,7 +48,7 @@ function normalizeRelativePath(root, filepath) {
 }
 
 /*
- * The objective of this function is to covert an absolute path into a path relative to project root.
+ * The objective of this function is to convert an absolute path into a path relative to project root.
  * The is because the coverage html file wants to display things like `app/components/foo.js`
  *  and not a full absolute path. The trick is that this path will be different in Embroider vs Classic. For
  * Embroider this path will be in the temp location such as:
