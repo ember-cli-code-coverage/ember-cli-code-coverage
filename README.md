@@ -19,8 +19,7 @@ Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember
 
 ## Setup
 
-In previous versions of ember-cli-code-coverage the Istanbul babel plugin was automatically applied throughout your app for you. Now you must manually add
-the plugin to the babel plugin list like so:
+In order to gather code coverage information, you must first install the Babel plugins in each addon that you'd like to have instrumented.
 
 For classic apps (ember-cli-build.js):
 
