@@ -4,11 +4,7 @@ const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {
-    babel: {
-      plugins: [
-        ...require('ember-cli-code-coverage').buildBabelPlugin(),
-      ],
-    },
+    // Add options here
   });
 
   /*

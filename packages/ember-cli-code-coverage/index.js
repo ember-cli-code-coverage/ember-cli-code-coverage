@@ -32,14 +32,14 @@ module.exports = {
     let coverageEnvVar = 'COVERAGE';
     let configBase = 'config';
 
-    let pkgJSON = fs.readJSONSync(path.join(process.cwd(), 'package.json'));
+    let pkgJSON = fs.readJSONSync(path.join(cwd, 'package.json'));
 
     if (pkgJSON['ember-addon'] && pkgJSON['configPath']) {
       configBase = pkgJSON['configPath'];
     }
 
-    if (fs.existsSync(path.join(process.cwd(), configBase, 'coverage.js'))) {
-      let config = require(path.join(process.cwd(), configBase, 'coverage.js'));
+    if (fs.existsSync(path.join(cwd, configBase, 'coverage.js'))) {
+      let config = require(path.join(cwd, configBase, 'coverage.js'));
 
       if (config.excludes) {
         exclude = config.excludes;
@@ -71,6 +71,34 @@ module.exports = {
     };
   },
 
+  buildNamespaceMappings() {
+    let rootNamespaceMappings = new Map();
+    function recurse(item) {
+      if (item.isEmberCLIProject && item.isEmberCLIProject()) {
+        let projectConfig = item.config(process.env.EMBER_ENV);
+        rootNamespaceMappings.set(
+          projectConfig.modulePrefix,
+          path.join(item.root, 'app')
+        );
+      } else if (item.treePaths) {
+        let addonPath = path.join(item.root, item.treePaths.addon);
+        let addonTestSupportPath = path.join(
+          item.root,
+          item.treePaths['addon-test-support']
+        );
+        rootNamespaceMappings.set(item.name, addonPath);
+        rootNamespaceMappings.set(
+          path.join(item.name, 'test-support'),
+          addonTestSupportPath
+        );
+      }
+      item.addons.forEach(recurse);
+    }
+
+    recurse(this.project);
+    return rootNamespaceMappings;
+  },
+
   /**
    * If coverage is enabled attach coverage middleware to the express server run by ember-cli
    * @param {Object} startOptions - Express server start options
@@ -80,7 +108,7 @@ module.exports = {
       configPath: this.project.configPath(),
       root: this.project.root,
       fileLookup: this.fileLookup,
-      isAddon: this.parent.isEmberCLIAddon(),
+      namespaceMappings: this.buildNamespaceMappings(),
     });
   },
 
@@ -89,7 +117,7 @@ module.exports = {
       configPath: this.project.configPath(),
       root: this.project.root,
       fileLookup: this.fileLookup,
-      isAddon: this.parent.isEmberCLIAddon(),
+      namespaceMappings: this.buildNamespaceMappings(),
     };
     // if we're running `ember test --server` use the `serverMiddleware`.
     if (process.argv.includes('--server') || process.argv.includes('-s')) {

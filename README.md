@@ -1,4 +1,4 @@
-# ember-cli-code-coverage 
+# ember-cli-code-coverage
 
 [![npm version](https://badge.fury.io/js/ember-cli-code-coverage.svg)](http://badge.fury.io/js/ember-cli-code-coverage)
 [![CI](https://github.com/kategengler/ember-cli-code-coverage/workflows/CI/badge.svg)](https://github.com/kategengler/ember-cli-code-coverage/actions?query=workflow%3ACI)
@@ -16,6 +16,69 @@ Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember
 ## Installation
 
 * `ember install ember-cli-code-coverage`
+
+## Setup
+
+In previous versions of ember-cli-code-coverage the Istanbul babel plugin was automatically applied throughout your app for you. Now you must manually add
+the plugin to the babel plugin list like so:
+
+For classic apps (ember-cli-build.js):
+
+```js
+let app = new EmberApp(defaults, {
+  babel: {
+    plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
+  },
+});
+```
+
+For embroider apps (ember-cli-build.js):
+
+```js
+let app = new EmberApp(defaults, {
+  babel: {
+    plugins: [...require('ember-cli-code-coverage').buildBabelPlugin({ embroider: true })],
+  },
+});
+```
+
+For in-repo addons (index.js):
+
+```js
+module.exports = {
+  name: require('./package').name,
+
+  options: {
+    babel: {
+      plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
+    },
+  },
+};
+```
+
+For in-repo engines (index.js):
+
+```js
+module.exports = EngineAddon.extend({
+  // ...
+  included() {
+    this._super.included.apply(this, arguments);
+    this.options.babel.plugins.push(...require('ember-cli-code-coverage').buildBabelPlugin());
+  },
+});
+```
+
+tests/index.html:
+```html
+<script src="/coverage.js" integrity="" data-embroider-ignore></script>
+```
+
+tests/test-helpers.js:
+```js
+import { forceModulesToBeLoaded } from 'ember-cli-code-coverage/test-support';
+
+forceModulesToBeLoaded();
+```
 
 ## Usage
 

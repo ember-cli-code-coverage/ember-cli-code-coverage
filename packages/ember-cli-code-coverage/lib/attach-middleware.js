@@ -18,79 +18,33 @@ function logError(err, req, res, next) {
 }
 
 /*
- * this function tries to check if a given relative path resides within an in repo
- * addon or engine. most of the special logic within this function is attempting
- * to translate a relateive namespaced path (ie is missing app or addon) such as
- * lib/hello/components/world.js to lib/hello/addon/components/world.js
+ * This function normalizes the relativePath to match what we get from a classical app. Its goal
+ * is to change any in repo paths like: app-namespace/lib/in-repo-namespace/components/foo.js to
+ * in-repo-namespace/components/foo.js.
  */
-function isRelativeToInRepoAddon(root, inRepoAddons, relativePath) {
-  let relativePathParts = relativePath.split(path.sep);
+function normalizeRelativePath(root, filepath) {
+  let embroiderTmpPathRegex = /embroider\/.{6}/gm;
+  let relativePath = filepath.split(embroiderTmpPathRegex)[1].slice(1);
 
-  for (let i = 0; i < inRepoAddons.length; i++) {
-    let inRepoPathParts = inRepoAddons[i].split(path.sep);
+  if (fs.existsSync(path.join(root, 'package.json'))) {
+    let pkgJSON = fs.readJsonSync(path.join(root, 'package.json'));
+    let inRepoPaths =
+      (pkgJSON['ember-addon'] && pkgJSON['ember-addon']['paths']) || [];
 
-    // check if in repo addon at 'lib/hello' matches 'hello/components/world.js'
-    // this case is for classic and we match on the last part of the in repo path
-    // matches the first part of the relative path
-    if (inRepoPathParts[inRepoPathParts.length - 1] === relativePathParts[0]) {
-      if (relativePathParts[1] === 'test-support') {
-        return path.join(
-          inRepoAddons[i],
-          'addon-test-support',
-          ...relativePathParts.slice(2)
+    for (let i = 0; i <= inRepoPaths.length; i++) {
+      // this regex checks that the relative path is: app-namespace/path/to/inrepo
+      let inRepoPathRegex = new RegExp('[^/]+/' + inRepoPaths[i], 'gi');
+      if (inRepoPathRegex.test(relativePath)) {
+        relativePath = path.join(
+          inRepoPaths[i].split(path.sep).slice(-1)[0],
+          filepath.split(inRepoPaths[i])[1]
         );
+        break;
       }
-
-      return path.join(inRepoAddons[i], 'addon', ...relativePathParts.slice(1));
-    }
-
-    // under embroider relative path will be lib/hello/components/world.js
-    // which we can simply check that its path starts with a known in repo
-    // path.
-    if (relativePath.startsWith(inRepoAddons[i])) {
-      if (
-        relativePathParts[2] === '_app_' ||
-        relativePathParts[2] === 'test-support'
-      ) {
-        let renamedSubPath =
-          relativePathParts[2] === '_app_' ? 'app' : 'addon-test-support';
-        relativePathParts.splice(2, 1);
-        return path.join(
-          inRepoAddons[i],
-          renamedSubPath,
-          path.relative(inRepoAddons[i], relativePathParts.join(path.sep))
-        );
-      }
-
-      return path.join(
-        inRepoAddons[i],
-        'addon',
-        path.relative(inRepoAddons[i], relativePath)
-      );
-    }
-
-    // here we check if we can find an app export from within an inrepo that matches the
-    // relative path such as app-name/components/world.js or dummy/components/world.js and
-    // map that to the expected location within the in-repo addon.
-    let pathWithOutAppName = relativePath
-      .split(path.sep)
-      .slice(1)
-      .join(path.sep);
-    let relativePathOfAppExport = path.join(
-      inRepoAddons[i],
-      'app',
-      pathWithOutAppName
-    );
-
-    let foundInRepo = fs.existsSync(path.join(root, relativePathOfAppExport));
-    let foundInApp = fs.existsSync(path.join(root, 'app', pathWithOutAppName));
-
-    if (foundInRepo && !foundInApp) {
-      return relativePathOfAppExport;
     }
   }
 
-  return false;
+  return relativePath;
 }
 
 /*
@@ -102,66 +56,46 @@ function isRelativeToInRepoAddon(root, inRepoAddons, relativePath) {
  * where as in Classic it will be the "actual" app like: `/Users/x/y/z/ember-test-app/ember-test-app/components/foo.js`
  * both of these absolute paths should be converted into `app/components/foo.js`
  */
-function adjustCoverageKey(root, filepath, isAddon) {
-  let pkgJSON = {};
-  if (fs.existsSync(path.join(root, 'package.json'))) {
-    pkgJSON = fs.readJsonSync(path.join(root, 'package.json'));
-  }
-  let inRepoPaths =
-    (pkgJSON['ember-addon'] && pkgJSON['ember-addon']['paths']) || [];
-  let embroiderTmpPathRegex = /embroider\/.{6}\/[^/]+/gm;
-
-  // we can check if embroider based on how the path looks.
-  if (embroiderTmpPathRegex.test(filepath)) {
-    let relativePath = filepath.split(embroiderTmpPathRegex)[1].slice(1);
-    let adjustedPath = isRelativeToInRepoAddon(root, inRepoPaths, relativePath);
-
-    if (adjustedPath) {
-      return adjustedPath;
-    }
-
-    return path.join('app', relativePath);
-  }
-
-  // handle a classic filepath
+function adjustCoverageKey(root, filepath, namespaceMappings) {
   let relativePath = path.relative(root, filepath);
-  let adjustedPath = isRelativeToInRepoAddon(root, inRepoPaths, relativePath);
+  let embroiderTmpPathRegex = /embroider\/.{6}/gm;
 
-  if (adjustedPath) {
-    return adjustedPath;
+  // we can determine if file is coming from embroider based on how the path looks
+  if (embroiderTmpPathRegex.test(filepath)) {
+    relativePath = normalizeRelativePath(root, filepath);
   }
 
-  if (isAddon && !relativePath.startsWith('dummy')) {
-    // changes ember-test-addon/component/foo.js to addon/component/foo.js
-    return path.join('addon', ...relativePath.split(path.sep).slice(1));
+  let namespace = relativePath.split(path.sep)[0];
+  let pathWithoutNamespace = relativePath.split(path.sep).slice(1);
+  let namespaceKey = namespace;
+
+  if (pathWithoutNamespace[0] === 'test-support') {
+    namespaceKey = path.join(namespace, 'test-support');
+    // remove the old test-support segment
+    pathWithoutNamespace = pathWithoutNamespace.slice(1);
   }
 
-  // changes dummy/component/foo.js to app/component/foo.js in addons
-  // changes app-name/component/foo.js to app/component/foo.js in classic apps
-  return path.join('app', ...relativePath.split(path.sep).slice(1));
-}
-
-/*
- * because we only want to track from the perspective of the
- * app and not the app namespace (this can include other things that have
- * been merged in normally). This simply verifies that a file
- * actually originiates within the project and not from another addon or
- * something builtin.
- */
-function filterNonAppOwnedFiles(root, key) {
-  if (fs.existsSync(path.join(root, key))) {
-    return true;
+  if (namespaceMappings.has(namespaceKey)) {
+    return path.join(
+      ...[namespaceMappings.get(namespaceKey), ...pathWithoutNamespace]
+    );
   }
 
-  return false;
+  // could not find a location for the file. this should only occur in embroider
+  // with file inside of assets/
+  return relativePath;
 }
 
 function adjustCoverage(coverage, options) {
-  let { root, isAddon } = options;
+  let { root, namespaceMappings } = options;
   const adjustedCoverage = Object.keys(coverage).reduce((memo, filePath) => {
-    let relativeToProjectRoot = adjustCoverageKey(root, filePath, isAddon);
-    coverage[filePath].path = relativeToProjectRoot;
-    memo[relativeToProjectRoot] = coverage[filePath];
+    let relativeToProjectRoot = adjustCoverageKey(
+      root,
+      filePath,
+      namespaceMappings
+    );
+    coverage[filePath].path = path.relative(root, relativeToProjectRoot);
+    memo[path.relative(root, relativeToProjectRoot)] = coverage[filePath];
     return memo;
   }, {});
 
@@ -172,8 +106,9 @@ function writeCoverage(coverage, options, map) {
   let { root } = options;
   const adjustedCoverage = adjustCoverage(coverage, options);
 
-  Object.entries(adjustedCoverage).forEach(([key, cov]) => {
-    if (filterNonAppOwnedFiles(root, key)) {
+  Object.entries(adjustedCoverage).forEach(([relativePath, cov]) => {
+    // this filters out files that dont reside within the project
+    if (fs.existsSync(path.join(root, relativePath))) {
       map.addFileCoverage(cov);
     }
   });
@@ -257,7 +192,6 @@ module.exports = {
   serverMiddleware,
   testMiddleware,
   adjustCoverageKey,
-  isRelativeToInRepoAddon,
-  filterNonAppOwnedFiles,
   adjustCoverage,
+  normalizeRelativePath,
 };
