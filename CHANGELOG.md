@@ -1,3 +1,18 @@
+## v2.0.0-beta.1 (2021-10-26)
+
+#### :boom: Breaking Change
+* `ember-cli-code-coverage`
+  * [#327](https://github.com/kategengler/ember-cli-code-coverage/pull/327) Re-architect plugin loading and asset detection logic (add Embroider support) ([@thoov](https://github.com/thoov))
+  * [#325](https://github.com/kategengler/ember-cli-code-coverage/pull/325) Run ember-cli-upgrade to v3.28.1 ([@thoov](https://github.com/thoov))
+
+#### :house: Internal
+* `ember-cli-code-coverage`
+  * [#326](https://github.com/kategengler/ember-cli-code-coverage/pull/326) Use volta-cli for node and yarn versioning ([@thoov](https://github.com/thoov))
+
+#### Committers: 1
+- Travis Hoover ([@thoov](https://github.com/thoov))
+
+
 ## v1.0.3 (2021-04-26)
 
 #### :bug: Bug Fix
