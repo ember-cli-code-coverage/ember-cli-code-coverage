@@ -5,5 +5,13 @@ module.exports = {
 
   isDevelopingAddon() {
     return true;
+  },
+
+  options: {
+    babel: {
+      plugins: [
+        ...require('ember-cli-code-coverage').buildBabelPlugin(),
+      ],
+    },
   }
 };

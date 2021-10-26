@@ -12,5 +12,13 @@ module.exports = EngineAddon.extend({
 
   isDevelopingAddon() {
     return true;
-  }
+  },
+
+  included() {
+    this._super.included.apply(this, arguments);
+
+    this.options.babel.plugins.push(
+      ...require('ember-cli-code-coverage').buildBabelPlugin()
+    );
+  },
 });
