@@ -19,7 +19,7 @@ Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember
 
 ## Setup
 
-In order to gather code coverage information, you must first install the Babel plugins in each addon that you'd like to have instrumented.
+In order to gather code coverage information, you must first install the Babel plugins in each project that you'd like to have instrumented.
 
 For classic apps (ember-cli-build.js):
 
