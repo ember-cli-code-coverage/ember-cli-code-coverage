@@ -34,8 +34,8 @@ module.exports = {
 
     let pkgJSON = fs.readJSONSync(path.join(cwd, 'package.json'));
 
-    if (pkgJSON['ember-addon'] && pkgJSON['configPath']) {
-      configBase = pkgJSON['configPath'];
+    if (pkgJSON['ember-addon'] && pkgJSON['ember-addon'].configPath) {
+      configBase = pkgJSON['ember-addon'].configPath;
     }
 
     if (fs.existsSync(path.join(cwd, configBase, 'coverage.js'))) {
