@@ -40,6 +40,13 @@ function normalizeRelativePath(root, filepath) {
           filepath.split(inRepoPaths[i])[1]
         );
         break;
+      } else if (relativePath.startsWith(inRepoPaths[i])) {
+        // this checks if relative path is: /path/to/inrepo
+        relativePath = path.join(
+          inRepoPaths[i].split(path.sep).slice(-1)[0],
+          filepath.split(inRepoPaths[i])[1]
+        );
+        break;
       }
     }
   }

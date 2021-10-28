@@ -25,6 +25,12 @@ describe('attach-middleware', () => {
 
     expect(normalizeRelativePath(project.baseDir, `${embroiderTmp}/app-namespace/components/world.js`))
       .toEqual('app-namespace/components/world.js');
+
+    expect(normalizeRelativePath(project.baseDir, `${embroiderTmp}/lib/hello/test-support/world.js`))
+      .toEqual('hello/test-support/world.js');
+
+    expect(normalizeRelativePath(project.baseDir, `${embroiderTmp}/components/world.js`))
+      .toEqual('components/world.js');
   });
 
   it('adjustCoverageKey works for a classic app', () => {
