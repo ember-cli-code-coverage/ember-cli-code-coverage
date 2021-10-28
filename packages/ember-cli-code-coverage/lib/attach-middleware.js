@@ -7,7 +7,6 @@ const reports = require('istanbul-reports');
 const getConfig = require('./config');
 const path = require('path');
 const crypto = require('crypto');
-const express = require('express');
 const fs = require('fs-extra');
 
 const WRITE_COVERAGE = '/write-coverage';
@@ -175,8 +174,6 @@ function serverMiddleware(app, options) {
     },
     logError
   );
-
-  app.use('/coverage.js', express.static(path.join(__dirname, 'coverage.js')));
 }
 
 // Used when app is in ci mode (`ember test`).
@@ -192,8 +189,6 @@ function testMiddleware(app, options) {
     },
     logError
   );
-
-  app.use('/coverage.js', express.static(path.join(__dirname, 'coverage.js')));
 }
 
 module.exports = {
