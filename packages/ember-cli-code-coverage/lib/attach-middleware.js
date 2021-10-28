@@ -7,7 +7,6 @@ const reports = require('istanbul-reports');
 const getConfig = require('./config');
 const path = require('path');
 const crypto = require('crypto');
-const express = require('express');
 const fs = require('fs-extra');
 
 const WRITE_COVERAGE = '/write-coverage';
@@ -35,6 +34,13 @@ function normalizeRelativePath(root, filepath) {
       // this regex checks that the relative path is: app-namespace/path/to/inrepo
       let inRepoPathRegex = new RegExp('[^/]+/' + inRepoPaths[i], 'gi');
       if (inRepoPathRegex.test(relativePath)) {
+        relativePath = path.join(
+          inRepoPaths[i].split(path.sep).slice(-1)[0],
+          filepath.split(inRepoPaths[i])[1]
+        );
+        break;
+      } else if (relativePath.startsWith(inRepoPaths[i])) {
+        // this checks if relative path is: /path/to/inrepo
         relativePath = path.join(
           inRepoPaths[i].split(path.sep).slice(-1)[0],
           filepath.split(inRepoPaths[i])[1]
@@ -81,9 +87,10 @@ function adjustCoverageKey(root, filepath, namespaceMappings) {
     );
   }
 
-  // could not find a location for the file. this should only occur in embroider
-  // with file inside of assets/
-  return relativePath;
+  // use the default key which will point to project root. this should only
+  // happen in embroider under special situations
+  namespaceKey = '/';
+  return path.join(namespaceMappings.get(namespaceKey), relativePath);
 }
 
 function adjustCoverage(coverage, options) {
@@ -167,8 +174,6 @@ function serverMiddleware(app, options) {
     },
     logError
   );
-
-  app.use('/coverage.js', express.static(path.join(__dirname, 'coverage.js')));
 }
 
 // Used when app is in ci mode (`ember test`).
@@ -184,8 +189,6 @@ function testMiddleware(app, options) {
     },
     logError
   );
-
-  app.use('/coverage.js', express.static(path.join(__dirname, 'coverage.js')));
 }
 
 module.exports = {

@@ -67,16 +67,15 @@ module.exports = EngineAddon.extend({
 });
 ```
 
-tests/index.html:
-```html
-<script src="/coverage.js" integrity="" data-embroider-ignore></script>
-```
-
 tests/test-helpers.js:
 ```js
-import { forceModulesToBeLoaded } from 'ember-cli-code-coverage/test-support';
+import { forceModulesToBeLoaded, sendCoverage } from 'ember-cli-code-coverage/test-support';
+import Qunit from 'qunit';
 
-forceModulesToBeLoaded();
+QUnit.done(async function() {
+  forceModulesToBeLoaded();
+  await sendCoverage();
+});
 ```
 
 ## Usage
