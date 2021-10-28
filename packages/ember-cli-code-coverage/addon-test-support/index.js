@@ -56,38 +56,34 @@ export function forceModulesToBeLoaded() {
   });
 }
 
-export function sendCoverage(callback) {
-  return new Promise(function (resolve) {
-    let coverageData = window.__coverage__; //eslint-disable-line no-undef
+export async function sendCoverage(callback) {
+  let coverageData = window.__coverage__; //eslint-disable-line no-undef
 
-    if (coverageData === undefined) {
-      if (callback) {
-        callback();
-      }
-
-      return resolve(); // do nothing if there is no coverage data
+  if (coverageData === undefined) {
+    if (callback) {
+      callback();
     }
 
-    let data = JSON.stringify(coverageData || {});
+    return; // do nothing if there is no coverage data
+  }
 
-    let request = new XMLHttpRequest(); //eslint-disable-line no-undef
-    request.open('POST', '/write-coverage');
-    request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-    request.responseType = 'json';
-    request.send(data);
+  let body = JSON.stringify(coverageData || {});
 
-    request.onreadystatechange = function () {
-      if (request.readyState === 4) {
-        writeCoverageInfo(request.response);
-
-        if (callback) {
-          callback();
-        }
-
-        resolve(coverageData);
-      }
-    };
+  let response = await fetch('/write-coverage', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body,
   });
+  let responseData = await response.json();
+  writeCoverageInfo(responseData);
+
+  if (callback) {
+    callback();
+  }
+
+  return responseData;
 }
 
 function writeCoverageInfo(data) {
