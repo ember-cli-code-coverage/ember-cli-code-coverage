@@ -5,6 +5,11 @@ function sendCoverage(callback) {
     return callback(); // no opt if there is no coverage data
   }
 
+  //eslint-disable-next-line no-undef
+  if (window.__forceModulesToBeLoaded) {
+    window.__forceModulesToBeLoaded(); //eslint-disable-line no-undef
+  }
+
   var data = JSON.stringify(coverageData || {});
 
   var request = new XMLHttpRequest(); //eslint-disable-line no-undef

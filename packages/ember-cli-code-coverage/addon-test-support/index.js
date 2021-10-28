@@ -20,7 +20,7 @@ if (typeof __webpack_require__ !== 'undefined') {
   __require = __webpack_require__; // eslint-disable-line no-undef
 }
 
-export function forceModulesToBeLoaded() {
+function attachForcerFunction() {
   if (typeof __webpack_require__ !== 'undefined') {
     let __modules = __require.m;
     Object.keys(__modules).forEach((moduleName) => {
@@ -52,4 +52,12 @@ export function forceModulesToBeLoaded() {
       );
     }
   });
+}
+
+export function forceModulesToBeLoaded() {
+  // we attach this to the window object so we can call this function during
+  // the afterTest hooks are called in lib/coverage.js. this is beneficial as sometimes
+  // force calling modules can have side effects and invoking them after the app has run
+  // can reduce problems that would arrise.
+  window.__forceModulesToBeLoaded = attachForcerFunction();
 }

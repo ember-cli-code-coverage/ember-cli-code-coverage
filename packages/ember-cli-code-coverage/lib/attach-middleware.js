@@ -81,9 +81,10 @@ function adjustCoverageKey(root, filepath, namespaceMappings) {
     );
   }
 
-  // could not find a location for the file. this should only occur in embroider
-  // with file inside of assets/
-  return relativePath;
+  // use the default key which will point to project root. this should only
+  // happen in embroider under special situations
+  namespaceKey = '/';
+  return path.join(namespaceMappings.get(namespaceKey), relativePath);
 }
 
 function adjustCoverage(coverage, options) {

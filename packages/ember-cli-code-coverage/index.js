@@ -28,7 +28,7 @@ module.exports = {
    */
   buildBabelPlugin(opts = {}) {
     let cwd = opts.cwd || process.cwd();
-    let exclude = ['*/mirage/**/*'];
+    let exclude = ['*/mirage/**/*', '*/node_modules/**/*'];
     let coverageEnvVar = 'COVERAGE';
     let configBase = 'config';
 
@@ -96,6 +96,17 @@ module.exports = {
     }
 
     recurse(this.project);
+
+    // this adds a "default" lookup to the namespace in the event that there is no
+    // namespace. this comes up under embroider depending on the app structure of
+    // the stage 2 workspace directory. it could be either /tmp/embroider/hash/app.js
+    // or /tmp/embroider/hash/app-name/app.js
+    let projectNamespace = this.parent.isEmberCLIProject() ? 'app' : 'addon';
+    rootNamespaceMappings.set(
+      '/',
+      path.join(this.project.root, projectNamespace)
+    );
+
     return rootNamespaceMappings;
   },
 
