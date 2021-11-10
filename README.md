@@ -188,6 +188,37 @@ If you are using [`ember-cli-pretender`](https://github.com/rwjblue/ember-cli-pr
   });
 ```
 
+## Advanced customization
+
+The `forceModulesToBeLoaded` can potientally cause unindented side effects when executed. You can pass custom filter fuctions that allow
+you to specify which modules will be force loaded or not:
+
+```js
+QUnit.done(async () => {
+  // type will be either webpack and/or require
+  forceModulesToBeLoaded((type, moduleName) => { return true; });
+  await sendCoverage();
+});
+```
+
+Under the hood, `ember-cli-code-coverage` creates a mapping of app and addon namespaces to their actual on disk locations. While in general this
+works correctly in the rare execption you can customize this via:
+
+```js
+const app = new EmberApp(defaults, {
+  'ember-cli-code-coverage': {
+    namespaceOverride(item, namespace) {
+      if (item.name === 'common') {
+        namespace.set(item.name, 'some-full-path/addon');
+        namespace.set(path.join(item.name, 'test-support'), 'some-full-path/addon-test-support');
+        return true;
+      }
+      return false;
+    },
+  },
+});
+```
+
 ## Inspiration
 
 This addon was inspired by [`ember-cli-blanket`](https://github.com/sglanzer/ember-cli-blanket).

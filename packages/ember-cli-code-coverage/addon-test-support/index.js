@@ -19,33 +19,41 @@ if (typeof __webpack_require__ !== 'undefined') {
 // file will makes sure all modules (including those from webpack where Emboider will place some) get
 // evaluated by actually requiring them.
 //
-export function forceModulesToBeLoaded() {
+export function forceModulesToBeLoaded(filterFunction) {
+  if (!filterFunction) {
+    filterFunction = (type, module) => {
+      if (type === 'webpack') {
+        return (
+          !module.startsWith('../') && !module.startsWith('./node_modules/')
+        );
+      }
+
+      let excludeTestModules = /^[^/]+\/tests\//;
+      return !excludeTestModules.test(module);
+    };
+  }
+
   // this should always be ran **after** the test suite is completed since
   // sometimes force calling modules can have side effects and invoking them
   // after the app has run can reduce problems that would arrise.
   if (typeof __webpack_require__ !== 'undefined') {
     let __modules = __require.m;
     Object.keys(__modules).forEach((moduleName) => {
-      if (
-        !moduleName.startsWith('../') &&
-        !moduleName.startsWith('./node_modules/')
-      ) {
-        try {
+      try {
+        if (filterFunction('webpack', moduleName)) {
           __require(moduleName);
-        } catch (error) {
-          console.warn(
-            `Error occurred while evaluating '${moduleName}': ${error.message}\n${error.stack}`
-          );
         }
+      } catch (error) {
+        console.warn(
+          `Error occurred while evaluating '${moduleName}': ${error.message}\n${error.stack}`
+        );
       }
     });
   }
 
   Object.keys(window.requirejs.entries).forEach((moduleName) => {
     try {
-      // do no require itself as it will cause a recursive loop
-      let excludeTestModules = /^[^/]+\/tests\//;
-      if (!excludeTestModules.test(moduleName)) {
+      if (filterFunction('require', moduleName)) {
         require(moduleName); // eslint-disable-line no-undef
       }
     } catch (error) {
