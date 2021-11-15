@@ -1,3 +1,22 @@
+## v2.0.0-beta.3 (2021-11-15)
+
+#### :rocket: Enhancement
+* `ember-cli-code-coverage`
+  * [#338](https://github.com/kategengler/ember-cli-code-coverage/pull/338) Add advanced customizations for namespace discovery and module loading ([@thoov](https://github.com/thoov))
+
+#### :bug: Bug Fix
+* `ember-cli-code-coverage`
+  * [#335](https://github.com/kategengler/ember-cli-code-coverage/pull/335) Move ember-cli-babel to dependencies ([@rmachielse](https://github.com/rmachielse))
+
+#### :house: Internal
+* [#334](https://github.com/kategengler/ember-cli-code-coverage/pull/334) Add registry-url to volta action ([@kategengler](https://github.com/kategengler))
+
+#### Committers: 3
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+- Richard Machielse ([@rmachielse](https://github.com/rmachielse))
+- Travis Hoover ([@thoov](https://github.com/thoov))
+
+
 ## v2.0.0-beta.1 (2021-10-26)
 
 #### :boom: Breaking Change
