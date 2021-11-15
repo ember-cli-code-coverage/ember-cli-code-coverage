@@ -71,16 +71,27 @@ module.exports = {
     };
   },
 
-  buildNamespaceMappings() {
+  included(app) {
+    this._super.included.apply(this, arguments);
+    let config = app.options[this.name] || {};
+    this.namespaceOverride = config && config.namespaceOverride;
+  },
+
+  buildNamespaceMappings(namespaceOverride) {
     let rootNamespaceMappings = new Map();
-    function recurse(item) {
-      if (item.isEmberCLIProject && item.isEmberCLIProject()) {
+    function recurse(item, namespaceOverride) {
+      let override = false;
+      if (namespaceOverride) {
+        override = namespaceOverride(item, rootNamespaceMappings);
+      }
+
+      if (item.isEmberCLIProject && item.isEmberCLIProject() && !override) {
         let projectConfig = item.config(process.env.EMBER_ENV);
         rootNamespaceMappings.set(
           projectConfig.modulePrefix,
           path.join(item.root, 'app')
         );
-      } else if (item.treePaths) {
+      } else if (item.treePaths && !override) {
         let addonPath = path.join(item.root, item.treePaths.addon);
         let addonTestSupportPath = path.join(
           item.root,
@@ -92,10 +103,10 @@ module.exports = {
           addonTestSupportPath
         );
       }
-      item.addons.forEach(recurse);
+      item.addons.forEach((i) => recurse(i, namespaceOverride));
     }
 
-    recurse(this.project);
+    recurse(this.project, namespaceOverride);
 
     // this adds a "default" lookup to the namespace in the event that there is no
     // namespace. this comes up under embroider depending on the app structure of
@@ -119,7 +130,7 @@ module.exports = {
       configPath: this.project.configPath(),
       root: this.project.root,
       fileLookup: this.fileLookup,
-      namespaceMappings: this.buildNamespaceMappings(),
+      namespaceMappings: this.buildNamespaceMappings(this.namespaceOverride),
     });
   },
 
@@ -128,7 +139,7 @@ module.exports = {
       configPath: this.project.configPath(),
       root: this.project.root,
       fileLookup: this.fileLookup,
-      namespaceMappings: this.buildNamespaceMappings(),
+      namespaceMappings: this.buildNamespaceMappings(this.namespaceOverride),
     };
     // if we're running `ember test --server` use the `serverMiddleware`.
     if (process.argv.includes('--server') || process.argv.includes('-s')) {
