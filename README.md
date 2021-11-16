@@ -211,10 +211,12 @@ be relative to your project root.
 const app = new EmberApp(defaults, {
   'ember-cli-code-coverage': {
     modifyAssetLocation(root, relativePath) {
-      // here is an example of saying that `component/foo.js` actually
-      // lives in `lib/common/app/foo.js` on disk.
-      if (fs.existsSync(path.join(root, 'lib/inrepo/app', relativePath))) {
-        return path.join('lib/common/app', relativePath);
+      let appPath = relativePath.replace('my-project-name', 'app');
+
+      // here is an example of saying that `app/components/foo.js` actually
+      // lives in `lib/inrepo/app/components/foo.js` on disk.
+      if (fs.existsSync(path.join(root, 'lib/inrepo', appPath))) {
+        return path.join('lib/inrepo', appPath);
       }
 
       return false;
