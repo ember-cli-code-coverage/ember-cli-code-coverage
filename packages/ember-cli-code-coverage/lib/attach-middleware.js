@@ -16,6 +16,17 @@ function logError(err, req, res, next) {
   next(err);
 }
 
+function getInRepoPaths(root) {
+  let pkgJSONPath = path.join(root, 'package.json');
+
+  if (fs.existsSync(pkgJSONPath)) {
+    let pkgJSON = fs.readJsonSync(path.join(root, 'package.json'));
+    return (pkgJSON['ember-addon'] && pkgJSON['ember-addon']['paths']) || [];
+  }
+
+  return [];
+}
+
 /*
  * This function normalizes the relativePath to match what we get from a classical app. Its goal
  * is to change any in repo paths like: app-namespace/lib/in-repo-namespace/components/foo.js to
@@ -24,29 +35,24 @@ function logError(err, req, res, next) {
 function normalizeRelativePath(root, filepath) {
   let embroiderTmpPathRegex = /embroider\/.{6}/gm;
   let relativePath = filepath.split(embroiderTmpPathRegex)[1].slice(1);
+  let inRepoPaths = getInRepoPaths(root);
 
-  if (fs.existsSync(path.join(root, 'package.json'))) {
-    let pkgJSON = fs.readJsonSync(path.join(root, 'package.json'));
-    let inRepoPaths =
-      (pkgJSON['ember-addon'] && pkgJSON['ember-addon']['paths']) || [];
-
-    for (let i = 0; i <= inRepoPaths.length; i++) {
-      // this regex checks that the relative path is: app-namespace/path/to/inrepo
-      let inRepoPathRegex = new RegExp('[^/]+/' + inRepoPaths[i], 'gi');
-      if (inRepoPathRegex.test(relativePath)) {
-        relativePath = path.join(
-          inRepoPaths[i].split(path.sep).slice(-1)[0],
-          filepath.split(inRepoPaths[i])[1]
-        );
-        break;
-      } else if (relativePath.startsWith(inRepoPaths[i])) {
-        // this checks if relative path is: /path/to/inrepo
-        relativePath = path.join(
-          inRepoPaths[i].split(path.sep).slice(-1)[0],
-          filepath.split(inRepoPaths[i])[1]
-        );
-        break;
-      }
+  for (let inRepoPath of inRepoPaths) {
+    // this regex checks that the relative path is: app-namespace/path/to/inrepo
+    let inRepoPathRegex = new RegExp('[^/]+/' + inRepoPath, 'gi');
+    if (inRepoPathRegex.test(relativePath)) {
+      relativePath = path.join(
+        inRepoPath.split(path.sep).slice(-1)[0],
+        filepath.split(inRepoPath)[1]
+      );
+      break;
+    } else if (relativePath.startsWith(inRepoPath)) {
+      // this checks if relative path is: /path/to/inrepo
+      relativePath = path.join(
+        inRepoPath.split(path.sep).slice(-1)[0],
+        filepath.split(inRepoPath)[1]
+      );
+      break;
     }
   }
 
@@ -62,7 +68,7 @@ function normalizeRelativePath(root, filepath) {
  * where as in Classic it will be the "actual" app like: `/Users/x/y/z/ember-test-app/ember-test-app/components/foo.js`
  * both of these absolute paths should be converted into `app/components/foo.js`
  */
-function adjustCoverageKey(root, filepath, namespaceMappings) {
+function adjustCoverageKey(root, filepath, namespaceMappings, inRepoPaths) {
   let relativePath = path.relative(root, filepath);
   let embroiderTmpPathRegex = /embroider\/.{6}/gm;
 
@@ -82,9 +88,16 @@ function adjustCoverageKey(root, filepath, namespaceMappings) {
   }
 
   if (namespaceMappings.has(namespaceKey)) {
-    return path.join(
-      ...[namespaceMappings.get(namespaceKey), ...pathWithoutNamespace]
-    );
+    let namespaceValue = namespaceMappings.get(namespaceKey);
+    let inRepoPath =
+      namespaceValue.endsWith('app') &&
+      inRepoPathForApp(root, relativePath, pathWithoutNamespace, inRepoPaths);
+
+    if (inRepoPath) {
+      return inRepoPath;
+    }
+
+    return path.join(...[namespaceValue, ...pathWithoutNamespace]);
   }
 
   // use the default key which will point to project root. this should only
@@ -95,18 +108,48 @@ function adjustCoverageKey(root, filepath, namespaceMappings) {
 
 function adjustCoverage(coverage, options) {
   let { root, namespaceMappings } = options;
+  let inRepoPaths = getInRepoPaths(root);
+
   const adjustedCoverage = Object.keys(coverage).reduce((memo, filePath) => {
     let relativeToProjectRoot = adjustCoverageKey(
       root,
       filePath,
-      namespaceMappings
+      namespaceMappings,
+      inRepoPaths
     );
-    coverage[filePath].path = path.relative(root, relativeToProjectRoot);
-    memo[path.relative(root, relativeToProjectRoot)] = coverage[filePath];
+
+    let relativePath = path.relative(root, relativeToProjectRoot);
+
+    coverage[filePath].path = relativePath;
+    memo[relativePath] = coverage[filePath];
     return memo;
   }, {});
 
   return adjustedCoverage;
+}
+
+function inRepoPathForApp(
+  root,
+  relativePath,
+  pathWithoutNamespace,
+  inRepoPaths
+) {
+  if (inRepoPaths.length === 0) return;
+
+  if (fs.existsSync(path.join(root, 'app', ...pathWithoutNamespace))) return;
+
+  for (let inRepoPath of inRepoPaths) {
+    let possibleAppPath = path.join(
+      root,
+      inRepoPath,
+      'app',
+      ...pathWithoutNamespace
+    );
+
+    if (fs.existsSync(possibleAppPath)) {
+      return possibleAppPath;
+    }
+  }
 }
 
 function writeCoverage(coverage, options, map) {

@@ -40,17 +40,18 @@ describe('attach-middleware', () => {
       ['hello', 'lib/hello/addon'],
       ['hello/test-support', 'lib/hello/addon-test-support'],
     ]);
+    let inRepoPaths = ['lib/hello'];
 
-    expect(adjustCoverageKey(root, path.join(root, 'app-namespace/app.js'), namespaceMappings))
+    expect(adjustCoverageKey(root, path.join(root, 'app-namespace/app.js'), namespaceMappings, inRepoPaths))
       .toEqual('app/app.js');
 
-    expect(adjustCoverageKey(root, path.join(root, 'app-namespace/components/foo.js'), namespaceMappings))
+    expect(adjustCoverageKey(root, path.join(root, 'app-namespace/components/foo.js'), namespaceMappings, inRepoPaths))
       .toEqual('app/components/foo.js');
 
-    expect(adjustCoverageKey(root, path.join(root, 'hello/components/foo.js'), namespaceMappings))
+    expect(adjustCoverageKey(root, path.join(root, 'hello/components/foo.js'), namespaceMappings, inRepoPaths))
       .toEqual('lib/hello/addon/components/foo.js');
 
-    expect(adjustCoverageKey(root, path.join(root, 'hello/test-support/foo.js'), namespaceMappings))
+    expect(adjustCoverageKey(root, path.join(root, 'hello/test-support/foo.js'), namespaceMappings, inRepoPaths))
       .toEqual('lib/hello/addon-test-support/foo.js');
   });
 
@@ -62,17 +63,18 @@ describe('attach-middleware', () => {
       ['hello', 'lib/hello/addon'],
       ['hello/test-support', 'lib/hello/addon-test-support'],
     ]);
+    let inRepoPaths = ['lib/hello'];
 
-    expect(adjustCoverageKey(root, path.join(root, 'addon-namespace/components/foo.js'), namespaceMappings))
+    expect(adjustCoverageKey(root, path.join(root, 'addon-namespace/components/foo.js'), namespaceMappings, inRepoPaths))
       .toEqual('addon/components/foo.js');
 
-    expect(adjustCoverageKey(root, path.join(root, 'addon-namespace/test-support/foo.js'), namespaceMappings))
+    expect(adjustCoverageKey(root, path.join(root, 'addon-namespace/test-support/foo.js'), namespaceMappings, inRepoPaths))
       .toEqual('addon-test-support/foo.js');
 
-    expect(adjustCoverageKey(root, path.join(root, 'hello/components/foo.js'), namespaceMappings))
+    expect(adjustCoverageKey(root, path.join(root, 'hello/components/foo.js'), namespaceMappings, inRepoPaths))
       .toEqual('lib/hello/addon/components/foo.js');
 
-    expect(adjustCoverageKey(root, path.join(root, 'hello/test-support/foo.js'), namespaceMappings))
+    expect(adjustCoverageKey(root, path.join(root, 'hello/test-support/foo.js'), namespaceMappings, inRepoPaths))
       .toEqual('lib/hello/addon-test-support/foo.js');
   });
 });
