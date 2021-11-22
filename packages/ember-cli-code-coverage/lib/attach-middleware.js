@@ -62,7 +62,12 @@ function normalizeRelativePath(root, filepath) {
  * where as in Classic it will be the "actual" app like: `/Users/x/y/z/ember-test-app/ember-test-app/components/foo.js`
  * both of these absolute paths should be converted into `app/components/foo.js`
  */
-function adjustCoverageKey(root, filepath, namespaceMappings) {
+function adjustCoverageKey(
+  root,
+  filepath,
+  namespaceMappings,
+  customAdjustment
+) {
   let relativePath = path.relative(root, filepath);
   let embroiderTmpPathRegex = /embroider\/.{6}/gm;
 
@@ -81,6 +86,14 @@ function adjustCoverageKey(root, filepath, namespaceMappings) {
     pathWithoutNamespace = pathWithoutNamespace.slice(1);
   }
 
+  if (customAdjustment) {
+    let customPath = customAdjustment(root, relativePath, filepath);
+
+    if (customPath) {
+      return customPath;
+    }
+  }
+
   if (namespaceMappings.has(namespaceKey)) {
     return path.join(
       ...[namespaceMappings.get(namespaceKey), ...pathWithoutNamespace]
@@ -94,12 +107,13 @@ function adjustCoverageKey(root, filepath, namespaceMappings) {
 }
 
 function adjustCoverage(coverage, options) {
-  let { root, namespaceMappings } = options;
+  let { root, namespaceMappings, customAdjustment } = options;
   const adjustedCoverage = Object.keys(coverage).reduce((memo, filePath) => {
     let relativeToProjectRoot = adjustCoverageKey(
       root,
       filePath,
-      namespaceMappings
+      namespaceMappings,
+      customAdjustment
     );
     coverage[filePath].path = path.relative(root, relativeToProjectRoot);
     memo[path.relative(root, relativeToProjectRoot)] = coverage[filePath];

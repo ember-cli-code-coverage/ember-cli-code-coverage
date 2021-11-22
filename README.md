@@ -201,18 +201,21 @@ QUnit.done(async () => {
 });
 ```
 
-Under the hood, `ember-cli-code-coverage` creates a mapping of app and addon namespaces to their actual on disk locations. While in general this
-works correctly in the rare execption you can customize this via:
+Under the hood, `ember-cli-code-coverage` attempts to "de-namespacify" paths into their real on disk location inside of
+`project.root` (ie give a namespaced path like lib/inrepo/components/foo.js would live in lib/inrepo/addon/components/foo.js). It makes
+some assumptions (where files live in in-repo addons vs app code for example) and sometimes those assumptions might not hold. Passing a
+function `customAdjustment` will allow you to override where a file actually lives inside of your project.
 
 ```js
 const app = new EmberApp(defaults, {
   'ember-cli-code-coverage': {
-    namespaceOverride(item, namespace) {
-      if (item.name === 'common') {
-        namespace.set(item.name, 'some-full-path/addon');
-        namespace.set(path.join(item.name, 'test-support'), 'some-full-path/addon-test-support');
-        return true;
+    customAdjustment(root, relativePath) {
+      // here is an example of saying that `component/foo.js` actually
+      // lives in `lib/common/app/foo.js` on disk.
+      if (fs.existsSync(path.join(root, 'lib/inrepo/app', relativePath))) {
+        return path.join('lib/common/app', relativePath);
       }
+
       return false;
     },
   },
