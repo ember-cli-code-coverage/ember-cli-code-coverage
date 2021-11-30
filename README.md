@@ -204,12 +204,13 @@ QUnit.done(async () => {
 Under the hood, `ember-cli-code-coverage` attempts to "de-namespacify" paths into their real on disk location inside of
 `project.root` (ie give a namespaced path like lib/inrepo/components/foo.js would live in lib/inrepo/addon/components/foo.js). It makes
 some assumptions (where files live in in-repo addons vs app code for example) and sometimes those assumptions might not hold. Passing a
-function `customAdjustment` will allow you to override where a file actually lives inside of your project.
+function `modifyAssetLocation` will allow you to override where a file actually lives inside of your project. The returned string should
+be relative to your project root.
 
 ```js
 const app = new EmberApp(defaults, {
   'ember-cli-code-coverage': {
-    customAdjustment(root, relativePath) {
+    modifyAssetLocation(root, relativePath) {
       // here is an example of saying that `component/foo.js` actually
       // lives in `lib/common/app/foo.js` on disk.
       if (fs.existsSync(path.join(root, 'lib/inrepo/app', relativePath))) {

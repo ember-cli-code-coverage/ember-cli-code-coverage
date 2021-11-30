@@ -74,7 +74,7 @@ module.exports = {
   included(app) {
     this._super.included.apply(this, arguments);
     let config = app.options[this.name] || {};
-    this.customAdjustment = config && config.customAdjustment;
+    this.modifyAssetLocation = config && config.modifyAssetLocation;
   },
 
   buildNamespaceMappings() {
@@ -126,7 +126,7 @@ module.exports = {
       root: this.project.root,
       fileLookup: this.fileLookup,
       namespaceMappings: this.buildNamespaceMappings(),
-      customAdjustment: this.customAdjustment,
+      modifyAssetLocation: this.modifyAssetLocation,
     });
   },
 
@@ -136,7 +136,7 @@ module.exports = {
       root: this.project.root,
       fileLookup: this.fileLookup,
       namespaceMappings: this.buildNamespaceMappings(),
-      customAdjustment: this.customAdjustment,
+      modifyAssetLocation: this.modifyAssetLocation,
     };
     // if we're running `ember test --server` use the `serverMiddleware`.
     if (process.argv.includes('--server') || process.argv.includes('-s')) {

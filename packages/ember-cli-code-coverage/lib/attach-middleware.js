@@ -66,7 +66,7 @@ function adjustCoverageKey(
   root,
   filepath,
   namespaceMappings,
-  customAdjustment
+  modifyAssetLocation
 ) {
   let relativePath = path.relative(root, filepath);
   let embroiderTmpPathRegex = /embroider\/.{6}/gm;
@@ -86,8 +86,13 @@ function adjustCoverageKey(
     pathWithoutNamespace = pathWithoutNamespace.slice(1);
   }
 
-  if (customAdjustment) {
-    let customPath = customAdjustment(root, relativePath, filepath);
+  if (modifyAssetLocation) {
+    let customPath = modifyAssetLocation(
+      root,
+      relativePath,
+      filepath,
+      namespaceMappings
+    );
 
     if (customPath) {
       return customPath;
@@ -107,13 +112,13 @@ function adjustCoverageKey(
 }
 
 function adjustCoverage(coverage, options) {
-  let { root, namespaceMappings, customAdjustment } = options;
+  let { root, namespaceMappings, modifyAssetLocation } = options;
   const adjustedCoverage = Object.keys(coverage).reduce((memo, filePath) => {
     let relativeToProjectRoot = adjustCoverageKey(
       root,
       filePath,
       namespaceMappings,
-      customAdjustment
+      modifyAssetLocation
     );
     coverage[filePath].path = path.relative(root, relativeToProjectRoot);
     memo[path.relative(root, relativeToProjectRoot)] = coverage[filePath];
