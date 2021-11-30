@@ -74,24 +74,19 @@ module.exports = {
   included(app) {
     this._super.included.apply(this, arguments);
     let config = app.options[this.name] || {};
-    this.namespaceOverride = config && config.namespaceOverride;
+    this.modifyAssetLocation = config && config.modifyAssetLocation;
   },
 
-  buildNamespaceMappings(namespaceOverride) {
+  buildNamespaceMappings() {
     let rootNamespaceMappings = new Map();
-    function recurse(item, namespaceOverride) {
-      let override = false;
-      if (namespaceOverride) {
-        override = namespaceOverride(item, rootNamespaceMappings);
-      }
-
-      if (item.isEmberCLIProject && item.isEmberCLIProject() && !override) {
+    function recurse(item) {
+      if (item.isEmberCLIProject && item.isEmberCLIProject()) {
         let projectConfig = item.config(process.env.EMBER_ENV);
         rootNamespaceMappings.set(
           projectConfig.modulePrefix,
           path.join(item.root, 'app')
         );
-      } else if (item.treePaths && !override) {
+      } else if (item.treePaths) {
         let addonPath = path.join(item.root, item.treePaths.addon);
         let addonTestSupportPath = path.join(
           item.root,
@@ -103,10 +98,10 @@ module.exports = {
           addonTestSupportPath
         );
       }
-      item.addons.forEach((i) => recurse(i, namespaceOverride));
+      item.addons.forEach((i) => recurse(i));
     }
 
-    recurse(this.project, namespaceOverride);
+    recurse(this.project);
 
     // this adds a "default" lookup to the namespace in the event that there is no
     // namespace. this comes up under embroider depending on the app structure of
@@ -130,7 +125,8 @@ module.exports = {
       configPath: this.project.configPath(),
       root: this.project.root,
       fileLookup: this.fileLookup,
-      namespaceMappings: this.buildNamespaceMappings(this.namespaceOverride),
+      namespaceMappings: this.buildNamespaceMappings(),
+      modifyAssetLocation: this.modifyAssetLocation,
     });
   },
 
@@ -139,7 +135,8 @@ module.exports = {
       configPath: this.project.configPath(),
       root: this.project.root,
       fileLookup: this.fileLookup,
-      namespaceMappings: this.buildNamespaceMappings(this.namespaceOverride),
+      namespaceMappings: this.buildNamespaceMappings(),
+      modifyAssetLocation: this.modifyAssetLocation,
     };
     // if we're running `ember test --server` use the `serverMiddleware`.
     if (process.argv.includes('--server') || process.argv.includes('-s')) {
