@@ -1,3 +1,13 @@
+## v2.0.0-beta.4 (2021-11-30)
+
+#### :rocket: Enhancement
+* `ember-cli-code-coverage`
+  * [#343](https://github.com/kategengler/ember-cli-code-coverage/pull/343) Adding `modifyAssetLocation` config option ([@thoov](https://github.com/thoov))
+
+#### Committers: 1
+- Travis Hoover ([@thoov](https://github.com/thoov))
+
+
 ## v2.0.0-beta.3 (2021-11-15)
 
 #### :rocket: Enhancement
