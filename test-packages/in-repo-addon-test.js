@@ -35,4 +35,17 @@ describe('in-repo addon coverage generation', function () {
     const summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
     expect(summary).toMatchSnapshot();
   });
+  
+  it('runs coverage when the path option is used', async function () {
+    dir(`${BASE_PATH}/coverage`).assertDoesNotExist();
+
+    let env = { COVERAGE: 'true' };
+    await execa('ember', ['build', '--output-path=test-dist'], { cwd: BASE_PATH, env });
+    await execa('ember', ['test', '--path=test-dist'], { cwd: BASE_PATH, env });
+    file(`${BASE_PATH}/coverage/lcov-report/index.html`).assertIsNotEmpty();
+    file(`${BASE_PATH}/coverage/index.html`).assertIsNotEmpty();
+
+    let summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
+    expect(summary).toMatchSnapshot();
+  });
 });
