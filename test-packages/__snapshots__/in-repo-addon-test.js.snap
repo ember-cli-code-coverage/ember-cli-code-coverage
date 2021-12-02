@@ -236,6 +236,84 @@ Object {
       "total": 1,
     },
   },
+  "lib/my-in-repo-addon/app/utils/my-covered-util.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+  },
+  "lib/my-in-repo-addon/app/utils/my-in-repo-addon-app-covered-util.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "lib/my-in-repo-addon/app/utils/my-uncovered-util.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+  },
   "total": Object {
     "branches": Object {
       "covered": 0,
@@ -244,22 +322,22 @@ Object {
       "total": 2,
     },
     "functions": Object {
-      "covered": 3,
-      "pct": 33.33,
+      "covered": 4,
+      "pct": 40,
       "skipped": 0,
-      "total": 9,
+      "total": 10,
     },
     "lines": Object {
-      "covered": 8,
-      "pct": 47.06,
+      "covered": 9,
+      "pct": 50,
       "skipped": 0,
-      "total": 17,
+      "total": 18,
     },
     "statements": Object {
-      "covered": 8,
-      "pct": 47.06,
+      "covered": 9,
+      "pct": 50,
       "skipped": 0,
-      "total": 17,
+      "total": 18,
     },
   },
 }
