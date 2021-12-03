@@ -158,6 +158,8 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
 
 - `parallel`: Defaults to `false`. Should be set to true if parallel testing is being used for separate test runs, for example when using [ember-exam](https://github.com/trentmwillis/ember-exam) with the `--partition` flag. This will generate the coverage reports in directories suffixed with `_<random_string>` to avoid overwriting other threads reports. These reports can be joined by using the `ember coverage-merge` command (potentially as part of the [posttest hook](https://docs.npmjs.com/misc/scripts) in your `package.json`).
 
+- `modifyAssetLocation`: Optional function that will allow you to override where a file actually lives inside of your project. See [Advanced customization](#modifyassetlocation) on how to use this function in practice.
+
 #### Example
 ```js
   module.exports = {
@@ -190,7 +192,9 @@ If you are using [`ember-cli-pretender`](https://github.com/rwjblue/ember-cli-pr
 
 ## Advanced customization
 
-The `forceModulesToBeLoaded` can potientally cause unindented side effects when executed. You can pass custom filter fuctions that allow
+### `forceModulesToBeLoaded`
+
+The `forceModulesToBeLoaded` function can potentially cause unintended side effects when executed. You can pass custom filter fuctions that allow
 you to specify which modules will be force loaded or not:
 
 ```js
@@ -201,28 +205,28 @@ QUnit.done(async () => {
 });
 ```
 
+### `modifyAssetLocation`
+
 Under the hood, `ember-cli-code-coverage` attempts to "de-namespacify" paths into their real on disk location inside of
 `project.root` (ie give a namespaced path like lib/inrepo/components/foo.js would live in lib/inrepo/addon/components/foo.js). It makes
 some assumptions (where files live in in-repo addons vs app code for example) and sometimes those assumptions might not hold. Passing a
-function `modifyAssetLocation` will allow you to override where a file actually lives inside of your project. The returned string should
-be relative to your project root.
+function `modifyAssetLocation` in your [configuration file](#configuration) will allow you to override where a file actually lives inside
+of your project. The returned string should be relative to your project root.
 
 ```js
-const app = new EmberApp(defaults, {
-  'ember-cli-code-coverage': {
-    modifyAssetLocation(root, relativePath) {
-      let appPath = relativePath.replace('my-project-name', 'app');
+module.exports = {
+  modifyAssetLocation(root, relativePath) {
+    let appPath = relativePath.replace('my-project-name', 'app');
 
-      // here is an example of saying that `app/components/foo.js` actually
-      // lives in `lib/inrepo/app/components/foo.js` on disk.
-      if (fs.existsSync(path.join(root, 'lib/inrepo', appPath))) {
-        return path.join('lib/inrepo', appPath);
-      }
+    // here is an example of saying that `app/components/foo.js` actually
+    // lives in `lib/inrepo/app/components/foo.js` on disk.
+    if (fs.existsSync(path.join(root, 'lib', 'inrepo', appPath))) {
+      return path.join('lib', 'inrepo', appPath);
+    }
 
-      return false;
-    },
+    return false;
   },
-});
+};
 ```
 
 ## Inspiration

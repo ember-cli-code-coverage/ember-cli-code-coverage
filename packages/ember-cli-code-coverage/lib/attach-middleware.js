@@ -112,7 +112,9 @@ function adjustCoverageKey(
 }
 
 function adjustCoverage(coverage, options) {
-  let { root, namespaceMappings, modifyAssetLocation } = options;
+  let { root, namespaceMappings, configPath } = options;
+  let { modifyAssetLocation } = getConfig(configPath);
+
   const adjustedCoverage = Object.keys(coverage).reduce((memo, filePath) => {
     let relativeToProjectRoot = adjustCoverageKey(
       root,

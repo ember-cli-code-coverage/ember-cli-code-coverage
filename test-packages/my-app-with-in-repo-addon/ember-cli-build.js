@@ -1,8 +1,6 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
-const fs = require('fs');
-const path = require('path');
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
@@ -11,17 +9,6 @@ module.exports = function(defaults) {
         ...require('ember-cli-code-coverage').buildBabelPlugin(),
       ],
     },
-    'ember-cli-code-coverage': {
-      modifyAssetLocation(root, relativePath) {
-        let appPath = relativePath.replace('my-app-with-in-repo-addon', 'app');
-
-        if (!fs.existsSync(appPath) && fs.existsSync(path.join(root, 'lib/my-in-repo-addon', appPath))) {
-          return path.join('lib/my-in-repo-addon', appPath);
-        }
-
-        return false;
-      }
-    }
   });
 
   // Use `app.import` to add additional libraries to the generated

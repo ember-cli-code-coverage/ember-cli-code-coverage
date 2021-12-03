@@ -71,12 +71,6 @@ module.exports = {
     };
   },
 
-  included(app) {
-    this._super.included.apply(this, arguments);
-    let config = app.options[this.name] || {};
-    this.modifyAssetLocation = config && config.modifyAssetLocation;
-  },
-
   buildNamespaceMappings() {
     let rootNamespaceMappings = new Map();
     function recurse(item) {
@@ -124,9 +118,7 @@ module.exports = {
     attachMiddleware.serverMiddleware(startOptions.app, {
       configPath: this.project.configPath(),
       root: this.project.root,
-      fileLookup: this.fileLookup,
       namespaceMappings: this.buildNamespaceMappings(),
-      modifyAssetLocation: this.modifyAssetLocation,
     });
   },
 
@@ -134,9 +126,7 @@ module.exports = {
     const config = {
       configPath: this.project.configPath(),
       root: this.project.root,
-      fileLookup: this.fileLookup,
       namespaceMappings: this.buildNamespaceMappings(),
-      modifyAssetLocation: this.modifyAssetLocation,
     };
     // if we're running `ember test --server` use the `serverMiddleware`.
     if (process.argv.includes('--server') || process.argv.includes('-s')) {
