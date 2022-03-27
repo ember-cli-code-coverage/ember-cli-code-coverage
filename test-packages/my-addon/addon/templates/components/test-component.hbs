@@ -1,0 +1,23 @@
+
+{{#if this.a}}
+  {{this.data}}
+{{else if this.data}}
+  world
+{{else}}
+  Hello
+{{/if}}
+
+{{#each this.data as |d|}}
+  {{d}}
+{{else}}
+  Empty  
+{{/each}}
+
+{{!-- template-lint-disable no-action --}}
+<div class={{if this.data "abcd" "efgh"}} {{on "click" (action this.someAction)}} role="button">
+  Hello
+</div>
+
+<div onkeydown={{action this.someAction}} role="button">
+  {{if this.a "Hello" "World"}}
+</div>
