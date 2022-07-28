@@ -40,6 +40,7 @@ function getDefaultConfig() {
     coverageFolder: 'coverage',
     excludes: ['*/mirage/**/*'],
     reporters: ['html', 'lcov'],
+    writePath: '/write-coverage',
   };
 }
 

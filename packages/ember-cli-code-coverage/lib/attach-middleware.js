@@ -9,8 +9,6 @@ const path = require('path');
 const crypto = require('crypto');
 const fs = require('fs-extra');
 
-const WRITE_COVERAGE = '/write-coverage';
-
 function logError(err, req, res, next) {
   console.error(err.stack);
   next(err);
@@ -183,8 +181,10 @@ function coverageHandler(map, options, req, res) {
 // Used when app is in dev mode (`ember serve`).
 // Creates a new coverage map on every request.
 function serverMiddleware(app, options) {
+  let { writePath } = getConfig(options.configPath);
+
   app.post(
-    WRITE_COVERAGE,
+    writePath,
     bodyParser,
     (req, res) => {
       let map = libCoverage.createCoverageMap();
@@ -198,10 +198,11 @@ function serverMiddleware(app, options) {
 // Used when app is in ci mode (`ember test`).
 // Collects the coverage on each request and merges it into the coverage map.
 function testMiddleware(app, options) {
+  let { writePath } = getConfig(options.configPath);
   let map = libCoverage.createCoverageMap();
 
   app.post(
-    WRITE_COVERAGE,
+    writePath,
     bodyParser,
     (req, res) => {
       coverageHandler(map, options, req, res);

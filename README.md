@@ -156,6 +156,8 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
 
 - `coverageFolder`: Defaults to `coverage`. A folder relative to the root of your project to store coverage results.
 
+- `writePath`: Defaults to `/write-coverage`. An endpoint to listen for coverage data (this should match with the `writePath` passed to `sendCoverage()`).
+
 - `parallel`: Defaults to `false`. Should be set to true if parallel testing is being used for separate test runs, for example when using [ember-exam](https://github.com/trentmwillis/ember-exam) with the `--partition` flag. This will generate the coverage reports in directories suffixed with `_<random_string>` to avoid overwriting other threads reports. These reports can be joined by using the `ember coverage-merge` command (potentially as part of the [posttest hook](https://docs.npmjs.com/misc/scripts) in your `package.json`).
 
 #### Example
@@ -167,7 +169,7 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
 
 ## Create a passthrough when intercepting all ajax requests in tests
 
-To work, this addon has to post coverage results back to a middleware at `/write-coverage`.
+To work, this addon has to post coverage results back to a middleware at `/write-coverage` (or at custom write endpoint configured with `writePath`).
 
 If you are using [`ember-cli-mirage`](http://www.ember-cli-mirage.com) you should add the following:
 
@@ -175,6 +177,11 @@ If you are using [`ember-cli-mirage`](http://www.ember-cli-mirage.com) you shoul
 // in mirage/config.js
 
   this.passthrough('/write-coverage');
+  this.namespace = 'api';  // It's important that the passthrough for coverage is before the namespace, otherwise it will be prefixed.
+
+  OR
+
+  this.passthrough('<your_configured_writePath>');
   this.namespace = 'api';  // It's important that the passthrough for coverage is before the namespace, otherwise it will be prefixed.
 ```
 
@@ -186,6 +193,12 @@ If you are using [`ember-cli-pretender`](https://github.com/rwjblue/ember-cli-pr
   var server = new Pretender(function () {
     this.post('/write-coverage', this.passthrough);
   });
+
+  OR
+
+  var server = new Pretender(function () {
+    this.post('<your_configured_writePath>', this.passthrough);
+  });
 ```
 
 ## Advanced customization
@@ -196,8 +209,10 @@ you to specify which modules will be force loaded or not:
 ```js
 QUnit.done(async () => {
   // type will be either webpack and/or require
-  forceModulesToBeLoaded((type, moduleName) => { return true; });
-  await sendCoverage();
+  forceModulesToBeLoaded((type, moduleName) => {
+    return true;
+  });
+  await sendCoverage(callback, writePath);
 });
 ```
 
