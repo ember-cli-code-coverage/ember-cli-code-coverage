@@ -1889,3 +1889,138 @@ Object {
   },
 }
 `;
+
+exports[`ember-exam app coverage generation uses path and uses parallel configuration and merges coverage when merge-coverage command is issued 1`] = `
+Object {
+  "app/app.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/router.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 33.33,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 33.33,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/utils/my-covered-util.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/utils/my-uncovered-util.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "total": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 33.33,
+      "skipped": 0,
+      "total": 3,
+    },
+    "lines": Object {
+      "covered": 6,
+      "pct": 66.67,
+      "skipped": 0,
+      "total": 9,
+    },
+    "statements": Object {
+      "covered": 6,
+      "pct": 66.67,
+      "skipped": 0,
+      "total": 9,
+    },
+  },
+}
+`;

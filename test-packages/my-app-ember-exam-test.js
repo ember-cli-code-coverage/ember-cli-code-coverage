@@ -2,6 +2,7 @@
 
 const fs = require('fs-extra');
 const util = require('util');
+const glob = require('glob');
 const rimraf = util.promisify(require('rimraf'));
 const { dir, file } = require('chai-files');
 const path = require('path');
@@ -65,13 +66,37 @@ describe('ember-exam app coverage generation', function () {
     expect(summary).toMatchSnapshot();
   });
 
+  it.only('uses path and uses parallel configuration and merges coverage when merge-coverage command is issued', async function () {
+    dir(`${BASE_PATH}/coverage`).assertDoesNotExist();
+    fs.copySync(`${BASE_PATH}/config/-coverage-parallel.js`, `${BASE_PATH}/config/coverage.js`);
+    const split = 4
+
+    let env = { COVERAGE: 'true' };
+    await execa('ember', ['build', '--output-path=test-dist'], { cwd: BASE_PATH, env });
+    await execa('ember', ['exam', '--path=test-dist', `--split=${split}`, '--parallel=true'], { cwd: BASE_PATH, env });
+    dir(`${BASE_PATH}/coverage`).assertDoesNotExist();
+
+    const coverageFolders = glob.sync(`${BASE_PATH}/coverage*`);
+
+    console.log({ coverageFolders }, coverageFolders.length);
+
+    expect(coverageFolders.length).toEqual(1);
+
+    await execa('ember', ['coverage-merge'], { cwd: BASE_PATH });
+    file(`${BASE_PATH}/coverage/lcov-report/index.html`).assertIsNotEmpty();
+    file(`${BASE_PATH}/coverage/index.html`).assertIsNotEmpty();
+
+    let summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
+    expect(summary).toMatchSnapshot();
+  });
+
   it('uses nested coverageFolder and parallel configuration and run merge-coverage', async function () {
-    let coverageFolder = `${BASE_PATH}/coverage/abc/easy-as/123`;
+    let coverageFolder = `${BASE_PATH} / coverage / abc / easy - as / 123`;
 
     dir(coverageFolder).assertDoesNotExist();
     fs.copySync(
-      `${BASE_PATH}/config/-coverage-nested-folder.js`,
-      `${BASE_PATH}/config/coverage.js`
+      `${BASE_PATH} / config / -coverage - nested - folder.js`,
+      `${BASE_PATH} / config / coverage.js`
     );
 
     let env = { COVERAGE: 'true' };
@@ -79,10 +104,10 @@ describe('ember-exam app coverage generation', function () {
     dir(coverageFolder).assertDoesNotExist();
 
     await execa('ember', ['coverage-merge'], { cwd: BASE_PATH });
-    file(`${coverageFolder}/lcov-report/index.html`).assertIsNotEmpty();
-    file(`${coverageFolder}/index.html`).assertIsNotEmpty();
+    file(`${coverageFolder} / lcov - report / index.html`).assertIsNotEmpty();
+    file(`${coverageFolder} / index.html`).assertIsNotEmpty();
 
-    let summary = fs.readJSONSync(`${coverageFolder}/coverage-summary.json`);
+    let summary = fs.readJSONSync(`${coverageFolder} / coverage - summary.json`);
     expect(summary).toMatchSnapshot();
   });
 });

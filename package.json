@@ -9,11 +9,13 @@
     "test-packages/*"
   ],
   "scripts": {
+    "test:new": "jest -t 'ember-exam app coverage generation'",
     "test": "jest --runInBand"
   },
   "devDependencies": {
     "chai-files": "^1.4.0",
     "execa": "^4.0.3",
+    "glob": "8.0.3",
     "fixturify-project": "^4.0.2",
     "jest": "^26.4.2",
     "release-it": "^14.0.2",
