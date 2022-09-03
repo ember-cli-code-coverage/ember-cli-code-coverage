@@ -9,7 +9,7 @@ const execa = require('execa');
 
 const BASE_PATH = path.join(__dirname, 'my-app-ember-exam');
 
-describe('app coverage generation', function () {
+describe('ember-exam app coverage generation', function () {
   jest.setTimeout(10000000);
 
   beforeEach(async function () {
