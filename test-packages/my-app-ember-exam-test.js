@@ -24,44 +24,12 @@ describe('ember-exam app coverage generation', function () {
     await execa('git', ['restore', 'my-app-ember-exam'], { cwd: __dirname });
   });
 
-  it('runs coverage when env var is set', async function () {
-    dir(`${BASE_PATH}/coverage`).assertDoesNotExist();
-
-    let env = { COVERAGE: 'true' };
-    await execa('ember', ['test'], { cwd: BASE_PATH, env });
-    file(`${BASE_PATH}/coverage/lcov-report/index.html`).assertIsNotEmpty();
-    file(`${BASE_PATH}/coverage/index.html`).assertIsNotEmpty();
-
-    let summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
-    expect(summary).toMatchSnapshot();
-  });
-
-  it('does not run coverage when env var is NOT set', async function () {
-    dir(`${BASE_PATH}/coverage`).assertDoesNotExist();
-
-    let env = { COVERAGE: 'false' };
-    await execa('ember', ['test'], { cwd: BASE_PATH, env });
-    dir(`${BASE_PATH}/coverage`).assertDoesNotExist();
-  });
-
-  it('excludes files when the configuration is set', async function () {
-    fs.copySync(`${BASE_PATH}/config/-coverage-excludes.js`, `${BASE_PATH}/config/coverage.js`);
-
-    let env = { COVERAGE: 'true' };
-    await execa('ember', ['test'], { cwd: BASE_PATH, env });
-    file(`${BASE_PATH}/coverage/lcov-report/index.html`).assertIsNotEmpty();
-    file(`${BASE_PATH}/coverage/index.html`).assertIsNotEmpty();
-
-    let summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
-    expect(summary).toMatchSnapshot();
-  });
-
   it('runs coverage when the path option is used', async function () {
     dir(`${BASE_PATH}/coverage`).assertDoesNotExist();
 
     let env = { COVERAGE: 'true' };
     await execa('ember', ['build', '--output-path=test-dist'], { cwd: BASE_PATH, env });
-    await execa('ember', ['test', '--path=test-dist'], { cwd: BASE_PATH, env });
+    await execa('ember', ['exam', '--path=test-dist'], { cwd: BASE_PATH, env });
     file(`${BASE_PATH}/coverage/lcov-report/index.html`).assertIsNotEmpty();
     file(`${BASE_PATH}/coverage/index.html`).assertIsNotEmpty();
 
@@ -115,18 +83,6 @@ describe('ember-exam app coverage generation', function () {
     file(`${coverageFolder}/index.html`).assertIsNotEmpty();
 
     let summary = fs.readJSONSync(`${coverageFolder}/coverage-summary.json`);
-    expect(summary).toMatchSnapshot();
-  });
-
-  it('runs coverage when a module has an import error', async function () {
-    dir(`${BASE_PATH}/coverage`).assertDoesNotExist();
-    fs.copySync(`${BASE_PATH}/-error-module.js`, `${BASE_PATH}/app/error-module.js`);
-
-    let env = { COVERAGE: 'true' };
-    await execa('ember', ['test'], { cwd: BASE_PATH, env });
-    dir(`${BASE_PATH}/coverage`).assertExists();
-
-    let summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
     expect(summary).toMatchSnapshot();
   });
 });
