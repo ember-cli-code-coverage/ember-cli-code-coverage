@@ -15,9 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - uses: volta-cli/action@v1
       - run: yarn install --frozen-lockfile
       - run: yarn lint:js
         working-directory: packages/ember-cli-code-coverage
       - run: yarn test
+
