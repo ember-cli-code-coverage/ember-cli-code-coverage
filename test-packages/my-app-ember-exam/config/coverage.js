@@ -1,3 +1,4 @@
 module.exports = {
-  reporters: ['lcov', 'html', 'text', 'json-summary']
+  reporters: ['lcov', 'html', 'text', 'json-summary'],
+  parallel: true,
 };
