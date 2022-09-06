@@ -66,19 +66,16 @@ describe('ember-exam app coverage generation', function () {
     expect(summary).toMatchSnapshot();
   });
 
-  it('uses path and uses parallel configuration and merges coverage when merge-coverage command is issued', async function () {
+  it.only('uses path and uses parallel configuration and merges coverage when merge-coverage command is issued', async function () {
     dir(`${BASE_PATH}/coverage`).assertDoesNotExist();
     fs.copySync(`${BASE_PATH}/config/-coverage-parallel.js`, `${BASE_PATH}/config/coverage.js`);
     const split = 4
 
     let env = { COVERAGE: 'true' };
     await execa('ember', ['build', '--output-path=test-dist'], { cwd: BASE_PATH, env });
-    await execa('ember', ['exam', '--path=test-dist', `--split=${split}`, '--parallel=true'], { cwd: BASE_PATH, env });
+    await execa('ember', ['exam', '--path=test-dist', `--split=${split}`, `--parallel=1`], { cwd: BASE_PATH, env });
     dir(`${BASE_PATH}/coverage`).assertDoesNotExist();
 
-    const coverageFolders = glob.sync(`${BASE_PATH}/coverage*`);
-
-    console.log({ coverageFolders }, coverageFolders.length);
 
     expect(coverageFolders.length).toEqual(split);
 
