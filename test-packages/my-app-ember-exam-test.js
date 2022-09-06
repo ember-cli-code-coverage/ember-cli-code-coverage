@@ -66,7 +66,7 @@ describe('ember-exam app coverage generation', function () {
     expect(summary).toMatchSnapshot();
   });
 
-  it.only('uses path and uses parallel configuration and merges coverage when merge-coverage command is issued', async function () {
+  it('uses path and uses parallel configuration and merges coverage when merge-coverage command is issued', async function () {
     dir(`${BASE_PATH}/coverage`).assertDoesNotExist();
     fs.copySync(`${BASE_PATH}/config/-coverage-parallel.js`, `${BASE_PATH}/config/coverage.js`);
     const split = 4
