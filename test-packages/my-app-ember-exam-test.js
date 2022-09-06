@@ -80,7 +80,7 @@ describe('ember-exam app coverage generation', function () {
 
     console.log({ coverageFolders }, coverageFolders.length);
 
-    expect(coverageFolders.length).toEqual(1);
+    expect(coverageFolders.length).toEqual(split);
 
     await execa('ember', ['coverage-merge'], { cwd: BASE_PATH });
     file(`${BASE_PATH}/coverage/lcov-report/index.html`).assertIsNotEmpty();
