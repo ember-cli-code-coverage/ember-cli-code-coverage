@@ -9,11 +9,20 @@ const path = require('path');
 const crypto = require('crypto');
 const fs = require('fs-extra');
 
-const WRITE_COVERAGE = '/write-coverage';
-
 function logError(err, req, res, next) {
   console.error(err.stack);
   next(err);
+}
+
+/**
+ * This function fetches the API path to write coverage
+ * This can be passed from the client application using the key `coverageApiPath` in the file config/coverage.js
+ * Default value will be set to `/write-coverage`
+ */
+
+function getCoverageApiPath(configPath) {
+  let config = getConfig(configPath);
+  return config.coverageApiPath;
 }
 
 /*
@@ -183,8 +192,10 @@ function coverageHandler(map, options, req, res) {
 // Used when app is in dev mode (`ember serve`).
 // Creates a new coverage map on every request.
 function serverMiddleware(app, options) {
+  let coverageApiPath = getCoverageApiPath(options.configPath);
+
   app.post(
-    WRITE_COVERAGE,
+    coverageApiPath,
     bodyParser,
     (req, res) => {
       let map = libCoverage.createCoverageMap();
@@ -199,9 +210,10 @@ function serverMiddleware(app, options) {
 // Collects the coverage on each request and merges it into the coverage map.
 function testMiddleware(app, options) {
   let map = libCoverage.createCoverageMap();
+  let coverageApiPath = getCoverageApiPath(options.configPath);
 
   app.post(
-    WRITE_COVERAGE,
+    coverageApiPath,
     bodyParser,
     (req, res) => {
       coverageHandler(map, options, req, res);
