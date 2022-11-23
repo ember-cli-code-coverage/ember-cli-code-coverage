@@ -64,7 +64,7 @@ export function forceModulesToBeLoaded(filterFunction) {
   });
 }
 
-export async function sendCoverage(callback) {
+export async function sendCoverage(callback, coverageApiPath = '/write-coverage') {
   let coverageData = window.__coverage__; //eslint-disable-line no-undef
 
   if (coverageData === undefined) {
@@ -77,7 +77,7 @@ export async function sendCoverage(callback) {
 
   let body = JSON.stringify(coverageData || {});
 
-  let response = await fetch('/write-coverage', {
+  let response = await fetch(coverageApiPath, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
