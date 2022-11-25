@@ -64,8 +64,12 @@ export function forceModulesToBeLoaded(filterFunction) {
   });
 }
 
-export async function sendCoverage(callback, coverageApiPath = '/write-coverage') {
+export async function sendCoverage(callback, options) {
   let coverageData = window.__coverage__; //eslint-disable-line no-undef
+  let { coverageApiPath, isHtmlReport } = options;
+  if (!coverageApiPath) {
+    coverageApiPath = '/write-coverage';
+  }
 
   if (coverageData === undefined) {
     if (callback) {
@@ -85,7 +89,9 @@ export async function sendCoverage(callback, coverageApiPath = '/write-coverage'
     body,
   });
   let responseData = await response.json();
-  writeCoverageInfo(responseData);
+  if (isHtmlReport) {
+    writeCoverageInfo(responseData);
+  }
 
   if (callback) {
     callback();
