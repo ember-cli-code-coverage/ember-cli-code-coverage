@@ -66,7 +66,7 @@ export function forceModulesToBeLoaded(filterFunction) {
 
 export async function sendCoverage(callback, options) {
   let coverageData = window.__coverage__; //eslint-disable-line no-undef
-  let { coverageApiPath, isHtmlReport } = options;
+  let { coverageApiPath, isHtmlReportGenerated } = options;
   if (!coverageApiPath) {
     coverageApiPath = '/write-coverage';
   }
@@ -89,7 +89,7 @@ export async function sendCoverage(callback, options) {
     body,
   });
   let responseData = await response.json();
-  if (isHtmlReport) {
+  if (isHtmlReportGenerated) {
     writeCoverageInfo(responseData);
   }
 
