@@ -39,7 +39,7 @@
     "babel-plugin-istanbul": "^6.0.0",
     "body-parser": "^1.19.0",
     "ember-cli-babel": "^7.26.6",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fs-extra": "^9.0.0",
     "istanbul-lib-coverage": "^3.0.0",
     "istanbul-lib-report": "^3.0.0",
