@@ -1,6 +1,6 @@
 'use strict';
 
-const bodyParser = require('body-parser').json({ limit: '50mb' });
+const bodyParser = require('body-parser').json({ limit: '500mb' });
 const libCoverage = require('istanbul-lib-coverage');
 const libReport = require('istanbul-lib-report');
 const reports = require('istanbul-reports');
