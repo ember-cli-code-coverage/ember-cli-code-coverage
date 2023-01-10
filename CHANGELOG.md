@@ -1,3 +1,23 @@
+## v2.0.0-beta.5 (2023-01-10)
+
+#### :boom: Breaking Change
+* `ember-cli-code-coverage`
+  * [#363](https://github.com/kategengler/ember-cli-code-coverage/pull/363) Drop support for Node < 14, 15, 17. ([@kiwiupover](https://github.com/kiwiupover))
+  * [#346](https://github.com/kategengler/ember-cli-code-coverage/pull/346) Move modifyAssetLocation from build options to the config (for when path option is used) ([@robinborst95](https://github.com/robinborst95))
+
+#### :rocket: Enhancement
+* `ember-cli-code-coverage`
+  * [#371](https://github.com/kategengler/ember-cli-code-coverage/pull/371) Increase coverage payload limit ([@wagenet](https://github.com/wagenet))
+
+#### :house: Internal
+* [#345](https://github.com/kategengler/ember-cli-code-coverage/pull/345) Add test for files in app directory of in-repo addons ([@robinborst95](https://github.com/robinborst95))
+
+#### Committers: 3
+- Dave Laird ([@kiwiupover](https://github.com/kiwiupover))
+- Peter Wagenet ([@wagenet](https://github.com/wagenet))
+- Robin Borst  ([@robinborst95](https://github.com/robinborst95))
+
+
 ## v2.0.0-beta.4 (2021-11-30)
 
 #### :rocket: Enhancement
