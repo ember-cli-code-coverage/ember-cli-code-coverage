@@ -1,3 +1,25 @@
+## v2.0.0 (2023-01-10)
+
+#### :boom: Breaking Change
+* `ember-cli-code-coverage`
+  * [#363](https://github.com/kategengler/ember-cli-code-coverage/pull/363) Drop support for Node < 14, 15, 17. ([@kiwiupover](https://github.com/kiwiupover))
+  * [#325](https://github.com/kategengler/ember-cli-code-coverage/pull/325) Run ember-cli-upgrade to v3.28.1 ([@thoov](https://github.com/thoov))
+  * [#327](https://github.com/kategengler/ember-cli-code-coverage/pull/327) Re-architect plugin loading and asset detection logic (add Embroider support) ([@thoov](https://github.com/thoov))
+
+#### :rocket: Enhancement
+* `ember-cli-code-coverage`
+  * [#371](https://github.com/kategengler/ember-cli-code-coverage/pull/371) Increase coverage payload limit ([@wagenet](https://github.com/wagenet))
+  * [#338](https://github.com/kategengler/ember-cli-code-coverage/pull/338) Add advanced customizations for namespace discovery and module loading ([@thoov](https://github.com/thoov))
+  * [#343](https://github.com/kategengler/ember-cli-code-coverage/pull/343) / [#346](https://github.com/kategengler/ember-cli-code-coverage/pull/346) Adding `modifyAssetLocation` config option ([@thoov](https://github.com/thoov) & [@robinborst95](https://github.com/robinborst95))
+
+#### Committers: 3
+- Dave Laird ([@kiwiupover](https://github.com/kiwiupover))
+- Peter Wagenet ([@wagenet](https://github.com/wagenet))
+- Robin Borst  ([@robinborst95](https://github.com/robinborst95))
+- Travis Hoover ([@thoov](https://github.com/thoov))
+
+
+
 ## v1.0.3 (2021-04-26)
 
 #### :bug: Bug Fix
