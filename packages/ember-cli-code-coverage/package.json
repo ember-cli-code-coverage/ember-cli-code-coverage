@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "@embroider/compat": "^0.47.0",
-    "@embroider/core": "^0.47.0",
     "babel-plugin-istanbul": "^6.0.0",
     "body-parser": "^1.19.0",
     "ember-cli-babel": "^7.26.6",
