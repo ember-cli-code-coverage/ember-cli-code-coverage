@@ -87,6 +87,12 @@ Object {
       "skipped": 0,
       "total": 0,
     },
+    "branchesTrue": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
     "functions": Object {
       "covered": 1,
       "pct": 50,
@@ -222,6 +228,12 @@ Object {
       "skipped": 0,
       "total": 0,
     },
+    "branchesTrue": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
     "functions": Object {
       "covered": 1,
       "pct": 33.33,
@@ -230,13 +242,13 @@ Object {
     },
     "lines": Object {
       "covered": 6,
-      "pct": 66.67,
+      "pct": 66.66,
       "skipped": 0,
       "total": 9,
     },
     "statements": Object {
       "covered": 6,
-      "pct": 66.67,
+      "pct": 66.66,
       "skipped": 0,
       "total": 9,
     },
@@ -383,6 +395,12 @@ Object {
       "skipped": 0,
       "total": 0,
     },
+    "branchesTrue": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
     "functions": Object {
       "covered": 1,
       "pct": 33.33,
@@ -518,6 +536,12 @@ Object {
       "skipped": 0,
       "total": 0,
     },
+    "branchesTrue": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
     "functions": Object {
       "covered": 1,
       "pct": 33.33,
@@ -526,13 +550,13 @@ Object {
     },
     "lines": Object {
       "covered": 6,
-      "pct": 66.67,
+      "pct": 66.66,
       "skipped": 0,
       "total": 9,
     },
     "statements": Object {
       "covered": 6,
-      "pct": 66.67,
+      "pct": 66.66,
       "skipped": 0,
       "total": 9,
     },
@@ -653,6 +677,12 @@ Object {
       "skipped": 0,
       "total": 0,
     },
+    "branchesTrue": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
     "functions": Object {
       "covered": 1,
       "pct": 33.33,
@@ -661,13 +691,13 @@ Object {
     },
     "lines": Object {
       "covered": 6,
-      "pct": 66.67,
+      "pct": 66.66,
       "skipped": 0,
       "total": 9,
     },
     "statements": Object {
       "covered": 6,
-      "pct": 66.67,
+      "pct": 66.66,
       "skipped": 0,
       "total": 9,
     },
@@ -788,6 +818,12 @@ Object {
       "skipped": 0,
       "total": 0,
     },
+    "branchesTrue": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
     "functions": Object {
       "covered": 1,
       "pct": 33.33,
@@ -796,13 +832,13 @@ Object {
     },
     "lines": Object {
       "covered": 6,
-      "pct": 66.67,
+      "pct": 66.66,
       "skipped": 0,
       "total": 9,
     },
     "statements": Object {
       "covered": 6,
-      "pct": 66.67,
+      "pct": 66.66,
       "skipped": 0,
       "total": 9,
     },
@@ -923,6 +959,12 @@ Object {
       "skipped": 0,
       "total": 0,
     },
+    "branchesTrue": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
     "functions": Object {
       "covered": 1,
       "pct": 33.33,
@@ -931,13 +973,13 @@ Object {
     },
     "lines": Object {
       "covered": 6,
-      "pct": 66.67,
+      "pct": 66.66,
       "skipped": 0,
       "total": 9,
     },
     "statements": Object {
       "covered": 6,
-      "pct": 66.67,
+      "pct": 66.66,
       "skipped": 0,
       "total": 9,
     },

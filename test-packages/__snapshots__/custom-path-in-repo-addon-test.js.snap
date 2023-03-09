@@ -191,6 +191,12 @@ Object {
       "skipped": 0,
       "total": 2,
     },
+    "branchesTrue": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
     "functions": Object {
       "covered": 2,
       "pct": 28.57,
@@ -199,13 +205,13 @@ Object {
     },
     "lines": Object {
       "covered": 7,
-      "pct": 46.67,
+      "pct": 46.66,
       "skipped": 0,
       "total": 15,
     },
     "statements": Object {
       "covered": 7,
-      "pct": 46.67,
+      "pct": 46.66,
       "skipped": 0,
       "total": 15,
     },
