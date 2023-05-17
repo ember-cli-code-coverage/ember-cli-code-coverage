@@ -86,9 +86,10 @@ module.exports = {
           item.root,
           item.treePaths['addon-test-support']
         );
-        rootNamespaceMappings.set(item.name, addonPath);
+        const moduleName = item.moduleName();
+        rootNamespaceMappings.set(moduleName, addonPath);
         rootNamespaceMappings.set(
-          path.join(item.name, 'test-support'),
+          path.join(moduleName, 'test-support'),
           addonTestSupportPath
         );
       }
