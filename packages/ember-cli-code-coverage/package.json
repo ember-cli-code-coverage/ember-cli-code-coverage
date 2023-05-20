@@ -34,8 +34,6 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
-    "@embroider/compat": "^0.47.0",
-    "@embroider/core": "^0.47.0",
     "babel-plugin-istanbul": "^6.0.0",
     "body-parser": "^1.19.0",
     "ember-cli-babel": "^7.26.6",
@@ -90,6 +88,18 @@
     "release-it": "^13.6.0",
     "release-it-lerna-changelog": "^2.3.0",
     "sinon": "^4.2.2"
+  },
+  "peerDependencies": {
+    "@embroider/compat": "^0.47.0 || ^1.0.0 || ^2.0.0 || ^3.0.0",
+    "@embroider/core": "^0.47.0 || ^1.0.0 || ^2.0.0 || ^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@embroider/compat": {
+      "optional": true
+    },
+    "@embroider/core": {
+      "optional": true
+    }
   },
   "engines": {
     "node": "14.* || 16.* || >= 18"
