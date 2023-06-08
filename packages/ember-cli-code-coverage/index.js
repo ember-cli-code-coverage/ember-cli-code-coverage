@@ -58,7 +58,7 @@ module.exports = {
       let {
         stableWorkspaceDir,
       } = require('@embroider/compat/src/default-pipeline');
-      cwd = stableWorkspaceDir(cwd);
+      cwd = stableWorkspaceDir(cwd, process.env.EMBER_ENV);
     }
 
     const IstanbulPlugin = require.resolve('babel-plugin-istanbul');
