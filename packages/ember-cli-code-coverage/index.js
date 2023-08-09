@@ -55,10 +55,23 @@ module.exports = {
     }
 
     if (opts.embroider === true) {
-      let {
-        stableWorkspaceDir,
-      } = require('@embroider/compat/src/default-pipeline');
-      cwd = stableWorkspaceDir(cwd, process.env.EMBER_ENV);
+      let version = pkgJSON['devDependencies']['@embroider/compat'];
+      let semver = require('semver');
+
+      let usesNewTempDirLocation = semver.satisfies(
+        semver.valid(semver.coerce(version)),
+        '>3.1'
+      );
+
+      if (usesNewTempDirLocation) {
+        let { locateEmbroiderWorkingDir } = require('@embroider/core');
+        cwd = path.resolve(locateEmbroiderWorkingDir(cwd), 'rewritten-app');
+      } else {
+        let {
+          stableWorkspaceDir,
+        } = require('@embroider/compat/src/default-pipeline');
+        cwd = stableWorkspaceDir(cwd, process.env.EMBER_ENV);
+      }
     }
 
     const IstanbulPlugin = require.resolve('babel-plugin-istanbul');
@@ -115,12 +128,8 @@ module.exports = {
    * If coverage is enabled attach coverage middleware to the express server run by ember-cli
    * @param {Object} startOptions - Express server start options
    */
-  serverMiddleware(startOptions) {
-    attachMiddleware.serverMiddleware(startOptions.app, {
-      configPath: this.project.configPath(),
-      root: this.project.root,
-      namespaceMappings: this.buildNamespaceMappings(),
-    });
+  serverMiddleware(startOptions, config) {
+    attachMiddleware.serverMiddleware(startOptions.app, config);
   },
 
   testemMiddleware(app) {

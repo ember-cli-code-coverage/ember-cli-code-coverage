@@ -22,8 +22,15 @@ function logError(err, req, res, next) {
  * in-repo-namespace/components/foo.js.
  */
 function normalizeRelativePath(root, filepath) {
-  let embroiderTmpPathRegex = /embroider\/.{6}/gm;
-  let relativePath = filepath.split(embroiderTmpPathRegex)[1].slice(1);
+  let relativePath;
+  let embroiderCompatLT31TmpPathRegex = /embroider\/.{6}/gm;
+  let embroiderCompatGT31TmpPathRegex = /\.embroider\/rewritten-app\//gm;
+
+  if (embroiderCompatGT31TmpPathRegex.test(filepath)) {
+    relativePath = filepath.split(embroiderCompatGT31TmpPathRegex)[1];
+  } else {
+    relativePath = filepath.split(embroiderCompatLT31TmpPathRegex)[1].slice(1);
+  }
 
   if (fs.existsSync(path.join(root, 'package.json'))) {
     let pkgJSON = fs.readJsonSync(path.join(root, 'package.json'));
