@@ -43,6 +43,7 @@
     "istanbul-lib-report": "^3.0.0",
     "istanbul-reports": "^3.0.2",
     "node-dir": "^0.1.17",
+    "semver": "^7.5.4",
     "walk-sync": "^2.1.0"
   },
   "devDependencies": {
