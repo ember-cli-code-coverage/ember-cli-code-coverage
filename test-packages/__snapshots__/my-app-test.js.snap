@@ -28,6 +28,58 @@ Object {
       "total": 4,
     },
   },
+  "app/models/my-model-global-import.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/models/my-model-named-import.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+  },
   "app/router.js": Object {
     "branches": Object {
       "covered": 0,
@@ -94,16 +146,16 @@ Object {
       "total": 2,
     },
     "lines": Object {
-      "covered": 6,
-      "pct": 75,
+      "covered": 7,
+      "pct": 77.78,
       "skipped": 0,
-      "total": 8,
+      "total": 9,
     },
     "statements": Object {
-      "covered": 6,
-      "pct": 75,
+      "covered": 7,
+      "pct": 77.78,
       "skipped": 0,
-      "total": 8,
+      "total": 9,
     },
   },
 }
@@ -135,6 +187,58 @@ Object {
       "pct": 100,
       "skipped": 0,
       "total": 4,
+    },
+  },
+  "app/models/my-model-global-import.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/models/my-model-named-import.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
     },
   },
   "app/router.js": Object {
@@ -229,16 +333,16 @@ Object {
       "total": 3,
     },
     "lines": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 7,
+      "pct": 70,
       "skipped": 0,
-      "total": 9,
+      "total": 10,
     },
     "statements": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 7,
+      "pct": 70,
       "skipped": 0,
-      "total": 9,
+      "total": 10,
     },
   },
 }
@@ -298,6 +402,58 @@ Object {
       "total": 1,
     },
   },
+  "app/models/my-model-global-import.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/models/my-model-named-import.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+  },
   "app/router.js": Object {
     "branches": Object {
       "covered": 0,
@@ -390,16 +546,16 @@ Object {
       "total": 3,
     },
     "lines": Object {
-      "covered": 7,
-      "pct": 70,
+      "covered": 8,
+      "pct": 72.73,
       "skipped": 0,
-      "total": 10,
+      "total": 11,
     },
     "statements": Object {
-      "covered": 7,
-      "pct": 70,
+      "covered": 8,
+      "pct": 72.73,
       "skipped": 0,
-      "total": 10,
+      "total": 11,
     },
   },
 }
@@ -433,6 +589,58 @@ Object {
       "total": 4,
     },
   },
+  "app/models/my-model-global-import.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/models/my-model-named-import.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+  },
   "app/router.js": Object {
     "branches": Object {
       "covered": 0,
@@ -525,16 +733,16 @@ Object {
       "total": 3,
     },
     "lines": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 7,
+      "pct": 70,
       "skipped": 0,
-      "total": 9,
+      "total": 10,
     },
     "statements": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 7,
+      "pct": 70,
       "skipped": 0,
-      "total": 9,
+      "total": 10,
     },
   },
 }
@@ -703,6 +911,58 @@ Object {
       "total": 4,
     },
   },
+  "app/models/my-model-global-import.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/models/my-model-named-import.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+  },
   "app/router.js": Object {
     "branches": Object {
       "covered": 0,
@@ -795,16 +1055,16 @@ Object {
       "total": 3,
     },
     "lines": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 7,
+      "pct": 70,
       "skipped": 0,
-      "total": 9,
+      "total": 10,
     },
     "statements": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 7,
+      "pct": 70,
       "skipped": 0,
-      "total": 9,
+      "total": 10,
     },
   },
 }
@@ -838,6 +1098,58 @@ Object {
       "total": 4,
     },
   },
+  "app/models/my-model-global-import.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/models/my-model-named-import.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 0,
+    },
+  },
   "app/router.js": Object {
     "branches": Object {
       "covered": 0,
@@ -930,16 +1242,16 @@ Object {
       "total": 3,
     },
     "lines": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 7,
+      "pct": 70,
       "skipped": 0,
-      "total": 9,
+      "total": 10,
     },
     "statements": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 7,
+      "pct": 70,
       "skipped": 0,
-      "total": 9,
+      "total": 10,
     },
   },
 }
