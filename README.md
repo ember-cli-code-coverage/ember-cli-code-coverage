@@ -19,69 +19,71 @@ Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember
 
 ## Setup
 
-In order to gather code coverage information, you must first install the Babel plugins in each project that you'd like to have instrumented.
+1. Install the Babel plugins.
 
-For classic apps (ember-cli-build.js):
+   In order to gather code coverage information, you must first install the Babel plugins in each project that you'd like to have instrumented.
 
-```js
-let app = new EmberApp(defaults, {
-  babel: {
-    plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
-  },
-});
-```
+   For classic apps (ember-cli-build.js):
 
-For embroider apps (ember-cli-build.js):
+   ```js
+   let app = new EmberApp(defaults, {
+     babel: {
+       plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
+     },
+   });
+   ```
 
-```js
-let app = new EmberApp(defaults, {
-  babel: {
-    plugins: [
-      ...require('ember-cli-code-coverage').buildBabelPlugin({
-        embroider: true,
-      }),
-    ],
-  },
-});
-```
+   For embroider apps (ember-cli-build.js):
 
-For in-repo addons (index.js):
+   ```js
+   let app = new EmberApp(defaults, {
+     babel: {
+       plugins: [
+         ...require('ember-cli-code-coverage').buildBabelPlugin({
+           embroider: true,
+         }),
+       ],
+     },
+   });
+   ```
 
-```js
-module.exports = {
-  name: require('./package').name,
+   For in-repo addons (index.js):
 
-  options: {
-    babel: {
-      plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
-    },
-  },
-};
-```
+   ```js
+   module.exports = {
+     name: require('./package').name,
 
-For in-repo engines (index.js):
+     options: {
+       babel: {
+         plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
+       },
+     },
+   };
+   ```
 
-```js
-module.exports = EngineAddon.extend({
-  // ...
-  included() {
-    this._super.included.apply(this, arguments);
-    this.options.babel.plugins.push(...require('ember-cli-code-coverage').buildBabelPlugin());
-  },
-});
-```
+   For in-repo engines (index.js):
 
-tests/test-helpers.js:
+   ```js
+   module.exports = EngineAddon.extend({
+     // ...
+     included() {
+       this._super.included.apply(this, arguments);
+       this.options.babel.plugins.push(...require('ember-cli-code-coverage').buildBabelPlugin());
+     },
+   });
+   ```
 
-```js
-import { forceModulesToBeLoaded, sendCoverage } from 'ember-cli-code-coverage/test-support';
-import Qunit from 'qunit';
+2. Add the following code to `tests/test-helper.js`.
 
-QUnit.done(async function () {
-  forceModulesToBeLoaded();
-  await sendCoverage();
-});
-```
+   ```js
+   import { forceModulesToBeLoaded, sendCoverage } from 'ember-cli-code-coverage/test-support';
+   import Qunit from 'qunit';
+
+   QUnit.done(async function () {
+     forceModulesToBeLoaded();
+     await sendCoverage();
+   });
+   ```
 
 ## Usage
 
