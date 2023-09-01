@@ -113,6 +113,14 @@ followed by
 
 `COVERAGE=true ember test --path=dist`
 
+## Coverage Artifacts
+
+The coverage artifacts are stored in the `coverageFolder` specified in the configuration. By default, this is `coverage`. The artifacts are:
+
+- `coverage-summary.json`: The final coverage report in JSON format.
+- `lcov.info`: The final coverage report in LCOV format.
+- `lcov-report`: The final coverage report in HTML format.
+
 ## TypeScript integration
 
 Steps:
