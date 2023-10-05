@@ -69,6 +69,13 @@ function adjustCoverageKey(
   modifyAssetLocation
 ) {
   let relativePath = path.relative(root, filepath);
+
+  // This lives in a directory outside of the current one, likely a monorepo.
+  // In this case we can assume that the original path is correct.
+  if (relativePath.startsWith('..')) {
+    return filepath;
+  }
+
   let embroiderTmpPathRegex = /embroider\/.{6}/gm;
 
   // we can determine if file is coming from embroider based on how the path looks
