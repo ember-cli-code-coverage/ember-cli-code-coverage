@@ -16,9 +16,9 @@
     "execa": "^4.0.3",
     "fixturify-project": "^4.0.2",
     "jest": "^26.4.2",
-    "release-it": "^14.0.2",
-    "release-it-lerna-changelog": "^2.4.0",
-    "release-it-yarn-workspaces": "^1.5.0",
+    "@release-it-plugins/lerna-changelog": "^5.0.0",
+    "@release-it-plugins/workspaces": "^3.2.0",
+    "release-it": "^15.11.0",
     "rimraf": "^2.6.2"
   },
   "publishConfig": {
@@ -41,11 +41,7 @@
   },
   "release-it": {
     "plugins": {
-      "release-it-lerna-changelog": {
-        "infile": "CHANGELOG.md",
-        "launchEditor": true
-      },
-      "release-it-yarn-workspaces": {
+      "@release-it-plugins/workspaces": {
         "additionalManifests": {
           "dependencyUpdates": [
             "test-packages/*/package.json"
@@ -55,6 +51,10 @@
         "workspaces": [
           "packages/*"
         ]
+      },
+      "@release-it-plugins/lerna-changelog": {
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
       }
     },
     "git": {
@@ -68,7 +68,7 @@
   },
   "version": "2.0.1",
   "volta": {
-    "node": "14.20.0",
-    "yarn": "1.22.15"
+    "node": "14.21.3",
+    "yarn": "1.22.19"
   }
 }
