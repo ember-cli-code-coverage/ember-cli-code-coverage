@@ -1,3 +1,17 @@
+Version 9 of Highlight.js has reached EOL and is no longer supported.
+Please upgrade or ask whatever dependency you are using to upgrade.
+https://github.com/highlightjs/highlight.js/issues/2877
+
+## v2.0.1 (2023-11-07)
+
+#### :bug: Bug Fix
+* `ember-cli-code-coverage`
+  * [#381](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/381) use `moduleName` instead of `name` when building namespace mappings ([@yangpiao](https://github.com/yangpiao))
+
+#### Committers: 2
+- Amaury ([@AmauryD](https://github.com/AmauryD))
+- Yang Piao ([@yangpiao](https://github.com/yangpiao))
+
 ## v2.0.0 (2023-01-10)
 
 #### :boom: Breaking Change
