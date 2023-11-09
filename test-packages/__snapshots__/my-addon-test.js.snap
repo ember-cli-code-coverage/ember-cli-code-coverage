@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`app coverage generation runs coverage on templates when option is set 1`] = `
+Object {
+  "addon-test-support/uncovered-test-support.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "addon/components/addon-component.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "statements": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+  },
+  "addon/utils/my-covered-util.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "addon/utils/my-uncovered-util.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "total": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 4,
+    },
+    "lines": Object {
+      "covered": 2,
+      "pct": 25,
+      "skipped": 0,
+      "total": 8,
+    },
+    "statements": Object {
+      "covered": 2,
+      "pct": 25,
+      "skipped": 0,
+      "total": 8,
+    },
+  },
+}
+`;

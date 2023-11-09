@@ -28,7 +28,7 @@ Object {
       "total": 4,
     },
   },
-  "app/router.js": Object {
+  "app/components/co-located-component.hbs": Object {
     "branches": Object {
       "covered": 0,
       "pct": 100,
@@ -37,21 +37,177 @@ Object {
     },
     "functions": Object {
       "covered": 0,
-      "pct": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/co-located-component.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/test-component.js": Object {
+    "branches": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 100,
       "skipped": 0,
       "total": 1,
     },
     "lines": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
     },
     "statements": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/templates/application.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/components/test-component.hbs": Object {
+    "branches": Object {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 14,
+      "pct": 100,
+      "skipped": 0,
+      "total": 14,
+    },
+    "statements": Object {
+      "covered": 20,
+      "pct": 90.91,
+      "skipped": 0,
+      "total": 22,
     },
   },
   "app/utils/my-covered-util.js": Object {
@@ -82,28 +238,28 @@ Object {
   },
   "total": Object {
     "branches": Object {
-      "covered": 0,
+      "covered": 12,
       "pct": 100,
       "skipped": 0,
-      "total": 0,
+      "total": 12,
     },
     "functions": Object {
-      "covered": 1,
-      "pct": 50,
+      "covered": 5,
+      "pct": 83.33,
       "skipped": 0,
-      "total": 2,
+      "total": 6,
     },
     "lines": Object {
-      "covered": 6,
-      "pct": 75,
+      "covered": 35,
+      "pct": 97.22,
       "skipped": 0,
-      "total": 8,
+      "total": 36,
     },
     "statements": Object {
-      "covered": 6,
-      "pct": 75,
+      "covered": 44,
+      "pct": 93.62,
       "skipped": 0,
-      "total": 8,
+      "total": 47,
     },
   },
 }
@@ -137,7 +293,7 @@ Object {
       "total": 4,
     },
   },
-  "app/router.js": Object {
+  "app/components/co-located-component.hbs": Object {
     "branches": Object {
       "covered": 0,
       "pct": 100,
@@ -146,21 +302,177 @@ Object {
     },
     "functions": Object {
       "covered": 0,
-      "pct": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/co-located-component.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/test-component.js": Object {
+    "branches": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 100,
       "skipped": 0,
       "total": 1,
     },
     "lines": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
     },
     "statements": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/templates/application.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/components/test-component.hbs": Object {
+    "branches": Object {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 14,
+      "pct": 100,
+      "skipped": 0,
+      "total": 14,
+    },
+    "statements": Object {
+      "covered": 20,
+      "pct": 90.91,
+      "skipped": 0,
+      "total": 22,
     },
   },
   "app/utils/my-covered-util.js": Object {
@@ -217,6 +529,89 @@ Object {
   },
   "total": Object {
     "branches": Object {
+      "covered": 12,
+      "pct": 100,
+      "skipped": 0,
+      "total": 12,
+    },
+    "functions": Object {
+      "covered": 5,
+      "pct": 71.43,
+      "skipped": 0,
+      "total": 7,
+    },
+    "lines": Object {
+      "covered": 35,
+      "pct": 94.59,
+      "skipped": 0,
+      "total": 37,
+    },
+    "statements": Object {
+      "covered": 44,
+      "pct": 91.67,
+      "skipped": 0,
+      "total": 48,
+    },
+  },
+}
+`;
+
+exports[`app coverage generation runs coverage on templates when option is set 1`] = `
+Object {
+  "app/app.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/co-located-component.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/co-located-component.js": Object {
+    "branches": Object {
       "covered": 0,
       "pct": 100,
       "skipped": 0,
@@ -224,21 +619,229 @@ Object {
     },
     "functions": Object {
       "covered": 1,
-      "pct": 33.33,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/test-component.js": Object {
+    "branches": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
     },
-    "lines": Object {
-      "covered": 6,
-      "pct": 66.67,
+    "statements": Object {
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
-      "total": 9,
+      "total": 3,
+    },
+  },
+  "app/templates/application.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
     },
     "statements": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
-      "total": 9,
+      "total": 3,
+    },
+  },
+  "app/templates/components/test-component.hbs": Object {
+    "branches": Object {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 14,
+      "pct": 100,
+      "skipped": 0,
+      "total": 14,
+    },
+    "statements": Object {
+      "covered": 20,
+      "pct": 90.91,
+      "skipped": 0,
+      "total": 22,
+    },
+  },
+  "app/utils/my-covered-util.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/utils/my-uncovered-util.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "total": Object {
+    "branches": Object {
+      "covered": 12,
+      "pct": 100,
+      "skipped": 0,
+      "total": 12,
+    },
+    "functions": Object {
+      "covered": 5,
+      "pct": 71.43,
+      "skipped": 0,
+      "total": 7,
+    },
+    "lines": Object {
+      "covered": 35,
+      "pct": 94.59,
+      "skipped": 0,
+      "total": 37,
+    },
+    "statements": Object {
+      "covered": 44,
+      "pct": 91.67,
+      "skipped": 0,
+      "total": 48,
     },
   },
 }
@@ -270,6 +873,110 @@ Object {
       "pct": 100,
       "skipped": 0,
       "total": 4,
+    },
+  },
+  "app/components/co-located-component.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/co-located-component.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/test-component.js": Object {
+    "branches": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
     },
   },
   "app/error-module.js": Object {
@@ -306,22 +1013,74 @@ Object {
       "total": 0,
     },
     "functions": Object {
-      "covered": 0,
-      "pct": 0,
+      "covered": 1,
+      "pct": 100,
       "skipped": 0,
       "total": 1,
     },
     "lines": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
     },
     "statements": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/templates/application.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/components/test-component.hbs": Object {
+    "branches": Object {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 14,
+      "pct": 100,
+      "skipped": 0,
+      "total": 14,
+    },
+    "statements": Object {
+      "covered": 20,
+      "pct": 90.91,
+      "skipped": 0,
+      "total": 22,
     },
   },
   "app/utils/my-covered-util.js": Object {
@@ -378,28 +1137,28 @@ Object {
   },
   "total": Object {
     "branches": Object {
-      "covered": 0,
+      "covered": 12,
       "pct": 100,
       "skipped": 0,
-      "total": 0,
+      "total": 12,
     },
     "functions": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 5,
+      "pct": 71.43,
       "skipped": 0,
-      "total": 3,
+      "total": 7,
     },
     "lines": Object {
-      "covered": 7,
-      "pct": 70,
+      "covered": 36,
+      "pct": 94.74,
       "skipped": 0,
-      "total": 10,
+      "total": 38,
     },
     "statements": Object {
-      "covered": 7,
-      "pct": 70,
+      "covered": 45,
+      "pct": 91.84,
       "skipped": 0,
-      "total": 10,
+      "total": 49,
     },
   },
 }
@@ -433,7 +1192,7 @@ Object {
       "total": 4,
     },
   },
-  "app/router.js": Object {
+  "app/components/co-located-component.hbs": Object {
     "branches": Object {
       "covered": 0,
       "pct": 100,
@@ -442,21 +1201,177 @@ Object {
     },
     "functions": Object {
       "covered": 0,
-      "pct": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/co-located-component.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/test-component.js": Object {
+    "branches": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 100,
       "skipped": 0,
       "total": 1,
     },
     "lines": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
     },
     "statements": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/templates/application.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/components/test-component.hbs": Object {
+    "branches": Object {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 14,
+      "pct": 100,
+      "skipped": 0,
+      "total": 14,
+    },
+    "statements": Object {
+      "covered": 20,
+      "pct": 90.91,
+      "skipped": 0,
+      "total": 22,
     },
   },
   "app/utils/my-covered-util.js": Object {
@@ -513,28 +1428,28 @@ Object {
   },
   "total": Object {
     "branches": Object {
-      "covered": 0,
+      "covered": 12,
       "pct": 100,
       "skipped": 0,
-      "total": 0,
+      "total": 12,
     },
     "functions": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 5,
+      "pct": 71.43,
       "skipped": 0,
-      "total": 3,
+      "total": 7,
     },
     "lines": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 35,
+      "pct": 94.59,
       "skipped": 0,
-      "total": 9,
+      "total": 37,
     },
     "statements": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 44,
+      "pct": 91.67,
       "skipped": 0,
-      "total": 9,
+      "total": 48,
     },
   },
 }
@@ -568,7 +1483,7 @@ Object {
       "total": 4,
     },
   },
-  "app/router.js": Object {
+  "app/components/co-located-component.hbs": Object {
     "branches": Object {
       "covered": 0,
       "pct": 100,
@@ -577,21 +1492,177 @@ Object {
     },
     "functions": Object {
       "covered": 0,
-      "pct": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/co-located-component.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/test-component.js": Object {
+    "branches": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 100,
       "skipped": 0,
       "total": 1,
     },
     "lines": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
     },
     "statements": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/templates/application.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/components/test-component.hbs": Object {
+    "branches": Object {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 14,
+      "pct": 100,
+      "skipped": 0,
+      "total": 14,
+    },
+    "statements": Object {
+      "covered": 20,
+      "pct": 90.91,
+      "skipped": 0,
+      "total": 22,
     },
   },
   "app/utils/my-covered-util.js": Object {
@@ -648,28 +1719,28 @@ Object {
   },
   "total": Object {
     "branches": Object {
-      "covered": 0,
+      "covered": 12,
       "pct": 100,
       "skipped": 0,
-      "total": 0,
+      "total": 12,
     },
     "functions": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 5,
+      "pct": 71.43,
       "skipped": 0,
-      "total": 3,
+      "total": 7,
     },
     "lines": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 35,
+      "pct": 94.59,
       "skipped": 0,
-      "total": 9,
+      "total": 37,
     },
     "statements": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 44,
+      "pct": 91.67,
       "skipped": 0,
-      "total": 9,
+      "total": 48,
     },
   },
 }
@@ -703,7 +1774,7 @@ Object {
       "total": 4,
     },
   },
-  "app/router.js": Object {
+  "app/components/co-located-component.hbs": Object {
     "branches": Object {
       "covered": 0,
       "pct": 100,
@@ -712,21 +1783,177 @@ Object {
     },
     "functions": Object {
       "covered": 0,
-      "pct": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/co-located-component.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/test-component.js": Object {
+    "branches": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 100,
       "skipped": 0,
       "total": 1,
     },
     "lines": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
     },
     "statements": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/templates/application.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/components/test-component.hbs": Object {
+    "branches": Object {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 14,
+      "pct": 100,
+      "skipped": 0,
+      "total": 14,
+    },
+    "statements": Object {
+      "covered": 20,
+      "pct": 90.91,
+      "skipped": 0,
+      "total": 22,
     },
   },
   "app/utils/my-covered-util.js": Object {
@@ -783,28 +2010,28 @@ Object {
   },
   "total": Object {
     "branches": Object {
-      "covered": 0,
+      "covered": 12,
       "pct": 100,
       "skipped": 0,
-      "total": 0,
+      "total": 12,
     },
     "functions": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 5,
+      "pct": 71.43,
       "skipped": 0,
-      "total": 3,
+      "total": 7,
     },
     "lines": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 35,
+      "pct": 94.59,
       "skipped": 0,
-      "total": 9,
+      "total": 37,
     },
     "statements": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 44,
+      "pct": 91.67,
       "skipped": 0,
-      "total": 9,
+      "total": 48,
     },
   },
 }
@@ -838,7 +2065,7 @@ Object {
       "total": 4,
     },
   },
-  "app/router.js": Object {
+  "app/components/co-located-component.hbs": Object {
     "branches": Object {
       "covered": 0,
       "pct": 100,
@@ -847,21 +2074,177 @@ Object {
     },
     "functions": Object {
       "covered": 0,
-      "pct": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/co-located-component.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 75,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/components/test-component.js": Object {
+    "branches": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": Object {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": Object {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": Object {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 1,
+      "pct": 100,
       "skipped": 0,
       "total": 1,
     },
     "lines": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
     },
     "statements": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/templates/application.hbs": Object {
+    "branches": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": Object {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/components/test-component.hbs": Object {
+    "branches": Object {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": Object {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": Object {
+      "covered": 14,
+      "pct": 100,
+      "skipped": 0,
+      "total": 14,
+    },
+    "statements": Object {
+      "covered": 20,
+      "pct": 90.91,
+      "skipped": 0,
+      "total": 22,
     },
   },
   "app/utils/my-covered-util.js": Object {
@@ -918,28 +2301,28 @@ Object {
   },
   "total": Object {
     "branches": Object {
-      "covered": 0,
+      "covered": 12,
       "pct": 100,
       "skipped": 0,
-      "total": 0,
+      "total": 12,
     },
     "functions": Object {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 5,
+      "pct": 71.43,
       "skipped": 0,
-      "total": 3,
+      "total": 7,
     },
     "lines": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 35,
+      "pct": 94.59,
       "skipped": 0,
-      "total": 9,
+      "total": 37,
     },
     "statements": Object {
-      "covered": 6,
-      "pct": 66.67,
+      "covered": 44,
+      "pct": 91.67,
       "skipped": 0,
-      "total": 9,
+      "total": 48,
     },
   },
 }
