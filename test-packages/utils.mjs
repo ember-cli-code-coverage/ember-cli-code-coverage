@@ -2,11 +2,8 @@ import { readJSON } from 'fs-extra';
 import { expect } from 'vitest';
 import { Project } from 'fixturify-project';
 import { exists } from 'fs-extra';
-import { copyFile, readFile, writeFile } from 'fs/promises';
+import { readFile } from 'fs/promises';
 import { execa } from 'execa';
-import { writeFileSync } from 'fs';
-
-const cwd = 'test-packages';
 
 export default async function setupTestDir(APP_DIR, env, deps) {
   const project = Project.fromDir(`test-packages/${APP_DIR}`, { linkDevDeps: true });
