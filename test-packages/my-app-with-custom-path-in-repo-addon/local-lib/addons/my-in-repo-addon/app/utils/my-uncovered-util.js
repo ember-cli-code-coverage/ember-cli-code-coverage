@@ -1,2 +1,1 @@
-export { default } from 'my-in-repo-addon/utils/my-uncovered-util';
-
+export { default } from 'my-app-in-repo-addon/utils/my-uncovered-util';

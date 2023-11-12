@@ -57,6 +57,7 @@ module.exports = {
     if (opts.embroider === true) {
       let {
         stableWorkspaceDir,
+        // eslint-disable-next-line node/no-missing-require
       } = require('@embroider/compat/src/default-pipeline');
       cwd = stableWorkspaceDir(cwd, process.env.EMBER_ENV);
     }

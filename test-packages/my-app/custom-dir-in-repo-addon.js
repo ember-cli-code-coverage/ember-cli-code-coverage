@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 'use strict';
 
 const path = require('path');
@@ -17,13 +18,18 @@ class InRepoAddon {
       path.join(addon.path, 'package.json')
     );
 
-    await fs.move(path.join(app.path, 'lib', name, 'index.js'), path.join(addon.path, 'index.js'));
+    await fs.move(
+      path.join(app.path, 'lib', name, 'index.js'),
+      path.join(addon.path, 'index.js')
+    );
 
-    app.editPackageJSON(pkg => {
+    app.editPackageJSON((pkg) => {
       pkg['ember-addon'].paths = [path.join('local-lib', 'addons', addon.name)];
     });
 
-    addon.editPackageJSON(pkg => (pkg.dependencies = { 'ember-cli-htmlbars': '*' }));
+    addon.editPackageJSON(
+      (pkg) => (pkg.dependencies = { 'ember-cli-htmlbars': '*' })
+    );
 
     return addon;
   }
@@ -46,7 +52,7 @@ class InRepoAddon {
   }
 
   nest(addon) {
-    this.editPackageJSON(pkg => {
+    this.editPackageJSON((pkg) => {
       pkg['ember-addon'] = pkg['ember-addon'] || {};
       pkg['ember-addon'].paths = pkg['ember-addon'].paths || [];
       pkg['ember-addon'].paths.push(`../${addon.name}`);
@@ -60,12 +66,14 @@ class InRepoAddon {
     let addon = await InRepoAddon.generate.apply(null, args);
 
     // Remove the in-repo-addon from the app...
-    this.app.editPackageJSON(pkg => {
-      pkg['ember-addon'].paths = pkg['ember-addon'].paths.filter(path => path !== `lib/${name}`);
+    this.app.editPackageJSON((pkg) => {
+      pkg['ember-addon'].paths = pkg['ember-addon'].paths.filter(
+        (path) => path !== `lib/${name}`
+      );
     });
 
     // Add the in-repo-addon to this engine.
-    this.editPackageJSON(pkg => {
+    this.editPackageJSON((pkg) => {
       pkg['ember-addon'] = pkg['ember-addon'] || {};
       pkg['ember-addon'].paths = pkg['ember-addon'].paths || [];
       pkg['ember-addon'].paths.push(`../${name}`);

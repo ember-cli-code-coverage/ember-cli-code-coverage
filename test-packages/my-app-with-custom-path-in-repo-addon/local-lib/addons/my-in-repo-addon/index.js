@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 'use strict';
 
 module.exports = {
@@ -9,9 +10,7 @@ module.exports = {
 
   options: {
     babel: {
-      plugins: [
-        ...require('ember-cli-code-coverage').buildBabelPlugin(),
-      ],
+      plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
     },
-  }
+  },
 };

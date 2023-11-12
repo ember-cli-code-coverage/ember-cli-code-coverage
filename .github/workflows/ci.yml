@@ -17,8 +17,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8.10.3
+          run_install: false
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
       - uses: volta-cli/action@v4
-      - run: yarn install --frozen-lockfile
-      - run: yarn lint:js
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint:js
         working-directory: packages/ember-cli-code-coverage
-      - run: yarn test
+      - run: pnpm test
