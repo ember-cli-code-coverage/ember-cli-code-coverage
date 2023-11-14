@@ -38,7 +38,7 @@
     "ember-cli": "~3.28.0",
     "ember-cli-app-version": "^5.0.0",
     "ember-cli-babel": "^7.26.6",
-    "ember-cli-code-coverage": "workspace:*",
+    "ember-cli-code-coverage": "2.0.2",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-htmlbars": "^5.7.1",
     "ember-cli-inject-live-reload": "^2.1.0",
