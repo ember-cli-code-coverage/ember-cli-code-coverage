@@ -4,22 +4,20 @@
     "type": "git",
     "url": "git@github.com:kategengler/ember-cli-code-coverage.git"
   },
-  "workspaces": [
-    "packages/*",
-    "test-packages/*"
-  ],
   "scripts": {
-    "test": "jest --runInBand"
+    "test": "vitest"
   },
   "devDependencies": {
-    "chai-files": "^1.4.0",
-    "execa": "^4.0.3",
-    "fixturify-project": "^4.0.2",
-    "jest": "^26.4.2",
     "@release-it-plugins/lerna-changelog": "^5.0.0",
     "@release-it-plugins/workspaces": "^3.2.0",
+    "chai-files": "^1.4.0",
+    "execa": "8.0.1",
+    "fixturify-project": "~6.0.0",
+    "fs-extra": "~11.1.1",
     "release-it": "^15.11.0",
-    "rimraf": "^2.6.2"
+    "rimraf": "^5.0.5",
+    "vite": "^4.5.0",
+    "vitest": "^1.0.0-beta.4"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -69,6 +67,6 @@
   "version": "2.0.1",
   "volta": {
     "node": "14.21.3",
-    "yarn": "1.22.19"
+    "pnpm": "8.10.2"
   }
 }

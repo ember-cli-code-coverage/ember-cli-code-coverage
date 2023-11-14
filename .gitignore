@@ -1,8 +1,7 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-bower_components/
-node_modules/
+node_modules
 
 # misc
 npm-debug.log*
@@ -14,3 +13,6 @@ yarn-error.log
 /package.json.ember-try
 
 .DS_Store
+coverage
+dist
+.build
