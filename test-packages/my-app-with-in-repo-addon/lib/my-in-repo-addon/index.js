@@ -9,9 +9,8 @@ module.exports = {
 
   options: {
     babel: {
-      plugins: [
-        ...require('ember-cli-code-coverage').buildBabelPlugin(),
-      ],
+      // eslint-disable-next-line node/no-extraneous-require
+      plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
     },
-  }
+  },
 };

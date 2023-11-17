@@ -1,3 +1,32 @@
+
+## v2.0.2 (2023-11-14)
+
+#### :bug: Bug Fix
+* `ember-cli-code-coverage`
+  * [#390](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/390) Handle relative paths when fixing keys ([@wagenet](https://github.com/wagenet))
+
+#### :house: Internal
+* Other
+  * [#400](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/400) Update node version to be compatible with pnpm ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* `ember-cli-code-coverage`
+  * [#398](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/398) Switch to pnpm for Workspace Management and Tests Refactoring. ([@AmauryD](https://github.com/AmauryD))
+  * [#395](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/395) Update release-it to newer packages ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 3
+- Amaury ([@AmauryD](https://github.com/AmauryD))
+- Peter Wagenet ([@wagenet](https://github.com/wagenet))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+## v2.0.1 (2023-11-07)
+
+#### :bug: Bug Fix
+* `ember-cli-code-coverage`
+  * [#381](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/381) use `moduleName` instead of `name` when building namespace mappings ([@yangpiao](https://github.com/yangpiao))
+
+#### Committers: 2
+- Amaury ([@AmauryD](https://github.com/AmauryD))
+- Yang Piao ([@yangpiao](https://github.com/yangpiao))
+
 ## v2.0.0 (2023-01-10)
 
 #### :boom: Breaking Change

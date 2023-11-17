@@ -2,12 +2,10 @@
 
 module.exports = {
   name: require('./package').name,
-
   options: {
     babel: {
-      plugins: [
-        ...require('ember-cli-code-coverage').buildBabelPlugin(),
-      ],
+      // eslint-disable-next-line node/no-unpublished-require
+      plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
     },
-  }
+  },
 };

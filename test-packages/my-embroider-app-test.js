@@ -54,4 +54,19 @@ describe('app coverage generation', function () {
     let summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
     expect(summary).toMatchSnapshot();
   });
+
+  it('generates coverage with @ember/compat >= 3.1.0', async function () {
+    dir(`${BASE_PATH}/coverage`).assertDoesNotExist();
+
+    let env = { COVERAGE: 'true' };
+    fs.copySync(`${BASE_PATH}/-package-with-compat-3.json`, `${BASE_PATH}/package.json`);
+    await execa('yarn',['install'], { env });
+    await execa('ember', ['test'], { cwd: BASE_PATH, env });
+
+    file(`${BASE_PATH}/coverage/lcov-report/index.html`).assertIsNotEmpty();
+    file(`${BASE_PATH}/coverage/index.html`).assertIsNotEmpty();
+
+    let summary = fs.readJSONSync(`${BASE_PATH}/coverage/coverage-summary.json`);
+    expect(summary).toMatchSnapshot();
+  });
 });

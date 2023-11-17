@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 
-export default Service.extend({
-    testFunc() {
-        return false;
-    }
-});
+export default class MyService extends Service {
+  testFunc() {
+    return false;
+  }
+}
