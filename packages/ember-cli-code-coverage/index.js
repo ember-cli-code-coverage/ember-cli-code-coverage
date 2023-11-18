@@ -55,19 +55,14 @@ module.exports = {
     }
 
     if (opts.embroider === true) {
-      let version = pkgJSON['devDependencies']['@embroider/compat'];
-      let semver = require('semver');
-
-      let usesNewTempDirLocation = semver.satisfies(
-        semver.valid(semver.coerce(version)),
-        '>3.1'
-      );
-
-      if (usesNewTempDirLocation) {
+      try {
+        // Attempt to import the utility @embroider/compat uses in >3.1 to locate the embroider working directory
+        // the presence of this `locateEmbroiderWorkingDir` method coincides with the shift to utilize `rewritten-app` tmp dir
         // eslint-disable-next-line node/no-missing-require
         let { locateEmbroiderWorkingDir } = require('@embroider/core');
         cwd = path.resolve(locateEmbroiderWorkingDir(cwd), 'rewritten-app');
-      } else {
+      } catch (err) {
+        // otherwise, fall back to the method used in embroider <3.1
         let {
           stableWorkspaceDir,
           // eslint-disable-next-line node/no-missing-require
