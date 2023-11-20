@@ -1,4 +1,18 @@
 
+
+## v2.0.3 (2023-11-20)
+
+#### :bug: Bug Fix
+* `ember-cli-code-coverage`
+  * [#387](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/387) support new embroider working dir introduced in embroider/compat >3.1 ([@chrismllr](https://github.com/chrismllr))
+
+#### :house: Internal
+* [#401](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/401) Update release-it packages ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 2
+- Chris Miller ([@chrismllr](https://github.com/chrismllr))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v2.0.2 (2023-11-14)
 
 #### :bug: Bug Fix
