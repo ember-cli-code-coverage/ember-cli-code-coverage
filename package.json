@@ -19,24 +19,6 @@
     "vite": "^4.5.0",
     "vitest": "^1.0.0-beta.4"
   },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
-  },
-  "changelog": {
-    "repo": "kategengler/ember-cli-code-coverage",
-    "labels": {
-      "breaking": ":boom: Breaking Change",
-      "enhancement": ":rocket: Enhancement",
-      "bug": ":bug: Bug Fix",
-      "documentation": ":memo: Documentation",
-      "internal": ":house: Internal"
-    }
-  },
-  "jest": {
-    "testMatch": [
-      "<rootDir>/test-packages/*-test.js"
-    ]
-  },
   "release-it": {
     "plugins": {
       "@release-it-plugins/workspaces": {
@@ -45,10 +27,7 @@
             "test-packages/*/package.json"
           ]
         },
-        "publish": false,
-        "workspaces": [
-          "packages/*"
-        ]
+        "publish": false
       },
       "@release-it-plugins/lerna-changelog": {
         "infile": "CHANGELOG.md",
