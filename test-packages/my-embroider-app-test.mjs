@@ -13,7 +13,7 @@ describe('app coverage generation', function () {
       '^0.47.0',
       '^1.0.0',
       '^2.1.0', 
-      // '^3.1.0' remove when PR https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/387 is merged
+      '^3.1.0'
     ]) {
     it(`generates coverage with @embroider ${embroiderVersion}`, async function (context) {
       let buildPath = await setupTestDir(APP_DIR, env, {

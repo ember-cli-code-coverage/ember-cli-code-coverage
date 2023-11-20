@@ -44,7 +44,7 @@ devDependencies:
     specifier: ~3.28.6
     version: 3.28.6
   ember-cli-code-coverage:
-    specifier: 2.0.1
+    specifier: 2.0.2
     version: link:../../packages/ember-cli-code-coverage
   ember-cli-dependency-checker:
     specifier: ^3.2.0
