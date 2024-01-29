@@ -8,6 +8,7 @@
     "test": "vitest"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.9",
     "@release-it-plugins/lerna-changelog": "^6.0.0",
     "@release-it-plugins/workspaces": "^4.0.0",
     "chai-files": "^1.4.0",
@@ -46,6 +47,6 @@
   "version": "2.0.3",
   "volta": {
     "node": "16.20.2",
-    "pnpm": "8.10.2"
+    "pnpm": "8.15.1"
   }
 }

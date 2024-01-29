@@ -44,7 +44,7 @@ devDependencies:
     specifier: ~3.28.6
     version: 3.28.6
   ember-cli-code-coverage:
-    specifier: 2.0.2
+    specifier: 2.0.3
     version: link:../../packages/ember-cli-code-coverage
   ember-cli-dependency-checker:
     specifier: ^3.2.0
@@ -8642,6 +8642,7 @@ packages:
   /normalize-path@2.1.1:
     resolution: {integrity: sha512-3pKJwH184Xo/lnH6oyP1q2pMd7HcypqqmRs91/6/i2CGtWwIKGCkOOMTm/zXbgTEWHw1uNpNi/igc3ePOYHb6w==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
     dependencies:
       remove-trailing-separator: 1.1.0
     dev: true
@@ -9579,6 +9580,7 @@ packages:
 
   /remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
+    requiresBuild: true
     dev: true
 
   /repeat-element@1.1.4:

@@ -13,7 +13,10 @@ export default async function setupTestDir(APP_DIR, env, deps) {
   }
 
   if (depsReinstallNeeded(deps)) {
-    project.addDevDependency(`ember-cli-code-coverage`, `file:${process.cwd()}/packages/ember-cli-code-coverage`);
+    project.addDevDependency(
+      `ember-cli-code-coverage`,
+      `file:${process.cwd()}/packages/ember-cli-code-coverage`
+    );
   }
 
   await project.write();
@@ -24,17 +27,46 @@ export default async function setupTestDir(APP_DIR, env, deps) {
 
   return project.baseDir;
 }
-  
+
+export async function setupV2AddonTestDirs(DIR, env) {
+  const testProject = Project.fromDir(`test-packages/${DIR}/test-app`, { linkDevDeps: true });
+  const addonProject = Project.fromDir(`test-packages/${DIR}/addon`, { linkDevDeps: true });
+
+  addonProject.addDevDependency(
+    `ember-cli-code-coverage`,
+    `file:${process.cwd()}/packages/ember-cli-code-coverage`
+  );
+
+  await addonProject.write();
+
+  await execa('pnpm', ['install', '--no-frozen-lockfile'], { cwd: addonProject.baseDir, env });
+  // build v2 addon with instrumentation
+  await execa('npm', ['run', 'build'], { cwd: addonProject.baseDir, env });
+
+  testProject.addDevDependency(
+    `ember-cli-code-coverage`,
+    `file:${process.cwd()}/packages/ember-cli-code-coverage`
+  );
+  testProject.addDevDependency(`my-v2-addon-gjs-gts`, `file:${addonProject.baseDir}`);
+
+  await testProject.write();
+
+  await execa('pnpm', ['install', '--no-frozen-lockfile'], { cwd: testProject.baseDir, env });
+
+  return { testAppDir: testProject.baseDir, addonDir: addonProject.baseDir };
+}
+
 function depsReinstallNeeded(deps) {
   return deps && Object.keys(deps).length > 0;
 }
 
-export async function assertCoverageExists(buildPath) {
+export async function assertCoverageExists(buildPath, { isV2Addon } = { isV2Addon: false }) {
   await assertFileIsNotEmpty(`${buildPath}/lcov-report/index.html`);
   await assertFileIsNotEmpty(`${buildPath}/index.html`);
   let summary = await readJSON(`${buildPath}/coverage-summary.json`);
+
   expect(summary).toMatchSnapshot();
-}  
+}
 
 
 export async function assertFileExists(path) {

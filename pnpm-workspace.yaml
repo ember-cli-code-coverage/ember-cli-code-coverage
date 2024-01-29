@@ -1,3 +1,5 @@
 packages:
   - test-packages/*
   - packages/ember-cli-code-coverage
+  - test-packages/*/addon
+  - test-packages/*/test-app

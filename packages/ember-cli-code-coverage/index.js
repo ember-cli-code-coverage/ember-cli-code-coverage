@@ -29,6 +29,16 @@ module.exports = {
   buildBabelPlugin(opts = {}) {
     let cwd = opts.cwd || process.cwd();
     let exclude = ['*/mirage/**/*', '*/node_modules/**/*'];
+    let extension = [
+      '.gjs',
+      '.gts',
+      '.js',
+      '.ts',
+      '.cjs',
+      '.mjs',
+      '.mts',
+      '.cts',
+    ];
     let coverageEnvVar = 'COVERAGE';
     let configBase = 'config';
 
@@ -48,12 +58,17 @@ module.exports = {
       if (config.coverageEnvVar) {
         coverageEnvVar = config.coverageEnvVar;
       }
+
+      if (config.extension) {
+        extension = config.extension;
+      }
     }
 
     if (process.env[coverageEnvVar] !== 'true') {
       return [];
     }
 
+    let useStringLookupForPlugin = false;
     if (opts.embroider === true) {
       try {
         // Attempt to import the utility @embroider/compat uses in >3.1 to locate the embroider working directory
@@ -61,6 +76,7 @@ module.exports = {
         // eslint-disable-next-line node/no-missing-require
         let { locateEmbroiderWorkingDir } = require('@embroider/core');
         cwd = path.resolve(locateEmbroiderWorkingDir(cwd), 'rewritten-app');
+        useStringLookupForPlugin = true;
       } catch (err) {
         // otherwise, fall back to the method used in embroider <3.1
         let {
@@ -72,7 +88,13 @@ module.exports = {
     }
 
     const IstanbulPlugin = require.resolve('babel-plugin-istanbul');
-    return [[IstanbulPlugin, { cwd, include: '**/*', exclude }]];
+    return [
+      // String lookup is needed to workaround https://github.com/embroider-build/embroider/issues/1525
+      useStringLookupForPlugin
+        ? 'ember-cli-code-coverage/lib/gjs-gts-istanbul-ignore-template-plugin'
+        : require('./lib/gjs-gts-istanbul-ignore-template-plugin'),
+      [IstanbulPlugin, { cwd, include: '**/*', exclude, extension }],
+    ];
   },
 
   includedCommands() {
