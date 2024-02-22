@@ -150,7 +150,7 @@ devDependencies:
     specifier: ^2.0.0
     version: 2.0.1
   ember-cli-code-coverage:
-    specifier: link:../../../packages/ember-cli-code-coverage
+    specifier: workspace:*
     version: link:../../../packages/ember-cli-code-coverage
   ember-cli-dependency-checker:
     specifier: ^3.3.2
@@ -222,7 +222,7 @@ devDependencies:
     specifier: ^4.7.0
     version: 4.7.0
   my-v2-addon-gjs-gts:
-    specifier: workspace:*
+    specifier: 2.1.0
     version: link:../addon
   prettier:
     specifier: ^3.0.2

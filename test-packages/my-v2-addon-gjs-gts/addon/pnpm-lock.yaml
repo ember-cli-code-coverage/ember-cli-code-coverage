@@ -125,7 +125,7 @@ devDependencies:
     specifier: ^8.2.2
     version: 8.2.2
   ember-cli-code-coverage:
-    specifier: ^2.0.3
+    specifier: workspace:*
     version: link:../../../packages/ember-cli-code-coverage
   ember-template-lint:
     specifier: ^5.13.0
