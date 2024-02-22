@@ -1,5 +1,15 @@
 
 
+
+## v2.1.0 (2024-02-22)
+
+#### :rocket: Enhancement
+* `ember-cli-code-coverage`
+  * [#405](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/405) Add support for gjs/gts files ([@vstefanovic97](https://github.com/vstefanovic97))
+
+#### Committers: 1
+- Vuk ([@vstefanovic97](https://github.com/vstefanovic97))
+
 ## v2.0.3 (2023-11-20)
 
 #### :bug: Bug Fix
