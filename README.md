@@ -154,6 +154,8 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
 
 - `excludes`: Defaults to `['*/mirage/**/*']`. An array of globs to exclude from instrumentation. Useful to exclude files from coverage statistics.
 
+- `extension`: Defaults to `['.gjs', '.gts', '.js', '.ts', '.cjs', '.mjs', '.mts', '.cts']`. Tell Istanbul to instrument only files with the provided extensions.
+
 - `coverageFolder`: Defaults to `coverage`. A folder relative to the root of your project to store coverage results.
 
 - `parallel`: Defaults to `false`. Should be set to true if parallel testing is being used for separate test runs, for example when using [ember-exam](https://github.com/trentmwillis/ember-exam) with the `--partition` flag. This will generate the coverage reports in directories suffixed with `_<random_string>` to avoid overwriting other threads reports. These reports can be joined by using the `ember coverage-merge` command (potentially as part of the [posttest hook](https://docs.npmjs.com/misc/scripts) in your `package.json`).

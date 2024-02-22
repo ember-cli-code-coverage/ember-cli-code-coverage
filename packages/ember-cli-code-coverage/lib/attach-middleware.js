@@ -8,6 +8,9 @@ const getConfig = require('./config');
 const path = require('path');
 const crypto = require('crypto');
 const fs = require('fs-extra');
+const libSourceMaps = require('istanbul-lib-source-maps');
+
+const sourceMapStore = libSourceMaps.createSourceMapStore();
 
 const WRITE_COVERAGE = '/write-coverage';
 
@@ -134,17 +137,22 @@ function adjustCoverage(coverage, options) {
       namespaceMappings,
       modifyAssetLocation
     );
-    coverage[filePath].path = path.relative(root, relativeToProjectRoot);
-    memo[path.relative(root, relativeToProjectRoot)] = coverage[filePath];
+    coverage[filePath].data.path = path.relative(root, relativeToProjectRoot);
+    memo[path.relative(root, relativeToProjectRoot)] = coverage[filePath].data;
     return memo;
   }, {});
 
   return adjustedCoverage;
 }
 
-function writeCoverage(coverage, options, map) {
+async function writeCoverage(coverage, options, map) {
   let { root } = options;
-  const adjustedCoverage = adjustCoverage(coverage, options);
+
+  const remappedCoverage = await sourceMapStore.transformCoverage(
+    libCoverage.createCoverageMap(coverage)
+  );
+
+  const adjustedCoverage = adjustCoverage(remappedCoverage.data, options);
 
   Object.entries(adjustedCoverage).forEach(([relativePath, cov]) => {
     // this filters out files that dont reside within the project
@@ -187,8 +195,8 @@ function reportCoverage(map, root, configPath) {
   });
 }
 
-function coverageHandler(map, options, req, res) {
-  writeCoverage(req.body, options, map);
+async function coverageHandler(map, options, req, res) {
+  await writeCoverage(req.body, options, map);
   reportCoverage(map, options.root, options.configPath);
 
   res.send(map.getCoverageSummary().toJSON());
