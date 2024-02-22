@@ -33,8 +33,8 @@ devDependencies:
     specifier: ^5.0.5
     version: 5.0.5
   vite:
-    specifier: ^4.5.0
-    version: 4.5.0
+    specifier: ^4.5.2
+    version: 4.5.2
   vitest:
     specifier: ^1.0.0-beta.4
     version: 1.0.0-beta.4
@@ -4573,7 +4573,7 @@ packages:
       mlly: 1.4.2
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 4.5.0
+      vite: 4.5.2
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -4585,8 +4585,8 @@ packages:
       - terser
     dev: true
 
-  /vite@4.5.0:
-    resolution: {integrity: sha512-ulr8rNLA6rkyFAlVWw2q5YJ91v098AFQ2R0PRFwPzREXOUJQPtFUG0t+/ZikhaOCDqFoDhN6/v8Sq0o4araFAw==}
+  /vite@4.5.2:
+    resolution: {integrity: sha512-tBCZBNSBbHQkaGyhGCDUGqeo2ph8Fstyp6FMSvTtsXeZSPpSMGlviAOav2hxVTqFcx8Hj/twtWKsMJXNY0xI8w==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -4663,7 +4663,7 @@ packages:
       strip-literal: 1.3.0
       tinybench: 2.5.1
       tinypool: 0.8.1
-      vite: 4.5.0
+      vite: 4.5.2
       vite-node: 1.0.0-beta.4
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
