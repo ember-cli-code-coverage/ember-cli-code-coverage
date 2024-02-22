@@ -1,6 +1,15 @@
 
 
 
+
+## v2.1.1 (2024-02-22)
+
+#### :house: Internal
+* [#406](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/406) Use workspace versions, fix pnpm version ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v2.1.0 (2024-02-22)
 
 #### :rocket: Enhancement
