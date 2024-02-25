@@ -64,8 +64,12 @@ export function forceModulesToBeLoaded(filterFunction) {
   });
 }
 
-export async function sendCoverage(callback) {
+export async function sendCoverage(callback, options) {
   let coverageData = window.__coverage__; //eslint-disable-line no-undef
+  let { coverageApiPath, isHtmlReportNotGenerated } = options; // if isHtmlReportNotGenerated is null/undefined, writeCoverageInfo will be called; if it is explicitly passed as `true`, writeCoverageInfo will not be called
+  if (!coverageApiPath) {
+    coverageApiPath = '/write-coverage';
+  }
 
   if (coverageData === undefined) {
     if (callback) {
@@ -77,7 +81,7 @@ export async function sendCoverage(callback) {
 
   let body = JSON.stringify(coverageData || {});
 
-  let response = await fetch('/write-coverage', {
+  let response = await fetch(coverageApiPath, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -85,7 +89,9 @@ export async function sendCoverage(callback) {
     body,
   });
   let responseData = await response.json();
-  writeCoverageInfo(responseData);
+  if (!isHtmlReportNotGenerated) {
+    writeCoverageInfo(responseData);
+  }
 
   if (callback) {
     callback();
