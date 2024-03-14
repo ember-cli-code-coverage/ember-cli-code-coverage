@@ -19,6 +19,25 @@ function logError(err, req, res, next) {
   next(err);
 }
 
+// ember-template-import has weird sourcemaps for gjs/gts
+// so we need to do some custom path remapping
+// Example `my-app/components/my-app/components/file.gjs` -> `my-app/components/file.gjs`
+function normalizePathForTemplateImports(filepath) {
+  const filepathArray = filepath.split(path.sep);
+  const lastIndexOfTopDirName = filepathArray.lastIndexOf(filepathArray[0]);
+
+  // This means we are dealing with v2 addon test which already has correct path
+  if (lastIndexOfTopDirName === 0) {
+    return filepath;
+  }
+
+  const dedupedPathArray = filepathArray.filter(
+    (_, index) => index >= lastIndexOfTopDirName
+  );
+
+  return dedupedPathArray.join(path.sep);
+}
+
 /*
  * This function normalizes the relativePath to match what we get from a classical app. Its goal
  * is to change any in repo paths like: app-namespace/lib/in-repo-namespace/components/foo.js to
@@ -78,9 +97,10 @@ function adjustCoverageKey(
   namespaceMappings,
   modifyAssetLocation
 ) {
-  let relativePath = path.relative(root, filepath);
-
   let embroiderTmpPathRegex = /embroider\/.{6}/gm;
+  let gjsGtsRegex = /\.g[tj]s$/gm;
+
+  let relativePath = path.relative(root, filepath);
 
   // we can determine if file is coming from embroider based on how the path looks
   if (embroiderTmpPathRegex.test(filepath)) {
@@ -89,6 +109,10 @@ function adjustCoverageKey(
     // This lives in a directory outside of the current one, likely a monorepo.
     // In this case we can assume that the original path is correct.
     return filepath;
+  }
+
+  if (gjsGtsRegex.test(relativePath)) {
+    relativePath = normalizePathForTemplateImports(relativePath);
   }
 
   let namespace = relativePath.split(path.sep)[0];

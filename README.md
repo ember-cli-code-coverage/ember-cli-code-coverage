@@ -141,6 +141,16 @@ Steps:
     }
   }
 ```
+## ember-template-imports integration
+
+* in `ember-cli-build.js
+```
+  const app = new EmberApp(defaults, {
+    'ember-template-imports': {
+      inline_source_map: true,
+    },
+  });
+```
 
 ## Configuration
 

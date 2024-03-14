@@ -1,7 +1,7 @@
 'use strict';
 
 import { execa } from 'execa';
-import { assertCoverageExists, setupV2AddonTestDirs } from './utils.mjs';
+import { setupV2AddonTestDirs } from './utils.mjs';
 import { describe, it, expect } from 'vitest';
 import { readJSON } from 'fs-extra';
 

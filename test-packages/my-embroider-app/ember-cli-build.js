@@ -12,6 +12,9 @@ module.exports = function (defaults) {
         }),
       ],
     },
+    'ember-cli-babel': {
+      throwUnlessParallelizable: true,
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

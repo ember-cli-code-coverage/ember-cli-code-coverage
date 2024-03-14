@@ -17,6 +17,9 @@ devDependencies:
   chai-files:
     specifier: ^1.4.0
     version: 1.4.0
+  content-tag:
+    specifier: ^2.0.1
+    version: 2.0.1
   execa:
     specifier: 8.0.1
     version: 8.0.1
@@ -1392,6 +1395,10 @@ packages:
       unique-string: 3.0.0
       write-file-atomic: 3.0.3
       xdg-basedir: 5.1.0
+    dev: true
+
+  /content-tag@2.0.1:
+    resolution: {integrity: sha512-jxsETSDs5NbNwyiDuIp672fUMhUyu8Qxc5MOBOJOcgW/fQESI6o5K1LBDrnEE7Bh810a685lWEZHTF4jQYGEEw==}
     dev: true
 
   /convert-source-map@2.0.0:

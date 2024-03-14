@@ -21,17 +21,17 @@ export default template(\`
 `;
 
 exports[`gjs-gts-ignore-template-plugin > it does not add istanbul ignore comment before "template" invocation if template is not imported from "@ember/template-compiler" 1`] = `
-"import { template } from "@ember/template-compiler";
+"import { template as template1 } from "@ember/template-compiler";
 import { on } from '@ember/modifier';
 let counter = 0;
 function bar() {
-  const template = () => {};
-  template();
+  const template1 = () => {};
+  template1();
   counter++;
   console.log(counter);
 }
 /* istanbul ignore next */
-export default template(\`
+export default template1(\`
           <button {{on "click" bar}}>
            increment
           </button>
@@ -47,8 +47,6 @@ exports[`gjs-gts-ignore-template-plugin > it skips files if it\`s a regular js f
 import { on } from '@ember/modifier';
 let counter = 0;
 function bar() {
-  const template = () => {};
-  template();
   counter++;
   console.log(counter);
 }
@@ -68,8 +66,6 @@ exports[`gjs-gts-ignore-template-plugin > it skips files if it\`s a regular ts f
 import { on } from '@ember/modifier';
 let counter = 0;
 function bar() {
-  const template = () => {};
-  template();
   counter++;
   console.log(counter);
 }
