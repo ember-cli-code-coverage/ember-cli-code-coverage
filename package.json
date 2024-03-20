@@ -13,6 +13,7 @@
     "@release-it-plugins/lerna-changelog": "^6.0.0",
     "@release-it-plugins/workspaces": "^4.0.0",
     "chai-files": "^1.4.0",
+    "content-tag": "^2.0.1",
     "execa": "8.0.1",
     "fixturify-project": "~6.0.0",
     "fs-extra": "~11.1.1",

@@ -60,7 +60,7 @@ function depsReinstallNeeded(deps) {
   return deps && Object.keys(deps).length > 0;
 }
 
-export async function assertCoverageExists(buildPath, { isV2Addon } = { isV2Addon: false }) {
+export async function assertCoverageExists(buildPath) {
   await assertFileIsNotEmpty(`${buildPath}/lcov-report/index.html`);
   await assertFileIsNotEmpty(`${buildPath}/index.html`);
   let summary = await readJSON(`${buildPath}/coverage-summary.json`);

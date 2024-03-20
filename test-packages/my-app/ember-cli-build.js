@@ -6,6 +6,17 @@ module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     babel: {
       plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
+      sourceMaps: 'inline',
+    },
+    'ember-cli-babel': {
+      throwUnlessParallelizable: true,
+    },
+    'ember-template-imports': {
+      inline_source_map: true,
+    },
+    sourcemaps: {
+      enabled: true,
+      extensions: ['js'],
     },
   });
 

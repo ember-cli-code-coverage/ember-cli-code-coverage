@@ -20,11 +20,12 @@ const gjsGtsTemplateIgnoreVisitor = {
     const { node } = path;
     let { callee } = node;
 
-    if (callee.name !== 'template') {
+    // if there is already a `template` variable in scope, content-tag will use `template1` local name and so on.
+    if (!/^template\d*$/.test(callee.name)) {
       return;
     }
 
-    const callScopeBinding = path.scope.getBinding('template');
+    const callScopeBinding = path.scope.getBinding(callee.name);
 
     if (
       callScopeBinding.kind === 'module' &&
@@ -50,14 +51,22 @@ module.exports = function () {
     visitor: {
       Program: {
         enter(path, state) {
-          const filename = state.file.opts.filename;
+          const inputSourceMap = state.file.inputMap?.sourcemap;
 
-          if (!filename?.match(/\.g[tj]s$/)) {
+          if (!inputSourceMap) {
             return;
           }
 
-          // We need to do early traverse to make sure this runs before istanbuls plugin
-          path.traverse(gjsGtsTemplateIgnoreVisitor, state);
+          const sourcePaths = inputSourceMap.sources;
+
+          const isGjsGtsFile = sourcePaths.some((source) =>
+            source.match(/\.g[tj]s$/)
+          );
+
+          if (isGjsGtsFile) {
+            // We need to do early traverse to make sure this runs before istanbuls plugin
+            path.traverse(gjsGtsTemplateIgnoreVisitor, state);
+          }
         },
       },
     },
