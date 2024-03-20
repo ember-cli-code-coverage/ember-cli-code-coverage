@@ -6,77 +6,84 @@
 Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember apps.
 
 ## Requirements
-* If using Mocha, Testem `>= 1.6.0` for which you need ember-cli `> 2.4.3`
-* If using Mirage you need `ember-cli-mirage >= 0.1.13`
-* If using Pretender (even as a dependency of Mirage) you need `pretender >= 0.11.0`
-* If using Mirage or Pretender, you need to [set up a passthrough for coverage to be written](#create-a-passthrough-when-intercepting-all-ajax-requests-in-tests).
-* `ember-cli-babel >= 6.0.0`
 
+- If using Mocha, Testem `>= 1.6.0` for which you need ember-cli `> 2.4.3`
+- If using Mirage you need `ember-cli-mirage >= 0.1.13`
+- If using Pretender (even as a dependency of Mirage) you need `pretender >= 0.11.0`
+- If using Mirage or Pretender, you need to [set up a passthrough for coverage to be written](#create-a-passthrough-when-intercepting-all-ajax-requests-in-tests).
+- `ember-cli-babel >= 6.0.0`
 
 ## Installation
 
-* `ember install ember-cli-code-coverage`
+- `ember install ember-cli-code-coverage`
 
 ## Setup
 
-In order to gather code coverage information, you must first install the Babel plugins in each project that you'd like to have instrumented.
+1. Install the Babel plugins.
 
-For classic apps (ember-cli-build.js):
+   In order to gather code coverage information, you must first install the Babel plugins in each project that you'd like to have instrumented.
 
-```js
-let app = new EmberApp(defaults, {
-  babel: {
-    plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
-  },
-});
-```
+   For classic apps (ember-cli-build.js):
 
-For embroider apps (ember-cli-build.js):
+   ```js
+   let app = new EmberApp(defaults, {
+     babel: {
+       plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
+     },
+   });
+   ```
 
-```js
-let app = new EmberApp(defaults, {
-  babel: {
-    plugins: [...require('ember-cli-code-coverage').buildBabelPlugin({ embroider: true })],
-  },
-});
-```
+   For embroider apps (ember-cli-build.js):
 
-For in-repo addons (index.js):
+   ```js
+   let app = new EmberApp(defaults, {
+     babel: {
+       plugins: [
+         ...require('ember-cli-code-coverage').buildBabelPlugin({
+           embroider: true,
+         }),
+       ],
+     },
+   });
+   ```
 
-```js
-module.exports = {
-  name: require('./package').name,
+   For in-repo addons (index.js):
 
-  options: {
-    babel: {
-      plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
-    },
-  },
-};
-```
+   ```js
+   module.exports = {
+     name: require('./package').name,
 
-For in-repo engines (index.js):
+     options: {
+       babel: {
+         plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
+       },
+     },
+   };
+   ```
 
-```js
-module.exports = EngineAddon.extend({
-  // ...
-  included() {
-    this._super.included.apply(this, arguments);
-    this.options.babel.plugins.push(...require('ember-cli-code-coverage').buildBabelPlugin());
-  },
-});
-```
+   For in-repo engines (index.js):
 
-tests/test-helpers.js:
-```js
-import { forceModulesToBeLoaded, sendCoverage } from 'ember-cli-code-coverage/test-support';
-import Qunit from 'qunit';
+   ```js
+   module.exports = EngineAddon.extend({
+     // ...
+     included() {
+       this._super.included.apply(this, arguments);
+       this.options.babel.plugins.push(...require('ember-cli-code-coverage').buildBabelPlugin());
+     },
+   });
+   ```
 
-QUnit.done(async function() {
-  forceModulesToBeLoaded();
-  await sendCoverage();
-});
-```
+2. Add the following code to `tests/test-helper.js`.
+
+   ```js
+   import { forceModulesToBeLoaded, sendCoverage } from 'ember-cli-code-coverage/test-support';
+   import Qunit from 'qunit';
+
+   QUnit.done(async function () {
+     forceModulesToBeLoaded();
+     await sendCoverage();
+   });
+   ```
 
 ## Usage
 
@@ -108,11 +115,20 @@ followed by
 
 `COVERAGE=true ember test --path=dist`
 
+## Coverage Artifacts
+
+The coverage artifacts are stored in the `coverageFolder` specified in the configuration. By default, this is `coverage`. The artifacts are:
+
+- `coverage-summary.json`: The final coverage report in JSON format.
+- `lcov.info`: The final coverage report in LCOV format.
+- `lcov-report`: The final coverage report in HTML format.
+
 ## TypeScript integration
 
 Steps:
 
-* in `tsconfig.json`
+- in `tsconfig.json`
+
 ```js
   {
     "compilerOptions": {
@@ -121,19 +137,23 @@ Steps:
     }
   }
 ```
-* in `ember-cli-build.js`
+
+- in `ember-cli-build.js`
+
 ```js
-  const app = new EmberApp(defaults, {
-    babel: {
-      sourceMaps: 'inline'
-    },
-    sourcemaps: {
-      enabled: true,
-      extensions: ['js']
-    }
-  });
+const app = new EmberApp(defaults, {
+  babel: {
+    sourceMaps: 'inline',
+  },
+  sourcemaps: {
+    enabled: true,
+    extensions: ['js'],
+  },
+});
 ```
-* in `package.json` specify latest available version
+
+- in `package.json` specify latest available version
+
 ```js
   {
     devDependencies: {
@@ -154,9 +174,9 @@ Steps:
 
 ## Configuration
 
-Configuration is optional. It should be put in a file at `config/coverage.js` (`configPath` configuration in package.json is honored). In addition to this you can configure Istanbul by adding a `.istanbul.yml` file to the root directory of your app (See https://github.com/gotwarlost/istanbul#configuring)
+Configuration is optional. It should be put in a file at `config/coverage.js` (`configPath` configuration in package.json is honored). In addition to this you can configure Istanbul by adding a `.istanbul.yml` file to the root directory of your app (See [https://github.com/gotwarlost/istanbul#configuring])
 
-#### Options
+### Options
 
 - `coverageEnvVar`: Defaults to `COVERAGE`. This is the environment variable that when set will cause coverage metrics to be generated.
 
@@ -173,10 +193,11 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
 - `modifyAssetLocation`: Optional function that will allow you to override where a file actually lives inside of your project. See [Advanced customization](#modifyassetlocation) on how to use this function in practice.
 
 #### Example
+
 ```js
-  module.exports = {
-    coverageEnvVar: 'COV'
-  }
+module.exports = {
+  coverageEnvVar: 'COV',
+};
 ```
 
 ## Create a passthrough when intercepting all ajax requests in tests
@@ -185,21 +206,21 @@ To work, this addon has to post coverage results back to a middleware at `/write
 
 If you are using [`ember-cli-mirage`](http://www.ember-cli-mirage.com) you should add the following:
 
-```
+```js
 // in mirage/config.js
 
-  this.passthrough('/write-coverage');
-  this.namespace = 'api';  // It's important that the passthrough for coverage is before the namespace, otherwise it will be prefixed.
+this.passthrough('/write-coverage');
+this.namespace = 'api'; // It's important that the passthrough for coverage is before the namespace, otherwise it will be prefixed.
 ```
 
 If you are using [`ember-cli-pretender`](https://github.com/rwjblue/ember-cli-pretender) you should add the following:
 
-```
+```js
 // where ever you set up the Pretender Server
 
-  var server = new Pretender(function () {
-    this.post('/write-coverage', this.passthrough);
-  });
+var server = new Pretender(function () {
+  this.post('/write-coverage', this.passthrough);
+});
 ```
 
 ## Advanced customization
@@ -212,7 +233,9 @@ you to specify which modules will be force loaded or not:
 ```js
 QUnit.done(async () => {
   // type will be either webpack and/or require
-  forceModulesToBeLoaded((type, moduleName) => { return true; });
+  forceModulesToBeLoaded((type, moduleName) => {
+    return true;
+  });
   await sendCoverage();
 });
 ```
