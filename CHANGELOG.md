@@ -2,6 +2,16 @@
 
 
 
+
+## v2.1.2 (2024-03-25)
+
+#### :bug: Bug Fix
+* `ember-cli-code-coverage`
+  * [#408](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/408) Fix gjs/gts bugs for ember-template-imports and ember-cli-babel ([@vstefanovic97](https://github.com/vstefanovic97))
+
+#### Committers: 1
+- Vuk ([@vstefanovic97](https://github.com/vstefanovic97))
+
 ## v2.1.1 (2024-02-22)
 
 #### :house: Internal
