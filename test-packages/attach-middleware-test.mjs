@@ -73,4 +73,18 @@ describe('attach-middleware', () => {
     expect(adjustCoverageKey(root, join(root, 'hello/test-support/foo.js'), namespaceMappings))
       .toEqual('lib/hello/addon-test-support/foo.js');
   });
+
+  it('adjustCoverageKey works for a scoped addon', () => {
+    let root = '/root/';
+    let namespaceMappings = new Map([
+      ['@foo/bar', 'addon'],
+      ['@foo/bar/test-support', 'addon-test-support'],
+    ]);
+
+    expect(adjustCoverageKey(root, join(root, '@foo/bar/components/foo.js'), namespaceMappings))
+      .toEqual('addon/components/foo.js');
+
+    expect(adjustCoverageKey(root, join(root, '@foo/bar/test-support/foo.js'), namespaceMappings))
+      .toEqual('addon-test-support/foo.js');
+  });
 });
