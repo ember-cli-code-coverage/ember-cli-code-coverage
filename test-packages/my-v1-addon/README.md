@@ -1,4 +1,4 @@
-my-addon
+my-v1-addon
 ==============================================================================
 
 [Short description of the addon.]
@@ -16,7 +16,7 @@ Installation
 ------------------------------------------------------------------------------
 
 ```
-ember install my-addon
+ember install my-v1-addon
 ```
 
 

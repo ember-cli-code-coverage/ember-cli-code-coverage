@@ -3,7 +3,7 @@
 ## Installation
 
 * `git clone <repository-url>`
-* `cd my-addon`
+* `cd scoped-v1-addon`
 * `npm install`
 
 ## Linting

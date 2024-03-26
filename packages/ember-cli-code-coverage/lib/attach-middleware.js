@@ -101,7 +101,6 @@ function adjustCoverageKey(
   let gjsGtsRegex = /\.g[tj]s$/gm;
 
   let relativePath = path.relative(root, filepath);
-
   // we can determine if file is coming from embroider based on how the path looks
   if (embroiderTmpPathRegex.test(filepath)) {
     relativePath = normalizeRelativePath(root, filepath);
@@ -115,8 +114,16 @@ function adjustCoverageKey(
     relativePath = normalizePathForTemplateImports(relativePath);
   }
 
-  let namespace = relativePath.split(path.sep)[0];
-  let pathWithoutNamespace = relativePath.split(path.sep).slice(1);
+  let namespace, pathWithoutNamespace;
+
+  if (relativePath.startsWith('@')) {
+    namespace = relativePath.split(path.sep).slice(0, 2).join('/');
+    pathWithoutNamespace = relativePath.split(path.sep).slice(2);
+  } else {
+    namespace = relativePath.split(path.sep)[0];
+    pathWithoutNamespace = relativePath.split(path.sep).slice(1);
+  }
+
   let namespaceKey = namespace;
 
   if (pathWithoutNamespace[0] === 'test-support') {
