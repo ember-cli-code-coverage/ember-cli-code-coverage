@@ -3,6 +3,24 @@
 
 
 
+
+## v3.0.0 (2024-03-26)
+
+#### :boom: Breaking Change
+* `ember-cli-code-coverage`
+  * [#411](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/411) Require node >= 18 ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :bug: Bug Fix
+* `ember-cli-code-coverage`
+  * [#412](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/412) Fix scoped addon names ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :memo: Documentation
+* [#351](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/351) Add documentation for setup in standalone addons ([@robinborst95](https://github.com/robinborst95))
+
+#### Committers: 2
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Robin Borst  ([@robinborst95](https://github.com/robinborst95))
+
 ## v2.1.2 (2024-03-25)
 
 #### :bug: Bug Fix
