@@ -17,10 +17,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
       - uses: pnpm/action-setup@v2
         name: Install pnpm
         with:
-          version: 8.15.1
+          version: 8.15.5
           run_install: false
       - name: Get pnpm store directory
         shell: bash
@@ -33,7 +36,6 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - uses: volta-cli/action@v4
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint:js
         working-directory: packages/ember-cli-code-coverage

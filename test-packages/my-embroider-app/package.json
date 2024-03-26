@@ -69,12 +69,9 @@
     "webpack": "^5.51.1"
   },
   "engines": {
-    "node": "14.* || 16.* || >= 18"
+    "node": ">= 18"
   },
   "ember": {
     "edition": "octane"
-  },
-  "volta": {
-    "node": "16.20.2"
   }
 }
