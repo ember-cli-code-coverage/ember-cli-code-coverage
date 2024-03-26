@@ -65,7 +65,7 @@
     "qunit-dom": "^1.6.0"
   },
   "engines": {
-    "node": "14.* || 16.* || >= 18"
+    "node": ">= 18"
   },
   "ember": {
     "edition": "octane"
@@ -74,8 +74,5 @@
     "paths": [
       "local-lib/addons/my-in-repo-addon"
     ]
-  },
-  "volta": {
-    "node": "16.20.2"
   }
 }

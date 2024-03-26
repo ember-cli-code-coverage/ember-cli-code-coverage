@@ -66,13 +66,10 @@
     "qunit-dom": "^1.6.0"
   },
   "engines": {
-    "node": "14.* || 16.* || >= 18"
+    "node": ">= 18"
   },
   "ember": {
     "edition": "octane"
-  },
-  "volta": {
-    "node": "16.20.2"
   },
   "ember-addon": {
     "paths": [

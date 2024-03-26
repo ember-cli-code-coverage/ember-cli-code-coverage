@@ -102,7 +102,7 @@
     }
   },
   "engines": {
-    "node": "14.* || 16.* || >= 18"
+    "node": ">= 18"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -113,8 +113,5 @@
   "ember-addon": {
     "configPath": "tests/dummy/config",
     "before": "ember-cli-typescript"
-  },
-  "volta": {
-    "extends": "../../package.json"
   }
 }

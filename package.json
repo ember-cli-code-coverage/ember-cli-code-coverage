@@ -22,6 +22,10 @@
     "vite": "^4.5.0",
     "vitest": "^1.0.0-beta.4"
   },
+  "engines": {
+    "node": ">= 18",
+    "pnpm": "^8.15.5"
+  },
   "release-it": {
     "plugins": {
       "@release-it-plugins/workspaces": {
@@ -41,9 +45,5 @@
       "tokenRef": "GITHUB_AUTH"
     },
     "npm": false
-  },
-  "volta": {
-    "node": "16.20.2",
-    "pnpm": "8.15.1"
   }
 }
