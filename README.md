@@ -41,7 +41,7 @@ let app = new EmberApp(defaults, {
 });
 ```
 
-For in-repo addons (index.js):
+For in-repo and standalone addons (index.js):
 
 ```js
 module.exports = {
@@ -63,6 +63,16 @@ module.exports = EngineAddon.extend({
   included() {
     this._super.included.apply(this, arguments);
     this.options.babel.plugins.push(...require('ember-cli-code-coverage').buildBabelPlugin());
+  },
+});
+```
+
+For `app` files in standalone addons (ember-cli-build.js):
+
+```js
+let app = new EmberAddon(defaults, {
+  babel: {
+    plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()]
   },
 });
 ```
