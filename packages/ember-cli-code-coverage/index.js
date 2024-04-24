@@ -144,7 +144,10 @@ module.exports = {
    * @param {Object} startOptions - Express server start options
    */
   serverMiddleware(startOptions) {
-    attachMiddleware.serverMiddleware(startOptions.app, this._middlewareConfig());
+    attachMiddleware.serverMiddleware(
+      startOptions.app,
+      this._middlewareConfig()
+    );
   },
 
   testemMiddleware(app) {
@@ -160,6 +163,6 @@ module.exports = {
       configPath: this.project.configPath(),
       root: this.project.root,
       namespaceMappings: this.buildNamespaceMappings(),
-    }
+    };
   },
 };
