@@ -143,20 +143,26 @@ module.exports = {
    * If coverage is enabled attach coverage middleware to the express server run by ember-cli
    * @param {Object} startOptions - Express server start options
    */
-  serverMiddleware(startOptions, config) {
-    attachMiddleware.serverMiddleware(startOptions.app, config);
+  serverMiddleware(startOptions) {
+    attachMiddleware.serverMiddleware(
+      startOptions.app,
+      this._middlewareConfig()
+    );
   },
 
   testemMiddleware(app) {
-    const config = {
+    // if we're running `ember test --server` use the `serverMiddleware`.
+    if (process.argv.includes('--server') || process.argv.includes('-s')) {
+      return this.serverMiddleware({ app });
+    }
+    attachMiddleware.testMiddleware(app, this._middlewareConfig());
+  },
+
+  _middlewareConfig() {
+    return {
       configPath: this.project.configPath(),
       root: this.project.root,
       namespaceMappings: this.buildNamespaceMappings(),
     };
-    // if we're running `ember test --server` use the `serverMiddleware`.
-    if (process.argv.includes('--server') || process.argv.includes('-s')) {
-      return this.serverMiddleware({ app }, config);
-    }
-    attachMiddleware.testMiddleware(app, config);
   },
 };
