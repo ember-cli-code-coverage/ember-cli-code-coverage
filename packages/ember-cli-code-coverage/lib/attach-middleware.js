@@ -3,12 +3,13 @@
 const bodyParser = require('body-parser').json({ limit: '500mb' });
 const libCoverage = require('istanbul-lib-coverage');
 const libReport = require('istanbul-lib-report');
-const reports = require('istanbul-reports');
+
 const getConfig = require('./config');
 const path = require('path');
 const crypto = require('crypto');
 const fs = require('fs-extra');
 const libSourceMaps = require('istanbul-lib-source-maps');
+const { createReport } = require('./reports');
 
 const sourceMapStore = libSourceMaps.createSourceMapStore();
 
@@ -219,7 +220,7 @@ function reportCoverage(map, root, configPath) {
   });
 
   reporters.forEach((reporter) => {
-    let report = reports.create(reporter, {});
+    let report = createReport(reporter);
 
     // call execute to synchronously create and write the report to disk
     report.execute(context);
