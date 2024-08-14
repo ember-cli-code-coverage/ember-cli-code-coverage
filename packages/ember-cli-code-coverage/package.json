@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-code-coverage",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Code coverage for ember projects using Istanbul",
   "keywords": [
     "ember-addon"

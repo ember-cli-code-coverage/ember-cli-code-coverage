@@ -4,6 +4,16 @@
 
 
 
+
+## v3.0.1 (2024-08-14)
+
+#### :bug: Bug Fix
+* `ember-cli-code-coverage`
+  * [#413](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/413) Fix serverMiddleware for development mode ([@krasnoukhov](https://github.com/krasnoukhov))
+
+#### Committers: 1
+- Dmitry Krasnoukhov ([@krasnoukhov](https://github.com/krasnoukhov))
+
 ## v3.0.0 (2024-03-26)
 
 #### :boom: Breaking Change
