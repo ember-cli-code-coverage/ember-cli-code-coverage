@@ -77,15 +77,33 @@ let app = new EmberAddon(defaults, {
 });
 ```
 
+config/environment.js:
+```js
+APP: {
+    // ...
+    isRunningWithServerArgs: process.argv.includes('--server') || process.argv.includes('-s')
+}
+```
+
 tests/test-helpers.js:
 ```js
 import { forceModulesToBeLoaded, sendCoverage } from 'ember-cli-code-coverage/test-support';
 import Qunit from 'qunit';
 
-QUnit.done(async function() {
-  forceModulesToBeLoaded();
-  await sendCoverage();
-});
+if (config.APP.isRunningWithServerArgs) {
+  // until Testem is patched, this will fail to POST coverage in CI mode (running tests with -s or --server as an argument)
+  // Ref: https://github.com/testem/testem/issues/1577
+  QUnit.done(async function () {
+    forceModulesToBeLoaded();
+    await sendCoverage();
+  });
+} else {
+  //eslint-disable-next-line no-undef
+  Testem.afterTests(function (config, data, callback) {
+    forceModulesToBeLoaded();
+    sendCoverage(callback);
+  });
+}
 ```
 
 ## Usage
