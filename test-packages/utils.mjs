@@ -8,7 +8,7 @@ import { execa } from 'execa';
 export default async function setupTestDir(APP_DIR, env, deps) {
   const project = Project.fromDir(`test-packages/${APP_DIR}`, { linkDevDeps: true });
 
-  for (const [key,value] of Object.entries(deps)) {
+  for (const [key, value] of Object.entries(deps)) {
     project.addDevDependency(key, value);
   }
 
@@ -68,9 +68,8 @@ export async function assertCoverageExists(buildPath) {
   expect(summary).toMatchSnapshot();
 }
 
-
 export async function assertFileExists(path) {
-  if (!await exists(path)) {
+  if (!(await exists(path))) {
     throw new Error(`File ${path} does not exist`);
   }
 }
@@ -82,5 +81,5 @@ export async function assertDirDoesNotExists(dir) {
 }
 
 export async function assertFileIsNotEmpty(path) {
-  return  (await readFile(path, 'utf8').length) > 0;
+  return (await readFile(path, 'utf8').length) > 0;
 }

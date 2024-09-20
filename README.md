@@ -170,7 +170,13 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
 
 - `coverageEnvVar`: Defaults to `COVERAGE`. This is the environment variable that when set will cause coverage metrics to be generated.
 
-- `reporters`: Defaults to `['lcov', 'html']`. The `json-summary` reporter will be added to anything set here, it is required. This can be any [reporters supported by Istanbul](https://github.com/gotwarlost/istanbul/tree/master/lib/report).
+- `reporters`: Defaults to `['lcov', 'html']`. The `json-summary` reporter will
+  be added to anything set here, it is required. This can be any [reporters
+  supported by
+  Istanbul](https://github.com/gotwarlost/istanbul/tree/master/lib/report).
+  Reporters can be configured with array-style syntax, for example, here are
+  options to `lcov` with a different `projectRoot`: `[['lcov', { projectRoot:
+  '/packages/addon' }], 'html']`
 
 - `excludes`: Defaults to `['*/mirage/**/*']`. An array of globs to exclude from instrumentation. Useful to exclude files from coverage statistics.
 

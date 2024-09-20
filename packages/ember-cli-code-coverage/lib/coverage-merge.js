@@ -3,6 +3,7 @@
 const path = require('path');
 const getConfig = require('./config');
 const dir = require('node-dir');
+const { createReport } = require('./reports');
 
 /**
  * Merge together coverage files created when running in multiple threads,
@@ -15,7 +16,6 @@ module.exports = {
   run() {
     const libCoverage = require('istanbul-lib-coverage');
     const libReport = require('istanbul-lib-report');
-    const reports = require('istanbul-reports');
 
     let config = this._getConfig();
 
@@ -56,7 +56,7 @@ module.exports = {
           });
 
           reporters.forEach((reporter) => {
-            let report = reports.create(reporter, {});
+            let report = createReport(reporter);
 
             // call execute to synchronously create and write the report to disk
             report.execute(context);
