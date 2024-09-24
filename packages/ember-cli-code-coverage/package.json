@@ -35,13 +35,13 @@
   },
   "dependencies": {
     "babel-plugin-istanbul": "^6.1.1",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.3",
     "ember-cli-babel": "^7.26.6",
-    "express": "^4.17.3",
+    "express": "^4.21.0",
     "fs-extra": "^9.0.0",
-    "istanbul-lib-coverage": "^3.2.1",
+    "istanbul-lib-coverage": "^3.2.2",
     "istanbul-lib-report": "^3.0.1",
-    "istanbul-reports": "^3.1.6",
+    "istanbul-reports": "^3.1.7",
     "istanbul-lib-source-maps": "^4.0.1",
     "node-dir": "^0.1.17",
     "walk-sync": "^2.1.0"
