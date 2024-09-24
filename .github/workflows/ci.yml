@@ -3,12 +3,14 @@ name: CI
 on:
   push:
     branches:
+      - main
       - master
       - 'v*'
-  pull_request:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 3 * * *' # daily, at 3am
+  pull_request: {}
+
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true  
 
 jobs:
   test:
@@ -17,26 +19,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
         with:
           node-version: 18.x
       - uses: pnpm/action-setup@v2
-        name: Install pnpm
         with:
-          version: 8.15.5
-          run_install: false
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - run: pnpm install --frozen-lockfile
+          version: 9
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
       - run: pnpm lint:js
         working-directory: packages/ember-cli-code-coverage
       - run: pnpm test
