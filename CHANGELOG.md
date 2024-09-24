@@ -5,6 +5,22 @@
 
 
 
+
+## v3.1.0 (2024-09-24)
+
+#### :rocket: Enhancement
+* `ember-cli-code-coverage`
+  * [#426](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/426) Bump some deps ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#419](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/419) Add Config per Reporter ([@gossi](https://github.com/gossi))
+
+#### :house: Internal
+* `ember-cli-code-coverage`
+  * [#425](https://github.com/ember-cli-code-coverage/ember-cli-code-coverage/pull/425) pnpm 9 ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 2
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Thomas Gossmann ([@gossi](https://github.com/gossi))
+
 ## v3.0.1 (2024-08-14)
 
 #### :bug: Bug Fix
