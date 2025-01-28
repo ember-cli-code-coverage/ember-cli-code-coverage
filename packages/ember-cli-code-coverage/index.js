@@ -28,6 +28,7 @@ module.exports = {
    */
   buildBabelPlugin(opts = {}) {
     let cwd = opts.cwd || process.cwd();
+    let include = ['**/*'];
     let exclude = ['*/mirage/**/*', '*/node_modules/**/*'];
     let extension = [
       '.gjs',
@@ -50,6 +51,10 @@ module.exports = {
 
     if (fs.existsSync(path.join(cwd, configBase, 'coverage.js'))) {
       let config = require(path.join(cwd, configBase, 'coverage.js'));
+
+      if (config.includes) {
+        include = config.includes;
+      }
 
       if (config.excludes) {
         exclude = config.excludes;
@@ -89,7 +94,7 @@ module.exports = {
     return [
       // String lookup is needed to workaround https://github.com/embroider-build/embroider/issues/1525
       path.resolve(__dirname, 'lib/gjs-gts-istanbul-ignore-template-plugin'),
-      [IstanbulPlugin, { cwd, include: '**/*', exclude, extension }],
+      [IstanbulPlugin, { cwd, include, exclude, extension }],
     ];
   },
 

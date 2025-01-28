@@ -178,6 +178,9 @@ Configuration is optional. It should be put in a file at `config/coverage.js` (`
   options to `lcov` with a different `projectRoot`: `[['lcov', { projectRoot:
   '/packages/addon' }], 'html']`
 
+- `includes`: Defaults to `['**/*']`. An array of globs to include in
+  instrumentation. Sometimes its more useful to constrain `includes` over using `excludes`.
+
 - `excludes`: Defaults to `['*/mirage/**/*']`. An array of globs to exclude from instrumentation. Useful to exclude files from coverage statistics.
 
 - `extension`: Defaults to `['.gjs', '.gts', '.js', '.ts', '.cjs', '.mjs', '.mts', '.cts']`. Tell Istanbul to instrument only files with the provided extensions.
