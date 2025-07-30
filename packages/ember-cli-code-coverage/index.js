@@ -48,8 +48,10 @@ module.exports = {
       configBase = pkgJSON['ember-addon'].configPath;
     }
 
+    let config = {};
+
     if (fs.existsSync(path.join(cwd, configBase, 'coverage.js'))) {
-      let config = require(path.join(cwd, configBase, 'coverage.js'));
+      config = require(path.join(cwd, configBase, 'coverage.js'));
 
       if (config.excludes) {
         exclude = config.excludes;
@@ -90,13 +92,47 @@ module.exports = {
       // String lookup is needed to workaround https://github.com/embroider-build/embroider/issues/1525
       path.resolve(__dirname, 'lib/gjs-gts-istanbul-ignore-template-plugin'),
       [IstanbulPlugin, { cwd, include: '**/*', exclude, extension }],
-    ];
+    ].concat(
+      config.enableTemplateCoverage
+        ? [
+            [
+              // eslint-disable-next-line node/no-missing-require
+              require.resolve('babel-plugin-ember-template-compilation'),
+              {
+                transforms: [this.buildTemplatePlugin({ cwd, exclude })],
+                enableLegacyModules: [
+                  'ember-cli-htmlbars',
+                  'ember-cli-htmlbars-inline-precompile',
+                  'htmlbars-inline-precompile',
+                ],
+              },
+            ],
+          ]
+        : []
+    );
   },
 
   includedCommands() {
     return {
       'coverage-merge': require('./lib/coverage-merge'),
     };
+  },
+
+  _isCoverageEnabled() {
+    let config = this.project.config(process.env.EMBER_ENV)[this.name] || {};
+    return process.env[config.coverageEnvVar || 'COVERAGE'] === 'true';
+  },
+
+  treeForAddon() {
+    if (this._isCoverageEnabled()) {
+      return this._super.treeForAddon.apply(this, arguments);
+    }
+  },
+
+  treeForApp() {
+    if (this._isCoverageEnabled()) {
+      return this._super.treeForApp.apply(this, arguments);
+    }
   },
 
   buildNamespaceMappings() {
@@ -164,5 +200,24 @@ module.exports = {
       root: this.project.root,
       namespaceMappings: this.buildNamespaceMappings(),
     };
+  },
+
+  buildTemplatePlugin(params = {}) {
+    const buildTemplateInstrumenter = require('./lib/template-instrumenter');
+    let plugin = buildTemplateInstrumenter(params);
+
+    plugin._parallelBabel = {
+      requireFile: __filename,
+      buildUsing: 'buildTemplatePlugin',
+      params,
+    };
+    plugin.baseDir = function () {
+      return __dirname;
+    };
+    plugin.cacheKey = function () {
+      return 'template-instrumenter';
+    };
+
+    return plugin;
   },
 };

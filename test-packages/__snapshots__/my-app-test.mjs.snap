@@ -54,7 +54,7 @@ exports[`app coverage generation > excludes files when the configuration is set 
       "total": 3,
     },
   },
-  "app/router.js": {
+  "app/components/co-located-component.hbs": {
     "branches": {
       "covered": 0,
       "pct": 100,
@@ -63,21 +63,177 @@ exports[`app coverage generation > excludes files when the configuration is set 
     },
     "functions": {
       "covered": 0,
-      "pct": 0,
+      "pct": 100,
       "skipped": 0,
-      "total": 1,
+      "total": 0,
     },
     "lines": {
       "covered": 1,
-      "pct": 33.33,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/components/co-located-component.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 2,
+      "pct": 66.66,
       "skipped": 0,
       "total": 3,
     },
     "statements": {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 2,
+      "pct": 66.66,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/components/test-component.js": {
+    "branches": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/application.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/templates/components/test-component.hbs": {
+    "branches": {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 11,
+      "pct": 100,
+      "skipped": 0,
+      "total": 11,
+    },
+    "statements": {
+      "covered": 12,
+      "pct": 100,
+      "skipped": 0,
+      "total": 12,
     },
   },
   "app/utils/my-covered-util.js": {
@@ -108,10 +264,10 @@ exports[`app coverage generation > excludes files when the configuration is set 
   },
   "total": {
     "branches": {
-      "covered": 0,
+      "covered": 12,
       "pct": 100,
       "skipped": 0,
-      "total": 0,
+      "total": 12,
     },
     "branchesTrue": {
       "covered": 0,
@@ -120,22 +276,22 @@ exports[`app coverage generation > excludes files when the configuration is set 
       "total": 0,
     },
     "functions": {
-      "covered": 2,
-      "pct": 66.66,
+      "covered": 6,
+      "pct": 85.71,
       "skipped": 0,
-      "total": 3,
+      "total": 7,
     },
     "lines": {
-      "covered": 9,
-      "pct": 81.81,
+      "covered": 35,
+      "pct": 97.22,
       "skipped": 0,
-      "total": 11,
+      "total": 36,
     },
     "statements": {
-      "covered": 9,
-      "pct": 81.81,
+      "covered": 38,
+      "pct": 97.43,
       "skipped": 0,
-      "total": 11,
+      "total": 39,
     },
   },
 }
@@ -195,7 +351,7 @@ exports[`app coverage generation > merges coverage when tests are run in paralle
       "total": 3,
     },
   },
-  "app/router.js": {
+  "app/components/co-located-component.hbs": {
     "branches": {
       "covered": 0,
       "pct": 100,
@@ -204,21 +360,177 @@ exports[`app coverage generation > merges coverage when tests are run in paralle
     },
     "functions": {
       "covered": 0,
-      "pct": 0,
+      "pct": 100,
       "skipped": 0,
-      "total": 1,
+      "total": 0,
     },
     "lines": {
       "covered": 1,
-      "pct": 33.33,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/components/co-located-component.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 2,
+      "pct": 66.66,
       "skipped": 0,
       "total": 3,
     },
     "statements": {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 2,
+      "pct": 66.66,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/components/test-component.js": {
+    "branches": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/application.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/templates/components/test-component.hbs": {
+    "branches": {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 11,
+      "pct": 100,
+      "skipped": 0,
+      "total": 11,
+    },
+    "statements": {
+      "covered": 12,
+      "pct": 100,
+      "skipped": 0,
+      "total": 12,
     },
   },
   "app/utils/my-covered-util.js": {
@@ -249,10 +561,10 @@ exports[`app coverage generation > merges coverage when tests are run in paralle
   },
   "total": {
     "branches": {
-      "covered": 0,
+      "covered": 12,
       "pct": 100,
       "skipped": 0,
-      "total": 0,
+      "total": 12,
     },
     "branchesTrue": {
       "covered": 0,
@@ -261,22 +573,22 @@ exports[`app coverage generation > merges coverage when tests are run in paralle
       "total": 0,
     },
     "functions": {
-      "covered": 2,
-      "pct": 66.66,
+      "covered": 6,
+      "pct": 85.71,
       "skipped": 0,
-      "total": 3,
+      "total": 7,
     },
     "lines": {
-      "covered": 9,
-      "pct": 81.81,
+      "covered": 35,
+      "pct": 97.22,
       "skipped": 0,
-      "total": 11,
+      "total": 36,
     },
     "statements": {
-      "covered": 9,
-      "pct": 81.81,
+      "covered": 38,
+      "pct": 97.43,
       "skipped": 0,
-      "total": 11,
+      "total": 39,
     },
   },
 }
@@ -336,6 +648,110 @@ exports[`app coverage generation > runs coverage when a module has an import err
       "total": 3,
     },
   },
+  "app/components/co-located-component.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/components/co-located-component.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 2,
+      "pct": 66.66,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": {
+      "covered": 2,
+      "pct": 66.66,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/components/test-component.js": {
+    "branches": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
   "app/error-module.js": {
     "branches": {
       "covered": 0,
@@ -370,22 +786,74 @@ exports[`app coverage generation > runs coverage when a module has an import err
       "total": 0,
     },
     "functions": {
-      "covered": 0,
-      "pct": 0,
+      "covered": 1,
+      "pct": 100,
       "skipped": 0,
       "total": 1,
     },
     "lines": {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
     },
     "statements": {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/templates/application.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/templates/components/test-component.hbs": {
+    "branches": {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 11,
+      "pct": 100,
+      "skipped": 0,
+      "total": 11,
+    },
+    "statements": {
+      "covered": 12,
+      "pct": 100,
+      "skipped": 0,
+      "total": 12,
     },
   },
   "app/utils/my-covered-util.js": {
@@ -416,10 +884,10 @@ exports[`app coverage generation > runs coverage when a module has an import err
   },
   "total": {
     "branches": {
-      "covered": 0,
+      "covered": 12,
       "pct": 100,
       "skipped": 0,
-      "total": 0,
+      "total": 12,
     },
     "branchesTrue": {
       "covered": 0,
@@ -428,22 +896,22 @@ exports[`app coverage generation > runs coverage when a module has an import err
       "total": 0,
     },
     "functions": {
-      "covered": 2,
-      "pct": 66.66,
+      "covered": 6,
+      "pct": 85.71,
       "skipped": 0,
-      "total": 3,
+      "total": 7,
     },
     "lines": {
-      "covered": 10,
-      "pct": 83.33,
+      "covered": 36,
+      "pct": 97.29,
       "skipped": 0,
-      "total": 12,
+      "total": 37,
     },
     "statements": {
-      "covered": 10,
-      "pct": 83.33,
+      "covered": 39,
+      "pct": 97.5,
       "skipped": 0,
-      "total": 12,
+      "total": 40,
     },
   },
 }
@@ -503,7 +971,7 @@ exports[`app coverage generation > runs coverage when env var is set 1`] = `
       "total": 3,
     },
   },
-  "app/router.js": {
+  "app/components/co-located-component.hbs": {
     "branches": {
       "covered": 0,
       "pct": 100,
@@ -512,21 +980,177 @@ exports[`app coverage generation > runs coverage when env var is set 1`] = `
     },
     "functions": {
       "covered": 0,
-      "pct": 0,
+      "pct": 100,
       "skipped": 0,
-      "total": 1,
+      "total": 0,
     },
     "lines": {
       "covered": 1,
-      "pct": 33.33,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/components/co-located-component.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 2,
+      "pct": 66.66,
       "skipped": 0,
       "total": 3,
     },
     "statements": {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 2,
+      "pct": 66.66,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/components/test-component.js": {
+    "branches": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/application.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/templates/components/test-component.hbs": {
+    "branches": {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 11,
+      "pct": 100,
+      "skipped": 0,
+      "total": 11,
+    },
+    "statements": {
+      "covered": 12,
+      "pct": 100,
+      "skipped": 0,
+      "total": 12,
     },
   },
   "app/utils/my-covered-util.js": {
@@ -557,10 +1181,10 @@ exports[`app coverage generation > runs coverage when env var is set 1`] = `
   },
   "total": {
     "branches": {
-      "covered": 0,
+      "covered": 12,
       "pct": 100,
       "skipped": 0,
-      "total": 0,
+      "total": 12,
     },
     "branchesTrue": {
       "covered": 0,
@@ -569,22 +1193,22 @@ exports[`app coverage generation > runs coverage when env var is set 1`] = `
       "total": 0,
     },
     "functions": {
-      "covered": 2,
-      "pct": 66.66,
+      "covered": 6,
+      "pct": 85.71,
       "skipped": 0,
-      "total": 3,
+      "total": 7,
     },
     "lines": {
-      "covered": 9,
-      "pct": 81.81,
+      "covered": 35,
+      "pct": 97.22,
       "skipped": 0,
-      "total": 11,
+      "total": 36,
     },
     "statements": {
-      "covered": 9,
-      "pct": 81.81,
+      "covered": 38,
+      "pct": 97.43,
       "skipped": 0,
-      "total": 11,
+      "total": 39,
     },
   },
 }
@@ -644,7 +1268,7 @@ exports[`app coverage generation > runs coverage when the path option is used 1`
       "total": 3,
     },
   },
-  "app/router.js": {
+  "app/components/co-located-component.hbs": {
     "branches": {
       "covered": 0,
       "pct": 100,
@@ -653,21 +1277,177 @@ exports[`app coverage generation > runs coverage when the path option is used 1`
     },
     "functions": {
       "covered": 0,
-      "pct": 0,
+      "pct": 100,
       "skipped": 0,
-      "total": 1,
+      "total": 0,
     },
     "lines": {
       "covered": 1,
-      "pct": 33.33,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/components/co-located-component.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 2,
+      "pct": 66.66,
       "skipped": 0,
       "total": 3,
     },
     "statements": {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 2,
+      "pct": 66.66,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/components/test-component.js": {
+    "branches": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/application.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/templates/components/test-component.hbs": {
+    "branches": {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 11,
+      "pct": 100,
+      "skipped": 0,
+      "total": 11,
+    },
+    "statements": {
+      "covered": 12,
+      "pct": 100,
+      "skipped": 0,
+      "total": 12,
     },
   },
   "app/utils/my-covered-util.js": {
@@ -698,10 +1478,10 @@ exports[`app coverage generation > runs coverage when the path option is used 1`
   },
   "total": {
     "branches": {
-      "covered": 0,
+      "covered": 12,
       "pct": 100,
       "skipped": 0,
-      "total": 0,
+      "total": 12,
     },
     "branchesTrue": {
       "covered": 0,
@@ -710,22 +1490,22 @@ exports[`app coverage generation > runs coverage when the path option is used 1`
       "total": 0,
     },
     "functions": {
-      "covered": 2,
-      "pct": 66.66,
+      "covered": 6,
+      "pct": 85.71,
       "skipped": 0,
-      "total": 3,
+      "total": 7,
     },
     "lines": {
-      "covered": 9,
-      "pct": 81.81,
+      "covered": 35,
+      "pct": 97.22,
       "skipped": 0,
-      "total": 11,
+      "total": 36,
     },
     "statements": {
-      "covered": 9,
-      "pct": 81.81,
+      "covered": 38,
+      "pct": 97.43,
       "skipped": 0,
-      "total": 11,
+      "total": 39,
     },
   },
 }
@@ -785,7 +1565,7 @@ exports[`app coverage generation > uses nested coverageFolder and parallel confi
       "total": 3,
     },
   },
-  "app/router.js": {
+  "app/components/co-located-component.hbs": {
     "branches": {
       "covered": 0,
       "pct": 100,
@@ -794,21 +1574,177 @@ exports[`app coverage generation > uses nested coverageFolder and parallel confi
     },
     "functions": {
       "covered": 0,
-      "pct": 0,
+      "pct": 100,
       "skipped": 0,
-      "total": 1,
+      "total": 0,
     },
     "lines": {
       "covered": 1,
-      "pct": 33.33,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/components/co-located-component.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 2,
+      "pct": 66.66,
       "skipped": 0,
       "total": 3,
     },
     "statements": {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 2,
+      "pct": 66.66,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/components/test-component.js": {
+    "branches": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/application.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/templates/components/test-component.hbs": {
+    "branches": {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 11,
+      "pct": 100,
+      "skipped": 0,
+      "total": 11,
+    },
+    "statements": {
+      "covered": 12,
+      "pct": 100,
+      "skipped": 0,
+      "total": 12,
     },
   },
   "app/utils/my-covered-util.js": {
@@ -865,10 +1801,10 @@ exports[`app coverage generation > uses nested coverageFolder and parallel confi
   },
   "total": {
     "branches": {
-      "covered": 0,
+      "covered": 12,
       "pct": 100,
       "skipped": 0,
-      "total": 0,
+      "total": 12,
     },
     "branchesTrue": {
       "covered": 0,
@@ -877,22 +1813,22 @@ exports[`app coverage generation > uses nested coverageFolder and parallel confi
       "total": 0,
     },
     "functions": {
-      "covered": 2,
-      "pct": 50,
+      "covered": 6,
+      "pct": 75,
       "skipped": 0,
-      "total": 4,
+      "total": 8,
     },
     "lines": {
-      "covered": 9,
-      "pct": 75,
+      "covered": 35,
+      "pct": 94.59,
       "skipped": 0,
-      "total": 12,
+      "total": 37,
     },
     "statements": {
-      "covered": 9,
-      "pct": 75,
+      "covered": 38,
+      "pct": 95,
       "skipped": 0,
-      "total": 12,
+      "total": 40,
     },
   },
 }
@@ -952,7 +1888,7 @@ exports[`app coverage generation > uses parallel configuration and merges covera
       "total": 3,
     },
   },
-  "app/router.js": {
+  "app/components/co-located-component.hbs": {
     "branches": {
       "covered": 0,
       "pct": 100,
@@ -961,21 +1897,177 @@ exports[`app coverage generation > uses parallel configuration and merges covera
     },
     "functions": {
       "covered": 0,
-      "pct": 0,
+      "pct": 100,
       "skipped": 0,
-      "total": 1,
+      "total": 0,
     },
     "lines": {
       "covered": 1,
-      "pct": 33.33,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/components/co-located-component.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 50,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 2,
+      "pct": 66.66,
       "skipped": 0,
       "total": 3,
     },
     "statements": {
-      "covered": 1,
-      "pct": 33.33,
+      "covered": 2,
+      "pct": 66.66,
       "skipped": 0,
       "total": 3,
+    },
+  },
+  "app/components/test-component.js": {
+    "branches": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "functions": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/yield-component.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/application.hbs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "app/templates/components/test-component.hbs": {
+    "branches": {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 11,
+      "pct": 100,
+      "skipped": 0,
+      "total": 11,
+    },
+    "statements": {
+      "covered": 12,
+      "pct": 100,
+      "skipped": 0,
+      "total": 12,
     },
   },
   "app/utils/my-covered-util.js": {
@@ -1032,10 +2124,10 @@ exports[`app coverage generation > uses parallel configuration and merges covera
   },
   "total": {
     "branches": {
-      "covered": 0,
+      "covered": 12,
       "pct": 100,
       "skipped": 0,
-      "total": 0,
+      "total": 12,
     },
     "branchesTrue": {
       "covered": 0,
@@ -1044,22 +2136,22 @@ exports[`app coverage generation > uses parallel configuration and merges covera
       "total": 0,
     },
     "functions": {
-      "covered": 2,
-      "pct": 50,
+      "covered": 6,
+      "pct": 75,
       "skipped": 0,
-      "total": 4,
+      "total": 8,
     },
     "lines": {
-      "covered": 9,
-      "pct": 75,
+      "covered": 35,
+      "pct": 94.59,
       "skipped": 0,
-      "total": 12,
+      "total": 37,
     },
     "statements": {
-      "covered": 9,
-      "pct": 75,
+      "covered": 38,
+      "pct": 95,
       "skipped": 0,
-      "total": 12,
+      "total": 40,
     },
   },
 }

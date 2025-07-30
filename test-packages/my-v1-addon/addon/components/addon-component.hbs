@@ -1,0 +1,7 @@
+{{#if this.condition}}
+  This branch will not be rendered
+{{else}}
+  <div role="button" {{on "click" this.clickAction}}>
+    {{this.data}}
+  </div>
+{{/if}}
