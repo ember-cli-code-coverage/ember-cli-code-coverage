@@ -2,7 +2,7 @@
 
 import fs from 'fs-extra';
 import { execa } from 'execa';
-import setupTestDir, { assertCoverageExists, assertDirDoesNotExists } from './utils.mjs';
+import setupTestDir, { assertCoverageExists, assertDirDoesNotExist } from './utils.mjs';
 import { describe, it } from 'vitest';
 
 const APP_DIR = 'my-app';
@@ -25,7 +25,7 @@ describe('app coverage generation', function () {
 
     await execa('npx', ['ember', 'test', '--test-port=0'], { cwd: buildPath, env });
 
-    await assertDirDoesNotExists(`${buildPath}/coverage`);
+    await assertDirDoesNotExist(`${buildPath}/coverage`);
   });
 
   it('excludes files when the configuration is set', async function () {
@@ -61,7 +61,7 @@ describe('app coverage generation', function () {
     fs.copySync(`${APP_PATH}/config/-coverage-parallel.js`, `${buildPath}/config/coverage.js`);
 
     await execa('pnpm', ['ember', 'exam', '--split=2', '--parallel=true'], { cwd: buildPath, env });
-    await assertDirDoesNotExists(`${buildPath}/coverage`);
+    await assertDirDoesNotExist(`${buildPath}/coverage`);
 
     await execa('pnpm', ['ember', 'coverage-merge'], { cwd: buildPath });
 
@@ -73,11 +73,11 @@ describe('app coverage generation', function () {
     let buildPath = await setupTestDir(APP_DIR, env, {});
     let coverageFolder = `${buildPath}/coverage/abc/easy-as/123`;
 
-    await assertDirDoesNotExists(coverageFolder);
+    await assertDirDoesNotExist(coverageFolder);
     fs.copySync(`${APP_PATH}/config/-coverage-nested-folder.js`, `${buildPath}/config/coverage.js`);
 
     await execa('pnpm', ['ember', 'exam', '--split=2', '--parallel=true'], { cwd: buildPath, env });
-    await assertDirDoesNotExists(coverageFolder);
+    await assertDirDoesNotExist(coverageFolder);
 
     await execa('pnpm', ['ember', 'coverage-merge'], { cwd: buildPath });
     await assertCoverageExists(coverageFolder);

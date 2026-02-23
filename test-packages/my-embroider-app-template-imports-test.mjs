@@ -1,7 +1,7 @@
 'use strict';
 
 import { execa } from 'execa';
-import setupTestDir, { assertCoverageExists, assertFileIsNotEmpty } from './utils.mjs';
+import setupTestDir, { assertCoverageExists } from './utils.mjs';
 import { describe, it } from 'vitest';
 
 const APP_DIR  = 'my-embroider-app-template-imports';

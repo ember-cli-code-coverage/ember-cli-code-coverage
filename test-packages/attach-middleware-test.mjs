@@ -1,6 +1,9 @@
 'use strict';
 
-import { normalizeRelativePath, adjustCoverageKey } from '../packages/ember-cli-code-coverage/lib/attach-middleware';
+import {
+  normalizeEmbroiderPath,
+  adjustCoverageKey,
+} from '../packages/ember-cli-code-coverage/dist/core/coverage.js';
 import { Project } from 'fixturify-project';
 import { join } from 'path';
 import { expect, describe, it } from 'vitest';
@@ -15,20 +18,31 @@ describe('attach-middleware', () => {
 
     let embroiderTmp = '/foo/embroider/fbeb74';
 
-    expect(normalizeRelativePath(project.baseDir, `${embroiderTmp}/app-namespace/lib/hello/components/world.js`))
-      .toEqual('hello/components/world.js');
+    expect(
+      normalizeEmbroiderPath(
+        project.baseDir,
+        `${embroiderTmp}/app-namespace/lib/hello/components/world.js`
+      )
+    ).toEqual('hello/components/world.js');
 
-    expect(normalizeRelativePath(project.baseDir, `${embroiderTmp}/app-namespace/lib/hello/test-support/world.js`))
-      .toEqual('hello/test-support/world.js');
+    expect(
+      normalizeEmbroiderPath(
+        project.baseDir,
+        `${embroiderTmp}/app-namespace/lib/hello/test-support/world.js`
+      )
+    ).toEqual('hello/test-support/world.js');
 
-    expect(normalizeRelativePath(project.baseDir, `${embroiderTmp}/app-namespace/components/world.js`))
-      .toEqual('app-namespace/components/world.js');
+    expect(
+      normalizeEmbroiderPath(project.baseDir, `${embroiderTmp}/app-namespace/components/world.js`)
+    ).toEqual('app-namespace/components/world.js');
 
-    expect(normalizeRelativePath(project.baseDir, `${embroiderTmp}/lib/hello/test-support/world.js`))
-      .toEqual('hello/test-support/world.js');
+    expect(
+      normalizeEmbroiderPath(project.baseDir, `${embroiderTmp}/lib/hello/test-support/world.js`)
+    ).toEqual('hello/test-support/world.js');
 
-    expect(normalizeRelativePath(project.baseDir, `${embroiderTmp}/components/world.js`))
-      .toEqual('components/world.js');
+    expect(normalizeEmbroiderPath(project.baseDir, `${embroiderTmp}/components/world.js`)).toEqual(
+      'components/world.js'
+    );
   });
 
   it('adjustCoverageKey works for a classic app', () => {

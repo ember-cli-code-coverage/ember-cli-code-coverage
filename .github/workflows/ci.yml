@@ -13,21 +13,44 @@ concurrency:
   cancel-in-progress: true  
 
 jobs:
-  test:
-    name: Tests
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-      - name: Install Node
-        uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.x
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 9
+          node-version: 22
+          cache: pnpm
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+      - run: pnpm lint:types
+        working-directory: packages/ember-cli-code-coverage
       - run: pnpm lint:js
         working-directory: packages/ember-cli-code-coverage
-      - run: pnpm test
+
+  test:
+    name: Tests (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ['22', '24']
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm build
+        working-directory: packages/ember-cli-code-coverage
+      - name: Run Tests
+        run: pnpm test

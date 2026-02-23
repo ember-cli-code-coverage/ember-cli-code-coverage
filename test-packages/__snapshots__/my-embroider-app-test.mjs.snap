@@ -1,65 +1,39 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`app coverage generation > generates coverage with @embroider ^0.47.0 1`] = `
+exports[`app coverage generation > generates coverage with embroider 1`] = `
 {
-  "app/app.js": {
+  "../../../../../../../Users/aklkv/Projects/github/ember-cli-code-coverage/packages/ember-cli-code-coverage/src/browser/index.ts": {
     "branches": {
-      "covered": 0,
-      "pct": 100,
+      "covered": 15,
+      "pct": 60,
       "skipped": 0,
-      "total": 0,
+      "total": 25,
     },
     "functions": {
-      "covered": 0,
-      "pct": 100,
+      "covered": 3,
+      "pct": 60,
       "skipped": 0,
-      "total": 0,
+      "total": 5,
     },
     "lines": {
-      "covered": 4,
-      "pct": 100,
+      "covered": 22,
+      "pct": 51.16,
       "skipped": 0,
-      "total": 4,
+      "total": 43,
     },
     "statements": {
-      "covered": 4,
-      "pct": 100,
+      "covered": 22,
+      "pct": 50,
       "skipped": 0,
-      "total": 4,
-    },
-  },
-  "app/router.js": {
-    "branches": {
-      "covered": 0,
-      "pct": 100,
-      "skipped": 0,
-      "total": 0,
-    },
-    "functions": {
-      "covered": 0,
-      "pct": 0,
-      "skipped": 0,
-      "total": 1,
-    },
-    "lines": {
-      "covered": 1,
-      "pct": 33.33,
-      "skipped": 0,
-      "total": 3,
-    },
-    "statements": {
-      "covered": 1,
-      "pct": 33.33,
-      "skipped": 0,
-      "total": 3,
+      "total": 44,
     },
   },
   "total": {
     "branches": {
-      "covered": 0,
-      "pct": 100,
+      "covered": 15,
+      "pct": 60,
       "skipped": 0,
-      "total": 0,
+      "total": 25,
     },
     "branchesTrue": {
       "covered": 0,
@@ -68,289 +42,22 @@ exports[`app coverage generation > generates coverage with @embroider ^0.47.0 1`
       "total": 0,
     },
     "functions": {
-      "covered": 0,
-      "pct": 0,
+      "covered": 3,
+      "pct": 60,
       "skipped": 0,
-      "total": 1,
+      "total": 5,
     },
     "lines": {
-      "covered": 5,
-      "pct": 71.42,
+      "covered": 22,
+      "pct": 51.16,
       "skipped": 0,
-      "total": 7,
+      "total": 43,
     },
     "statements": {
-      "covered": 5,
-      "pct": 71.42,
+      "covered": 22,
+      "pct": 50,
       "skipped": 0,
-      "total": 7,
-    },
-  },
-}
-`;
-
-exports[`app coverage generation > generates coverage with @embroider ^1.0.0 1`] = `
-{
-  "app/app.js": {
-    "branches": {
-      "covered": 0,
-      "pct": 100,
-      "skipped": 0,
-      "total": 0,
-    },
-    "functions": {
-      "covered": 0,
-      "pct": 100,
-      "skipped": 0,
-      "total": 0,
-    },
-    "lines": {
-      "covered": 4,
-      "pct": 100,
-      "skipped": 0,
-      "total": 4,
-    },
-    "statements": {
-      "covered": 4,
-      "pct": 100,
-      "skipped": 0,
-      "total": 4,
-    },
-  },
-  "app/router.js": {
-    "branches": {
-      "covered": 0,
-      "pct": 100,
-      "skipped": 0,
-      "total": 0,
-    },
-    "functions": {
-      "covered": 0,
-      "pct": 0,
-      "skipped": 0,
-      "total": 1,
-    },
-    "lines": {
-      "covered": 1,
-      "pct": 33.33,
-      "skipped": 0,
-      "total": 3,
-    },
-    "statements": {
-      "covered": 1,
-      "pct": 33.33,
-      "skipped": 0,
-      "total": 3,
-    },
-  },
-  "total": {
-    "branches": {
-      "covered": 0,
-      "pct": 100,
-      "skipped": 0,
-      "total": 0,
-    },
-    "branchesTrue": {
-      "covered": 0,
-      "pct": "Unknown",
-      "skipped": 0,
-      "total": 0,
-    },
-    "functions": {
-      "covered": 0,
-      "pct": 0,
-      "skipped": 0,
-      "total": 1,
-    },
-    "lines": {
-      "covered": 5,
-      "pct": 71.42,
-      "skipped": 0,
-      "total": 7,
-    },
-    "statements": {
-      "covered": 5,
-      "pct": 71.42,
-      "skipped": 0,
-      "total": 7,
-    },
-  },
-}
-`;
-
-exports[`app coverage generation > generates coverage with @embroider ^2.1.0 1`] = `
-{
-  "app/app.js": {
-    "branches": {
-      "covered": 0,
-      "pct": 100,
-      "skipped": 0,
-      "total": 0,
-    },
-    "functions": {
-      "covered": 0,
-      "pct": 100,
-      "skipped": 0,
-      "total": 0,
-    },
-    "lines": {
-      "covered": 4,
-      "pct": 100,
-      "skipped": 0,
-      "total": 4,
-    },
-    "statements": {
-      "covered": 4,
-      "pct": 100,
-      "skipped": 0,
-      "total": 4,
-    },
-  },
-  "app/router.js": {
-    "branches": {
-      "covered": 0,
-      "pct": 100,
-      "skipped": 0,
-      "total": 0,
-    },
-    "functions": {
-      "covered": 0,
-      "pct": 0,
-      "skipped": 0,
-      "total": 1,
-    },
-    "lines": {
-      "covered": 1,
-      "pct": 33.33,
-      "skipped": 0,
-      "total": 3,
-    },
-    "statements": {
-      "covered": 1,
-      "pct": 33.33,
-      "skipped": 0,
-      "total": 3,
-    },
-  },
-  "total": {
-    "branches": {
-      "covered": 0,
-      "pct": 100,
-      "skipped": 0,
-      "total": 0,
-    },
-    "branchesTrue": {
-      "covered": 0,
-      "pct": "Unknown",
-      "skipped": 0,
-      "total": 0,
-    },
-    "functions": {
-      "covered": 0,
-      "pct": 0,
-      "skipped": 0,
-      "total": 1,
-    },
-    "lines": {
-      "covered": 5,
-      "pct": 71.42,
-      "skipped": 0,
-      "total": 7,
-    },
-    "statements": {
-      "covered": 5,
-      "pct": 71.42,
-      "skipped": 0,
-      "total": 7,
-    },
-  },
-}
-`;
-
-exports[`app coverage generation > generates coverage with @embroider ^3.1.0 1`] = `
-{
-  "app/app.js": {
-    "branches": {
-      "covered": 0,
-      "pct": 100,
-      "skipped": 0,
-      "total": 0,
-    },
-    "functions": {
-      "covered": 0,
-      "pct": 100,
-      "skipped": 0,
-      "total": 0,
-    },
-    "lines": {
-      "covered": 4,
-      "pct": 100,
-      "skipped": 0,
-      "total": 4,
-    },
-    "statements": {
-      "covered": 4,
-      "pct": 100,
-      "skipped": 0,
-      "total": 4,
-    },
-  },
-  "app/router.js": {
-    "branches": {
-      "covered": 0,
-      "pct": 100,
-      "skipped": 0,
-      "total": 0,
-    },
-    "functions": {
-      "covered": 0,
-      "pct": 0,
-      "skipped": 0,
-      "total": 1,
-    },
-    "lines": {
-      "covered": 1,
-      "pct": 33.33,
-      "skipped": 0,
-      "total": 3,
-    },
-    "statements": {
-      "covered": 1,
-      "pct": 33.33,
-      "skipped": 0,
-      "total": 3,
-    },
-  },
-  "total": {
-    "branches": {
-      "covered": 0,
-      "pct": 100,
-      "skipped": 0,
-      "total": 0,
-    },
-    "branchesTrue": {
-      "covered": 0,
-      "pct": "Unknown",
-      "skipped": 0,
-      "total": 0,
-    },
-    "functions": {
-      "covered": 0,
-      "pct": 0,
-      "skipped": 0,
-      "total": 1,
-    },
-    "lines": {
-      "covered": 5,
-      "pct": 71.42,
-      "skipped": 0,
-      "total": 7,
-    },
-    "statements": {
-      "covered": 5,
-      "pct": 71.42,
-      "skipped": 0,
-      "total": 7,
+      "total": 44,
     },
   },
 }

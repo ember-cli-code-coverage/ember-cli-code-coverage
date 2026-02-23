@@ -69,17 +69,14 @@ export async function assertCoverageExists(buildPath) {
 }
 
 export async function assertFileExists(path) {
-  if (!(await exists(path))) {
-    throw new Error(`File ${path} does not exist`);
-  }
+  expect(await exists(path), `File ${path} should exist`).toBe(true);
 }
 
-export async function assertDirDoesNotExists(dir) {
-  if (await exists(dir)) {
-    throw new Error(`Dir ${dir} exists`);
-  }
+export async function assertDirDoesNotExist(dir) {
+  expect(await exists(dir), `Dir ${dir} should not exist`).toBe(false);
 }
 
-export async function assertFileIsNotEmpty(path) {
-  return (await readFile(path, 'utf8').length) > 0;
+export async function assertFileIsNotEmpty(filePath) {
+  const content = await readFile(filePath, 'utf8');
+  expect(content.length, `File ${filePath} should not be empty`).toBeGreaterThan(0);
 }

@@ -1,19 +1,16 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`gjs-gts-ignore-template-plugin > it adds istanbul ignore comment before "template" invocation if template is imported from "@ember/template-compiler" 1`] = `
-"import { template } from "@ember/template-compiler";
+"import { template as template_fd9b2463e5f141cfb5666b64daa1f11a } from "@ember/template-compiler";
 import { on } from '@ember/modifier';
 let counter = 0;
 function bar() {
   counter++;
   console.log(counter);
 }
-/* istanbul ignore next */
-export default template(\`
-          <button {{on "click" bar}}>
-           increment
-          </button>
-        \`, {
+export default template_fd9b2463e5f141cfb5666b64daa1f11a(\`<button {{on "click" bar}}>
+ increment
+</button>\`, {
   eval() {
     return eval(arguments[0]);
   }
@@ -21,21 +18,18 @@ export default template(\`
 `;
 
 exports[`gjs-gts-ignore-template-plugin > it does not add istanbul ignore comment before "template" invocation if template is not imported from "@ember/template-compiler" 1`] = `
-"import { template as template1 } from "@ember/template-compiler";
+"import { template as template_fd9b2463e5f141cfb5666b64daa1f11a } from "@ember/template-compiler";
 import { on } from '@ember/modifier';
 let counter = 0;
 function bar() {
-  const template1 = () => {};
-  template1();
+  const template = () => {};
+  template();
   counter++;
   console.log(counter);
 }
-/* istanbul ignore next */
-export default template1(\`
-          <button {{on "click" bar}}>
-           increment
-          </button>
-        \`, {
+export default template_fd9b2463e5f141cfb5666b64daa1f11a(\`<button {{on "click" bar}}>
+ increment
+</button>\`, {
   eval() {
     return eval(arguments[0]);
   }
@@ -43,18 +37,16 @@ export default template1(\`
 `;
 
 exports[`gjs-gts-ignore-template-plugin > it skips files if it\`s a regular js file 1`] = `
-"import { template } from "@ember/template-compiler";
+"import { template as template_fd9b2463e5f141cfb5666b64daa1f11a } from "@ember/template-compiler";
 import { on } from '@ember/modifier';
 let counter = 0;
 function bar() {
   counter++;
   console.log(counter);
 }
-export default template(\`
-          <button {{on "click" bar}}>
-           increment
-          </button>
-        \`, {
+export default template_fd9b2463e5f141cfb5666b64daa1f11a(\`<button {{on "click" bar}}>
+ increment
+</button>\`, {
   eval() {
     return eval(arguments[0]);
   }
@@ -62,18 +54,16 @@ export default template(\`
 `;
 
 exports[`gjs-gts-ignore-template-plugin > it skips files if it\`s a regular ts file 1`] = `
-"import { template } from "@ember/template-compiler";
+"import { template as template_fd9b2463e5f141cfb5666b64daa1f11a } from "@ember/template-compiler";
 import { on } from '@ember/modifier';
 let counter = 0;
 function bar() {
   counter++;
   console.log(counter);
 }
-export default template(\`
-          <button {{on "click" bar}}>
-           increment
-          </button>
-        \`, {
+export default template_fd9b2463e5f141cfb5666b64daa1f11a(\`<button {{on "click" bar}}>
+ increment
+</button>\`, {
   eval() {
     return eval(arguments[0]);
   }

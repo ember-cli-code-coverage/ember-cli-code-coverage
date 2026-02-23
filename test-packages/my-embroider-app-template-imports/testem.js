@@ -1,7 +1,10 @@
 'use strict';
 
+const { coverageMiddleware } = require('ember-cli-code-coverage/testem');
+
 module.exports = {
   test_page: 'tests/index.html?hidepassed',
+  middleware: [coverageMiddleware()],
   disable_watching: true,
   launch_in_ci: ['Chrome'],
   launch_in_dev: ['Chrome'],
