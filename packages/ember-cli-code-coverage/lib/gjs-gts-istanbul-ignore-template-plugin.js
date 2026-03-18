@@ -46,7 +46,7 @@ const gjsGtsTemplateIgnoreVisitor = {
   },
 };
 
-module.exports = function () {
+function gjsGtsIstanbulIgnoreTemplatePlugin() {
   return {
     visitor: {
       Program: {
@@ -71,4 +71,10 @@ module.exports = function () {
       },
     },
   };
+}
+
+gjsGtsIstanbulIgnoreTemplatePlugin._parallelBabel = {
+  requireFile: __filename,
 };
+
+module.exports = gjsGtsIstanbulIgnoreTemplatePlugin;

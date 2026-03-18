@@ -41,8 +41,8 @@
     "fs-extra": "^9.0.0",
     "istanbul-lib-coverage": "^3.2.2",
     "istanbul-lib-report": "^3.0.1",
-    "istanbul-reports": "^3.1.7",
     "istanbul-lib-source-maps": "^4.0.1",
+    "istanbul-reports": "^3.1.7",
     "node-dir": "^0.1.17",
     "walk-sync": "^2.1.0"
   },
@@ -52,6 +52,7 @@
     "@ember/test-helpers": "^2.4.2",
     "@embroider/test-setup": "^0.43.5",
     "@glimmer/component": "^1.1.2",
+    "@glimmer/syntax": "^0.95.0",
     "@glimmer/tracking": "^1.1.2",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",

@@ -153,14 +153,152 @@ Steps:
 ```
 ## ember-template-imports integration
 
-* in `ember-cli-build.js
-```
+* in `ember-cli-build.js`
+```js
   const app = new EmberApp(defaults, {
     'ember-template-imports': {
       inline_source_map: true,
     },
   });
 ```
+
+## Template Coverage
+
+This addon supports branch coverage for Glimmer/Handlebars templates (`.hbs` files and `<template>` tags in `.gjs`/`.gts` files). When `COVERAGE=true`, templates are automatically instrumented during compilation to track which branches are executed.
+
+### What is tracked
+
+- **Block conditionals**: `{{#if}}`, `{{#unless}}` (with and without `{{else}}`)
+- **Inline conditionals**: `{{if condition "yes" "no"}}`, `(if condition "a" "b")`, and the `unless` equivalents
+- **List branches**: `{{#each}}`/`{{#each-in}}` with `{{else}}` (items vs empty list)
+- **Chained conditionals**: `{{else if}}` chains
+- **Named blocks (slots)**: `<:header>`, `<:body>`, `<:footer>`, etc. -- tracks whether each named block was rendered
+- **Default blocks**: `<MyComponent>content</MyComponent>` -- tracks whether the implicit default block content was rendered. Components are detected by uppercase tags, dotted paths (`<foo.bar>`), `@`-prefixed arguments (`<my-thing @value={{1}}>`), or block params (`<my-thing as |item|>`)
+
+### How it works
+
+A Glimmer AST plugin runs at build time and:
+1. Injects `{{coverageInit}}` at the template root to register an Istanbul-compatible coverage object in `window.__coverage__`
+2. Injects `{{coverageMark}}` at the start of each block branch body to record block branch hits
+3. Wraps inline conditional conditions with `(coverageCond)` to record inline branch hits reactively
+
+The coverage data integrates seamlessly with the existing Istanbul pipeline, appearing in the same HTML/LCOV/JSON reports alongside JavaScript coverage.
+
+### Setup for .hbs files
+
+No additional setup is needed. The AST plugin is registered automatically via `setupPreprocessorRegistry` when the addon is installed. Branch coverage for `.hbs` files works out of the box.
+
+### Setup for .gjs/.gts files (strict mode)
+
+For `.gjs`/`.gts` files using `<template>` tags, coverage helpers need to be in JavaScript scope. The `buildBabelPlugin()` method already includes a Babel plugin that injects the necessary imports automatically. No extra configuration is required if you already have `buildBabelPlugin()` in your `ember-cli-build.js`.
+
+### Manual setup for babel-plugin-ember-template-compilation
+
+If you configure `babel-plugin-ember-template-compilation` directly (e.g., in Embroider v2 apps), you can add the AST plugin as a transform:
+
+```js
+// babel.config.js or similar
+const coverage = require('ember-cli-code-coverage');
+
+module.exports = {
+  plugins: [
+    // Coverage babel plugins (includes import injection for .gjs/.gts)
+    ...coverage.buildBabelPlugin({ embroider: true }),
+
+    // Template compilation with coverage AST transform
+    ['babel-plugin-ember-template-compilation', {
+      transforms: [
+        ...coverage.buildTemplateCoveragePlugin(),
+        // ...other transforms
+      ],
+    }],
+  ],
+};
+```
+
+### Example
+
+Given this template:
+```hbs
+{{#if @isLoggedIn}}
+  <p>Welcome, {{@user.name}}!</p>
+{{else}}
+  <p>Please log in.</p>
+{{/if}}
+
+<div class={{if @isActive "active" "inactive"}}>
+  {{#each @items as |item|}}
+    {{item.name}}
+  {{else}}
+    No items found.
+  {{/each}}
+</div>
+
+<PageLayout>
+  <:header>My App</:header>
+  <:sidebar>Navigation</:sidebar>
+  <:body>Main content</:body>
+</PageLayout>
+
+<Modal @isOpen={{@showModal}}>
+  <p>This is the default block content</p>
+</Modal>
+```
+
+The coverage report will show:
+- Branch 0 (`if`): whether `@isLoggedIn` was truthy and/or falsy
+- Branch 1 (`cond`): whether `@isActive` was truthy and/or falsy (inline conditional)
+- Branch 2 (`each`): whether `@items` had items and/or was empty
+- Branch 3 (`named-block`): whether `<:header>` was rendered
+- Branch 4 (`named-block`): whether `<:sidebar>` was rendered
+- Branch 5 (`named-block`): whether `<:body>` was rendered
+- Branch 6 (`default-block`): whether `<Modal>` rendered its default block content
+
+## V8 Compat Mode
+
+By default, this addon uses `babel-plugin-istanbul` to instrument all JS/TS files at build time. As an alternative, you can use **V8 compat mode** to skip Istanbul instrumentation entirely and rely on Chrome's built-in V8 code coverage for JS/TS files, while still using the template AST plugin for `.hbs` branch coverage.
+
+This is useful when you pair this addon with a V8 coverage collector like [`testem-code-coverage`](https://github.com/NullVoxPopuli/testem-code-coverage).
+
+### Benefits
+
+- **Faster builds** -- no Babel instrumentation pass for JS/TS files
+- **More accurate JS coverage** -- V8 bytecode-level coverage has no instrumentation side effects
+- **Template branch coverage preserved** -- the Glimmer AST plugin still instruments `{{#if}}`, `{{#unless}}`, inline `(if)`, named blocks, etc.
+
+### Setup
+
+1. Install a V8 coverage collector (e.g., `testem-code-coverage`)
+2. Pass `v8: true` to `buildBabelPlugin()`:
+
+```js
+// ember-cli-build.js
+let app = new EmberApp(defaults, {
+  babel: {
+    plugins: [
+      ...require('ember-cli-code-coverage').buildBabelPlugin({ v8: true }),
+    ],
+  },
+});
+```
+
+3. Configure your V8 collector (see its docs for Testem integration)
+
+### How it works
+
+In V8 compat mode, `buildBabelPlugin({ v8: true })` returns only the template coverage import plugin (for `.gjs`/`.gts` strict-mode support). It does **not** include `babel-plugin-istanbul` or the Istanbul ignore plugin.
+
+The coverage data flows from two sources:
+- **JS/TS files**: V8/CDP coverage collected externally, converted to Istanbul format by your V8 collector
+- **Template files** (`.hbs`, `<template>` in `.gjs`/`.gts`): Branch coverage from the AST plugin, written to `window.__coverage__` and sent via `/write-coverage`
+
+Both produce Istanbul-format output keyed by file path, so they merge cleanly in the final report.
+
+### Limitations
+
+- V8 coverage only works in **Chromium-based browsers** (Chrome, Edge). Firefox and Safari are not supported.
+- V8 coverage reports against compiled/bundled JS. Source map quality affects accuracy.
+- Template branch coverage still requires this addon's AST plugin and runtime helpers.
 
 ## Configuration
 

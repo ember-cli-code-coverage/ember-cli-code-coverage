@@ -87,4 +87,77 @@ describe('attach-middleware', () => {
     expect(adjustCoverageKey(root, join(root, '@foo/bar/test-support/foo.js'), namespaceMappings))
       .toEqual('addon-test-support/foo.js');
   });
+
+  it('adjustCoverageKey resolves module names from template coverage via namespace mappings', async () => {
+    // Template coverage entries use module names (e.g., "my-app/templates/application")
+    // as keys, not filesystem paths. The middleware must resolve these to actual files.
+    let project = new Project('my-app', '1.0.0');
+    project.files['app'] = {
+      templates: {
+        'application.hbs': '{{outlet}}',
+      },
+      components: {
+        'foo.hbs': '<div>foo</div>',
+      },
+    };
+    await project.write();
+
+    let root = project.baseDir;
+    let namespaceMappings = new Map([
+      ['my-app', join(root, 'app')],
+    ]);
+
+    // Module name "my-app/templates/application" should resolve to the .hbs file
+    let result = adjustCoverageKey(
+      root,
+      'my-app/templates/application',
+      namespaceMappings
+    );
+    expect(result).toEqual(join(root, 'app', 'templates', 'application.hbs'));
+
+    // Module name "my-app/components/foo" should resolve to the .hbs file
+    result = adjustCoverageKey(
+      root,
+      'my-app/components/foo',
+      namespaceMappings
+    );
+    expect(result).toEqual(join(root, 'app', 'components', 'foo.hbs'));
+  });
+
+  it('adjustCoverageKey resolves scoped module names from template coverage', async () => {
+    let project = new Project('@scope/my-addon', '1.0.0');
+    project.files['addon'] = {
+      templates: {
+        'main.hbs': '{{yield}}',
+      },
+    };
+    await project.write();
+
+    let root = project.baseDir;
+    let namespaceMappings = new Map([
+      ['@scope/my-addon', join(root, 'addon')],
+    ]);
+
+    let result = adjustCoverageKey(
+      root,
+      '@scope/my-addon/templates/main',
+      namespaceMappings
+    );
+    expect(result).toEqual(join(root, 'addon', 'templates', 'main.hbs'));
+  });
+
+  it('adjustCoverageKey falls back for unresolvable module names', () => {
+    let root = '/root/';
+    let namespaceMappings = new Map([
+      ['my-app', '/root/app'],
+    ]);
+
+    // Module name with unknown namespace returns as-is (monorepo fallback)
+    let result = adjustCoverageKey(
+      root,
+      'unknown-addon/templates/foo',
+      namespaceMappings
+    );
+    expect(result).toEqual('unknown-addon/templates/foo');
+  });
 });

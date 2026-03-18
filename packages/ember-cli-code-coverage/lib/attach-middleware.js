@@ -106,8 +106,33 @@ function adjustCoverageKey(
   if (embroiderTmpPathRegex.test(filepath)) {
     relativePath = normalizeRelativePath(root, filepath);
   } else if (relativePath.startsWith('..')) {
-    // This lives in a directory outside of the current one, likely a monorepo.
-    // In this case we can assume that the original path is correct.
+    // The path is outside project root. This can be either:
+    // (a) a monorepo path (absolute path to another package), or
+    // (b) a module name from template coverage (e.g., "my-app/templates/foo")
+    //     which is not a real filesystem path.
+    // For case (b), try to resolve via namespace mappings first.
+    if (!path.isAbsolute(filepath)) {
+      let segments = filepath.split('/');
+      let ns = filepath.startsWith('@')
+        ? segments.slice(0, 2).join('/')
+        : segments[0];
+      if (namespaceMappings.has(ns)) {
+        let rest = filepath.startsWith('@')
+          ? segments.slice(2)
+          : segments.slice(1);
+        let basePath = namespaceMappings.get(ns);
+        let baseFile = path.join(basePath, ...rest);
+        // Try with common template extensions
+        let extensions = ['', '.hbs', '.gjs', '.gts', '.js', '.ts'];
+        for (let ext of extensions) {
+          let resolved = baseFile + ext;
+          if (fs.existsSync(resolved)) {
+            return resolved;
+          }
+        }
+      }
+    }
+    // Fallback: monorepo path, return as-is.
     return filepath;
   }
 
