@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * When gjs/gts is converted to js it looks like this
  *
@@ -18,7 +20,7 @@
 const gjsGtsTemplateIgnoreVisitor = {
   CallExpression(path) {
     const { node } = path;
-    let { callee } = node;
+    const { callee } = node;
 
     // if there is already a `template` variable in scope, content-tag will use `template1` local name and so on.
     if (!/^template\d*$/.test(callee.name)) {
@@ -36,17 +38,20 @@ const gjsGtsTemplateIgnoreVisitor = {
         value: ' istanbul ignore next ',
       };
 
-      if (!path.findParent((path) => path.isStatement()).node.leadingComments) {
-        path.findParent((path) => path.isStatement()).node.leadingComments = [];
+      const statement = path.findParent((p) => p.isStatement());
+      if (!statement.node.leadingComments) {
+        statement.node.leadingComments = [];
       }
-      path
-        .findParent((path) => path.isStatement())
-        .node.leadingComments.push(babelIgnoreComment);
+      statement.node.leadingComments.push(babelIgnoreComment);
     }
   },
 };
 
-module.exports = function () {
+/**
+ * Babel plugin to add Istanbul ignore comments to GJS/GTS template eval methods
+ * @returns {Object}
+ */
+function gjsGtsIstanbulIgnoreTemplatePlugin() {
   return {
     visitor: {
       Program: {
@@ -71,4 +76,7 @@ module.exports = function () {
       },
     },
   };
-};
+}
+
+module.exports = gjsGtsIstanbulIgnoreTemplatePlugin;
+module.exports.default = gjsGtsIstanbulIgnoreTemplatePlugin;

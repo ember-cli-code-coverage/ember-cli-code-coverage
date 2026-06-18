@@ -1,8 +1,13 @@
 'use strict';
 
 let path = require('path');
-let fs = require('fs-extra');
-let attachMiddleware = require('./lib/attach-middleware');
+let {
+  serverMiddleware,
+  testMiddleware,
+  createViteTestemMiddleware,
+} = require('./lib/testem/index.js');
+let { buildBabelPlugin } = require('./lib/babel/index.js');
+let { createCoverageMergeCommand } = require('./lib/istanbul/index.js');
 
 module.exports = {
   name: require('./package').name,
@@ -27,75 +32,12 @@ module.exports = {
     };
    */
   buildBabelPlugin(opts = {}) {
-    let cwd = opts.cwd || process.cwd();
-    let exclude = ['*/mirage/**/*', '*/node_modules/**/*'];
-    let extension = [
-      '.gjs',
-      '.gts',
-      '.js',
-      '.ts',
-      '.cjs',
-      '.mjs',
-      '.mts',
-      '.cts',
-    ];
-    let coverageEnvVar = 'COVERAGE';
-    let configBase = 'config';
-
-    let pkgJSON = fs.readJSONSync(path.join(cwd, 'package.json'));
-
-    if (pkgJSON['ember-addon'] && pkgJSON['ember-addon'].configPath) {
-      configBase = pkgJSON['ember-addon'].configPath;
-    }
-
-    if (fs.existsSync(path.join(cwd, configBase, 'coverage.js'))) {
-      let config = require(path.join(cwd, configBase, 'coverage.js'));
-
-      if (config.excludes) {
-        exclude = config.excludes;
-      }
-
-      if (config.coverageEnvVar) {
-        coverageEnvVar = config.coverageEnvVar;
-      }
-
-      if (config.extension) {
-        extension = config.extension;
-      }
-    }
-
-    if (process.env[coverageEnvVar] !== 'true') {
-      return [];
-    }
-
-    if (opts.embroider === true) {
-      try {
-        // Attempt to import the utility @embroider/compat uses in >3.1 to locate the embroider working directory
-        // the presence of this `locateEmbroiderWorkingDir` method coincides with the shift to utilize `rewritten-app` tmp dir
-        // eslint-disable-next-line node/no-missing-require
-        let { locateEmbroiderWorkingDir } = require('@embroider/core');
-        cwd = path.resolve(locateEmbroiderWorkingDir(cwd), 'rewritten-app');
-      } catch (err) {
-        // otherwise, fall back to the method used in embroider <3.1
-        let {
-          stableWorkspaceDir,
-          // eslint-disable-next-line node/no-missing-require
-        } = require('@embroider/compat/src/default-pipeline');
-        cwd = stableWorkspaceDir(cwd, process.env.EMBER_ENV);
-      }
-    }
-
-    const IstanbulPlugin = require.resolve('babel-plugin-istanbul');
-    return [
-      // String lookup is needed to workaround https://github.com/embroider-build/embroider/issues/1525
-      path.resolve(__dirname, 'lib/gjs-gts-istanbul-ignore-template-plugin'),
-      [IstanbulPlugin, { cwd, include: '**/*', exclude, extension }],
-    ];
+    return buildBabelPlugin(opts);
   },
 
   includedCommands() {
     return {
-      'coverage-merge': require('./lib/coverage-merge'),
+      'coverage-merge': createCoverageMergeCommand(),
     };
   },
 
@@ -140,22 +82,50 @@ module.exports = {
   },
 
   /**
+   * Detect whether the host project uses `@embroider/vite`. Vite-based
+   * projects need a different middleware than classic Ember CLI: Vite emits
+   * absolute filesystem paths in `__coverage__`, whereas the classic
+   * middleware expects module-namespaced paths and applies a remapping that
+   * double-prefixes `app/` (causing files to be dropped from the report).
+   * When this returns true, the addon registers
+   * `createViteTestemMiddleware()` instead of the classic middleware so the
+   * consumer does not need to wire it up manually in `testem.cjs`.
+   * @returns {boolean}
+   */
+  _isViteProject() {
+    const pkg = this.project && this.project.pkg;
+    if (!pkg) {
+      return false;
+    }
+
+    return Boolean(
+      (pkg.dependencies && pkg.dependencies['@embroider/vite']) ||
+        (pkg.devDependencies && pkg.devDependencies['@embroider/vite'])
+    );
+  },
+
+  /**
    * If coverage is enabled attach coverage middleware to the express server run by ember-cli
    * @param {Object} startOptions - Express server start options
    */
   serverMiddleware(startOptions) {
-    attachMiddleware.serverMiddleware(
-      startOptions.app,
-      this._middlewareConfig()
-    );
+    if (this._isViteProject()) {
+      createViteTestemMiddleware({ root: this.project.root })(startOptions.app);
+      return;
+    }
+    serverMiddleware(startOptions.app, this._middlewareConfig());
   },
 
   testemMiddleware(app) {
+    if (this._isViteProject()) {
+      createViteTestemMiddleware({ root: this.project.root })(app);
+      return;
+    }
     // if we're running `ember test --server` use the `serverMiddleware`.
     if (process.argv.includes('--server') || process.argv.includes('-s')) {
       return this.serverMiddleware({ app });
     }
-    attachMiddleware.testMiddleware(app, this._middlewareConfig());
+    testMiddleware(app, this._middlewareConfig());
   },
 
   _middlewareConfig() {

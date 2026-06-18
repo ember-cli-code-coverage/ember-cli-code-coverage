@@ -1,6 +1,6 @@
 'use strict';
 
-import { createReport } from '../packages/ember-cli-code-coverage/lib/reports';
+import { createReport } from '../packages/ember-cli-code-coverage/lib/istanbul/index.js';
 import { expect, describe, it } from 'vitest';
 
 describe('reports', () => {

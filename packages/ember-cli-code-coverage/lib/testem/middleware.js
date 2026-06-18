@@ -1,53 +1,54 @@
 'use strict';
 
-const bodyParser = require('body-parser').json({ limit: '500mb' });
+const bodyParserModule = require('body-parser');
 const libCoverage = require('istanbul-lib-coverage');
 const libReport = require('istanbul-lib-report');
-
-const getConfig = require('./config');
 const path = require('path');
 const crypto = require('crypto');
 const fs = require('fs-extra');
 const libSourceMaps = require('istanbul-lib-source-maps');
-const { createReport } = require('./reports');
+const { loadConfig } = require('../istanbul/config.js');
+const { createReport } = require('../istanbul/reports.js');
+const {
+  normalizePathForTemplateImports,
+  processAndStoreCoverage,
+} = require('./utils.js');
 
+const bodyParser = bodyParserModule.json({ limit: '500mb' });
 const sourceMapStore = libSourceMaps.createSourceMapStore();
-
 const WRITE_COVERAGE = '/write-coverage';
 
-function logError(err, req, res, next) {
+/**
+ * @typedef {Object} MiddlewareConfig
+ * @property {string} root
+ * @property {string} configPath
+ * @property {Map<string, string>} namespaceMappings
+ */
+
+/**
+ * Log error to console
+ * @param {Error} err
+ * @param {any} _req
+ * @param {any} _res
+ * @param {Function} next
+ */
+function logError(err, _req, _res, next) {
   console.error(err.stack);
   next(err);
 }
 
-// ember-template-import has weird sourcemaps for gjs/gts
-// so we need to do some custom path remapping
-// Example `my-app/components/my-app/components/file.gjs` -> `my-app/components/file.gjs`
-function normalizePathForTemplateImports(filepath) {
-  const filepathArray = filepath.split(path.sep);
-  const lastIndexOfTopDirName = filepathArray.lastIndexOf(filepathArray[0]);
-
-  // This means we are dealing with v2 addon test which already has correct path
-  if (lastIndexOfTopDirName === 0) {
-    return filepath;
-  }
-
-  const dedupedPathArray = filepathArray.filter(
-    (_, index) => index >= lastIndexOfTopDirName
-  );
-
-  return dedupedPathArray.join(path.sep);
-}
-
-/*
- * This function normalizes the relativePath to match what we get from a classical app. Its goal
- * is to change any in repo paths like: app-namespace/lib/in-repo-namespace/components/foo.js to
- * in-repo-namespace/components/foo.js.
+/**
+ * This function normalizes the relativePath to match what we get from a classical app.
+ * Its goal is to change any in repo paths like: app-namespace/lib/in-repo-namespace/components/foo.js
+ * to in-repo-namespace/components/foo.js.
+ * @param {string} root
+ * @param {string} filepath
+ * @returns {string}
  */
 function normalizeRelativePath(root, filepath) {
   let relativePath;
-  let embroiderCompatLT31TmpPathRegex = /embroider\/.{6}/gm;
-  let embroiderCompatGT31TmpPathRegex = /\.embroider\/rewritten-app\//gm;
+  const embroiderCompatLT31TmpPathRegex = /embroider\/.{6}/gm;
+  const embroiderCompatGT31TmpPathRegex = /\.embroider\/rewritten-app\//gm;
 
   if (embroiderCompatGT31TmpPathRegex.test(filepath)) {
     relativePath = filepath.split(embroiderCompatGT31TmpPathRegex)[1];
@@ -56,13 +57,12 @@ function normalizeRelativePath(root, filepath) {
   }
 
   if (fs.existsSync(path.join(root, 'package.json'))) {
-    let pkgJSON = fs.readJsonSync(path.join(root, 'package.json'));
-    let inRepoPaths =
+    const pkgJSON = fs.readJsonSync(path.join(root, 'package.json'));
+    const inRepoPaths =
       (pkgJSON['ember-addon'] && pkgJSON['ember-addon']['paths']) || [];
 
     for (let i = 0; i <= inRepoPaths.length; i++) {
-      // this regex checks that the relative path is: app-namespace/path/to/inrepo
-      let inRepoPathRegex = new RegExp('[^/]+/' + inRepoPaths[i], 'gi');
+      const inRepoPathRegex = new RegExp('[^/]+/' + inRepoPaths[i], 'gi');
       if (inRepoPathRegex.test(relativePath)) {
         relativePath = path.join(
           inRepoPaths[i].split(path.sep).slice(-1)[0],
@@ -70,7 +70,6 @@ function normalizeRelativePath(root, filepath) {
         );
         break;
       } else if (relativePath.startsWith(inRepoPaths[i])) {
-        // this checks if relative path is: /path/to/inrepo
         relativePath = path.join(
           inRepoPaths[i].split(path.sep).slice(-1)[0],
           filepath.split(inRepoPaths[i])[1]
@@ -83,14 +82,13 @@ function normalizeRelativePath(root, filepath) {
   return relativePath;
 }
 
-/*
+/**
  * The objective of this function is to convert an absolute path into a path relative to project root.
- * The is because the coverage html file wants to display things like `app/components/foo.js`
- *  and not a full absolute path. The trick is that this path will be different in Embroider vs Classic. For
- * Embroider this path will be in the temp location such as:
- * `/private/var/folders/61/n399scw50nq264twrz32ccgr000vkn/T/embroider/fbeb74/ember-test-app/components/foo.js`
- * where as in Classic it will be the "actual" app like: `/Users/x/y/z/ember-test-app/ember-test-app/components/foo.js`
- * both of these absolute paths should be converted into `app/components/foo.js`
+ * @param {string} root
+ * @param {string} filepath
+ * @param {Map<string, string>} namespaceMappings
+ * @param {Function} [modifyAssetLocation]
+ * @returns {string}
  */
 function adjustCoverageKey(
   root,
@@ -98,16 +96,14 @@ function adjustCoverageKey(
   namespaceMappings,
   modifyAssetLocation
 ) {
-  let embroiderTmpPathRegex = /embroider\/.{6}/gm;
-  let gjsGtsRegex = /\.g[tj]s$/gm;
+  const embroiderTmpPathRegex = /embroider\/.{6}/gm;
+  const gjsGtsRegex = /\.g[tj]s$/gm;
 
   let relativePath = path.relative(root, filepath);
-  // we can determine if file is coming from embroider based on how the path looks
+
   if (embroiderTmpPathRegex.test(filepath)) {
     relativePath = normalizeRelativePath(root, filepath);
   } else if (relativePath.startsWith('..')) {
-    // This lives in a directory outside of the current one, likely a monorepo.
-    // In this case we can assume that the original path is correct.
     return filepath;
   }
 
@@ -115,7 +111,8 @@ function adjustCoverageKey(
     relativePath = normalizePathForTemplateImports(relativePath);
   }
 
-  let namespace, pathWithoutNamespace;
+  let namespace;
+  let pathWithoutNamespace;
 
   if (relativePath.startsWith('@')) {
     namespace = relativePath.split(path.sep).slice(0, 2).join('/');
@@ -129,12 +126,11 @@ function adjustCoverageKey(
 
   if (pathWithoutNamespace[0] === 'test-support') {
     namespaceKey = path.join(namespace, 'test-support');
-    // remove the old test-support segment
     pathWithoutNamespace = pathWithoutNamespace.slice(1);
   }
 
   if (modifyAssetLocation) {
-    let customPath = modifyAssetLocation(
+    const customPath = modifyAssetLocation(
       root,
       relativePath,
       filepath,
@@ -152,18 +148,22 @@ function adjustCoverageKey(
     );
   }
 
-  // use the default key which will point to project root. this should only
-  // happen in embroider under special situations
   namespaceKey = '/';
   return path.join(namespaceMappings.get(namespaceKey), relativePath);
 }
 
+/**
+ * Adjust coverage paths
+ * @param {Object.<string, any>} coverage
+ * @param {MiddlewareConfig & {configPath: string}} options
+ * @returns {Object.<string, any>}
+ */
 function adjustCoverage(coverage, options) {
-  let { root, namespaceMappings, configPath } = options;
-  let { modifyAssetLocation } = getConfig(configPath);
+  const { root, namespaceMappings, configPath } = options;
+  const { modifyAssetLocation } = loadConfig(configPath);
 
   const adjustedCoverage = Object.keys(coverage).reduce((memo, filePath) => {
-    let relativeToProjectRoot = adjustCoverageKey(
+    const relativeToProjectRoot = adjustCoverageKey(
       root,
       filePath,
       namespaceMappings,
@@ -177,27 +177,42 @@ function adjustCoverage(coverage, options) {
   return adjustedCoverage;
 }
 
-async function writeCoverage(coverage, options, map) {
-  let { root } = options;
+/**
+ * Create a path adjuster function for ember-cli middleware.
+ * Returns null if the path should be excluded.
+ * @param {MiddlewareConfig & {configPath: string}} options
+ * @returns {(filepath: string) => string|null}
+ */
+function createEmberPathAdjuster(options) {
+  const { root, namespaceMappings, configPath } = options;
+  const { modifyAssetLocation } = loadConfig(configPath);
 
-  const remappedCoverage = await sourceMapStore.transformCoverage(
-    libCoverage.createCoverageMap(coverage)
-  );
+  return function adjustPath(filepath) {
+    const adjusted = adjustCoverageKey(
+      root,
+      filepath,
+      namespaceMappings,
+      modifyAssetLocation
+    );
+    const relativePath = path.relative(root, adjusted);
 
-  const adjustedCoverage = adjustCoverage(remappedCoverage.data, options);
-
-  Object.entries(adjustedCoverage).forEach(([relativePath, cov]) => {
-    // this filters out files that dont reside within the project
-    if (fs.existsSync(path.join(root, relativePath))) {
-      map.addFileCoverage(cov);
+    if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
+      return null;
     }
-  });
+
+    return relativePath;
+  };
 }
 
+/**
+ * Generate coverage reports
+ * @param {import('istanbul-lib-coverage').CoverageMap} map
+ * @param {string} root
+ * @param {string} configPath
+ */
 function reportCoverage(map, root, configPath) {
-  let config = getConfig(configPath);
-
-  let { reporters } = config;
+  const config = loadConfig(configPath);
+  const { reporters } = config;
 
   if (config.parallel) {
     config.coverageFolder =
@@ -213,35 +228,51 @@ function reportCoverage(map, root, configPath) {
   }
 
   // create a context for report generation
-  let context = libReport.createContext({
+  const context = libReport.createContext({
     dir: path.join(root, config.coverageFolder),
     watermarks: libReport.getDefaultWatermarks(),
     coverageMap: map,
   });
 
   reporters.forEach((reporter) => {
-    let report = createReport(reporter);
+    const report = createReport(reporter);
 
     // call execute to synchronously create and write the report to disk
     report.execute(context);
   });
 }
 
+/**
+ * Handle coverage request
+ * @param {import('istanbul-lib-coverage').CoverageMap} map
+ * @param {MiddlewareConfig & {configPath: string}} options
+ * @param {any} req
+ * @param {any} res
+ */
 async function coverageHandler(map, options, req, res) {
-  await writeCoverage(req.body, options, map);
-  reportCoverage(map, options.root, options.configPath);
+  const pathAdjuster = createEmberPathAdjuster(options);
 
+  await processAndStoreCoverage(req.body, sourceMapStore, map, {
+    root: options.root,
+    pathAdjuster,
+  });
+
+  reportCoverage(map, options.root, options.configPath);
   res.send(map.getCoverageSummary().toJSON());
 }
 
-// Used when app is in dev mode (`ember serve`).
-// Creates a new coverage map on every request.
+/**
+ * Used when app is in dev mode (`ember serve`).
+ * Creates a new coverage map on every request.
+ * @param {any} app
+ * @param {MiddlewareConfig & {configPath: string}} options
+ */
 function serverMiddleware(app, options) {
   app.post(
     WRITE_COVERAGE,
     bodyParser,
     (req, res) => {
-      let map = libCoverage.createCoverageMap();
+      const map = libCoverage.createCoverageMap();
 
       coverageHandler(map, options, req, res);
     },
@@ -249,10 +280,14 @@ function serverMiddleware(app, options) {
   );
 }
 
-// Used when app is in ci mode (`ember test`).
-// Collects the coverage on each request and merges it into the coverage map.
+/**
+ * Used when app is in ci mode (`ember test`).
+ * Collects the coverage on each request and merges it into the coverage map.
+ * @param {any} app
+ * @param {MiddlewareConfig & {configPath: string}} options
+ */
 function testMiddleware(app, options) {
-  let map = libCoverage.createCoverageMap();
+  const map = libCoverage.createCoverageMap();
 
   app.post(
     WRITE_COVERAGE,

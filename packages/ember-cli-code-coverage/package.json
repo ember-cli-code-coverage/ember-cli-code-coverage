@@ -7,7 +7,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/kategengler/ember-cli-code-coverage",
+    "url": "https://github.com/ember-cli-code-coverage/ember-cli-code-coverage",
     "directory": "packages/ember-cli-code-coverage"
   },
   "license": "MIT",
@@ -17,6 +17,36 @@
     "Robert Jackson (https://github.com/rwjblue)",
     "Robert Wagner (https://github.com/rwwagner90)"
   ],
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./istanbul": {
+      "types": "./types/istanbul.d.ts",
+      "default": "./lib/istanbul/index.js"
+    },
+    "./babel": {
+      "types": "./types/babel.d.ts",
+      "default": "./lib/babel/index.js"
+    },
+    "./glimmer": {
+      "types": "./types/glimmer.d.ts",
+      "default": "./lib/glimmer/index.js"
+    },
+    "./testem": {
+      "types": "./types/testem.d.ts",
+      "default": "./lib/testem/index.js"
+    },
+    "./vite": {
+      "types": "./types/vite.d.ts",
+      "default": "./lib/vite/index.js"
+    },
+    "./test-support": {
+      "types": "./types/test-support.d.ts",
+      "default": "./addon-test-support/index.js"
+    }
+  },
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -41,8 +71,8 @@
     "fs-extra": "^9.0.0",
     "istanbul-lib-coverage": "^3.2.2",
     "istanbul-lib-report": "^3.0.1",
-    "istanbul-reports": "^3.1.7",
     "istanbul-lib-source-maps": "^4.0.1",
+    "istanbul-reports": "^3.1.7",
     "node-dir": "^0.1.17",
     "walk-sync": "^2.1.0"
   },
@@ -91,7 +121,9 @@
   },
   "peerDependencies": {
     "@embroider/compat": "^0.47.0 || ^1.0.0 || ^2.0.0 || >=3.0.0",
-    "@embroider/core": "^0.47.0 || ^1.0.0 || ^2.0.0 || >=3.0.0"
+    "@embroider/core": "^0.47.0 || ^1.0.0 || ^2.0.0 || >=3.0.0",
+    "@embroider/vite": ">=1.0.0",
+    "vite": ">= 5.2.0"
   },
   "peerDependenciesMeta": {
     "@embroider/compat": {
@@ -99,10 +131,16 @@
     },
     "@embroider/core": {
       "optional": true
+    },
+    "vite": {
+      "optional": true
+    },
+    "@embroider/vite": {
+      "optional": true
     }
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

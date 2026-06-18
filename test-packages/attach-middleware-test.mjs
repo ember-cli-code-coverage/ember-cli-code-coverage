@@ -1,6 +1,6 @@
 'use strict';
 
-import { normalizeRelativePath, adjustCoverageKey } from '../packages/ember-cli-code-coverage/lib/attach-middleware';
+import { normalizeRelativePath, adjustCoverageKey } from '../packages/ember-cli-code-coverage/lib/testem/index.js';
 import { Project } from 'fixturify-project';
 import { join } from 'path';
 import { expect, describe, it } from 'vitest';

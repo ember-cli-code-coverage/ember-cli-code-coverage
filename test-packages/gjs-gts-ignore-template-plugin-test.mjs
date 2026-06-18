@@ -1,4 +1,4 @@
-import gjsGtsIstanbulIgnoreTemplatePlugin from '../packages/ember-cli-code-coverage/lib/gjs-gts-istanbul-ignore-template-plugin';
+import gjsGtsIstanbulIgnoreTemplatePlugin from '../packages/ember-cli-code-coverage/lib/babel/gjs-gts-ignore-plugin.js';
 import babel from '@babel/core';
 import { expect, describe, it } from 'vitest';
 import { Preprocessor } from 'content-tag';
