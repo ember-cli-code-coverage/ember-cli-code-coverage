@@ -179,28 +179,19 @@ const NOOP_PLUGIN: AstPlugin = {
   visitor: {},
 };
 
-/** True when `filename` is `root` or somewhere inside it. */
-function isWithinRoot(filename: string, root: string): boolean {
-  const relative = path.relative(root, filename);
-  return (
-    relative === '' ||
-    (!relative.startsWith('..') && !path.isAbsolute(relative))
-  );
-}
-
 /**
- * True when `filename` is a real dependency: something under a
- * `node_modules` segment.
+ * True when `filename` is a dependency rather than the app's own source.
  *
- * This is the deciding check, not `isWithinRoot` — a dependency's own
- * `node_modules` normally lives *inside* the project root (or a temp
- * copy of it), so "outside root" alone would miss it entirely. `root`
- * still matters separately for the one case this can't catch: a
- * workspace-linked sibling package, whose symlink resolves to a real
- * path that sits outside root without ever touching `node_modules`.
+ * This has to be decided on `node_modules` alone, not on whether the file
+ * sits inside the project root. Classic and Embroider builds compile out
+ * of broccoli temp directories, so an app's own templates routinely have
+ * paths nowhere near the project — a containment check silently skips
+ * every one of them, which is exactly how `.gjs` coverage went missing on
+ * those builds. A dependency's `node_modules` is just as reliably inside
+ * the root (or a temp copy of it), so containment wouldn't have caught
+ * the dependencies either way.
  */
-function isThirdParty(filename: string, root: string): boolean {
-  if (!isWithinRoot(filename, root)) return true;
+function isThirdParty(filename: string): boolean {
   return filename.split(path.sep).includes('node_modules');
 }
 
@@ -209,7 +200,6 @@ export function createTemplateCoveragePlugin(
 ): (env: PluginEnvironment) => AstPlugin {
   const coverageEnvVar = options.coverageEnvVar ?? 'COVERAGE';
   const names = options.strict ? HELPER_NAMES.strict : HELPER_NAMES.loose;
-  const root = options.root ?? process.cwd();
 
   // Keyed by module name so multiple templates in one file (a `.gts` with
   // several `<template>` blocks) get non-colliding branch ids.
@@ -228,7 +218,7 @@ export function createTemplateCoveragePlugin(
     // rewrite runs through the host app's own `transforms`, same as
     // everything else. The preprocessor-registry invocation (loose mode)
     // never sets `env.filename`, so this check is a no-op there.
-    if (env.filename && isThirdParty(env.filename, root)) {
+    if (env.filename && isThirdParty(env.filename)) {
       return NOOP_PLUGIN;
     }
 

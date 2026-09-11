@@ -297,9 +297,20 @@ array as part of its compat step, and that dependency never went through
 `templateCoverageImportPlugin`, so instrumenting it would reference helpers
 with no binding to resolve against.
 
-This wiring is verified for Vite apps; a classic or Embroider app using
-`.gjs`/`.gts` would need the same babel config (a v2 addon already
-hand-authors one), but that combination hasn't been tested here.
+This applies to Vite builds. A classic or Embroider app using `.gjs`/`.gts`
+gets **no** template coverage for those files — their JavaScript is still
+covered as usual, but their template branches are not measured.
+
+The reason is that nothing reaches them. `ember-template-imports` converts
+`.gjs` through its own preprocessor, and the AST plugin this addon registers
+via `setupPreprocessorRegistry` — the one that handles `.hbs` automatically —
+never runs against the result. There's no `transforms` hook exposed on that
+path to register against either, which is why the Vite setup above has to be
+wired by hand in `babel.config.mjs`. A classic app has no equivalent file to
+put it in.
+
+This is a silent gap rather than a broken build: such templates are simply
+skipped.
 
 [strict-resolver]: https://github.com/ember-cli/ember-strict-application-resolver
 

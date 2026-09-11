@@ -136,6 +136,36 @@
 
 
 
+## v2.0.0-beta.2 (2021-10-28)
+
+#### :boom: Breaking Change
+* `ember-cli-code-coverage`
+  * [#332](https://github.com/kategengler/ember-cli-code-coverage/pull/332) Move `sendCoverage` to be added by the host in `QUnit.done` ([@thoov](https://github.com/thoov))
+
+#### :rocket: Enhancement
+* `ember-cli-code-coverage`
+  * [#333](https://github.com/kategengler/ember-cli-code-coverage/pull/333) Migrate to using native `fetch` instead of XMLHttpRequest ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 2
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+- Travis Hoover ([@thoov](https://github.com/thoov))
+
+
+## v2.0.0-beta.1 (2021-10-26)
+
+#### :boom: Breaking Change
+* `ember-cli-code-coverage`
+  * [#327](https://github.com/kategengler/ember-cli-code-coverage/pull/327) Re-architect plugin loading and asset detection logic (add Embroider support) ([@thoov](https://github.com/thoov))
+  * [#325](https://github.com/kategengler/ember-cli-code-coverage/pull/325) Run ember-cli-upgrade to v3.28.1 ([@thoov](https://github.com/thoov))
+
+#### :house: Internal
+* `ember-cli-code-coverage`
+  * [#326](https://github.com/kategengler/ember-cli-code-coverage/pull/326) Use volta-cli for node and yarn versioning ([@thoov](https://github.com/thoov))
+
+#### Committers: 1
+- Travis Hoover ([@thoov](https://github.com/thoov))
+
+
 ## v1.0.3 (2021-04-26)
 
 #### :bug: Bug Fix
@@ -222,6 +252,24 @@
 - Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
 - [@tomichal](https://github.com/tomichal)
 - abishek-srinivasan ([@abishek-srinivasan](https://github.com/abishek-srinivasan))
+
+
+## v1.0.0-beta.9 (2020-02-22)
+
+#### :rocket: Enhancement
+* [#223](https://github.com/kategengler/ember-cli-code-coverage/pull/223) Support Typescript / ember-cli-typescript ([@lifeart](https://github.com/lifeart))
+
+#### :bug: Bug Fix
+* [#236](https://github.com/kategengler/ember-cli-code-coverage/pull/236) Ensure coverage collection accounts for addons with a custom `moduleName` implementation ([@axelerate](https://github.com/axelerate))
+
+#### :house: Internal
+* [#237](https://github.com/kategengler/ember-cli-code-coverage/pull/237) Merge pull request #237 from kategengler/rwjblue-patch-1 ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 4
+- Alex Kanunnikov ([@lifeart](https://github.com/lifeart))
+- Axel Hadfeg ([@axelerate](https://github.com/axelerate))
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+- [@ventuno](https://github.com/ventuno)
 
 
 ## v1.0.0-beta.8 (2019-01-02)

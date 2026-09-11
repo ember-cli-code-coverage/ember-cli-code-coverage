@@ -143,21 +143,6 @@ export interface TemplateCoveragePluginOptions {
    * @default false
    */
   strict?: boolean;
-  /**
-   * Only instrument templates whose file path starts with this directory
-   * (default: `process.cwd()`).
-   *
-   * A build tool's `transforms` array is not scoped to your own app: a
-   * classic v1 addon dependency gets rewritten into a v2-compatible
-   * `template()` call as part of Embroider's compat step, and that
-   * rewrite runs through the same `transforms`. Without this filter, a
-   * dependency's own templates get instrumented too — and since they
-   * never went through `templateCoverageImportPlugin`, the injected
-   * `coverageInit`/`coverageMark` references have no binding to resolve
-   * against, so the build fails outright the moment any dependency needs
-   * this kind of rewriting.
-   */
-  root?: string;
 }
 
 /**
