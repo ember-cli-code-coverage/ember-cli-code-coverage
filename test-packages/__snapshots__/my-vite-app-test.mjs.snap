@@ -1,0 +1,402 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`vite app coverage generation > runs coverage when env var is set 1`] = `
+{
+  "app/app.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 6,
+      "pct": 100,
+      "skipped": 0,
+      "total": 6,
+    },
+    "statements": {
+      "covered": 6,
+      "pct": 100,
+      "skipped": 0,
+      "total": 6,
+    },
+  },
+  "app/components/bar.gjs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 2,
+      "pct": 66.66,
+      "skipped": 0,
+      "total": 3,
+    },
+    "lines": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+  },
+  "app/components/coverage-demo.gjs": {
+    "branches": {
+      "covered": 5,
+      "pct": 50,
+      "skipped": 0,
+      "total": 10,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 6,
+      "pct": 60,
+      "skipped": 0,
+      "total": 10,
+    },
+    "statements": {
+      "covered": 6,
+      "pct": 54.54,
+      "skipped": 0,
+      "total": 11,
+    },
+  },
+  "app/config/environment.js": {
+    "branches": {
+      "covered": 12,
+      "pct": 92.3,
+      "skipped": 0,
+      "total": 13,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 5,
+      "pct": 100,
+      "skipped": 0,
+      "total": 5,
+    },
+    "statements": {
+      "covered": 6,
+      "pct": 100,
+      "skipped": 0,
+      "total": 6,
+    },
+  },
+  "app/deprecation-workflow.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "lines": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/router.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 1,
+      "pct": 33.33,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": {
+      "covered": 1,
+      "pct": 33.33,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/templates/application.gjs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/utils/my-covered-util.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "app/utils/my-uncovered-util.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "tests/helpers/index.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 3,
+    },
+    "lines": {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "tests/integration/components/bar-test.gjs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "lines": {
+      "covered": 6,
+      "pct": 100,
+      "skipped": 0,
+      "total": 6,
+    },
+    "statements": {
+      "covered": 7,
+      "pct": 100,
+      "skipped": 0,
+      "total": 7,
+    },
+  },
+  "tests/integration/components/coverage-demo-test.gjs": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 3,
+      "pct": 100,
+      "skipped": 0,
+      "total": 3,
+    },
+    "lines": {
+      "covered": 10,
+      "pct": 100,
+      "skipped": 0,
+      "total": 10,
+    },
+    "statements": {
+      "covered": 11,
+      "pct": 100,
+      "skipped": 0,
+      "total": 11,
+    },
+  },
+  "tests/test-helper.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "lines": {
+      "covered": 7,
+      "pct": 100,
+      "skipped": 0,
+      "total": 7,
+    },
+    "statements": {
+      "covered": 7,
+      "pct": 100,
+      "skipped": 0,
+      "total": 7,
+    },
+  },
+  "tests/unit/utils/my-covered-util-test.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+    "statements": {
+      "covered": 4,
+      "pct": 100,
+      "skipped": 0,
+      "total": 4,
+    },
+  },
+  "total": {
+    "branches": {
+      "covered": 17,
+      "pct": 73.91,
+      "skipped": 0,
+      "total": 23,
+    },
+    "branchesTrue": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 13,
+      "pct": 65,
+      "skipped": 0,
+      "total": 20,
+    },
+    "lines": {
+      "covered": 52,
+      "pct": 82.53,
+      "skipped": 0,
+      "total": 63,
+    },
+    "statements": {
+      "covered": 55,
+      "pct": 82.08,
+      "skipped": 0,
+      "total": 67,
+    },
+  },
+}
+`;

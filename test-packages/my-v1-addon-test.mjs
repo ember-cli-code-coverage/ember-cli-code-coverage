@@ -13,9 +13,14 @@ describe('v1 addon coverage generation', function () {
   it('runs coverage for v1 addons', async function () {
     const buildPath = await setupTestDir(BASE_PATH, env, {});
 
-    await execa('npm', ['run', 'test', '--test-port=0'], { cwd: buildPath, env });
+    await execa('npx', ['ember', 'test', '--test-port=0'], {
+      cwd: buildPath,
+      env,
+    });
 
-    const coverageSummary = await readJSON(`${buildPath}/coverage/coverage-summary.json`);
+    const coverageSummary = await readJSON(
+      `${buildPath}/coverage/coverage-summary.json`,
+    );
 
     expect(coverageSummary).toMatchInlineSnapshot(`
       {

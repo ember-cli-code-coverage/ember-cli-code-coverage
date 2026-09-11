@@ -1,4 +1,4 @@
-import { on } from '@ember/modifier';
+import { on } from "@ember/modifier";
 
 let counter = 0;
 
@@ -19,7 +19,7 @@ function bar() {
 }
 
 <template>
-  <button {{on "click" bar}}>
+  <button type="button" {{on "click" bar}}>
    increment
   </button>
 </template>

@@ -8,7 +8,10 @@ describe('in-repo engine coverage generation', function () {
   it('runs coverage on in-repo engine', async function () {
     let env = { COVERAGE: 'true' };
     let buildPath = await setupTestDir(APP_DIR, env, {});
-    await execa('pnpm', ['ember' , 'test','--test-port=0'], { cwd: buildPath, env });
+    await execa('pnpm', ['ember', 'test', '--test-port=0'], {
+      cwd: buildPath,
+      env,
+    });
     await assertCoverageExists(`${buildPath}/coverage`);
   });
 });

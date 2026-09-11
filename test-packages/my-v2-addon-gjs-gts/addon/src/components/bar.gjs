@@ -5,7 +5,7 @@ let counter = 0;
 export const baz = <template>
   hello
   world
-  <button {{on "click" bar}}>
+  <button type="button" {{on "click" bar}}>
    increment
   </button>
 </template>
@@ -16,7 +16,7 @@ function bar() {
 }
 
 <template>
-  <button {{on "click" bar}}>
+  <button type="button" {{on "click" bar}}>
    increment
   </button>
 </template>

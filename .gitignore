@@ -6,6 +6,8 @@ node_modules
 # misc
 npm-debug.log*
 yarn-error.log
+# unanchored so it covers every workspace package, not just the root
+.eslintcache
 
 # ember-try
 .node_modules.ember-try/
