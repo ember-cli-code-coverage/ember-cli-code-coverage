@@ -6,11 +6,7 @@ module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     // Add options here
     babel: {
-      plugins: [
-        ...require('ember-cli-code-coverage').buildBabelPlugin({
-          embroider: true,
-        }),
-      ],
+      plugins: [...require('ember-cli-code-coverage').buildBabelPlugin()],
       sourceMaps: 'inline',
     },
     'ember-cli-babel': {

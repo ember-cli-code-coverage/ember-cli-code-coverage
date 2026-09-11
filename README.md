@@ -34,20 +34,10 @@ let app = new EmberApp(defaults, {
 });
 ```
 
-**Embroider apps** (`ember-cli-build.js`):
-
-```js
-let app = new EmberApp(defaults, {
-  babel: {
-    plugins: [
-      ...require('ember-cli-code-coverage').buildBabelPlugin({
-        embroider: true,
-      }),
-    ],
-    sourceMaps: 'inline',
-  },
-});
-```
+**Embroider apps**: identical to classic — no extra option. Earlier versions
+needed `buildBabelPlugin({ embroider: true })` to repoint Istanbul at the
+rewritten app; that is handled automatically now, and the option no longer
+exists. Passing it is harmless but does nothing.
 
 **Vite apps**: skip this step. `coveragePlugin()` instruments your code itself
 (see below), so you do not add the Babel plugin to `@rollup/plugin-babel`.
