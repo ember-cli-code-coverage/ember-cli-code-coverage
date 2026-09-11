@@ -14,6 +14,11 @@ export interface CoverageConfig {
   reporters: (string | [string, Record<string, unknown>])[];
   /** Enable parallel coverage merging */
   parallel?: boolean;
+  /**
+   * Instrument Glimmer templates for branch coverage.
+   * Applies to `.hbs` templates; see README for the `.gjs`/`.gts` caveat.
+   */
+  templateCoverage?: boolean;
   /** Custom hook to modify the asset locations in coverage */
   modifyAssetLocation?: ModifyAssetLocationFn;
 }
@@ -25,7 +30,7 @@ export type ModifyAssetLocationFn = (
   root: string,
   relativePath: string,
   filepath: string,
-  namespaceMappings: Map<string, string>
+  namespaceMappings: Map<string, string>,
 ) => string | undefined | null;
 
 /**
@@ -48,6 +53,11 @@ export interface BuildBabelPluginOptions {
   configPath?: string;
   /** Env var name to check (default: "COVERAGE") */
   coverageEnvVar?: string;
+  /**
+   * Called once per instrumented file with its zero-filled coverage
+   * object. Used to build the Vite baseline; see `coveragePlugin`.
+   */
+  onCover?: (filename: string, fileCoverage: unknown) => void;
 }
 
 /**
@@ -58,8 +68,14 @@ export interface CoverageMiddlewareOptions {
   root?: string;
   /** Path to coverage config directory or file */
   configPath?: string;
-  /** Module namespace → directory mappings */
-  namespaceMappings?: Map<string, string>;
+  /**
+   * Module namespace → directory mappings.
+   *
+   * Omit to derive them from the project's package.json. Pass `null` to
+   * disable remapping entirely, which is what Vite builds need: their
+   * coverage keys are already absolute filesystem paths.
+   */
+  namespaceMappings?: Map<string, string> | null;
 }
 
 /**
@@ -68,6 +84,8 @@ export interface CoverageMiddlewareOptions {
 export interface TestemMiddlewareOptions extends CoverageMiddlewareOptions {
   /** Create fresh coverage map per request (default: false) */
   resetOnRequest?: boolean;
+  /** Override the build-time coverage baseline path, or `false` to ignore it */
+  baselinePath?: string | false;
 }
 
 /**
@@ -77,6 +95,38 @@ export interface ResolvedMiddlewareConfig {
   root: string;
   configPath?: string;
   namespaceMappings?: Map<string, string>;
+  /**
+   * Path to a zero-filled coverage baseline written at build time.
+   * Seeded into the coverage map so files no test imported are still
+   * reported, rather than silently missing.
+   */
+  baselinePath?: string;
+}
+
+/**
+ * Branch metadata emitted by the template AST plugin at build time and
+ * replayed into an Istanbul coverage object in the browser.
+ */
+export interface TemplateBranchMeta {
+  /** Branch kind, mapped onto Istanbul's branch types */
+  type: 'if' | 'binary-expr' | 'cond-expr';
+  /** Source location of the construct that introduced the branch */
+  loc: TemplateSourceRange;
+  /** One entry per branch path (consequent, alternate, ...) */
+  locations: TemplateSourceRange[];
+}
+
+export interface TemplateSourceRange {
+  start: { line: number; column: number };
+  end: { line: number; column: number };
+}
+
+/**
+ * Options for the Glimmer template coverage AST plugin.
+ */
+export interface TemplateCoveragePluginOptions {
+  /** Env var name that gates instrumentation (default: "COVERAGE") */
+  coverageEnvVar?: string;
 }
 
 /**
@@ -85,6 +135,15 @@ export interface ResolvedMiddlewareConfig {
 export interface ViteCoveragePluginOptions extends CoverageMiddlewareOptions {
   /** Enable/disable the plugin (default: checks COVERAGE env var) */
   enabled?: boolean;
+  /** File extensions to instrument */
+  extension?: string[];
+  /** Glob patterns to exclude from instrumentation */
+  exclude?: string[];
+  /**
+   * Emit a zero-filled baseline for every instrumented file so modules
+   * no test imports still appear in the report (default: true).
+   */
+  baseline?: boolean;
 }
 
 /**
@@ -111,7 +170,11 @@ export interface ExpressLikeApp {
   post(
     path: string,
     ...handlers: Array<
-      (req: IncomingMessage, res: ServerResponseLike, next: (err?: unknown) => void) => void
+      (
+        req: IncomingMessage,
+        res: ServerResponseLike,
+        next: (err?: unknown) => void,
+      ) => void
     >
   ): void;
 }

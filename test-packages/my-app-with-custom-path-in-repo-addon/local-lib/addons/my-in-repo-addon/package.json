@@ -1,0 +1,9 @@
+{
+  "name": "my-app-in-repo-addon",
+  "keywords": [
+    "ember-addon"
+  ],
+  "dependencies": {
+    "ember-cli-babel": "*"
+  }
+}

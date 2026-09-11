@@ -32,16 +32,24 @@ export function readJsonBody(req: IncomingMessage): Promise<CoverageData> {
       totalSize += chunk.length;
       if (totalSize > MAX_BODY_SIZE) {
         req.destroy();
-        reject(new Error(`Coverage payload exceeds maximum size of ${MAX_BODY_SIZE} bytes`));
+        reject(
+          new Error(
+            `Coverage payload exceeds maximum size of ${MAX_BODY_SIZE} bytes`,
+          ),
+        );
         return;
       }
       chunks.push(chunk);
     });
     req.on('end', () => {
       try {
-        resolve(JSON.parse(Buffer.concat(chunks).toString('utf-8')) as CoverageData);
+        resolve(
+          JSON.parse(Buffer.concat(chunks).toString('utf-8')) as CoverageData,
+        );
       } catch (err) {
-        reject(new Error(`Failed to parse coverage JSON: ${(err as Error).message}`));
+        reject(
+          new Error(`Failed to parse coverage JSON: ${(err as Error).message}`),
+        );
       }
     });
     req.on('error', reject);
@@ -75,7 +83,10 @@ function escapeRegex(str: string): string {
 }
 
 /** Cache for package.json reads keyed by path. */
-const pkgJsonCache = new Map<string, { 'ember-addon'?: { paths?: string[] } }>();
+const pkgJsonCache = new Map<
+  string,
+  { 'ember-addon'?: { paths?: string[] } }
+>();
 
 /**
  * Normalize a file path from Embroider's temp directory to a
@@ -110,10 +121,13 @@ export function normalizeEmbroiderPath(root: string, filepath: string): string {
 
     for (const inRepoPath of inRepoPaths) {
       const inRepoRegex = new RegExp('[^/]+/' + escapeRegex(inRepoPath), 'gi');
-      if (inRepoRegex.test(relativePath) || relativePath.startsWith(inRepoPath)) {
+      if (
+        inRepoRegex.test(relativePath) ||
+        relativePath.startsWith(inRepoPath)
+      ) {
         relativePath = path.join(
           inRepoPath.split(path.sep).slice(-1)[0]!,
-          filepath.split(inRepoPath)[1]!
+          filepath.split(inRepoPath)[1]!,
         );
         break;
       }
@@ -133,7 +147,7 @@ export function adjustCoverageKey(
   root: string,
   filepath: string,
   namespaceMappings?: Map<string, string>,
-  modifyAssetLocation?: ModifyAssetLocationFn
+  modifyAssetLocation?: ModifyAssetLocationFn,
 ): string {
   const embroiderRegex = /embroider\/.{6}/;
   const gjsGtsRegex = /\.g[tj]s$/;
@@ -175,12 +189,19 @@ export function adjustCoverageKey(
   }
 
   if (modifyAssetLocation) {
-    const customPath = modifyAssetLocation(root, relativePath, filepath, namespaceMappings);
+    const customPath = modifyAssetLocation(
+      root,
+      relativePath,
+      filepath,
+      namespaceMappings,
+    );
     if (customPath) return customPath;
   }
 
   if (namespaceMappings.has(namespaceKey)) {
-    return path.join(...[namespaceMappings.get(namespaceKey)!, ...pathWithoutNamespace]);
+    return path.join(
+      ...[namespaceMappings.get(namespaceKey)!, ...pathWithoutNamespace],
+    );
   }
 
   // Fallback: default "/" namespace for Embroider edge cases
@@ -203,7 +224,7 @@ interface CoverageOptions {
  */
 export function adjustCoverage(
   coverage: Record<string, { data: { path: string } }>,
-  options: CoverageOptions
+  options: CoverageOptions,
 ): Record<string, { path: string }> {
   const { root, namespaceMappings, configPath } = options;
   const config = getConfig(configPath);
@@ -215,14 +236,14 @@ export function adjustCoverage(
         root,
         filePath,
         namespaceMappings,
-        modifyAssetLocation
+        modifyAssetLocation,
       );
       const relativePath = path.relative(root, resolvedPath);
       coverage[filePath]!.data.path = relativePath;
       memo[relativePath] = coverage[filePath]!.data;
       return memo;
     },
-    {} as Record<string, { path: string }>
+    {} as Record<string, { path: string }>,
   );
 }
 
@@ -233,17 +254,20 @@ export function adjustCoverage(
 export async function writeCoverage(
   coverage: CoverageData,
   options: CoverageOptions,
-  map: libCoverage.CoverageMap
+  map: libCoverage.CoverageMap,
 ): Promise<void> {
   const { root } = options;
 
   const remappedCoverage = await sourceMapStore.transformCoverage(
-    libCoverage.createCoverageMap(coverage as libCoverage.CoverageMapData)
+    libCoverage.createCoverageMap(coverage as libCoverage.CoverageMapData),
   );
 
   const adjustedCoverage = adjustCoverage(
-    remappedCoverage.data as unknown as Record<string, { data: { path: string } }>,
-    options
+    remappedCoverage.data as unknown as Record<
+      string,
+      { data: { path: string } }
+    >,
+    options,
   );
 
   for (const [relativePath, cov] of Object.entries(adjustedCoverage)) {
@@ -259,13 +283,14 @@ export async function writeCoverage(
 export function reportCoverage(
   map: libCoverage.CoverageMap,
   root: string,
-  configPath?: string
+  configPath?: string,
 ): void {
   const config = getConfig(configPath);
   const { reporters } = config;
 
   if (config.parallel) {
-    config.coverageFolder = config.coverageFolder + '_' + crypto.randomBytes(4).toString('hex');
+    config.coverageFolder =
+      config.coverageFolder + '_' + crypto.randomBytes(4).toString('hex');
     if (!reporters.includes('json')) {
       reporters.push('json');
     }
@@ -286,6 +311,41 @@ export function reportCoverage(
   }
 }
 
+/** Coverage maps that already had their baseline seeded. */
+const seededMaps = new WeakSet<libCoverage.CoverageMap>();
+
+/**
+ * Seed a coverage map from a zero-filled baseline written at build time.
+ *
+ * Vite builds only execute modules something imports, so a file no test
+ * reaches never reports at all. Seeding the baseline puts it back in the
+ * report at 0% instead of dropping it. A missing baseline file is normal
+ * — classic and Embroider builds do not write one.
+ */
+export async function seedBaseline(
+  map: libCoverage.CoverageMap,
+  options: ResolvedMiddlewareConfig,
+): Promise<void> {
+  const { baselinePath } = options;
+
+  if (!baselinePath || seededMaps.has(map)) return;
+  seededMaps.add(map);
+
+  if (!fs.existsSync(baselinePath)) return;
+
+  try {
+    const baseline = JSON.parse(
+      fs.readFileSync(baselinePath, 'utf-8'),
+    ) as CoverageData;
+    await writeCoverage(baseline, options, map);
+  } catch (err) {
+    console.warn(
+      `[ember-cli-code-coverage] Could not read coverage baseline at ${baselinePath}:`,
+      (err as Error).message,
+    );
+  }
+}
+
 /**
  * Handle a coverage write request: parse the body, write & report.
  * Shared implementation used by both testem and vite middleware.
@@ -294,10 +354,11 @@ export async function coverageHandler(
   map: libCoverage.CoverageMap,
   options: ResolvedMiddlewareConfig,
   req: IncomingMessage,
-  res: ServerResponseLike
+  res: ServerResponseLike,
 ): Promise<void> {
   try {
     const body = await readJsonBody(req);
+    await seedBaseline(map, options);
     await writeCoverage(body, options, map);
     reportCoverage(map, options.root, options.configPath);
 
@@ -335,7 +396,8 @@ export function buildNamespaceMappings(root: string): Map<string, string> {
   };
 
   const moduleName = pkg.name ?? '';
-  const isAddon = (pkg.keywords ?? []).includes('ember-addon') || !!pkg['ember-addon'];
+  const isAddon =
+    (pkg.keywords ?? []).includes('ember-addon') || !!pkg['ember-addon'];
 
   if (isAddon) {
     mappings.set(moduleName, 'addon');
@@ -354,7 +416,10 @@ export function buildNamespaceMappings(root: string): Map<string, string> {
       };
       const addonName = addonPkg.name ?? path.basename(inRepoPath);
       mappings.set(addonName, path.join(inRepoPath, 'addon'));
-      mappings.set(`${addonName}/test-support`, path.join(inRepoPath, 'addon-test-support'));
+      mappings.set(
+        `${addonName}/test-support`,
+        path.join(inRepoPath, 'addon-test-support'),
+      );
     }
   }
 

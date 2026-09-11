@@ -1,6 +1,10 @@
 {
   "extends": "@tsconfig/ember/tsconfig.json",
   "compilerOptions": {
+    // Ember ships its own type definitions; `@tsconfig/ember` sets
+    // `"types": []`, so they have to be requested explicitly.
+    "types": ["ember-source/types"],
+
     // The combination of `baseUrl` with `paths` allows Ember's classic package
     // layout, which is not resolvable with the Node resolution algorithm, to
     // work with TypeScript.

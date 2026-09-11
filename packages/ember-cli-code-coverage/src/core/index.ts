@@ -1,4 +1,9 @@
-export { getConfig, isCoverageEnabled, DEFAULT_CONFIG } from './config.js';
+export {
+  getConfig,
+  isCoverageEnabled,
+  DEFAULT_CONFIG,
+  BASELINE_RELATIVE_PATH,
+} from './config.js';
 export { createReport } from './reports.js';
 export {
   readJsonBody,
@@ -7,6 +12,7 @@ export {
   adjustCoverageKey,
   adjustCoverage,
   writeCoverage,
+  seedBaseline,
   reportCoverage,
   coverageHandler,
   buildNamespaceMappings,

@@ -27,7 +27,10 @@
   "types": "dist/index.d.ts",
   "files": [
     "addon-main.cjs",
+    "glimmer-plugin.cjs",
     "dist",
+    "_app_",
+    "runtime",
     "src/babel/gjs-gts-istanbul-ignore-template-plugin.cjs"
   ],
   "exports": {
@@ -35,6 +38,7 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./addon-main.js": "./addon-main.cjs",
     "./babel": {
       "types": "./dist/babel/index.d.ts",
       "default": "./dist/babel/index.js"
@@ -58,7 +62,13 @@
     "./test-support": {
       "types": "./dist/browser/index.d.ts",
       "default": "./dist/browser/index.js"
-    }
+    },
+    "./glimmer": {
+      "types": "./dist/glimmer/index.d.ts",
+      "default": "./dist/glimmer/index.js"
+    },
+    "./helpers/*": "./runtime/helpers/*.js",
+    "./_app_/*": "./_app_/*"
   },
   "scripts": {
     "build": "tsc --build",
@@ -68,28 +78,31 @@
     "lint:js:fix": "eslint . --fix",
     "lint:types": "tsc --noEmit",
     "prepack": "pnpm build",
-    "test": "vitest"
+    "test": "vitest",
+    "lint:publish": "pnpm build && publint run --level error"
   },
   "dependencies": {
-    "@embroider/addon-shim": "^1.10.2",
-    "babel-plugin-istanbul": "^7.0.1",
+    "@embroider/addon-shim": "^1.10.3",
+    "babel-plugin-istanbul": "^8.0.0",
     "istanbul-lib-coverage": "^3.2.2",
     "istanbul-lib-report": "^3.0.1",
     "istanbul-lib-source-maps": "^5.0.6",
     "istanbul-reports": "^3.2.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
+    "@types/babel__core": "^7.20.5",
     "@types/istanbul-lib-coverage": "^2.0.6",
     "@types/istanbul-lib-report": "^3.0.3",
     "@types/istanbul-lib-source-maps": "^4.0.4",
     "@types/istanbul-reports": "^3.0.4",
-    "@types/node": "^22.0.0",
-    "concurrently": "^9.2.1",
-    "eslint": "^9.39.2",
-    "typescript": "~5.8.3",
-    "typescript-eslint": "^8.56.0",
-    "vitest": "^4.0.18"
+    "@types/node": "^26.5.1",
+    "concurrently": "^10.0.5",
+    "eslint": "^10.10.0",
+    "publint": "^0.3.16",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.70.0",
+    "vitest": "^5.0.0"
   },
   "engines": {
     "node": ">= 22"
@@ -97,9 +110,22 @@
   "ember-addon": {
     "version": 2,
     "type": "addon",
-    "main": "addon-main.cjs"
+    "main": "addon-main.cjs",
+    "app-js": {
+      "./helpers/coverage-init.js": "./_app_/helpers/coverage-init.js",
+      "./helpers/coverage-mark.js": "./_app_/helpers/coverage-mark.js",
+      "./helpers/coverage-cond.js": "./_app_/helpers/coverage-cond.js"
+    }
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.0.0 || ^8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@babel/core": {
+      "optional": true
+    }
   }
 }

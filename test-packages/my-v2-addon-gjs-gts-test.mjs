@@ -13,12 +13,21 @@ describe('v2 addon coverage generation', function () {
   it('runs coverage for v2 addon with gjs and gts files', async function () {
     const { testAppDir, addonDir } = await setupV2AddonTestDirs(APP_DIR, env);
 
-    const leafTmpFolderName = addonDir.split("/").pop();
-  
-    await execa('npm', ['run', 'test', '--test-port=0'], { cwd: testAppDir, env });
+    const leafTmpFolderName = addonDir.split('/').pop();
 
-    const coverageSummary = await readJSON(`${testAppDir}/coverage/coverage-summary.json`);
-    const coverageFinal = await readJSON(`${testAppDir}/coverage/coverage-final.json`);
+    // The test-app's `test` script already passes --test-port=0; npm would
+    // reject the flag if it were repeated here.
+    await execa('npm', ['run', 'test'], {
+      cwd: testAppDir,
+      env,
+    });
+
+    const coverageSummary = await readJSON(
+      `${testAppDir}/coverage/coverage-summary.json`,
+    );
+    const coverageFinal = await readJSON(
+      `${testAppDir}/coverage/coverage-final.json`,
+    );
 
     expect(coverageSummary).toMatchInlineSnapshot(`
       {
@@ -62,16 +71,16 @@ describe('v2 addon coverage generation', function () {
             "total": 1,
           },
           "lines": {
-            "covered": 3,
+            "covered": 4,
             "pct": 100,
             "skipped": 0,
-            "total": 3,
+            "total": 4,
           },
           "statements": {
-            "covered": 3,
+            "covered": 4,
             "pct": 100,
             "skipped": 0,
-            "total": 3,
+            "total": 4,
           },
         },
         "total": {
@@ -94,16 +103,16 @@ describe('v2 addon coverage generation', function () {
             "total": 2,
           },
           "lines": {
-            "covered": 6,
+            "covered": 7,
             "pct": 100,
             "skipped": 0,
-            "total": 6,
+            "total": 7,
           },
           "statements": {
-            "covered": 6,
+            "covered": 7,
             "pct": 100,
             "skipped": 0,
-            "total": 6,
+            "total": 7,
           },
         },
       }
@@ -216,6 +225,7 @@ describe('v2 addon coverage generation', function () {
             "0": 1,
             "1": 1,
             "2": 1,
+            "3": 1,
           },
           "statementMap": {
             "0": {
@@ -246,6 +256,16 @@ describe('v2 addon coverage generation', function () {
               "start": {
                 "column": 4,
                 "line": 12,
+              },
+            },
+            "3": {
+              "end": {
+                "column": 13,
+                "line": 19,
+              },
+              "start": {
+                "column": 2,
+                "line": 15,
               },
             },
           },

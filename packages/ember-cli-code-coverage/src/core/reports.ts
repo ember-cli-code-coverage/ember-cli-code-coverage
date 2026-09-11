@@ -10,7 +10,13 @@ type ReporterSpec = string | [string, Record<string, unknown>];
  */
 export function createReport(reporter: ReporterSpec): ReportBase {
   if (Array.isArray(reporter)) {
-    return reports.create(reporter[0] as keyof reports.ReportOptions, reporter[1]) as ReportBase;
+    return reports.create(
+      reporter[0] as keyof reports.ReportOptions,
+      reporter[1],
+    ) as ReportBase;
   }
-  return reports.create(reporter as keyof reports.ReportOptions, {}) as ReportBase;
+  return reports.create(
+    reporter as keyof reports.ReportOptions,
+    {},
+  ) as ReportBase;
 }

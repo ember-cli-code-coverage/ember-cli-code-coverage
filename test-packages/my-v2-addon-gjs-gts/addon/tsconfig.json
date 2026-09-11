@@ -8,6 +8,15 @@
     "environment": ["ember-loose", "ember-template-imports"]
   },
   "compilerOptions": {
+    /**
+      `@tsconfig/ember` sets `"types": []`, which leaves Ember's own modules
+      untyped. Ember ships stable type definitions in `ember-source/types`,
+      so point at those rather than pulling in the DefinitelyTyped
+      `@types/ember*` packages, which are legacy and depend on each other
+      in a cycle.
+    */
+    "types": ["ember-source/types", "@glint/template"],
+
     "allowJs": true,
     "declarationDir": "declarations",
 

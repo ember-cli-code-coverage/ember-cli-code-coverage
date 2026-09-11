@@ -8,11 +8,15 @@ export default [
       'node_modules/',
       'src/babel/gjs-gts-istanbul-ignore-template-plugin.cjs',
       'addon-main.cjs',
+      'glimmer-plugin.cjs',
     ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    // Type-aware linting covers the TypeScript sources only. The browser
+    // runtime below is authored as plain ESM and never enters tsconfig.
+    files: ['src/**/*.ts'],
     languageOptions: {
       parserOptions: {
         projectService: {
@@ -26,6 +30,19 @@ export default [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
+    },
+  },
+  {
+    // Shipped as-is to the browser: the template coverage runtime and the
+    // app-tree re-exports that make its helpers resolvable.
+    files: ['runtime/**/*.js', '_app_/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        window: 'readonly',
+        console: 'readonly',
+      },
     },
   },
 ];

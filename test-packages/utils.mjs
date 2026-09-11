@@ -6,7 +6,9 @@ import { readFile } from 'fs/promises';
 import { execa } from 'execa';
 
 export default async function setupTestDir(APP_DIR, env, deps) {
-  const project = Project.fromDir(`test-packages/${APP_DIR}`, { linkDevDeps: true });
+  const project = Project.fromDir(`test-packages/${APP_DIR}`, {
+    linkDevDeps: true,
+  });
 
   for (const [key, value] of Object.entries(deps)) {
     project.addDevDependency(key, value);
@@ -15,43 +17,59 @@ export default async function setupTestDir(APP_DIR, env, deps) {
   if (depsReinstallNeeded(deps)) {
     project.addDevDependency(
       `ember-cli-code-coverage`,
-      `file:${process.cwd()}/packages/ember-cli-code-coverage`
+      `file:${process.cwd()}/packages/ember-cli-code-coverage`,
     );
   }
 
   await project.write();
 
   if (deps && Object.keys(deps).length > 0) {
-    await execa('pnpm', ['install', '--no-frozen-lockfile'], { cwd: project.baseDir, env });
+    await execa('pnpm', ['install', '--no-frozen-lockfile'], {
+      cwd: project.baseDir,
+      env,
+    });
   }
 
   return project.baseDir;
 }
 
 export async function setupV2AddonTestDirs(DIR, env) {
-  const testProject = Project.fromDir(`test-packages/${DIR}/test-app`, { linkDevDeps: true });
-  const addonProject = Project.fromDir(`test-packages/${DIR}/addon`, { linkDevDeps: true });
+  const testProject = Project.fromDir(`test-packages/${DIR}/test-app`, {
+    linkDevDeps: true,
+  });
+  const addonProject = Project.fromDir(`test-packages/${DIR}/addon`, {
+    linkDevDeps: true,
+  });
 
   addonProject.addDevDependency(
     `ember-cli-code-coverage`,
-    `file:${process.cwd()}/packages/ember-cli-code-coverage`
+    `file:${process.cwd()}/packages/ember-cli-code-coverage`,
   );
 
   await addonProject.write();
 
-  await execa('pnpm', ['install', '--no-frozen-lockfile'], { cwd: addonProject.baseDir, env });
+  await execa('pnpm', ['install', '--no-frozen-lockfile'], {
+    cwd: addonProject.baseDir,
+    env,
+  });
   // build v2 addon with instrumentation
   await execa('npm', ['run', 'build'], { cwd: addonProject.baseDir, env });
 
   testProject.addDevDependency(
     `ember-cli-code-coverage`,
-    `file:${process.cwd()}/packages/ember-cli-code-coverage`
+    `file:${process.cwd()}/packages/ember-cli-code-coverage`,
   );
-  testProject.addDevDependency(`my-v2-addon-gjs-gts`, `file:${addonProject.baseDir}`);
+  testProject.addDevDependency(
+    `my-v2-addon-gjs-gts`,
+    `file:${addonProject.baseDir}`,
+  );
 
   await testProject.write();
 
-  await execa('pnpm', ['install', '--no-frozen-lockfile'], { cwd: testProject.baseDir, env });
+  await execa('pnpm', ['install', '--no-frozen-lockfile'], {
+    cwd: testProject.baseDir,
+    env,
+  });
 
   return { testAppDir: testProject.baseDir, addonDir: addonProject.baseDir };
 }
@@ -78,5 +96,8 @@ export async function assertDirDoesNotExist(dir) {
 
 export async function assertFileIsNotEmpty(filePath) {
   const content = await readFile(filePath, 'utf8');
-  expect(content.length, `File ${filePath} should not be empty`).toBeGreaterThan(0);
+  expect(
+    content.length,
+    `File ${filePath} should not be empty`,
+  ).toBeGreaterThan(0);
 }

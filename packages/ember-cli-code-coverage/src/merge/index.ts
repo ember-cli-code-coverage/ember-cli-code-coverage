@@ -43,7 +43,9 @@ export async function mergeCoverage(options: MergeOptions = {}): Promise<void> {
   const coverageDirRegex = new RegExp(`^${escapeRegex(coverageFolder)}_.*`);
 
   if (!fs.existsSync(coverageRoot)) {
-    console.warn(`[ember-cli-code-coverage] Coverage root does not exist: ${coverageRoot}`);
+    console.warn(
+      `[ember-cli-code-coverage] Coverage root does not exist: ${coverageRoot}`,
+    );
     return;
   }
 
@@ -56,18 +58,22 @@ export async function mergeCoverage(options: MergeOptions = {}): Promise<void> {
       continue;
     }
 
-    const coverageFile = path.join(coverageRoot, entry.name, 'coverage-final.json');
+    const coverageFile = path.join(
+      coverageRoot,
+      entry.name,
+      'coverage-final.json',
+    );
 
     if (fs.existsSync(coverageFile)) {
       try {
         const coverageData = JSON.parse(
-          fs.readFileSync(coverageFile, 'utf-8')
+          fs.readFileSync(coverageFile, 'utf-8'),
         ) as libCoverage.CoverageMapData;
         map.merge(coverageData);
       } catch (err) {
         console.error(
           `[ember-cli-code-coverage] Failed to parse ${coverageFile}:`,
-          (err as Error).message
+          (err as Error).message,
         );
       }
     }

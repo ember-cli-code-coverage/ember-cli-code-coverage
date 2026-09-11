@@ -7,43 +7,51 @@ on:
       - master
       - 'v*'
   pull_request: {}
+  workflow_dispatch: {}
 
 concurrency:
   group: ci-${{ github.head_ref || github.ref }}
-  cancel-in-progress: true  
+  cancel-in-progress: true
+
+# Least-privilege default; no job here needs to write anything back to the repo.
+permissions:
+  contents: read
 
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
-      - run: pnpm lint:types
-        working-directory: packages/ember-cli-code-coverage
-      - run: pnpm lint:js
-        working-directory: packages/ember-cli-code-coverage
+      - run: pnpm lint
 
   test:
     name: Tests (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
+    # Integration tests build real Ember apps and run them in a browser;
+    # they run one at a time (see vitest.config.mjs) so parallel test
+    # runs don't starve each other's builds. Generous headroom accounts
+    # for that plus CI runners being slower than a dev machine.
+    timeout-minutes: 30
 
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['22', '24']
+        node-version: ['22', '24', '26']
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm

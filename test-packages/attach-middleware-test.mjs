@@ -12,7 +12,7 @@ describe('attach-middleware', () => {
   it('normalizeRelativePath correctly normalizes paths from embroider', async () => {
     let project = new Project('my-app', '1.0.0');
     project.pkg['ember-addon'] = {
-      paths: ['lib/hello']
+      paths: ['lib/hello'],
     };
     await project.write();
 
@@ -21,28 +21,37 @@ describe('attach-middleware', () => {
     expect(
       normalizeEmbroiderPath(
         project.baseDir,
-        `${embroiderTmp}/app-namespace/lib/hello/components/world.js`
-      )
+        `${embroiderTmp}/app-namespace/lib/hello/components/world.js`,
+      ),
     ).toEqual('hello/components/world.js');
 
     expect(
       normalizeEmbroiderPath(
         project.baseDir,
-        `${embroiderTmp}/app-namespace/lib/hello/test-support/world.js`
-      )
+        `${embroiderTmp}/app-namespace/lib/hello/test-support/world.js`,
+      ),
     ).toEqual('hello/test-support/world.js');
 
     expect(
-      normalizeEmbroiderPath(project.baseDir, `${embroiderTmp}/app-namespace/components/world.js`)
+      normalizeEmbroiderPath(
+        project.baseDir,
+        `${embroiderTmp}/app-namespace/components/world.js`,
+      ),
     ).toEqual('app-namespace/components/world.js');
 
     expect(
-      normalizeEmbroiderPath(project.baseDir, `${embroiderTmp}/lib/hello/test-support/world.js`)
+      normalizeEmbroiderPath(
+        project.baseDir,
+        `${embroiderTmp}/lib/hello/test-support/world.js`,
+      ),
     ).toEqual('hello/test-support/world.js');
 
-    expect(normalizeEmbroiderPath(project.baseDir, `${embroiderTmp}/components/world.js`)).toEqual(
-      'components/world.js'
-    );
+    expect(
+      normalizeEmbroiderPath(
+        project.baseDir,
+        `${embroiderTmp}/components/world.js`,
+      ),
+    ).toEqual('components/world.js');
   });
 
   it('adjustCoverageKey works for a classic app', () => {
@@ -53,17 +62,37 @@ describe('attach-middleware', () => {
       ['hello/test-support', 'lib/hello/addon-test-support'],
     ]);
 
-    expect(adjustCoverageKey(root, join(root, 'app-namespace/app.js'), namespaceMappings))
-      .toEqual('app/app.js');
+    expect(
+      adjustCoverageKey(
+        root,
+        join(root, 'app-namespace/app.js'),
+        namespaceMappings,
+      ),
+    ).toEqual('app/app.js');
 
-    expect(adjustCoverageKey(root, join(root, 'app-namespace/components/foo.js'), namespaceMappings))
-      .toEqual('app/components/foo.js');
+    expect(
+      adjustCoverageKey(
+        root,
+        join(root, 'app-namespace/components/foo.js'),
+        namespaceMappings,
+      ),
+    ).toEqual('app/components/foo.js');
 
-    expect(adjustCoverageKey(root, join(root, 'hello/components/foo.js'), namespaceMappings))
-      .toEqual('lib/hello/addon/components/foo.js');
+    expect(
+      adjustCoverageKey(
+        root,
+        join(root, 'hello/components/foo.js'),
+        namespaceMappings,
+      ),
+    ).toEqual('lib/hello/addon/components/foo.js');
 
-    expect(adjustCoverageKey(root, join(root, 'hello/test-support/foo.js'), namespaceMappings))
-      .toEqual('lib/hello/addon-test-support/foo.js');
+    expect(
+      adjustCoverageKey(
+        root,
+        join(root, 'hello/test-support/foo.js'),
+        namespaceMappings,
+      ),
+    ).toEqual('lib/hello/addon-test-support/foo.js');
   });
 
   it('adjustCoverageKey works for an addon', () => {
@@ -75,17 +104,37 @@ describe('attach-middleware', () => {
       ['hello/test-support', 'lib/hello/addon-test-support'],
     ]);
 
-    expect(adjustCoverageKey(root, join(root, 'addon-namespace/components/foo.js'), namespaceMappings))
-      .toEqual('addon/components/foo.js');
+    expect(
+      adjustCoverageKey(
+        root,
+        join(root, 'addon-namespace/components/foo.js'),
+        namespaceMappings,
+      ),
+    ).toEqual('addon/components/foo.js');
 
-    expect(adjustCoverageKey(root, join(root, 'addon-namespace/test-support/foo.js'), namespaceMappings))
-      .toEqual('addon-test-support/foo.js');
+    expect(
+      adjustCoverageKey(
+        root,
+        join(root, 'addon-namespace/test-support/foo.js'),
+        namespaceMappings,
+      ),
+    ).toEqual('addon-test-support/foo.js');
 
-    expect(adjustCoverageKey(root, join(root, 'hello/components/foo.js'), namespaceMappings))
-      .toEqual('lib/hello/addon/components/foo.js');
+    expect(
+      adjustCoverageKey(
+        root,
+        join(root, 'hello/components/foo.js'),
+        namespaceMappings,
+      ),
+    ).toEqual('lib/hello/addon/components/foo.js');
 
-    expect(adjustCoverageKey(root, join(root, 'hello/test-support/foo.js'), namespaceMappings))
-      .toEqual('lib/hello/addon-test-support/foo.js');
+    expect(
+      adjustCoverageKey(
+        root,
+        join(root, 'hello/test-support/foo.js'),
+        namespaceMappings,
+      ),
+    ).toEqual('lib/hello/addon-test-support/foo.js');
   });
 
   it('adjustCoverageKey works for a scoped addon', () => {
@@ -95,10 +144,20 @@ describe('attach-middleware', () => {
       ['@foo/bar/test-support', 'addon-test-support'],
     ]);
 
-    expect(adjustCoverageKey(root, join(root, '@foo/bar/components/foo.js'), namespaceMappings))
-      .toEqual('addon/components/foo.js');
+    expect(
+      adjustCoverageKey(
+        root,
+        join(root, '@foo/bar/components/foo.js'),
+        namespaceMappings,
+      ),
+    ).toEqual('addon/components/foo.js');
 
-    expect(adjustCoverageKey(root, join(root, '@foo/bar/test-support/foo.js'), namespaceMappings))
-      .toEqual('addon-test-support/foo.js');
+    expect(
+      adjustCoverageKey(
+        root,
+        join(root, '@foo/bar/test-support/foo.js'),
+        namespaceMappings,
+      ),
+    ).toEqual('addon-test-support/foo.js');
   });
 });

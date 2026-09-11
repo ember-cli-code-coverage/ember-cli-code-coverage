@@ -2,11 +2,24 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import type { CoverageConfig } from '../types.js';
 
+/**
+ * Location of the zero-filled coverage baseline, relative to the project
+ * root. Written by the Vite plugin at build time and read back by
+ * whichever middleware serves `/write-coverage`.
+ */
+export const BASELINE_RELATIVE_PATH = path.join(
+  'node_modules',
+  '.cache',
+  'ember-cli-code-coverage',
+  'baseline.json',
+);
+
 export const DEFAULT_CONFIG: Readonly<CoverageConfig> = Object.freeze({
   coverageEnvVar: 'COVERAGE',
   coverageFolder: 'coverage',
   excludes: ['*/mirage/**/*'],
   reporters: ['html', 'lcov'],
+  templateCoverage: false,
 });
 
 /**
@@ -34,7 +47,9 @@ export function getConfig(configPathOrDir?: string): CoverageConfig {
 
   const candidates: string[] = [
     // Direct path to coverage.js
-    ...(configPathOrDir.endsWith('coverage.js') ? [path.resolve(configPathOrDir)] : []),
+    ...(configPathOrDir.endsWith('coverage.js')
+      ? [path.resolve(configPathOrDir)]
+      : []),
     // Directory containing coverage.js
     path.resolve(configPathOrDir, 'coverage.js'),
     // Ember-cli style configPath (dirname + coverage.js)
@@ -55,7 +70,7 @@ export function getConfig(configPathOrDir?: string): CoverageConfig {
       } catch (err) {
         console.error(
           `[ember-cli-code-coverage] Failed to load config from ${candidate}:`,
-          (err as Error).message
+          (err as Error).message,
         );
       }
     }

@@ -22,7 +22,7 @@ describe('gjs-gts-ignore-template-plugin', () => {
            increment
           </button>
         </template>`,
-      { inline_source_map: true, filename: 'my-app/components/bar.gjs' }
+      { inline_source_map: true, filename: 'my-app/components/bar.gjs' },
     ).code;
 
     const { code } = babel.transform(example, {
@@ -51,7 +51,7 @@ describe('gjs-gts-ignore-template-plugin', () => {
            increment
           </button>
         </template>`,
-      { inline_source_map: true, filename: 'my-app/components/bar.gjs' }
+      { inline_source_map: true, filename: 'my-app/components/bar.gjs' },
     ).code;
 
     const { code } = babel.transform(example, {
@@ -78,7 +78,7 @@ describe('gjs-gts-ignore-template-plugin', () => {
            increment
           </button>
         </template>`,
-      { inline_source_map: true, filename: 'my-app/components/bar.js' }
+      { inline_source_map: true, filename: 'my-app/components/bar.js' },
     ).code;
 
     const { code } = babel.transform(example, {
@@ -105,7 +105,7 @@ describe('gjs-gts-ignore-template-plugin', () => {
            increment
           </button>
         </template>`,
-      { inline_source_map: true, filename: 'my-app/components/bar.ts' }
+      { inline_source_map: true, filename: 'my-app/components/bar.ts' },
     ).code;
 
     const { code } = babel.transform(example, {

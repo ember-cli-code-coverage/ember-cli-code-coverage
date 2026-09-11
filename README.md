@@ -7,7 +7,7 @@ Code coverage using [Istanbul](https://github.com/gotwarlost/istanbul) for Ember
 
 ## Requirements
 
-* Node.js >= 18
+- Node.js >= 22
 
 ## Installation
 
@@ -39,27 +39,18 @@ let app = new EmberApp(defaults, {
 ```js
 let app = new EmberApp(defaults, {
   babel: {
-    plugins: [...require('ember-cli-code-coverage').buildBabelPlugin({ embroider: true })],
+    plugins: [
+      ...require('ember-cli-code-coverage').buildBabelPlugin({
+        embroider: true,
+      }),
+    ],
     sourceMaps: 'inline',
   },
 });
 ```
 
-**Vite apps** (`vite.config.mjs`) using `@rollup/plugin-babel`:
-
-```js
-import { buildBabelPlugin } from 'ember-cli-code-coverage/babel';
-import { babel } from '@rollup/plugin-babel';
-
-export default defineConfig({
-  plugins: [
-    babel({
-      plugins: [...buildBabelPlugin()],
-      extensions: ['.js', '.ts', '.gjs', '.gts'],
-    }),
-  ],
-});
-```
+**Vite apps**: skip this step. `coveragePlugin()` instruments your code itself
+(see below), so you do not add the Babel plugin to `@rollup/plugin-babel`.
 
 **V1 addons** (`index.js`):
 
@@ -84,25 +75,50 @@ module.exports = {
 };
 ```
 
-### 2. Add coverage middleware
+### 2. Add coverage collection
 
-The middleware receives coverage data POSTed from the browser and writes reports.
+The browser POSTs coverage data to `/write-coverage`, and whatever is serving
+the app writes the reports.
 
 **Ember CLI apps** (automatic):
 
-The addon automatically attaches middleware when used with `ember test` or `ember serve`. No additional setup needed.
+The addon attaches the middleware itself for `ember test` and `ember serve`.
+Nothing to configure. `ember serve` and `ember test --server` start a fresh
+coverage map per request; `ember test` accumulates across requests so split
+runs land in one report.
 
 **Vite apps** (`vite.config.mjs`):
 
 ```js
+import { defineConfig } from 'vite';
+import { classicEmberSupport, ember, extensions } from '@embroider/vite';
+import { babel } from '@rollup/plugin-babel';
 import { coveragePlugin } from 'ember-cli-code-coverage/vite';
 
 export default defineConfig({
   plugins: [
-    coveragePlugin(),
+    classicEmberSupport(),
+    ember(),
+    ...coveragePlugin(),
+    babel({ babelHelpers: 'runtime', extensions }),
   ],
 });
 ```
+
+`coveragePlugin()` returns an array and expands to nothing unless coverage is
+enabled, so it is safe to leave in place. It instruments modules after Ember's
+own transforms have run, which is why `.gjs` and `.gts` files come out correct.
+
+Ember tests a Vite app against a built bundle:
+
+```bash
+COVERAGE=true vite build --mode development
+COVERAGE=true ember test --path dist
+```
+
+At that point the Vite dev server is not running, so the addon's testem
+middleware serves `/write-coverage` instead. That happens automatically when
+`@embroider/vite` is a dependency of your app.
 
 **Custom testem** (`testem.cjs`):
 
@@ -114,6 +130,18 @@ module.exports = {
 };
 ```
 
+For a Vite app with a hand-written testem config, use `viteTestemMiddleware`
+instead. It skips the module-namespace remapping that classic builds need,
+which would otherwise drop every file from the report:
+
+```js
+const { viteTestemMiddleware } = require('ember-cli-code-coverage/testem');
+
+module.exports = {
+  middleware: [viteTestemMiddleware({ root: __dirname })],
+};
+```
+
 ### 3. Add browser-side helpers
 
 In your test helper, force-load all modules and send coverage data after tests complete.
@@ -121,7 +149,10 @@ In your test helper, force-load all modules and send coverage data after tests c
 **`tests/test-helper.js`**:
 
 ```js
-import { forceModulesToBeLoaded, sendCoverage } from 'ember-cli-code-coverage/test-support';
+import {
+  forceModulesToBeLoaded,
+  sendCoverage,
+} from 'ember-cli-code-coverage/test-support';
 import QUnit from 'qunit';
 
 QUnit.done(async function () {
@@ -129,6 +160,11 @@ QUnit.done(async function () {
   await sendCoverage();
 });
 ```
+
+`forceModulesToBeLoaded()` walks the AMD and Webpack module registries so that
+files no test imported still report at 0% instead of vanishing. Vite builds have
+no such registry, so the call is a harmless no-op there; the Vite plugin records
+a zero-filled baseline at build time to cover the same gap.
 
 ## Usage
 
@@ -160,6 +196,69 @@ COVERAGE=true ember build --environment=test --output-path=dist
 COVERAGE=true ember test --path=dist
 ```
 
+## Template coverage
+
+Istanbul only sees JavaScript, so by default a `{{#if}}` that never takes its
+`{{else}}` branch is invisible in the report. Turn on `templateCoverage` in
+`config/coverage.js` to measure template branches too:
+
+```js
+module.exports = {
+  templateCoverage: true,
+};
+```
+
+An AST plugin then rewrites each template at build time to report which paths
+it took, and those branches show up in the same HTML and LCOV reports as your
+JavaScript, keyed by the template's own path.
+
+What is measured:
+
+| Construct                                    | Reported as                                        |
+| -------------------------------------------- | -------------------------------------------------- |
+| `{{#if}}` / `{{#unless}}`                    | Two paths, whether or not an `{{else}}` is written |
+| `{{else if}}` chains                         | One branch per link in the chain                   |
+| `{{#each}}` / `{{#each-in}}` with `{{else}}` | Items path and empty path                          |
+| `{{if x a b}}` / `{{unless x a b}}`          | Two paths, including in attribute position         |
+
+Blocks that always render their body, such as `{{#let}}` and `{{#in-element}}`,
+introduce no branch and are left alone. Templates with no branches at all are
+not instrumented and do not appear in the report.
+
+No extra setup is needed for classic or Embroider builds: the addon registers
+the AST plugin itself, and the helpers it relies on reach your app through the
+addon's app tree.
+
+### Limitations
+
+Template coverage applies to `.hbs` templates. Strict-mode templates — the
+`<template>` tag in `.gjs` and `.gts` files — are not yet instrumented for
+branch coverage; their surrounding JavaScript is still covered as usual.
+
+For a Vite app, the AST plugin is not registered automatically because there is
+no ember-cli preprocessor registry. Add it to your template compilation
+transforms in `babel.config.mjs`:
+
+```js
+import { templateCompatSupport } from '@embroider/compat/babel';
+import { createTemplateCoveragePlugin } from 'ember-cli-code-coverage/glimmer';
+
+export default {
+  plugins: [
+    [
+      'babel-plugin-ember-template-compilation',
+      {
+        transforms: [
+          ...templateCompatSupport(),
+          createTemplateCoveragePlugin(),
+        ],
+      },
+    ],
+    // ...
+  ],
+};
+```
+
 ## Configuration
 
 Configuration is optional. Place it in `config/coverage.js`:
@@ -172,34 +271,37 @@ module.exports = {
   extension: ['.gjs', '.gts', '.js', '.ts', '.cjs', '.mjs', '.mts', '.cts'],
   coverageFolder: 'coverage',
   parallel: false,
+  templateCoverage: false,
 };
 ```
 
 ### Options
 
-| Option | Default | Description |
-|--------|---------|-------------|
-| `coverageEnvVar` | `'COVERAGE'` | Environment variable that enables coverage |
-| `reporters` | `['lcov', 'html']` | Istanbul reporters. `json-summary` is always added. Supports `[name, options]` tuples. |
-| `excludes` | `['*/mirage/**/*']` | Globs to exclude from instrumentation |
-| `extension` | `['.gjs', '.gts', '.js', '.ts', ...]` | File extensions to instrument |
-| `coverageFolder` | `'coverage'` | Output directory (relative to project root) |
-| `parallel` | `false` | Enable parallel-safe output with random suffixes |
-| `modifyAssetLocation` | — | Custom function to override file path resolution |
+| Option                | Default                               | Description                                                                            |
+| --------------------- | ------------------------------------- | -------------------------------------------------------------------------------------- |
+| `coverageEnvVar`      | `'COVERAGE'`                          | Environment variable that enables coverage                                             |
+| `reporters`           | `['lcov', 'html']`                    | Istanbul reporters. `json-summary` is always added. Supports `[name, options]` tuples. |
+| `excludes`            | `['*/mirage/**/*']`                   | Globs to exclude from instrumentation                                                  |
+| `extension`           | `['.gjs', '.gts', '.js', '.ts', ...]` | File extensions to instrument                                                          |
+| `coverageFolder`      | `'coverage'`                          | Output directory (relative to project root)                                            |
+| `parallel`            | `false`                               | Enable parallel-safe output with random suffixes                                       |
+| `templateCoverage`    | `false`                               | Report branch coverage for `.hbs` templates                                            |
+| `modifyAssetLocation` | —                                     | Custom function to override file path resolution                                       |
 
 ## Subpath exports
 
 The package provides focused entry points for each concern:
 
-| Import | Purpose |
-|--------|---------|
-| `ember-cli-code-coverage` | Main entry — re-exports everything |
-| `ember-cli-code-coverage/babel` | `buildBabelPlugin()` |
-| `ember-cli-code-coverage/testem` | Testem/Express middleware |
-| `ember-cli-code-coverage/vite` | Vite plugin |
-| `ember-cli-code-coverage/browser` | Browser-side helpers (`forceModulesToBeLoaded`, `sendCoverage`) |
-| `ember-cli-code-coverage/test-support` | Alias for `./browser` |
-| `ember-cli-code-coverage/merge` | `mergeCoverage()` for parallel runs |
+| Import                                 | Purpose                                                         |
+| -------------------------------------- | --------------------------------------------------------------- |
+| `ember-cli-code-coverage`              | Main entry — re-exports everything                              |
+| `ember-cli-code-coverage/babel`        | `buildBabelPlugin()`                                            |
+| `ember-cli-code-coverage/testem`       | Testem/Express middleware                                       |
+| `ember-cli-code-coverage/vite`         | Vite plugin                                                     |
+| `ember-cli-code-coverage/browser`      | Browser-side helpers (`forceModulesToBeLoaded`, `sendCoverage`) |
+| `ember-cli-code-coverage/test-support` | Alias for `./browser`                                           |
+| `ember-cli-code-coverage/glimmer`      | `createTemplateCoveragePlugin()` for template coverage          |
+| `ember-cli-code-coverage/merge`        | `mergeCoverage()` for parallel runs                             |
 
 ## TypeScript integration
 

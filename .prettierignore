@@ -1,0 +1,11 @@
+# generated
+dist/
+coverage/
+pnpm-lock.yaml
+CHANGELOG.md
+
+# vitest snapshots are written by vitest, not by hand
+test-packages/__snapshots__/
+
+# fixture apps carry their own (frozen) formatting
+test-packages/*/

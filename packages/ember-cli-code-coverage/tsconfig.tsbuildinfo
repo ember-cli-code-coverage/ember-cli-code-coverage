@@ -1,1 +1,0 @@
-{"root":["./src/index.ts","./src/types.ts","./src/babel/index.ts","./src/browser/index.ts","./src/core/config.ts","./src/core/coverage.ts","./src/core/index.ts","./src/core/reports.ts","./src/merge/index.ts","./src/testem/index.ts","./src/vite/index.ts"],"version":"5.8.3"}

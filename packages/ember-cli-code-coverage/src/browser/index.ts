@@ -15,7 +15,10 @@ interface WebpackRequire {
   m: Record<string, unknown>;
 }
 
-type ModuleFilterFn = (type: 'webpack' | 'require', moduleName: string) => boolean;
+type ModuleFilterFn = (
+  type: 'webpack' | 'require',
+  moduleName: string,
+) => boolean;
 
 /**
  * Force evaluation of modules that might not get loaded during the
@@ -44,7 +47,10 @@ export function forceModulesToBeLoaded(filterFunction?: ModuleFilterFn): void {
     filterFunction ??
     ((type, moduleName) => {
       if (type === 'webpack') {
-        return !moduleName.startsWith('../') && !moduleName.startsWith('./node_modules/');
+        return (
+          !moduleName.startsWith('../') &&
+          !moduleName.startsWith('./node_modules/')
+        );
       }
 
       const excludeTestModules = /^[^/]+\/tests\//;
@@ -62,7 +68,7 @@ export function forceModulesToBeLoaded(filterFunction?: ModuleFilterFn): void {
         }
       } catch (error) {
         console.warn(
-          `Error occurred while evaluating '${moduleName}': ${(error as Error).message}\n${(error as Error).stack}`
+          `Error occurred while evaluating '${moduleName}': ${(error as Error).message}\n${(error as Error).stack}`,
         );
       }
     }
@@ -73,11 +79,13 @@ export function forceModulesToBeLoaded(filterFunction?: ModuleFilterFn): void {
     for (const moduleName of Object.keys(window.requirejs.entries)) {
       try {
         if (filter('require', moduleName)) {
-          (self as unknown as { require: (m: string) => void }).require(moduleName);
+          (self as unknown as { require: (m: string) => void }).require(
+            moduleName,
+          );
         }
       } catch (error) {
         console.warn(
-          `Error occurred while evaluating '${moduleName}': ${(error as Error).message}\n${(error as Error).stack}`
+          `Error occurred while evaluating '${moduleName}': ${(error as Error).message}\n${(error as Error).stack}`,
         );
       }
     }
@@ -117,7 +125,7 @@ export async function sendCoverage(): Promise<CoverageSummaryData | undefined> {
 
     if (!response.ok) {
       console.error(
-        `[ember-cli-code-coverage] Failed to send coverage: ${response.status} ${response.statusText}`
+        `[ember-cli-code-coverage] Failed to send coverage: ${response.status} ${response.statusText}`,
       );
       return undefined;
     }
@@ -126,7 +134,10 @@ export async function sendCoverage(): Promise<CoverageSummaryData | undefined> {
     displayCoverageInfo(responseData);
     return responseData;
   } catch (err) {
-    console.error('[ember-cli-code-coverage] Error sending coverage:', (err as Error).message);
+    console.error(
+      '[ember-cli-code-coverage] Error sending coverage:',
+      (err as Error).message,
+    );
     return undefined;
   }
 }
@@ -138,7 +149,7 @@ function displayCoverageInfo(data: CoverageSummaryData): void {
   if (!data || typeof document === 'undefined' || !document.body) return;
 
   const results = ['Lines', 'Branches', 'Functions', 'Statements'].map(
-    name => `${name} ${(data[name.toLowerCase()] as { pct: number }).pct}%`
+    (name) => `${name} ${(data[name.toLowerCase()] as { pct: number }).pct}%`,
   );
 
   const resultsText = document.createTextNode(results.join(' | '));

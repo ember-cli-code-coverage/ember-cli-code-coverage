@@ -3,3 +3,22 @@ packages:
   - packages/ember-cli-code-coverage
   - test-packages/*/addon
   - test-packages/*/test-app
+
+# we don't want addons to be bad citizens of the ecosystem
+allowBuilds:
+  core-js: false
+  esbuild: false
+  fsevents: false
+
+autoInstallPeers: false
+
+minimumReleaseAgeExclude:
+  - '@embroider/compat@4.1.25'
+  - '@embroider/core@4.6.7'
+  - '@embroider/macros@1.21.1'
+  - '@embroider/vite@1.7.13'
+  - vite@8.3.0
+
+# we want true isolation,
+# if a dependency is not declared, we want an error
+resolvePeersFromWorkspaceRoot: false

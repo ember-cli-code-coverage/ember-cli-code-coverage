@@ -37,7 +37,7 @@ const gjsGtsTemplateIgnoreVisitor = {
         value: ' istanbul ignore next ',
       };
 
-      const statement = path.findParent(p => p.isStatement());
+      const statement = path.findParent((p) => p.isStatement());
 
       if (!statement) return;
 
@@ -47,7 +47,7 @@ const gjsGtsTemplateIgnoreVisitor = {
 
       // Avoid inserting duplicate ignore comments
       const alreadyIgnored = statement.node.leadingComments.some(
-        c => c.value.trim() === 'istanbul ignore next'
+        (c) => c.value.trim() === 'istanbul ignore next',
       );
       if (alreadyIgnored) return;
 
@@ -67,7 +67,9 @@ module.exports = function gjsGtsIstanbulIgnoreTemplatePlugin() {
             return;
           }
 
-          const isGjsGtsFile = inputSourceMap.sources.some(source => /\.g[tj]s$/.test(source));
+          const isGjsGtsFile = inputSourceMap.sources.some((source) =>
+            /\.g[tj]s$/.test(source),
+          );
 
           if (isGjsGtsFile) {
             // Early traverse ensures this runs before Istanbul's plugin

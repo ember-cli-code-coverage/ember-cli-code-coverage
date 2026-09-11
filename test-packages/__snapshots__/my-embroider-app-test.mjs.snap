@@ -2,62 +2,140 @@
 
 exports[`app coverage generation > generates coverage with embroider 1`] = `
 {
-  "../../../../../../../Users/aklkv/Projects/github/ember-cli-code-coverage/packages/ember-cli-code-coverage/src/browser/index.ts": {
+  "app/app.js": {
     "branches": {
-      "covered": 15,
-      "pct": 60,
-      "skipped": 0,
-      "total": 25,
-    },
-    "functions": {
-      "covered": 3,
-      "pct": 60,
-      "skipped": 0,
-      "total": 5,
-    },
-    "lines": {
-      "covered": 22,
-      "pct": 51.16,
-      "skipped": 0,
-      "total": 43,
-    },
-    "statements": {
-      "covered": 22,
-      "pct": 50,
-      "skipped": 0,
-      "total": 44,
-    },
-  },
-  "total": {
-    "branches": {
-      "covered": 15,
-      "pct": 60,
-      "skipped": 0,
-      "total": 25,
-    },
-    "branchesTrue": {
       "covered": 0,
-      "pct": "Unknown",
+      "pct": 100,
       "skipped": 0,
       "total": 0,
     },
     "functions": {
-      "covered": 3,
-      "pct": 60,
+      "covered": 0,
+      "pct": 100,
       "skipped": 0,
-      "total": 5,
+      "total": 0,
     },
     "lines": {
-      "covered": 22,
-      "pct": 51.16,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
-      "total": 43,
+      "total": 3,
     },
     "statements": {
-      "covered": 22,
-      "pct": 50,
+      "covered": 3,
+      "pct": 100,
       "skipped": 0,
-      "total": 44,
+      "total": 3,
+    },
+  },
+  "app/components/foo-bar.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+    "statements": {
+      "covered": 2,
+      "pct": 100,
+      "skipped": 0,
+      "total": 2,
+    },
+  },
+  "app/router.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 0,
+      "pct": 0,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 1,
+      "pct": 33.33,
+      "skipped": 0,
+      "total": 3,
+    },
+    "statements": {
+      "covered": 1,
+      "pct": 33.33,
+      "skipped": 0,
+      "total": 3,
+    },
+  },
+  "app/utils/my-covered-util.js": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "lines": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+    "statements": {
+      "covered": 1,
+      "pct": 100,
+      "skipped": 0,
+      "total": 1,
+    },
+  },
+  "total": {
+    "branches": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "branchesTrue": {
+      "covered": 0,
+      "pct": 100,
+      "skipped": 0,
+      "total": 0,
+    },
+    "functions": {
+      "covered": 2,
+      "pct": 66.66,
+      "skipped": 0,
+      "total": 3,
+    },
+    "lines": {
+      "covered": 7,
+      "pct": 77.77,
+      "skipped": 0,
+      "total": 9,
+    },
+    "statements": {
+      "covered": 7,
+      "pct": 77.77,
+      "skipped": 0,
+      "total": 9,
     },
   },
 }
