@@ -47,6 +47,11 @@ module.exports = {
         // this can be removed once the following is fixed
         // https://github.com/mysticatea/eslint-plugin-node/issues/77
         'node/no-unpublished-require': 'off',
+        // eslint-plugin-node is unmaintained and predates package `exports`
+        // maps, so it cannot resolve subpaths like
+        // `ember-cli-code-coverage/testem` even though node resolves them
+        // fine. Drop this once these fixtures move to eslint-plugin-n.
+        'node/no-missing-require': 'off',
       },
     },
     {

@@ -7,7 +7,7 @@ module('Integration | Component | Bar', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it clicks button', async function (assert) {
-    await render(<template><Bar/></template>);
+    await render(<template><Bar /></template>);
 
     await click('button');
     assert.ok(true);

@@ -13,7 +13,7 @@ export default class Foo extends Component<{ Element: HTMLButtonElement }> {
   }
 
   <template>
-    <button {{on "click" this.increment}}>
+    <button type="button" {{on "click" this.increment}}>
       increment
     </button>
   </template>

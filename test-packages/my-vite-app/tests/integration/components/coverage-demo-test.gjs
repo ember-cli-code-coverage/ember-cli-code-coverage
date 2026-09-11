@@ -11,7 +11,9 @@ module('Integration | Component | CoverageDemo', function (hooks) {
   test('renders the truthy branches', async function (assert) {
     const items = ['a', 'b'];
 
-    await render(<template><CoverageDemo @flag={{true}} @items={{items}} /></template>);
+    await render(
+      <template><CoverageDemo @flag={{true}} @items={{items}} /></template>,
+    );
 
     assert.dom('.block').hasText('block-then');
     assert.dom('.no-else').hasText('then-only');
