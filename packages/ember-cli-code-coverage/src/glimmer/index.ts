@@ -1,3 +1,5 @@
+import * as path from 'node:path';
+import { TEMPLATE_COVERAGE_KEY_SUFFIX } from '../core/config.js';
 import type {
   TemplateBranchMeta,
   TemplateCoveragePluginOptions,
@@ -18,18 +20,26 @@ import type {
  *   a hit for whichever side the condition selects while passing the
  *   original value straight through.
  *
- * Helper names are dash-cased so the classic resolver finds them. The
- * helpers themselves reach the app tree through this addon's `app-js`
- * re-exports.
+ * Helper names are dash-cased by default so the classic resolver finds
+ * them, matching this addon's `app-js` re-exports. Pass `strict: true`
+ * for strict-mode templates (the `<template>` tag in `.gjs`/`.gts`),
+ * which have no resolver — every reference there has to be an existing
+ * JS binding, set up by `templateCoverageImportPlugin`, and a dash isn't
+ * a valid identifier character. See `TemplateCoveragePluginOptions`.
  *
  * Blocks with no `{{else}}` get an empty inverse block added, purely so
  * the untaken path is reportable — the same way Istanbul reports the
  * implicit else of a JavaScript `if`.
  */
 
-const INIT_HELPER = 'coverage-init';
-const MARK_HELPER = 'coverage-mark';
-const COND_HELPER = 'coverage-cond';
+const HELPER_NAMES = {
+  loose: {
+    init: 'coverage-init',
+    mark: 'coverage-mark',
+    cond: 'coverage-cond',
+  },
+  strict: { init: 'coverageInit', mark: 'coverageMark', cond: 'coverageCond' },
+};
 
 const TEMPLATE_EXTENSION = /\.(hbs|gjs|gts)$/;
 
@@ -97,6 +107,14 @@ interface Builders {
 interface PluginEnvironment {
   syntax: { builders: Builders };
   meta?: { moduleName?: string };
+  /**
+   * Absolute path of the file being compiled. Present when compiling via
+   * babel-plugin-ember-template-compilation's `transforms` (the strict-mode
+   * path); absent from the classic preprocessor-registry invocation.
+   */
+  filename?: string;
+  /** Set by babel-plugin-ember-template-compilation; `env.meta.moduleName` is not. */
+  moduleName?: string;
 }
 
 interface AstPlugin {
@@ -156,10 +174,42 @@ function normalizeModuleName(moduleName: string): string {
   return `${moduleName}.hbs`;
 }
 
+const NOOP_PLUGIN: AstPlugin = {
+  name: 'ember-cli-code-coverage-noop',
+  visitor: {},
+};
+
+/** True when `filename` is `root` or somewhere inside it. */
+function isWithinRoot(filename: string, root: string): boolean {
+  const relative = path.relative(root, filename);
+  return (
+    relative === '' ||
+    (!relative.startsWith('..') && !path.isAbsolute(relative))
+  );
+}
+
+/**
+ * True when `filename` is a real dependency: something under a
+ * `node_modules` segment.
+ *
+ * This is the deciding check, not `isWithinRoot` — a dependency's own
+ * `node_modules` normally lives *inside* the project root (or a temp
+ * copy of it), so "outside root" alone would miss it entirely. `root`
+ * still matters separately for the one case this can't catch: a
+ * workspace-linked sibling package, whose symlink resolves to a real
+ * path that sits outside root without ever touching `node_modules`.
+ */
+function isThirdParty(filename: string, root: string): boolean {
+  if (!isWithinRoot(filename, root)) return true;
+  return filename.split(path.sep).includes('node_modules');
+}
+
 export function createTemplateCoveragePlugin(
   options: TemplateCoveragePluginOptions = {},
 ): (env: PluginEnvironment) => AstPlugin {
   const coverageEnvVar = options.coverageEnvVar ?? 'COVERAGE';
+  const names = options.strict ? HELPER_NAMES.strict : HELPER_NAMES.loose;
+  const root = options.root ?? process.cwd();
 
   // Keyed by module name so multiple templates in one file (a `.gts` with
   // several `<template>` blocks) get non-colliding branch ids.
@@ -167,10 +217,45 @@ export function createTemplateCoveragePlugin(
 
   return function templateCoveragePlugin(env: PluginEnvironment): AstPlugin {
     if (process.env[coverageEnvVar] !== 'true') {
-      return { name: 'ember-cli-code-coverage-noop', visitor: {} };
+      return NOOP_PLUGIN;
     }
 
-    const moduleName = normalizeModuleName(env.meta?.moduleName ?? 'unknown');
+    // `env.filename` is only set on the strict-mode path (compiling via
+    // babel-plugin-ember-template-compilation's `transforms`), which is
+    // also the only path that can see a dependency's own templates —
+    // Embroider rewrites a classic v1 addon into a v2-compatible
+    // `template()` call through this same `transforms` array, and that
+    // rewrite runs through the host app's own `transforms`, same as
+    // everything else. The preprocessor-registry invocation (loose mode)
+    // never sets `env.filename`, so this check is a no-op there.
+    if (env.filename && isThirdParty(env.filename, root)) {
+      return NOOP_PLUGIN;
+    }
+
+    // `env.meta.moduleName` is what the classic preprocessor-registry
+    // invocation (loose mode) sets, and it's already the right shape for
+    // a coverage key. The strict-mode path never sets it — Babel's own
+    // `env.filename` is the only reliable identifier there.
+    //
+    // A `.gjs`/`.gts` file also gets its own real JS-level Istanbul
+    // entry, with a real embedded source map — unlike a bare `.hbs`,
+    // which has no JS counterpart of its own to collide with. Using the
+    // same key for both would make istanbul-lib-source-maps try to
+    // remap the template's *already-original* positions as if they were
+    // *compiled* ones (they're read straight off the pre-compilation
+    // Glimmer AST), which produces nonsensical locations and crashes
+    // reporting outright. The `TEMPLATE_KEY_SUFFIX` query suffix — the
+    // same convention `cleanId()` in `vite/index.ts` strips off Vite
+    // module ids — keeps this entry from resolving to a real file on
+    // disk, so the source-map lookup finds nothing and leaves it alone,
+    // the same way it already leaves an unresolvable `.hbs` key alone.
+    // `adjustCoverageKey` strips the suffix back off server-side, so
+    // this still lands in the same report entry as the JS coverage.
+    const moduleName = env.meta?.moduleName
+      ? normalizeModuleName(env.meta.moduleName)
+      : env.filename
+        ? `${env.filename}${TEMPLATE_COVERAGE_KEY_SUFFIX}`
+        : 'unknown.hbs';
     const b = env.syntax.builders;
     const branches: Record<number, TemplateBranchMeta> = {};
 
@@ -184,7 +269,7 @@ export function createTemplateCoveragePlugin(
     const instrumented = new WeakSet<object>();
 
     const mark = (branchId: number, locationId: number): AstNode =>
-      b.mustache(b.path(MARK_HELPER), [
+      b.mustache(b.path(names.mark), [
         b.string(moduleName),
         b.number(branchId),
         b.number(locationId),
@@ -195,7 +280,7 @@ export function createTemplateCoveragePlugin(
       reversed: boolean,
       condition: AstNode,
     ): AstNode =>
-      b.sexpr(b.path(COND_HELPER), [
+      b.sexpr(b.path(names.cond), [
         b.string(moduleName),
         b.number(branchId),
         b.boolean(reversed),
@@ -291,7 +376,7 @@ export function createTemplateCoveragePlugin(
       if (!rootBody) return;
 
       if (!initNode) {
-        initNode = b.mustache(b.path(INIT_HELPER), [
+        initNode = b.mustache(b.path(names.init), [
           b.string(moduleName),
           b.string('{}'),
         ]);

@@ -127,6 +127,37 @@ export interface TemplateSourceRange {
 export interface TemplateCoveragePluginOptions {
   /** Env var name that gates instrumentation (default: "COVERAGE") */
   coverageEnvVar?: string;
+  /**
+   * Emit camelCase helper references (`coverageMark`) instead of
+   * dash-cased ones (`coverage-mark`).
+   *
+   * Loose-mode `.hbs` templates resolve helpers by name through Ember's
+   * classic resolver, which requires the dash-cased form — current
+   * `ember-resolver` versions reject a camelCase lookup outright rather
+   * than normalizing it. Strict-mode templates (the `<template>` tag in
+   * `.gjs`/`.gts`) have no resolver at all: every reference must be an
+   * existing JS binding, which is what `templateCoverageImportPlugin`
+   * (from `ember-cli-code-coverage/babel`) sets up — and a dash is not
+   * a valid identifier character, so that binding has to be camelCase.
+   *
+   * @default false
+   */
+  strict?: boolean;
+  /**
+   * Only instrument templates whose file path starts with this directory
+   * (default: `process.cwd()`).
+   *
+   * A build tool's `transforms` array is not scoped to your own app: a
+   * classic v1 addon dependency gets rewritten into a v2-compatible
+   * `template()` call as part of Embroider's compat step, and that
+   * rewrite runs through the same `transforms`. Without this filter, a
+   * dependency's own templates get instrumented too — and since they
+   * never went through `templateCoverageImportPlugin`, the injected
+   * `coverageInit`/`coverageMark` references have no binding to resolve
+   * against, so the build fails outright the moment any dependency needs
+   * this kind of rewriting.
+   */
+  root?: string;
 }
 
 /**

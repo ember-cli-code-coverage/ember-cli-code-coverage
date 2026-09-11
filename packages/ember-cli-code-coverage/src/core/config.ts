@@ -14,6 +14,17 @@ export const BASELINE_RELATIVE_PATH = path.join(
   'baseline.json',
 );
 
+/**
+ * Marks a strict-mode template's coverage key so it doesn't resolve to a
+ * real file on disk. See the comment above its one call site in
+ * `glimmer/index.ts` for why: briefly, a `.gjs`/`.gts` file's *own* JS
+ * coverage entry has a real source map, and letting that map get applied
+ * to the template's already-original positions crashes reporting.
+ * `adjustCoverageKey` strips this back off, so the entry still lands
+ * under the real file's report key.
+ */
+export const TEMPLATE_COVERAGE_KEY_SUFFIX = '?template-coverage';
+
 export const DEFAULT_CONFIG: Readonly<CoverageConfig> = Object.freeze({
   coverageEnvVar: 'COVERAGE',
   coverageFolder: 'coverage',

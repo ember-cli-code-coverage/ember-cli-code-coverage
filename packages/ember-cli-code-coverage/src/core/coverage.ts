@@ -5,7 +5,7 @@ import type { IncomingMessage } from 'node:http';
 import * as libCoverage from 'istanbul-lib-coverage';
 import * as libReport from 'istanbul-lib-report';
 import * as libSourceMaps from 'istanbul-lib-source-maps';
-import { getConfig } from './config.js';
+import { getConfig, TEMPLATE_COVERAGE_KEY_SUFFIX } from './config.js';
 import { createReport } from './reports.js';
 import type {
   CoverageData,
@@ -152,6 +152,16 @@ export function adjustCoverageKey(
   const embroiderRegex = /embroider\/.{6}/;
   const gjsGtsRegex = /\.g[tj]s$/;
 
+  // A strict-mode template's coverage key carries this suffix so it
+  // doesn't resolve to a real file for source-map remapping (see
+  // TEMPLATE_COVERAGE_KEY_SUFFIX). Strip it before applying the rest of
+  // this function's logic, so it resolves to exactly the same path the
+  // file's own JS coverage entry does — that's what lets the two merge
+  // into one report entry instead of one silently discarding the other.
+  if (filepath.endsWith(TEMPLATE_COVERAGE_KEY_SUFFIX)) {
+    filepath = filepath.slice(0, -TEMPLATE_COVERAGE_KEY_SUFFIX.length);
+  }
+
   let relativePath = path.relative(root, filepath);
 
   if (embroiderRegex.test(filepath)) {
@@ -240,7 +250,26 @@ export function adjustCoverage(
       );
       const relativePath = path.relative(root, resolvedPath);
       coverage[filePath]!.data.path = relativePath;
-      memo[relativePath] = coverage[filePath]!.data;
+
+      const existing = memo[relativePath];
+
+      if (existing) {
+        // Two raw keys resolved to the same file — a `.gjs`/`.gts`
+        // file's JS coverage and its template coverage arrive under
+        // different keys (see TEMPLATE_COVERAGE_KEY_SUFFIX) specifically
+        // so they both reach here. Merge rather than let the second one
+        // silently discard the first.
+        const merged = libCoverage.createFileCoverage(
+          existing as unknown as libCoverage.FileCoverageData,
+        );
+        merged.merge(
+          coverage[filePath]!.data as unknown as libCoverage.FileCoverageData,
+        );
+        memo[relativePath] = merged.toJSON() as unknown as { path: string };
+      } else {
+        memo[relativePath] = coverage[filePath]!.data;
+      }
+
       return memo;
     },
     {} as Record<string, { path: string }>,

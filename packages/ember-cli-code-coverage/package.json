@@ -25,13 +25,18 @@
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "coverage-merge": "./bin/coverage-merge.js"
+  },
   "files": [
     "addon-main.cjs",
+    "bin",
     "glimmer-plugin.cjs",
     "dist",
     "_app_",
     "runtime",
-    "src/babel/gjs-gts-istanbul-ignore-template-plugin.cjs"
+    "src/babel/gjs-gts-istanbul-ignore-template-plugin.cjs",
+    "src/babel/template-coverage-import-plugin.cjs"
   ],
   "exports": {
     ".": {
@@ -42,6 +47,11 @@
     "./babel": {
       "types": "./dist/babel/index.d.ts",
       "default": "./dist/babel/index.js"
+    },
+    "./babel/template-coverage-import-plugin": "./src/babel/template-coverage-import-plugin.cjs",
+    "./core": {
+      "types": "./dist/core/index.d.ts",
+      "default": "./dist/core/index.js"
     },
     "./testem": {
       "types": "./dist/testem/index.d.ts",

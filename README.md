@@ -229,28 +229,47 @@ No extra setup is needed for classic or Embroider builds: the addon registers
 the AST plugin itself, and the helpers it relies on reach your app through the
 addon's app tree.
 
-### Limitations
+### Strict-mode templates (`.gjs`/`.gts`)
 
-Template coverage applies to `.hbs` templates. Strict-mode templates — the
-`<template>` tag in `.gjs` and `.gts` files — are not yet instrumented for
-branch coverage; their surrounding JavaScript is still covered as usual.
-
-For a Vite app, the AST plugin is not registered automatically because there is
-no ember-cli preprocessor registry. Add it to your template compilation
-transforms in `babel.config.mjs`:
+A loose-mode `.hbs` template resolves helpers by name through Ember's classic
+resolver. A strict-mode template — the `<template>` tag in `.gjs`/`.gts`, or a
+whole app built with [`ember-strict-application-resolver`][strict-resolver],
+which has no classic resolver at all — has none of that: every reference has
+to be an existing JS binding. Getting branch coverage there needs two things
+instead of just `templateCoverage: true`:
 
 ```js
+// vite.config.mjs
+import { coveragePlugin } from 'ember-cli-code-coverage/vite';
+// ...
+export default defineConfig({
+  plugins: [
+    classicEmberSupport(),
+    ember(),
+    ...coveragePlugin(),
+    babel({ babelHelpers: 'runtime', extensions }),
+  ],
+});
+```
+
+```js
+// babel.config.mjs
 import { templateCompatSupport } from '@embroider/compat/babel';
+import templateCoverageImportPlugin from 'ember-cli-code-coverage/babel/template-coverage-import-plugin';
 import { createTemplateCoveragePlugin } from 'ember-cli-code-coverage/glimmer';
 
 export default {
   plugins: [
+    // Must come before babel-plugin-ember-template-compilation below: it
+    // injects the coverageInit/coverageMark/coverageCond imports that
+    // plugin's scope validation checks for.
+    templateCoverageImportPlugin,
     [
       'babel-plugin-ember-template-compilation',
       {
         transforms: [
           ...templateCompatSupport(),
-          createTemplateCoveragePlugin(),
+          createTemplateCoveragePlugin({ strict: true }),
         ],
       },
     ],
@@ -258,6 +277,31 @@ export default {
   ],
 };
 ```
+
+`strict: true` switches the plugin from dash-cased helper references
+(`coverage-mark`, resolved by name) to camelCase ones (`coverageMark`,
+resolved as a JS binding) — a dash isn't a valid identifier character, so the
+two forms can't be shared. `templateCoverageImportPlugin` is what supplies
+those bindings: it detects a file with a strict-mode template and adds the
+three helper imports before `babel-plugin-ember-template-compilation` compiles
+it, which is also why it has to run first in the plugins array.
+
+Both plugins already no-op when coverage is disabled, so it's safe to leave
+this wiring in place permanently.
+
+By default, only files under `process.cwd()` are instrumented — pass `root` to
+`createTemplateCoveragePlugin()` to override it. This matters because a
+`transforms` array isn't scoped to your own app: Embroider rewrites a classic
+v1 addon dependency into a v2-compatible `template()` call through this same
+array as part of its compat step, and that dependency never went through
+`templateCoverageImportPlugin`, so instrumenting it would reference helpers
+with no binding to resolve against.
+
+This wiring is verified for Vite apps; a classic or Embroider app using
+`.gjs`/`.gts` would need the same babel config (a v2 addon already
+hand-authors one), but that combination hasn't been tested here.
+
+[strict-resolver]: https://github.com/ember-cli/ember-strict-application-resolver
 
 ## Configuration
 

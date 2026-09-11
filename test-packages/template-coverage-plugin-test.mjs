@@ -8,8 +8,11 @@ const MODULE_NAME = 'my-app/templates/application.hbs';
  * Run a template through the coverage AST plugin and return both the
  * rewritten template and the branch map the plugin recorded.
  */
-function instrument(template, { moduleName = MODULE_NAME } = {}) {
-  const plugin = createTemplateCoveragePlugin();
+function instrument(
+  template,
+  { moduleName = MODULE_NAME, strict = false } = {},
+) {
+  const plugin = createTemplateCoveragePlugin({ strict });
 
   const ast = preprocess(template, {
     mode: 'codemod',
@@ -18,7 +21,10 @@ function instrument(template, { moduleName = MODULE_NAME } = {}) {
   });
 
   const output = print(ast);
-  const initMatch = output.match(/\{\{coverage-init "[^"]*" "(.*?)"\}\}/s);
+  const initName = strict ? 'coverageInit' : 'coverage-init';
+  const initMatch = output.match(
+    new RegExp(`\\{\\{${initName} "[^"]*" "(.*?)"\\}\\}`, 's'),
+  );
 
   return {
     output,
@@ -168,5 +174,38 @@ describe('template coverage AST plugin', function () {
 
     expect(Object.keys(first.branchMap)).toEqual(['0']);
     expect(Object.keys(second.branchMap)).toEqual(['0']);
+  });
+
+  describe('strict mode', function () {
+    // Strict-mode templates have no resolver, so every reference has to be
+    // an existing JS binding — a dash is not a valid identifier character,
+    // which is why `strict: true` switches to camelCase helper names.
+    it('emits camelCase helper references instead of dash-cased ones', function () {
+      const { output, branchMap } = instrument(
+        '{{#if this.flag}}yes{{else}}no{{/if}}',
+        { strict: true },
+      );
+
+      expect(output).toContain(
+        '{{coverageMark "my-app/templates/application.hbs" 0 0}}yes',
+      );
+      expect(output).toContain(
+        '{{coverageMark "my-app/templates/application.hbs" 0 1}}no',
+      );
+      expect(output).not.toContain('coverage-mark');
+      expect(output).not.toContain('coverage-init');
+      expect(branchMap['0'].type).toBe('if');
+    });
+
+    it('wraps inline conditionals with the camelCase cond helper', function () {
+      const { output } = instrument('{{if this.flag "yes" "no"}}', {
+        strict: true,
+      });
+
+      expect(output).toContain(
+        '(coverageCond "my-app/templates/application.hbs" 0 false this.flag)',
+      );
+      expect(output).not.toContain('coverage-cond');
+    });
   });
 });

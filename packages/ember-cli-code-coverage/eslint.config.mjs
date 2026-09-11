@@ -7,6 +7,7 @@ export default [
       'dist/',
       'node_modules/',
       'src/babel/gjs-gts-istanbul-ignore-template-plugin.cjs',
+      'src/babel/template-coverage-import-plugin.cjs',
       'addon-main.cjs',
       'glimmer-plugin.cjs',
     ],
@@ -43,6 +44,24 @@ export default [
         window: 'readonly',
         console: 'readonly',
       },
+    },
+  },
+  {
+    // The standalone CLI: plain CommonJS, runs under Node only.
+    files: ['bin/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'commonjs',
+      globals: {
+        process: 'readonly',
+        require: 'readonly',
+        module: 'readonly',
+        __dirname: 'readonly',
+        console: 'readonly',
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
     },
   },
 ];

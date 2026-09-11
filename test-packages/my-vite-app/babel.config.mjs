@@ -4,9 +4,16 @@ import {
   babelCompatSupport,
   templateCompatSupport,
 } from '@embroider/compat/babel';
+import templateCoverageImportPlugin from 'ember-cli-code-coverage/babel/template-coverage-import-plugin';
+import { createTemplateCoveragePlugin } from 'ember-cli-code-coverage/glimmer';
 
 export default {
   plugins: [
+    // Must come before babel-plugin-ember-template-compilation below: it
+    // injects the coverageInit/coverageMark/coverageCond imports that
+    // plugin's own scope validation checks for when compiling a
+    // strict-mode <template>.
+    templateCoverageImportPlugin,
     [
       'babel-plugin-ember-template-compilation',
       {
@@ -15,7 +22,10 @@ export default {
           'ember-cli-htmlbars-inline-precompile',
           'htmlbars-inline-precompile',
         ],
-        transforms: [...templateCompatSupport()],
+        transforms: [
+          ...templateCompatSupport(),
+          createTemplateCoveragePlugin({ strict: true }),
+        ],
       },
     ],
     [

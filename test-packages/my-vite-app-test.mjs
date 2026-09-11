@@ -93,4 +93,35 @@ describe('vite app coverage generation', function () {
     expect(summary[uncovered].statements.covered).toBe(0);
     expect(summary[uncovered].statements.total).toBeGreaterThan(0);
   });
+
+  it('reports strict-mode template branch coverage for .gjs components', async function () {
+    const env = { COVERAGE: 'true' };
+    const buildPath = await setupTestDir(APP_DIR, env, {});
+
+    await buildAndTest(buildPath, env);
+
+    const summary = await readJSON(
+      `${buildPath}/coverage/coverage-summary.json`,
+    );
+    const demo = summary['app/components/coverage-demo.gjs'];
+
+    // coverage-demo.gjs has five branching constructs (if/else, if with no
+    // else, inline if, unless, each/else), each contributing two paths.
+    // The test renders only the truthy side of every one, so exactly half
+    // should be covered — matching the loose-mode .hbs equivalent of this
+    // same component design in template-coverage-test.mjs.
+    expect(
+      demo,
+      'app/components/coverage-demo.gjs should appear in the report',
+    ).toBeDefined();
+    expect(demo.branches.total).toBe(10);
+    expect(demo.branches.covered).toBe(5);
+    expect(demo.branches.pct).toBe(50);
+
+    // This file also has real JS output (the compiled template() call),
+    // which babel-plugin-istanbul instruments independently — proving the
+    // two coverage sources merged into one report entry rather than one
+    // discarding the other.
+    expect(demo.functions.total).toBeGreaterThan(0);
+  });
 });
